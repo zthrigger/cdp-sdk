@@ -523,6 +523,10 @@ paths:
                       description: If true, creates an EVM smart account and a default EVM EOA account as the owner. If false, only a EVM EOA account is created.
                       default: false
                       example: true
+                    enableSpendPermissions:
+                      type: boolean
+                      description: If true, enables spend permissions for the EVM smart account.
+                      example: true
                 solanaAccount:
                   type: object
                   description: Configuration for creating a Solana account for the end user.
@@ -913,6 +917,173 @@ paths:
                     errorMessage: End user with the given ID not found.
         '500':
           $ref: '#/components/responses/InternalServerError'
+  /v2/end-users/import:
+    post:
+      summary: Import a private key for an end user
+      description: |-
+        Imports an existing private key for an end user into the developer's CDP Project. The private key must be encrypted using the CDP SDK's encryption scheme before being sent to this endpoint. This API should be called from the [CDP SDK](https://github.com/coinbase/cdp-sdk) to ensure that the associated private key is properly encrypted.
+
+        This endpoint allows developers to import existing keys for their end users, supporting both EVM and Solana key types. The end user must have at least one authentication method configured.
+      operationId: importEndUser
+      tags:
+        - End User Accounts
+      x-audience: public
+      security:
+        - apiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/XWalletAuth'
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  description: A stable, unique identifier for the end user. The `userId` must be unique across all end users in the developer's CDP Project. It must be between 1 and 100 characters long and can only contain alphanumeric characters and hyphens.
+                  type: string
+                  pattern: ^[a-zA-Z0-9-]{1,100}$
+                  example: e051beeb-7163-4527-a5b6-35e301529ff2
+                authenticationMethods:
+                  $ref: '#/components/schemas/AuthenticationMethods'
+                encryptedPrivateKey:
+                  type: string
+                  description: The base64-encoded, encrypted private key to import. The private key must be encrypted using the CDP SDK's encryption scheme. This is a 32-byte raw private key.
+                  example: U2FsdGVkX1+vupppZksvRf5X5YgHq4+da+Q4qf51+Q4=
+                keyType:
+                  type: string
+                  description: The type of key being imported. Determines what type of account will be associated for the end user.
+                  enum:
+                    - evm
+                    - solana
+                  example: evm
+              required:
+                - userId
+                - authenticationMethods
+                - encryptedPrivateKey
+                - keyType
+            examples:
+              import_evm_key:
+                summary: Import an EVM private key
+                value:
+                  userId: user-001
+                  authenticationMethods:
+                    - type: email
+                      email: user@example.com
+                  encryptedPrivateKey: U2FsdGVkX1+vupppZksvRf5X5YgHq4+da+Q4qf51+Q4=
+                  keyType: evm
+              import_solana_key:
+                summary: Import a Solana private key
+                value:
+                  userId: user-002
+                  authenticationMethods:
+                    - type: sms
+                      phoneNumber: '+15555551234'
+                  encryptedPrivateKey: U2FsdGVkX1+vupppZksvRf5X5YgHq4+da+Q4qf51+Q4=
+                  keyType: solana
+              import_evm_key_with_jwt_auth:
+                summary: Import an EVM private key with JWT authentication
+                value:
+                  userId: user-003
+                  authenticationMethods:
+                    - type: jwt
+                      sub: e051beeb-7163-4527-a5b6-35e301529ff2
+                      kid: NjVBRjY5MDlCMUIwNzU4RTA2QzZFMDQ4QzQ2MDAyQjVDNjk1RTM2Qg
+                  encryptedPrivateKey: U2FsdGVkX1+vupppZksvRf5X5YgHq4+da+Q4qf51+Q4=
+                  keyType: evm
+      responses:
+        '201':
+          description: Successfully imported key and created end user with the associated account.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EndUser'
+              examples:
+                evm_key_imported:
+                  summary: End user with imported EVM account
+                  value:
+                    userId: user-001
+                    authenticationMethods:
+                      - type: email
+                        email: user@example.com
+                    evmAccounts:
+                      - '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
+                    evmAccountObjects:
+                      - address: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
+                        createdAt: '2025-11-17T10:00:00Z'
+                    evmSmartAccounts: []
+                    evmSmartAccountObjects: []
+                    solanaAccounts: []
+                    solanaAccountObjects: []
+                    createdAt: '2025-11-17T10:00:00Z'
+                solana_key_imported:
+                  summary: End user with imported Solana account
+                  value:
+                    userId: user-002
+                    authenticationMethods:
+                      - type: sms
+                        phoneNumber: '+15555551234'
+                    evmAccounts: []
+                    evmAccountObjects: []
+                    evmSmartAccounts: []
+                    evmSmartAccountObjects: []
+                    solanaAccounts:
+                      - HpabPRRCFbBKSuJr5PdkVvQc85FyxyTWkFM2obBRSvHT
+                    solanaAccountObjects:
+                      - address: HpabPRRCFbBKSuJr5PdkVvQc85FyxyTWkFM2obBRSvHT
+                        createdAt: '2025-11-17T10:00:00Z'
+                    createdAt: '2025-11-17T10:00:00Z'
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                invalid_key:
+                  value:
+                    errorType: invalid_request
+                    errorMessage: The encrypted private key is invalid.
+                invalid_key_type:
+                  value:
+                    errorType: invalid_request
+                    errorMessage: Invalid key type. Must be 'evm' or 'solana'.
+                missing_auth_methods:
+                  value:
+                    errorType: invalid_request
+                    errorMessage: At least one authentication method must be provided.
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                unauthorized:
+                  value:
+                    errorType: unauthorized
+                    errorMessage: Wallet authentication error.
+        '402':
+          $ref: '#/components/responses/PaymentMethodRequiredError'
+        '409':
+          description: Resource already exists.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                already_exists:
+                  value:
+                    errorType: already_exists
+                    errorMessage: An account with the given address already exists.
+        '422':
+          $ref: '#/components/responses/IdempotencyError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          $ref: '#/components/responses/BadGatewayError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
   /v2/evm/accounts:
     get:
       x-audience: public
@@ -4860,7 +5031,7 @@ paths:
       summary: List token addresses for account
       x-audience: public
       description: |
-        Retrieve all ERC-20 token contract addresses that an account has ever received tokens from. 
+        Retrieve all ERC-20 token contract addresses that an account has ever received tokens from.
         Analyzes transaction history to discover token interactions.
       tags:
         - Onchain Data
@@ -5457,16 +5628,7 @@ paths:
         '200':
           $ref: '#/components/responses/x402VerifyResponse'
         '400':
-          description: Invalid request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                invalid_request:
-                  value:
-                    errorType: invalid_request
-                    errorMessage: Invalid request. Please check the request body and parameters.
+          $ref: '#/components/responses/x402VerifyInvalidError'
         '500':
           $ref: '#/components/responses/InternalServerError'
         '502':
@@ -5504,16 +5666,9 @@ paths:
         '200':
           $ref: '#/components/responses/x402SettleResponse'
         '400':
-          description: Invalid request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                invalid_request:
-                  value:
-                    errorType: invalid_request
-                    errorMessage: Invalid request. Please check the request body and parameters.
+          $ref: '#/components/responses/x402SettleError'
+        '402':
+          $ref: '#/components/responses/PaymentMethodRequiredError'
         '500':
           $ref: '#/components/responses/InternalServerError'
         '502':
@@ -5758,13 +5913,15 @@ paths:
 
         **Returns**: Basic single-use onramp URL. The `quote` object will not be included in the response.
         ### 2. One-Click Onramp URL
-        **Required**: Basic parameters + `paymentAmount`, `paymentCurrency`
+        **Required**: Basic parameters + (`paymentAmount` OR `purchaseAmount`), `paymentCurrency`
 
         **Returns**: One-click onramp URL for streamlined checkout. The `quote` object will not be included in the response.
         ### 3. One-Click Onramp URL with Quote
         **Required**: One-Click Onramp parameters + `paymentMethod`, `country`, `subdivision`
 
         **Returns**: Complete pricing quote and one-click onramp URL. Both `session` and `quote` objects will be included in the response.
+
+        **Note**: Only one of `paymentAmount` or `purchaseAmount` should be provided, not both. Providing both will result in an error. When `paymentAmount` is provided, the quote shows how much crypto the user will receive for the specified fiat amount (fee-inclusive). When `purchaseAmount` is provided, the quote shows how much fiat the user needs to pay for the specified crypto amount (fee-exclusive).
       operationId: createOnrampSession
       tags:
         - Onramp
@@ -5795,9 +5952,13 @@ paths:
                   type: string
                   example: '0x71C7656EC7ab88b098defB751B7401B5f6d8976F'
                 paymentAmount:
-                  description: A string representing the amount of fiat the user wishes to pay in exchange for crypto.
+                  description: A string representing the amount of fiat the user wishes to pay in exchange for crypto. When using this parameter, the returned quote will be inclusive of fees i.e. the user  will pay this exact amount of the payment currency.
                   type: string
                   example: '100.00'
+                purchaseAmount:
+                  description: A string representing the amount of crypto the user wishes to purchase. When using  this parameter, the returned quote will be exclusive of fees i.e. the user will  receive this exact amount of the purchase currency.
+                  type: string
+                  example: '10.000000'
                 paymentCurrency:
                   description: The fiat currency to be converted to crypto.
                   type: string
@@ -5994,6 +6155,45 @@ components:
         - type: google
           sub: '115346410074741490243'
           email: test.user@gmail.com
+    MFAMethods:
+      x-audience: public
+      description: |
+        Information about the end user's MFA enrollments.
+      type: object
+      properties:
+        enrollmentPromptedAt:
+          type: string
+          format: date-time
+          description: The date and time when the end user was prompted for MFA enrollment, in ISO 8601 format. If the this field exists, and the user has no other enrolled MFA methods, then the user skipped MFA enrollment.
+          example: '2025-01-15T10:30:00Z'
+        totp:
+          type: object
+          description: An object containing information about the end user's TOTP enrollment.
+          required:
+            - enrolledAt
+          properties:
+            enrolledAt:
+              type: string
+              format: date-time
+              description: The date and time when the method was enrolled, in ISO 8601 format.
+              example: '2025-01-15T10:30:00Z'
+        sms:
+          type: object
+          description: An object containing information about the end user's SMS MFA enrollment.
+          required:
+            - enrolledAt
+          properties:
+            enrolledAt:
+              type: string
+              format: date-time
+              description: The date and time when the method was enrolled, in ISO 8601 format.
+              example: '2025-01-15T10:30:00Z'
+      example:
+        enrollmentPromptedAt: '2025-01-15T10:30:00Z'
+        totp:
+          enrolledAt: '2025-01-15T10:30:00Z'
+        sms:
+          enrolledAt: '2025-01-15T10:30:00Z'
     EndUserEvmAccount:
       type: object
       description: Information about an EVM account associated with an end user.
@@ -6068,6 +6268,8 @@ components:
           example: e051beeb-7163-4527-a5b6-35e301529ff2
         authenticationMethods:
           $ref: '#/components/schemas/AuthenticationMethods'
+        mfaMethods:
+          $ref: '#/components/schemas/MFAMethods'
         evmAccounts:
           type: array
           deprecated: true
@@ -6197,6 +6399,8 @@ components:
         - mfa_flow_expired
         - mfa_required
         - mfa_not_enrolled
+        - mfa_multiple_methods_available
+        - mfa_invalid_method
       x-error-instructions:
         already_exists: |-
           This error occurs when trying to create a resource that already exists.
@@ -6580,6 +6784,20 @@ components:
           1. Check if the user has enrolled in MFA before attempting verification
           2. Guide the user through MFA enrollment first using the `/mfa/enroll/{mfaMethod}/init` endpoint
           3. Complete enrollment before requiring MFA verification
+        mfa_multiple_methods_available: |-
+          This error occurs when the user has multiple MFA methods enrolled and must specify which one to use for verification.
+
+          **Steps to resolve:**
+          1. Prompt the user to select an MFA method (e.g., "SMS" or "TOTP")
+          2. Include the `mfaMethod` parameter in the verification initiation request
+          3. Guide the user through verification using their selected method
+        mfa_invalid_method: |-
+          This error occurs when the requested MFA method is not valid for the current authentication context (e.g., attempting SMS MFA when user authenticated via SMS).
+
+          **Steps to resolve:**
+          1. Check the user's authentication method
+          2. If user authenticated via SMS, use TOTP MFA instead (SMS MFA is redundant)
+          3. Prompt the user to enroll in an alternative MFA method if needed
     Url:
       type: string
       format: uri
@@ -9575,13 +9793,21 @@ components:
           $ref: '#/components/schemas/WebhookTarget'
         labelKey:
           type: string
+          deprecated: true
           description: |
+            (Deprecated) Use `labels` field instead.
+
             Label key for filtering events. Present when subscription uses traditional single-label format.
+            Maintained for backward compatibility only.
           example: contract_address
         labelValue:
           type: string
+          deprecated: true
           description: |
+            (Deprecated) Use `labels` field instead.
+
             Label value for filtering events. Present when subscription uses traditional single-label format.
+            Maintained for backward compatibility only.
           example: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
         labels:
           type: object
@@ -9661,17 +9887,27 @@ components:
             webhook_version: v1
         labelKey:
           type: string
+          deprecated: true
           description: |
+            (Deprecated) Use `labels` instead for better filtering capabilities, including filtering on multiple labels simultaneously.
+
             Label key for filtering events. Each subscription filters on exactly one (labelKey, labelValue) pair 
             in addition to the event types. Only events matching both the event types AND this label filter will be delivered.
             NOTE: Use either (labelKey + labelValue) OR labels, not both.
+
+            Maintained for backward compatibility only.
           example: contract_address
         labelValue:
           type: string
+          deprecated: true
           description: |
+            (Deprecated) Use `labels` instead for better filtering capabilities, including filtering on multiple labels simultaneously.
+
             Label value for filtering events. Must correspond to the labelKey (e.g., contract address for contract_address key).
             Only events with this exact label value will be delivered.
             NOTE: Use either (labelKey + labelValue) OR labels, not both.
+
+            Maintained for backward compatibility only.
           example: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
         labels:
           type: object
@@ -9679,25 +9915,18 @@ components:
             Multi-label filters using total overlap logic. Total overlap means the subscription will only trigger when 
             an event contains ALL the key-value pairs specified here. Additional labels on 
             the event are allowed and will not prevent matching.
-            NOTE: Use either labels OR (labelKey + labelValue), not both.
+
+            **Note:** Currently, labels are supported for onchain webhooks only.
+
+            See [allowed labels for onchain webhooks](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/webhooks/create-webhook-subscription#onchain-label-filtering).
           additionalProperties:
             type: string
           example:
-            env: dev
-            team: payments
-            contract_address: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
+            network: base-mainnet
+            contract_address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913'
+            event_name: Transfer
       oneOf:
-        - title: Traditional single-label format
-          required:
-            - eventTypes
-            - isEnabled
-            - labelKey
-            - labelValue
-            - target
-          not:
-            required:
-              - labels
-        - title: Multi-label format with total overlap logic
+        - title: Multi-label format (recommended)
           required:
             - eventTypes
             - isEnabled
@@ -9709,6 +9938,16 @@ components:
                   - labelKey
               - required:
                   - labelValue
+        - title: Legacy single-label format (deprecated)
+          required:
+            - eventTypes
+            - isEnabled
+            - labelKey
+            - labelValue
+            - target
+          not:
+            required:
+              - labels
     WebhookSubscriptionUpdateRequest:
       type: object
       description: |
@@ -9741,38 +9980,40 @@ components:
           example:
             updated_field: updated_value
             webhook_version: v2
-        labelKey:
-          type: string
-          description: |
-            Label key for filtering events. Use either (labelKey + labelValue) OR labels, not both.
-          example: contract_address
-        labelValue:
-          type: string
-          description: |
-            Label value for filtering events. Use either (labelKey + labelValue) OR labels, not both.
-          example: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
         labels:
           type: object
           description: |
-            Multi-label filters using total overlap logic. Total overlap means the subscription will only trigger when 
-            an event contains ALL the key-value pairs specified here. Use either labels OR (labelKey + labelValue), not both.
+            Multi-label filters that trigger only when an event contains ALL of these key-value pairs.
+
+            **Note:** Currently, labels are supported for onchain webhooks only.
+
+            See [allowed labels for onchain webhooks](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/webhooks/create-webhook-subscription#onchain-label-filtering).
           additionalProperties:
             type: string
           example:
-            env: prod
-            service: api
+            network: base-mainnet
+            contract_address: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913'
+            event_name: Transfer
+        labelKey:
+          type: string
+          deprecated: true
+          description: |
+            (Deprecated) Use `labels` instead for better filtering capabilities, including filtering on multiple labels simultaneously.
+
+            Label key for filtering events. Use either (labelKey + labelValue) OR labels, not both.
+            Maintained for backward compatibility only.
+          example: contract_address
+        labelValue:
+          type: string
+          deprecated: true
+          description: |
+            (Deprecated) Use `labels` instead for better filtering capabilities, including filtering on multiple labels simultaneously.
+
+            Label value for filtering events. Use either (labelKey + labelValue) OR labels, not both.
+            Maintained for backward compatibility only.
+          example: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
       oneOf:
-        - title: Traditional single-label update format
-          required:
-            - eventTypes
-            - isEnabled
-            - labelKey
-            - labelValue
-            - target
-          not:
-            required:
-              - labels
-        - title: Multi-label update format with total overlap logic
+        - title: Multi-label update format (recommended)
           required:
             - eventTypes
             - isEnabled
@@ -9784,6 +10025,16 @@ components:
                   - labelKey
               - required:
                   - labelValue
+        - title: Legacy single-label update format (deprecated)
+          required:
+            - eventTypes
+            - isEnabled
+            - labelKey
+            - labelValue
+            - target
+          not:
+            required:
+              - labels
     X402Version:
       type: integer
       description: The version of the x402 protocol.
@@ -9979,20 +10230,12 @@ components:
         - amount
         - payTo
         - maxTimeoutSeconds
-    MimeType:
-      type: string
-      minLength: 3
-      maxLength: 255
-      pattern: ^[a-zA-Z0-9][a-zA-Z0-9!#$&^_.+-]*/[a-zA-Z0-9][a-zA-Z0-9!#$&^_.+-]*$
-      description: A valid MIME type (media type) as defined in RFC 6838.
-      example: application/json
     x402ResourceInfo:
       type: object
       description: Describes the resource being accessed in x402 protocol.
       properties:
         url:
-          allOf:
-            - $ref: '#/components/schemas/Url'
+          type: string
           description: The URL of the resource.
           example: https://api.example.com/premium/resource/123
         description:
@@ -10000,12 +10243,9 @@ components:
           description: The description of the resource.
           example: Premium API access for data analysis
         mimeType:
-          allOf:
-            - $ref: '#/components/schemas/MimeType'
+          type: string
           description: The MIME type of the resource response.
           example: application/json
-      required:
-        - url
     x402V2PaymentPayload:
       type: object
       description: The x402 protocol payment payload that the client attaches to x402-paid API requests to the resource server in the X-PAYMENT header.
@@ -10097,8 +10337,7 @@ components:
           description: The maximum amount required to pay for the resource in atomic units of the payment asset.
           example: '1000000'
         resource:
-          allOf:
-            - $ref: '#/components/schemas/Url'
+          type: string
           description: The URL of the resource to pay for.
           example: https://api.example.com/premium/resource/123
         description:
@@ -10106,8 +10345,7 @@ components:
           description: The description of the resource.
           example: Premium API access for data analysis
         mimeType:
-          allOf:
-            - $ref: '#/components/schemas/MimeType'
+          type: string
           description: The MIME type of the resource response.
           example: application/json
         outputSchema:
@@ -10202,6 +10440,33 @@ components:
         - invalid_exact_svm_payload_transaction_fee_payer_included_in_instruction_accounts
         - invalid_exact_svm_payload_transaction_fee_payer_transferring_funds
       example: insufficient_funds
+    x402VerifyPaymentRejection:
+      type: object
+      description: The result when x402 payment verification fails.
+      properties:
+        isValid:
+          type: boolean
+          description: Indicates whether the payment is valid.
+          example: false
+        invalidReason:
+          $ref: '#/components/schemas/x402VerifyInvalidReason'
+        payer:
+          type: string
+          description: |-
+            The onchain address of the client that is paying for the resource.
+
+            For EVM networks, the payer will be a 0x-prefixed, checksum EVM address.
+
+            For Solana-based networks, the payer will be a base58-encoded Solana address.
+          pattern: ^(0x[a-fA-F0-9]{40}|[1-9A-HJ-NP-Za-km-z]{32,44})$
+          example: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
+      required:
+        - isValid
+        - invalidReason
+      example:
+        isValid: false
+        invalidReason: insufficient_funds
+        payer: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
     x402SettleErrorReason:
       type: string
       description: The reason the payment settlement errored on the x402 protocol.
@@ -10213,15 +10478,79 @@ components:
         - invalid_payment_requirements
         - invalid_payload
         - invalid_exact_evm_payload_authorization_value
+        - invalid_exact_evm_payload_authorization_value_too_low
         - invalid_exact_evm_payload_authorization_valid_after
         - invalid_exact_evm_payload_authorization_valid_before
         - invalid_exact_evm_payload_authorization_typed_data_message
         - invalid_exact_evm_payload_authorization_from_address_kyt
         - invalid_exact_evm_payload_authorization_to_address_kyt
+        - invalid_exact_evm_payload_signature
         - invalid_exact_evm_payload_signature_address
+        - invalid_exact_svm_payload_transaction
+        - invalid_exact_svm_payload_transaction_amount_mismatch
+        - invalid_exact_svm_payload_transaction_create_ata_instruction
+        - invalid_exact_svm_payload_transaction_create_ata_instruction_incorrect_payee
+        - invalid_exact_svm_payload_transaction_create_ata_instruction_incorrect_asset
+        - invalid_exact_svm_payload_transaction_instructions
+        - invalid_exact_svm_payload_transaction_instructions_length
+        - invalid_exact_svm_payload_transaction_instructions_compute_limit_instruction
+        - invalid_exact_svm_payload_transaction_instructions_compute_price_instruction
+        - invalid_exact_svm_payload_transaction_instructions_compute_price_instruction_too_high
+        - invalid_exact_svm_payload_transaction_instruction_not_spl_token_transfer_checked
+        - invalid_exact_svm_payload_transaction_instruction_not_token_2022_transfer_checked
+        - invalid_exact_svm_payload_transaction_not_a_transfer_instruction
+        - invalid_exact_svm_payload_transaction_cannot_derive_receiver_ata
+        - invalid_exact_svm_payload_transaction_receiver_ata_not_found
+        - invalid_exact_svm_payload_transaction_sender_ata_not_found
+        - invalid_exact_svm_payload_transaction_simulation_failed
+        - invalid_exact_svm_payload_transaction_transfer_to_incorrect_ata
+        - invalid_exact_svm_payload_transaction_fee_payer_included_in_instruction_accounts
+        - invalid_exact_svm_payload_transaction_fee_payer_transferring_funds
+        - settle_exact_evm_transaction_confirmation_timed_out
+        - settle_exact_node_failure
+        - settle_exact_failed_onchain
         - settle_exact_svm_block_height_exceeded
         - settle_exact_svm_transaction_confirmation_timed_out
       example: insufficient_funds
+    x402SettlePaymentRejection:
+      type: object
+      description: The result when x402 payment settlement fails.
+      properties:
+        success:
+          type: boolean
+          description: Indicates whether the payment settlement is successful.
+          example: false
+        errorReason:
+          $ref: '#/components/schemas/x402SettleErrorReason'
+        payer:
+          type: string
+          description: |-
+            The onchain address of the client that is paying for the resource.
+
+            For EVM networks, the payer will be a 0x-prefixed, checksum EVM address.
+
+            For Solana-based networks, the payer will be a base58-encoded Solana address.
+          pattern: ^(0x[a-fA-F0-9]{40}|[1-9A-HJ-NP-Za-km-z]{32,44})$
+          example: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
+        transaction:
+          type: string
+          description: |-
+            The transaction of the settlement.
+            For EVM networks, the transaction will be a 0x-prefixed, EVM transaction hash.
+            For Solana-based networks, the transaction will be a base58-encoded Solana signature.
+          pattern: ^(0x[a-fA-F0-9]{64}|[1-9A-HJ-NP-Za-km-z]{87,88})$
+          example: '0x89c91c789e57059b17285e7ba1716a1f5ff4c5dace0ea5a5135f26158d0421b9'
+        network:
+          type: string
+          description: The network where the settlement occurred.
+          example: base
+      required:
+        - success
+        - errorReason
+      example:
+        success: false
+        errorReason: insufficient_funds
+        payer: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
     x402SupportedPaymentKind:
       type: object
       description: The supported payment kind for the x402 protocol. A kind is comprised of a scheme and a network, which together uniquely identify a way to move money on the x402 protocol. For more details, please see [x402 Schemes](https://github.com/coinbase/x402?tab=readme-ov-file#schemes).
@@ -10636,6 +10965,18 @@ components:
             required:
               - isValid
               - payer
+    x402VerifyInvalidError:
+      description: Invalid payment verification on the x402 protocol.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/x402VerifyPaymentRejection'
+          examples:
+            invalid_verification:
+              value:
+                isValid: false
+                invalidReason: insufficient_funds
+                payer: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
     x402SettleResponse:
       description: Successfully settled payment on the x402 protocol.
       content:
@@ -10665,8 +11006,8 @@ components:
                   The transaction of the settlement.
                   For EVM networks, the transaction will be a 0x-prefixed, EVM transaction hash.
                   For Solana-based networks, the transaction will be a base58-encoded Solana signature.
-                pattern: ^(0x[a-fA-F0-9]{40}|[1-9A-HJ-NP-Za-km-z]{32,44})$
-                example: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
+                pattern: ^(0x[a-fA-F0-9]{64}|[1-9A-HJ-NP-Za-km-z]{87,88})$
+                example: '0x89c91c789e57059b17285e7ba1716a1f5ff4c5dace0ea5a5135f26158d0421b9'
               network:
                 type: string
                 description: The network where the settlement occurred.
@@ -10676,6 +11017,18 @@ components:
               - payer
               - transaction
               - network
+    x402SettleError:
+      description: Unsuccessful payment settlement on the x402 protocol.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/x402SettlePaymentRejection'
+          examples:
+            unsuccessful_settlement:
+              value:
+                success: false
+                errorReason: insufficient_funds
+                payer: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
     x402SupportedPaymentKindsResponse:
       description: Successfully retrieved supported payment kinds for the x402 protocol.
       content:

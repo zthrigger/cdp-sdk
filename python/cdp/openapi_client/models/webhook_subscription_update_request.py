@@ -33,9 +33,9 @@ class WebhookSubscriptionUpdateRequest(BaseModel):
     is_enabled: Optional[StrictBool] = Field(default=None, description="Whether the subscription is enabled.", alias="isEnabled")
     target: Optional[WebhookTarget] = None
     metadata: Optional[Dict[str, Any]] = Field(default=None, description="Additional metadata for the subscription.")
-    label_key: Optional[StrictStr] = Field(default=None, description="Label key for filtering events. Use either (labelKey + labelValue) OR labels, not both. ", alias="labelKey")
-    label_value: Optional[StrictStr] = Field(default=None, description="Label value for filtering events. Use either (labelKey + labelValue) OR labels, not both. ", alias="labelValue")
-    labels: Optional[Dict[str, StrictStr]] = Field(default=None, description="Multi-label filters using total overlap logic. Total overlap means the subscription will only trigger when  an event contains ALL the key-value pairs specified here. Use either labels OR (labelKey + labelValue), not both. ")
+    labels: Optional[Dict[str, StrictStr]] = Field(default=None, description="Multi-label filters that trigger only when an event contains ALL of these key-value pairs.  **Note:** Currently, labels are supported for onchain webhooks only.  See [allowed labels for onchain webhooks](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/webhooks/create-webhook-subscription#onchain-label-filtering). ")
+    label_key: Optional[StrictStr] = Field(default=None, description="(Deprecated) Use `labels` instead for better filtering capabilities, including filtering on multiple labels simultaneously.  Label key for filtering events. Use either (labelKey + labelValue) OR labels, not both. Maintained for backward compatibility only. ", alias="labelKey")
+    label_value: Optional[StrictStr] = Field(default=None, description="(Deprecated) Use `labels` instead for better filtering capabilities, including filtering on multiple labels simultaneously.  Label value for filtering events. Use either (labelKey + labelValue) OR labels, not both. Maintained for backward compatibility only. ", alias="labelValue")
     __properties: ClassVar[List[str]] = []
 
     model_config = ConfigDict(

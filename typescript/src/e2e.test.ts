@@ -231,6 +231,120 @@ describe("CDP Client E2E Tests", () => {
     logger.log("Created end user:", safeStringify(endUser));
   });
 
+  it("should create an end user with smart account and spend permissions enabled", async () => {
+    const randomEmail = `test-${Date.now()}@example.com`;
+
+    const endUser = await cdp.endUser.createEndUser({
+      authenticationMethods: [{ type: "email", email: randomEmail }],
+      evmAccount: { createSmartAccount: true, enableSpendPermissions: true },
+    });
+
+    expect(endUser).toBeDefined();
+    expect(endUser.userId).toBeDefined();
+    expect(endUser.evmSmartAccountObjects).toHaveLength(1);
+
+    const smartAccount = endUser.evmSmartAccountObjects[0];
+    expect(smartAccount.ownerAddresses).toBeDefined();
+    expect(smartAccount.ownerAddresses).toHaveLength(2);
+    expect(smartAccount.ownerAddresses[1]).toBe("0xf85210B21cC50302F477BA56686d2019dC9b67Ad");
+
+    logger.log("Created end user with spend permissions:", safeStringify(endUser));
+  });
+
+  it("should import an end user with an EVM private key", async () => {
+    const privateKey = generatePrivateKey();
+    const randomEmail = `test-${Date.now()}@example.com`;
+    const expectedAddress = privateKeyToAccount(privateKey).address;
+
+    logger.log("Importing end user with EVM private key");
+    const endUser = await cdp.endUser.importEndUser({
+      authenticationMethods: [{ type: "email", email: randomEmail }],
+      privateKey,
+      keyType: "evm",
+    });
+
+    expect(endUser).toBeDefined();
+    expect(endUser.userId).toBeDefined();
+    expect(endUser.authenticationMethods).toHaveLength(1);
+    expect(endUser.authenticationMethods[0].type).toBe("email");
+    expect(endUser.evmAccounts).toHaveLength(1);
+    expect(endUser.evmAccounts[0].toLowerCase()).toBe(expectedAddress.toLowerCase());
+    expect(endUser.createdAt).toBeDefined();
+
+    logger.log("Imported end user with EVM key:", safeStringify(endUser));
+  });
+
+  it("should import an end user with a Solana private key (base58)", async () => {
+    const keypair = Keypair.generate();
+    const privateKey = bs58.encode(keypair.secretKey); // secretKey is 64 bytes
+    const randomEmail = `test-${Date.now()}@example.com`;
+
+    logger.log("Importing end user with Solana base58 private key");
+    const endUser = await cdp.endUser.importEndUser({
+      authenticationMethods: [{ type: "email", email: randomEmail }],
+      privateKey,
+      keyType: "solana",
+    });
+
+    expect(endUser).toBeDefined();
+    expect(endUser.userId).toBeDefined();
+    expect(endUser.authenticationMethods).toHaveLength(1);
+    expect(endUser.authenticationMethods[0].type).toBe("email");
+    expect(endUser.solanaAccounts).toHaveLength(1);
+    expect(endUser.solanaAccounts[0]).toBe(keypair.publicKey.toBase58());
+    expect(endUser.createdAt).toBeDefined();
+
+    logger.log("Imported end user with Solana key (base58):", safeStringify(endUser));
+  });
+
+  it("should import an end user with a Solana private key (raw bytes)", async () => {
+    const keypair = Keypair.generate();
+    const privateKeyBytes = keypair.secretKey; // This is a Uint8Array (64 bytes)
+    const randomEmail = `test-${Date.now()}@example.com`;
+
+    logger.log("Importing end user with Solana raw bytes private key");
+    const endUser = await cdp.endUser.importEndUser({
+      authenticationMethods: [{ type: "email", email: randomEmail }],
+      privateKey: privateKeyBytes,
+      keyType: "solana",
+    });
+
+    expect(endUser).toBeDefined();
+    expect(endUser.userId).toBeDefined();
+    expect(endUser.authenticationMethods).toHaveLength(1);
+    expect(endUser.authenticationMethods[0].type).toBe("email");
+    expect(endUser.solanaAccounts).toHaveLength(1);
+    expect(endUser.solanaAccounts[0]).toBe(keypair.publicKey.toBase58());
+    expect(endUser.createdAt).toBeDefined();
+
+    logger.log("Imported end user with Solana key (raw bytes):", safeStringify(endUser));
+  });
+
+  it("should create and retrieve an end user", async () => {
+    const randomEmail = `test-${Date.now()}@example.com`;
+
+    // Create an end user
+    const createdEndUser = await cdp.endUser.createEndUser({
+      authenticationMethods: [{ type: "email", email: randomEmail }],
+      evmAccount: { createSmartAccount: false },
+    });
+
+    expect(createdEndUser).toBeDefined();
+    expect(createdEndUser.userId).toBeDefined();
+
+    logger.log("Created end user:", safeStringify(createdEndUser));
+
+    // Retrieve the same end user using getEndUser
+    const retrievedEndUser = await cdp.endUser.getEndUser({
+      userId: createdEndUser.userId,
+    });
+
+    expect(retrievedEndUser).toBeDefined();
+    expect(retrievedEndUser.userId).toBe(createdEndUser.userId);
+
+    logger.log("Retrieved end user:", safeStringify(retrievedEndUser));
+  });
+
   it("should import an evm server account from a private key", async () => {
     const privateKey = generatePrivateKey();
     const randomName = generateRandomName();

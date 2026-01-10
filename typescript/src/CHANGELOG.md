@@ -1,5 +1,29 @@
 # CDP SDK Changelog
 
+## 1.43.0
+
+### Minor Changes
+
+- [#545](https://github.com/coinbase/cdp-sdk/pull/545) [`9a532bc`](https://github.com/coinbase/cdp-sdk/commit/9a532bcd0770bd7239e042c2dfd14022ab6ce4cd) Thanks [@marcin-cb](https://github.com/marcin-cb)! - Added importEndUser to the end user client
+
+## 1.42.0
+
+### Minor Changes
+
+- [#547](https://github.com/coinbase/cdp-sdk/pull/547) [`bccbced`](https://github.com/coinbase/cdp-sdk/commit/bccbceda35fd141fb327514be5ab24b573a4dba8) Thanks [@milan-cb](https://github.com/milan-cb)! - Added getEndUser method for End User operations
+
+## 1.41.0
+
+### Minor Changes
+
+- [#541](https://github.com/coinbase/cdp-sdk/pull/541) [`3d25993`](https://github.com/coinbase/cdp-sdk/commit/3d25993cd6d1b5c0ac0e48539695ee167b3b2d0e) Thanks [@milan-cb](https://github.com/milan-cb)! - Added spend permissions for pre-generated smart accounts
+
+## 1.40.2
+
+### Patch Changes
+
+- [#539](https://github.com/coinbase/cdp-sdk/pull/539) [`b08076c`](https://github.com/coinbase/cdp-sdk/commit/b08076cf688f3f2bc3186ad9406062808007cb2c) Thanks [@tmm](https://github.com/tmm)! - Upgraded internal `@solana/kit` version to 5.1.0
+
 ## 1.40.1
 
 ### Patch Changes

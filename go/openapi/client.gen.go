@@ -85,6 +85,8 @@ const (
 	ErrorTypeMfaAlreadyEnrolled              ErrorType = "mfa_already_enrolled"
 	ErrorTypeMfaFlowExpired                  ErrorType = "mfa_flow_expired"
 	ErrorTypeMfaInvalidCode                  ErrorType = "mfa_invalid_code"
+	ErrorTypeMfaInvalidMethod                ErrorType = "mfa_invalid_method"
+	ErrorTypeMfaMultipleMethodsAvailable     ErrorType = "mfa_multiple_methods_available"
 	ErrorTypeMfaNotEnrolled                  ErrorType = "mfa_not_enrolled"
 	ErrorTypeMfaRequired                     ErrorType = "mfa_required"
 	ErrorTypeNetworkNotTradable              ErrorType = "network_not_tradable"
@@ -616,21 +618,46 @@ const (
 
 // Defines values for X402SettleErrorReason.
 const (
-	X402SettleErrorReasonInsufficientFunds                                   X402SettleErrorReason = "insufficient_funds"
-	X402SettleErrorReasonInvalidExactEvmPayloadAuthorizationFromAddressKyt   X402SettleErrorReason = "invalid_exact_evm_payload_authorization_from_address_kyt"
-	X402SettleErrorReasonInvalidExactEvmPayloadAuthorizationToAddressKyt     X402SettleErrorReason = "invalid_exact_evm_payload_authorization_to_address_kyt"
-	X402SettleErrorReasonInvalidExactEvmPayloadAuthorizationTypedDataMessage X402SettleErrorReason = "invalid_exact_evm_payload_authorization_typed_data_message"
-	X402SettleErrorReasonInvalidExactEvmPayloadAuthorizationValidAfter       X402SettleErrorReason = "invalid_exact_evm_payload_authorization_valid_after"
-	X402SettleErrorReasonInvalidExactEvmPayloadAuthorizationValidBefore      X402SettleErrorReason = "invalid_exact_evm_payload_authorization_valid_before"
-	X402SettleErrorReasonInvalidExactEvmPayloadAuthorizationValue            X402SettleErrorReason = "invalid_exact_evm_payload_authorization_value"
-	X402SettleErrorReasonInvalidExactEvmPayloadSignatureAddress              X402SettleErrorReason = "invalid_exact_evm_payload_signature_address"
-	X402SettleErrorReasonInvalidNetwork                                      X402SettleErrorReason = "invalid_network"
-	X402SettleErrorReasonInvalidPayload                                      X402SettleErrorReason = "invalid_payload"
-	X402SettleErrorReasonInvalidPaymentRequirements                          X402SettleErrorReason = "invalid_payment_requirements"
-	X402SettleErrorReasonInvalidScheme                                       X402SettleErrorReason = "invalid_scheme"
-	X402SettleErrorReasonInvalidX402Version                                  X402SettleErrorReason = "invalid_x402_version"
-	X402SettleErrorReasonSettleExactSvmBlockHeightExceeded                   X402SettleErrorReason = "settle_exact_svm_block_height_exceeded"
-	X402SettleErrorReasonSettleExactSvmTransactionConfirmationTimedOut       X402SettleErrorReason = "settle_exact_svm_transaction_confirmation_timed_out"
+	X402SettleErrorReasonInsufficientFunds                                                           X402SettleErrorReason = "insufficient_funds"
+	X402SettleErrorReasonInvalidExactEvmPayloadAuthorizationFromAddressKyt                           X402SettleErrorReason = "invalid_exact_evm_payload_authorization_from_address_kyt"
+	X402SettleErrorReasonInvalidExactEvmPayloadAuthorizationToAddressKyt                             X402SettleErrorReason = "invalid_exact_evm_payload_authorization_to_address_kyt"
+	X402SettleErrorReasonInvalidExactEvmPayloadAuthorizationTypedDataMessage                         X402SettleErrorReason = "invalid_exact_evm_payload_authorization_typed_data_message"
+	X402SettleErrorReasonInvalidExactEvmPayloadAuthorizationValidAfter                               X402SettleErrorReason = "invalid_exact_evm_payload_authorization_valid_after"
+	X402SettleErrorReasonInvalidExactEvmPayloadAuthorizationValidBefore                              X402SettleErrorReason = "invalid_exact_evm_payload_authorization_valid_before"
+	X402SettleErrorReasonInvalidExactEvmPayloadAuthorizationValue                                    X402SettleErrorReason = "invalid_exact_evm_payload_authorization_value"
+	X402SettleErrorReasonInvalidExactEvmPayloadAuthorizationValueTooLow                              X402SettleErrorReason = "invalid_exact_evm_payload_authorization_value_too_low"
+	X402SettleErrorReasonInvalidExactEvmPayloadSignature                                             X402SettleErrorReason = "invalid_exact_evm_payload_signature"
+	X402SettleErrorReasonInvalidExactEvmPayloadSignatureAddress                                      X402SettleErrorReason = "invalid_exact_evm_payload_signature_address"
+	X402SettleErrorReasonInvalidExactSvmPayloadTransaction                                           X402SettleErrorReason = "invalid_exact_svm_payload_transaction"
+	X402SettleErrorReasonInvalidExactSvmPayloadTransactionAmountMismatch                             X402SettleErrorReason = "invalid_exact_svm_payload_transaction_amount_mismatch"
+	X402SettleErrorReasonInvalidExactSvmPayloadTransactionCannotDeriveReceiverAta                    X402SettleErrorReason = "invalid_exact_svm_payload_transaction_cannot_derive_receiver_ata"
+	X402SettleErrorReasonInvalidExactSvmPayloadTransactionCreateAtaInstruction                       X402SettleErrorReason = "invalid_exact_svm_payload_transaction_create_ata_instruction"
+	X402SettleErrorReasonInvalidExactSvmPayloadTransactionCreateAtaInstructionIncorrectAsset         X402SettleErrorReason = "invalid_exact_svm_payload_transaction_create_ata_instruction_incorrect_asset"
+	X402SettleErrorReasonInvalidExactSvmPayloadTransactionCreateAtaInstructionIncorrectPayee         X402SettleErrorReason = "invalid_exact_svm_payload_transaction_create_ata_instruction_incorrect_payee"
+	X402SettleErrorReasonInvalidExactSvmPayloadTransactionFeePayerIncludedInInstructionAccounts      X402SettleErrorReason = "invalid_exact_svm_payload_transaction_fee_payer_included_in_instruction_accounts"
+	X402SettleErrorReasonInvalidExactSvmPayloadTransactionFeePayerTransferringFunds                  X402SettleErrorReason = "invalid_exact_svm_payload_transaction_fee_payer_transferring_funds"
+	X402SettleErrorReasonInvalidExactSvmPayloadTransactionInstructionNotSplTokenTransferChecked      X402SettleErrorReason = "invalid_exact_svm_payload_transaction_instruction_not_spl_token_transfer_checked"
+	X402SettleErrorReasonInvalidExactSvmPayloadTransactionInstructionNotToken2022TransferChecked     X402SettleErrorReason = "invalid_exact_svm_payload_transaction_instruction_not_token_2022_transfer_checked"
+	X402SettleErrorReasonInvalidExactSvmPayloadTransactionInstructions                               X402SettleErrorReason = "invalid_exact_svm_payload_transaction_instructions"
+	X402SettleErrorReasonInvalidExactSvmPayloadTransactionInstructionsComputeLimitInstruction        X402SettleErrorReason = "invalid_exact_svm_payload_transaction_instructions_compute_limit_instruction"
+	X402SettleErrorReasonInvalidExactSvmPayloadTransactionInstructionsComputePriceInstruction        X402SettleErrorReason = "invalid_exact_svm_payload_transaction_instructions_compute_price_instruction"
+	X402SettleErrorReasonInvalidExactSvmPayloadTransactionInstructionsComputePriceInstructionTooHigh X402SettleErrorReason = "invalid_exact_svm_payload_transaction_instructions_compute_price_instruction_too_high"
+	X402SettleErrorReasonInvalidExactSvmPayloadTransactionInstructionsLength                         X402SettleErrorReason = "invalid_exact_svm_payload_transaction_instructions_length"
+	X402SettleErrorReasonInvalidExactSvmPayloadTransactionNotATransferInstruction                    X402SettleErrorReason = "invalid_exact_svm_payload_transaction_not_a_transfer_instruction"
+	X402SettleErrorReasonInvalidExactSvmPayloadTransactionReceiverAtaNotFound                        X402SettleErrorReason = "invalid_exact_svm_payload_transaction_receiver_ata_not_found"
+	X402SettleErrorReasonInvalidExactSvmPayloadTransactionSenderAtaNotFound                          X402SettleErrorReason = "invalid_exact_svm_payload_transaction_sender_ata_not_found"
+	X402SettleErrorReasonInvalidExactSvmPayloadTransactionSimulationFailed                           X402SettleErrorReason = "invalid_exact_svm_payload_transaction_simulation_failed"
+	X402SettleErrorReasonInvalidExactSvmPayloadTransactionTransferToIncorrectAta                     X402SettleErrorReason = "invalid_exact_svm_payload_transaction_transfer_to_incorrect_ata"
+	X402SettleErrorReasonInvalidNetwork                                                              X402SettleErrorReason = "invalid_network"
+	X402SettleErrorReasonInvalidPayload                                                              X402SettleErrorReason = "invalid_payload"
+	X402SettleErrorReasonInvalidPaymentRequirements                                                  X402SettleErrorReason = "invalid_payment_requirements"
+	X402SettleErrorReasonInvalidScheme                                                               X402SettleErrorReason = "invalid_scheme"
+	X402SettleErrorReasonInvalidX402Version                                                          X402SettleErrorReason = "invalid_x402_version"
+	X402SettleErrorReasonSettleExactEvmTransactionConfirmationTimedOut                               X402SettleErrorReason = "settle_exact_evm_transaction_confirmation_timed_out"
+	X402SettleErrorReasonSettleExactFailedOnchain                                                    X402SettleErrorReason = "settle_exact_failed_onchain"
+	X402SettleErrorReasonSettleExactNodeFailure                                                      X402SettleErrorReason = "settle_exact_node_failure"
+	X402SettleErrorReasonSettleExactSvmBlockHeightExceeded                                           X402SettleErrorReason = "settle_exact_svm_block_height_exceeded"
+	X402SettleErrorReasonSettleExactSvmTransactionConfirmationTimedOut                               X402SettleErrorReason = "settle_exact_svm_transaction_confirmation_timed_out"
 )
 
 // Defines values for X402SupportedPaymentKindNetwork.
@@ -728,6 +755,12 @@ const (
 	CreatedAtDesc ListEndUsersParamsSort = "createdAt=desc"
 )
 
+// Defines values for ImportEndUserJSONBodyKeyType.
+const (
+	ImportEndUserJSONBodyKeyTypeEvm    ImportEndUserJSONBodyKeyType = "evm"
+	ImportEndUserJSONBodyKeyTypeSolana ImportEndUserJSONBodyKeyType = "solana"
+)
+
 // Defines values for SendEvmTransactionJSONBodyNetwork.
 const (
 	SendEvmTransactionJSONBodyNetworkArbitrum        SendEvmTransactionJSONBodyNetwork = "arbitrum"
@@ -769,8 +802,8 @@ const (
 
 // Defines values for SendSolanaTransactionJSONBodyNetwork.
 const (
-	Solana       SendSolanaTransactionJSONBodyNetwork = "solana"
-	SolanaDevnet SendSolanaTransactionJSONBodyNetwork = "solana-devnet"
+	SendSolanaTransactionJSONBodyNetworkSolana       SendSolanaTransactionJSONBodyNetwork = "solana"
+	SendSolanaTransactionJSONBodyNetworkSolanaDevnet SendSolanaTransactionJSONBodyNetwork = "solana-devnet"
 )
 
 // Defines values for RequestSolanaFaucetJSONBodyToken.
@@ -1144,6 +1177,9 @@ type EndUser struct {
 	// EvmSmartAccounts **DEPRECATED**: Use `evmSmartAccountObjects` instead for richer account information including owner relationships. The list of EVM smart account addresses associated with the end user. Each EVM EOA can own one smart account.
 	// Deprecated:
 	EvmSmartAccounts []string `json:"evmSmartAccounts"`
+
+	// MfaMethods Information about the end user's MFA enrollments.
+	MfaMethods *MFAMethods `json:"mfaMethods,omitempty"`
 
 	// SolanaAccountObjects The list of Solana accounts associated with the end user. End users can have up to 10 Solana accounts.
 	SolanaAccountObjects []EndUserSolanaAccount `json:"solanaAccountObjects"`
@@ -1613,8 +1649,23 @@ type ListResponse struct {
 // ListSolanaTokenBalancesNetwork The name of the supported Solana networks in human-readable format.
 type ListSolanaTokenBalancesNetwork string
 
-// MimeType A valid MIME type (media type) as defined in RFC 6838.
-type MimeType = string
+// MFAMethods Information about the end user's MFA enrollments.
+type MFAMethods struct {
+	// EnrollmentPromptedAt The date and time when the end user was prompted for MFA enrollment, in ISO 8601 format. If the this field exists, and the user has no other enrolled MFA methods, then the user skipped MFA enrollment.
+	EnrollmentPromptedAt *time.Time `json:"enrollmentPromptedAt,omitempty"`
+
+	// Sms An object containing information about the end user's SMS MFA enrollment.
+	Sms *struct {
+		// EnrolledAt The date and time when the method was enrolled, in ISO 8601 format.
+		EnrolledAt time.Time `json:"enrolledAt"`
+	} `json:"sms,omitempty"`
+
+	// Totp An object containing information about the end user's TOTP enrollment.
+	Totp *struct {
+		// EnrolledAt The date and time when the method was enrolled, in ISO 8601 format.
+		EnrolledAt time.Time `json:"enrolledAt"`
+	} `json:"totp,omitempty"`
+}
 
 // MintAddressCriterion The criterion for the token mint addresses of a Solana transaction's SPL token transfer instructions.
 type MintAddressCriterion struct {
@@ -2616,20 +2667,33 @@ type WebhookSubscriptionRequest struct {
 	// IsEnabled Whether the subscription is enabled.
 	IsEnabled *bool `json:"isEnabled,omitempty"`
 
-	// LabelKey Label key for filtering events. Each subscription filters on exactly one (labelKey, labelValue) pair
+	// LabelKey (Deprecated) Use `labels` instead for better filtering capabilities, including filtering on multiple labels simultaneously.
+	//
+	// Label key for filtering events. Each subscription filters on exactly one (labelKey, labelValue) pair
 	// in addition to the event types. Only events matching both the event types AND this label filter will be delivered.
 	// NOTE: Use either (labelKey + labelValue) OR labels, not both.
+	//
+	// Maintained for backward compatibility only.
+	// Deprecated:
 	LabelKey *string `json:"labelKey,omitempty"`
 
-	// LabelValue Label value for filtering events. Must correspond to the labelKey (e.g., contract address for contract_address key).
+	// LabelValue (Deprecated) Use `labels` instead for better filtering capabilities, including filtering on multiple labels simultaneously.
+	//
+	// Label value for filtering events. Must correspond to the labelKey (e.g., contract address for contract_address key).
 	// Only events with this exact label value will be delivered.
 	// NOTE: Use either (labelKey + labelValue) OR labels, not both.
+	//
+	// Maintained for backward compatibility only.
+	// Deprecated:
 	LabelValue *string `json:"labelValue,omitempty"`
 
 	// Labels Multi-label filters using total overlap logic. Total overlap means the subscription will only trigger when
 	// an event contains ALL the key-value pairs specified here. Additional labels on
 	// the event are allowed and will not prevent matching.
-	// NOTE: Use either labels OR (labelKey + labelValue), not both.
+	//
+	// **Note:** Currently, labels are supported for onchain webhooks only.
+	//
+	// See [allowed labels for onchain webhooks](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/webhooks/create-webhook-subscription#onchain-label-filtering).
 	Labels *map[string]string `json:"labels,omitempty"`
 
 	// Metadata Additional metadata for the subscription.
@@ -2662,10 +2726,18 @@ type WebhookSubscriptionResponse struct {
 	// IsEnabled Whether the subscription is enabled.
 	IsEnabled bool `json:"isEnabled"`
 
-	// LabelKey Label key for filtering events. Present when subscription uses traditional single-label format.
+	// LabelKey (Deprecated) Use `labels` field instead.
+	//
+	// Label key for filtering events. Present when subscription uses traditional single-label format.
+	// Maintained for backward compatibility only.
+	// Deprecated:
 	LabelKey *string `json:"labelKey,omitempty"`
 
-	// LabelValue Label value for filtering events. Present when subscription uses traditional single-label format.
+	// LabelValue (Deprecated) Use `labels` field instead.
+	//
+	// Label value for filtering events. Present when subscription uses traditional single-label format.
+	// Maintained for backward compatibility only.
+	// Deprecated:
 	LabelValue *string `json:"labelValue,omitempty"`
 
 	// Labels Multi-label filters using total overlap logic. Total overlap means the subscription only triggers when events contain ALL these key-value pairs.
@@ -2703,14 +2775,25 @@ type WebhookSubscriptionUpdateRequest struct {
 	// IsEnabled Whether the subscription is enabled.
 	IsEnabled *bool `json:"isEnabled,omitempty"`
 
-	// LabelKey Label key for filtering events. Use either (labelKey + labelValue) OR labels, not both.
+	// LabelKey (Deprecated) Use `labels` instead for better filtering capabilities, including filtering on multiple labels simultaneously.
+	//
+	// Label key for filtering events. Use either (labelKey + labelValue) OR labels, not both.
+	// Maintained for backward compatibility only.
+	// Deprecated:
 	LabelKey *string `json:"labelKey,omitempty"`
 
-	// LabelValue Label value for filtering events. Use either (labelKey + labelValue) OR labels, not both.
+	// LabelValue (Deprecated) Use `labels` instead for better filtering capabilities, including filtering on multiple labels simultaneously.
+	//
+	// Label value for filtering events. Use either (labelKey + labelValue) OR labels, not both.
+	// Maintained for backward compatibility only.
+	// Deprecated:
 	LabelValue *string `json:"labelValue,omitempty"`
 
-	// Labels Multi-label filters using total overlap logic. Total overlap means the subscription will only trigger when
-	// an event contains ALL the key-value pairs specified here. Use either labels OR (labelKey + labelValue), not both.
+	// Labels Multi-label filters that trigger only when an event contains ALL of these key-value pairs.
+	//
+	// **Note:** Currently, labels are supported for onchain webhooks only.
+	//
+	// See [allowed labels for onchain webhooks](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/webhooks/create-webhook-subscription#onchain-label-filtering).
 	Labels *map[string]string `json:"labels,omitempty"`
 
 	// Metadata Additional metadata for the subscription.
@@ -2811,14 +2894,38 @@ type X402ResourceInfo struct {
 	Description *string `json:"description,omitempty"`
 
 	// MimeType The MIME type of the resource response.
-	MimeType *MimeType `json:"mimeType,omitempty"`
+	MimeType *string `json:"mimeType,omitempty"`
 
 	// Url The URL of the resource.
-	Url Url `json:"url"`
+	Url *string `json:"url,omitempty"`
 }
 
 // X402SettleErrorReason The reason the payment settlement errored on the x402 protocol.
 type X402SettleErrorReason string
+
+// X402SettlePaymentRejection The result when x402 payment settlement fails.
+type X402SettlePaymentRejection struct {
+	// ErrorReason The reason the payment settlement errored on the x402 protocol.
+	ErrorReason X402SettleErrorReason `json:"errorReason"`
+
+	// Network The network where the settlement occurred.
+	Network *string `json:"network,omitempty"`
+
+	// Payer The onchain address of the client that is paying for the resource.
+	//
+	// For EVM networks, the payer will be a 0x-prefixed, checksum EVM address.
+	//
+	// For Solana-based networks, the payer will be a base58-encoded Solana address.
+	Payer *string `json:"payer,omitempty"`
+
+	// Success Indicates whether the payment settlement is successful.
+	Success bool `json:"success"`
+
+	// Transaction The transaction of the settlement.
+	// For EVM networks, the transaction will be a 0x-prefixed, EVM transaction hash.
+	// For Solana-based networks, the transaction will be a base58-encoded Solana signature.
+	Transaction *string `json:"transaction,omitempty"`
+}
 
 // X402SupportedPaymentKind The supported payment kind for the x402 protocol. A kind is comprised of a scheme and a network, which together uniquely identify a way to move money on the x402 protocol. For more details, please see [x402 Schemes](https://github.com/coinbase/x402?tab=readme-ov-file#schemes).
 type X402SupportedPaymentKind struct {
@@ -2889,7 +2996,7 @@ type X402V1PaymentRequirements struct {
 	MaxTimeoutSeconds int `json:"maxTimeoutSeconds"`
 
 	// MimeType The MIME type of the resource response.
-	MimeType MimeType `json:"mimeType"`
+	MimeType string `json:"mimeType"`
 
 	// Network The network of the blockchain to send payment on.
 	Network X402V1PaymentRequirementsNetwork `json:"network"`
@@ -2905,7 +3012,7 @@ type X402V1PaymentRequirements struct {
 	PayTo string `json:"payTo"`
 
 	// Resource The URL of the resource to pay for.
-	Resource Url `json:"resource"`
+	Resource string `json:"resource"`
 
 	// Scheme The scheme of the payment protocol to use. Currently, the only supported scheme is `exact`.
 	Scheme X402V1PaymentRequirementsScheme `json:"scheme"`
@@ -2978,6 +3085,22 @@ type X402V2PaymentRequirementsScheme string
 // X402VerifyInvalidReason The reason the payment is invalid on the x402 protocol.
 type X402VerifyInvalidReason string
 
+// X402VerifyPaymentRejection The result when x402 payment verification fails.
+type X402VerifyPaymentRejection struct {
+	// InvalidReason The reason the payment is invalid on the x402 protocol.
+	InvalidReason X402VerifyInvalidReason `json:"invalidReason"`
+
+	// IsValid Indicates whether the payment is valid.
+	IsValid bool `json:"isValid"`
+
+	// Payer The onchain address of the client that is paying for the resource.
+	//
+	// For EVM networks, the payer will be a 0x-prefixed, checksum EVM address.
+	//
+	// For Solana-based networks, the payer will be a base58-encoded Solana address.
+	Payer *string `json:"payer,omitempty"`
+}
+
 // IdempotencyKey defines model for IdempotencyKey.
 type IdempotencyKey = string
 
@@ -3020,6 +3143,9 @@ type TimedOutError = Error
 // UnauthorizedError An error response including the code for the type of error and a human-readable message describing the error.
 type UnauthorizedError = Error
 
+// X402SettleError The result when x402 payment settlement fails.
+type X402SettleError = X402SettlePaymentRejection
+
 // X402SettleResponse defines model for x402SettleResponse.
 type X402SettleResponse struct {
 	// ErrorReason The reason the payment settlement errored on the x402 protocol.
@@ -3055,6 +3181,9 @@ type X402SupportedPaymentKindsResponse struct {
 	// Signers A map of CAIP-2 network or protocol family patterns to their supported signer addresses.
 	Signers map[string][]string `json:"signers"`
 }
+
+// X402VerifyInvalidError The result when x402 payment verification fails.
+type X402VerifyInvalidError = X402VerifyPaymentRejection
 
 // X402VerifyResponse defines model for x402VerifyResponse.
 type X402VerifyResponse struct {
@@ -3117,6 +3246,9 @@ type CreateEndUserJSONBody struct {
 	EvmAccount *struct {
 		// CreateSmartAccount If true, creates an EVM smart account and a default EVM EOA account as the owner. If false, only a EVM EOA account is created.
 		CreateSmartAccount *bool `json:"createSmartAccount,omitempty"`
+
+		// EnableSpendPermissions If true, enables spend permissions for the EVM smart account.
+		EnableSpendPermissions *bool `json:"enableSpendPermissions,omitempty"`
 	} `json:"evmAccount,omitempty"`
 
 	// SolanaAccount Configuration for creating a Solana account for the end user.
@@ -3149,6 +3281,37 @@ type ValidateEndUserAccessTokenJSONBody struct {
 	// AccessToken The access token in JWT format to verify.
 	AccessToken string `json:"accessToken"`
 }
+
+// ImportEndUserJSONBody defines parameters for ImportEndUser.
+type ImportEndUserJSONBody struct {
+	// AuthenticationMethods The list of valid authentication methods linked to the end user.
+	AuthenticationMethods AuthenticationMethods `json:"authenticationMethods"`
+
+	// EncryptedPrivateKey The base64-encoded, encrypted private key to import. The private key must be encrypted using the CDP SDK's encryption scheme. This is a 32-byte raw private key.
+	EncryptedPrivateKey string `json:"encryptedPrivateKey"`
+
+	// KeyType The type of key being imported. Determines what type of account will be associated for the end user.
+	KeyType ImportEndUserJSONBodyKeyType `json:"keyType"`
+
+	// UserId A stable, unique identifier for the end user. The `userId` must be unique across all end users in the developer's CDP Project. It must be between 1 and 100 characters long and can only contain alphanumeric characters and hyphens.
+	UserId string `json:"userId"`
+}
+
+// ImportEndUserParams defines parameters for ImportEndUser.
+type ImportEndUserParams struct {
+	// XWalletAuth A JWT signed using your Wallet Secret, encoded in base64. Refer to the
+	// [Generate Wallet Token](https://docs.cdp.coinbase.com/api-reference/v2/authentication#2-generate-wallet-token)
+	// section of our Authentication docs for more details on how to generate your Wallet Token.
+	XWalletAuth *XWalletAuth `json:"X-Wallet-Auth,omitempty"`
+
+	// XIdempotencyKey An optional [UUID v4](https://www.uuidgenerator.net/version4) request header for making requests safely retryable.
+	// When included, duplicate requests with the same key will return identical responses.
+	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
+	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
+}
+
+// ImportEndUserJSONBodyKeyType defines parameters for ImportEndUser.
+type ImportEndUserJSONBodyKeyType string
 
 // ListEvmAccountsParams defines parameters for ListEvmAccounts.
 type ListEvmAccountsParams struct {
@@ -3633,7 +3796,7 @@ type CreateOnrampSessionJSONBody struct {
 	// This value can be used with with [Onramp User Transactions API](https://docs.cdp.coinbase.com/api-reference/rest-api/onramp-offramp/get-onramp-transactions-by-id) to retrieve all transactions created by the user.
 	PartnerUserRef *string `json:"partnerUserRef,omitempty"`
 
-	// PaymentAmount A string representing the amount of fiat the user wishes to pay in exchange for crypto.
+	// PaymentAmount A string representing the amount of fiat the user wishes to pay in exchange for crypto. When using this parameter, the returned quote will be inclusive of fees i.e. the user  will pay this exact amount of the payment currency.
 	PaymentAmount *string `json:"paymentAmount,omitempty"`
 
 	// PaymentCurrency The fiat currency to be converted to crypto.
@@ -3641,6 +3804,9 @@ type CreateOnrampSessionJSONBody struct {
 
 	// PaymentMethod The type of payment method used to generate the onramp quote.
 	PaymentMethod *OnrampQuotePaymentMethodTypeId `json:"paymentMethod,omitempty"`
+
+	// PurchaseAmount A string representing the amount of crypto the user wishes to purchase. When using  this parameter, the returned quote will be exclusive of fees i.e. the user will  receive this exact amount of the purchase currency.
+	PurchaseAmount *string `json:"purchaseAmount,omitempty"`
 
 	// PurchaseCurrency The ticker (e.g. `BTC`, `USDC`, `SOL`) or the Coinbase UUID (e.g. `d85dce9b-5b73-5c3c-8978-522ce1d1c1b4`)  of the crypto asset to be purchased.
 	//
@@ -3954,6 +4120,9 @@ type CreateEndUserJSONRequestBody CreateEndUserJSONBody
 
 // ValidateEndUserAccessTokenJSONRequestBody defines body for ValidateEndUserAccessToken for application/json ContentType.
 type ValidateEndUserAccessTokenJSONRequestBody ValidateEndUserAccessTokenJSONBody
+
+// ImportEndUserJSONRequestBody defines body for ImportEndUser for application/json ContentType.
+type ImportEndUserJSONRequestBody ImportEndUserJSONBody
 
 // CreateEvmAccountJSONRequestBody defines body for CreateEvmAccount for application/json ContentType.
 type CreateEvmAccountJSONRequestBody CreateEvmAccountJSONBody
@@ -6770,6 +6939,11 @@ type ClientInterface interface {
 
 	ValidateEndUserAccessToken(ctx context.Context, body ValidateEndUserAccessTokenJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// ImportEndUserWithBody request with any body
+	ImportEndUserWithBody(ctx context.Context, params *ImportEndUserParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	ImportEndUser(ctx context.Context, params *ImportEndUserParams, body ImportEndUserJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetEndUser request
 	GetEndUser(ctx context.Context, userId string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -7195,6 +7369,30 @@ func (c *CDPClient) ValidateEndUserAccessTokenWithBody(ctx context.Context, cont
 
 func (c *CDPClient) ValidateEndUserAccessToken(ctx context.Context, body ValidateEndUserAccessTokenJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewValidateEndUserAccessTokenRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *CDPClient) ImportEndUserWithBody(ctx context.Context, params *ImportEndUserParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewImportEndUserRequestWithBody(c.Server, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *CDPClient) ImportEndUser(ctx context.Context, params *ImportEndUserParams, body ImportEndUserJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewImportEndUserRequest(c.Server, params, body)
 	if err != nil {
 		return nil, err
 	}
@@ -8851,6 +9049,72 @@ func NewValidateEndUserAccessTokenRequestWithBody(server string, contentType str
 	}
 
 	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewImportEndUserRequest calls the generic ImportEndUser builder with application/json body
+func NewImportEndUserRequest(server string, params *ImportEndUserParams, body ImportEndUserJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewImportEndUserRequestWithBody(server, params, "application/json", bodyReader)
+}
+
+// NewImportEndUserRequestWithBody generates requests for ImportEndUser with any type of body
+func NewImportEndUserRequestWithBody(server string, params *ImportEndUserParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/end-users/import")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	if params != nil {
+
+		if params.XWalletAuth != nil {
+			var headerParam0 string
+
+			headerParam0, err = runtime.StyleParamWithLocation("simple", false, "X-Wallet-Auth", runtime.ParamLocationHeader, *params.XWalletAuth)
+			if err != nil {
+				return nil, err
+			}
+
+			req.Header.Set("X-Wallet-Auth", headerParam0)
+		}
+
+		if params.XIdempotencyKey != nil {
+			var headerParam1 string
+
+			headerParam1, err = runtime.StyleParamWithLocation("simple", false, "X-Idempotency-Key", runtime.ParamLocationHeader, *params.XIdempotencyKey)
+			if err != nil {
+				return nil, err
+			}
+
+			req.Header.Set("X-Idempotency-Key", headerParam1)
+		}
+
+	}
 
 	return req, nil
 }
@@ -12105,6 +12369,11 @@ type ClientWithResponsesInterface interface {
 
 	ValidateEndUserAccessTokenWithResponse(ctx context.Context, body ValidateEndUserAccessTokenJSONRequestBody, reqEditors ...RequestEditorFn) (*ValidateEndUserAccessTokenResponse, error)
 
+	// ImportEndUserWithBodyWithResponse request with any body
+	ImportEndUserWithBodyWithResponse(ctx context.Context, params *ImportEndUserParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ImportEndUserResponse, error)
+
+	ImportEndUserWithResponse(ctx context.Context, params *ImportEndUserParams, body ImportEndUserJSONRequestBody, reqEditors ...RequestEditorFn) (*ImportEndUserResponse, error)
+
 	// GetEndUserWithResponse request
 	GetEndUserWithResponse(ctx context.Context, userId string, reqEditors ...RequestEditorFn) (*GetEndUserResponse, error)
 
@@ -12659,6 +12928,36 @@ func (r ValidateEndUserAccessTokenResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r ValidateEndUserAccessTokenResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ImportEndUserResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *EndUser
+	JSON400      *Error
+	JSON401      *Error
+	JSON402      *PaymentMethodRequiredError
+	JSON409      *Error
+	JSON422      *IdempotencyError
+	JSON500      *InternalServerError
+	JSON502      *BadGatewayError
+	JSON503      *ServiceUnavailableError
+}
+
+// Status returns HTTPResponse.Status
+func (r ImportEndUserResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ImportEndUserResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -14209,7 +14508,8 @@ type SettleX402PaymentResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *X402SettleResponse
-	JSON400      *Error
+	JSON400      *X402SettleError
+	JSON402      *PaymentMethodRequiredError
 	JSON500      *InternalServerError
 	JSON502      *BadGatewayError
 	JSON503      *ServiceUnavailableError
@@ -14260,7 +14560,7 @@ type VerifyX402PaymentResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *X402VerifyResponse
-	JSON400      *Error
+	JSON400      *X402VerifyInvalidError
 	JSON500      *InternalServerError
 	JSON502      *BadGatewayError
 	JSON503      *ServiceUnavailableError
@@ -14428,6 +14728,23 @@ func (c *ClientWithResponses) ValidateEndUserAccessTokenWithResponse(ctx context
 		return nil, err
 	}
 	return ParseValidateEndUserAccessTokenResponse(rsp)
+}
+
+// ImportEndUserWithBodyWithResponse request with arbitrary body returning *ImportEndUserResponse
+func (c *ClientWithResponses) ImportEndUserWithBodyWithResponse(ctx context.Context, params *ImportEndUserParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ImportEndUserResponse, error) {
+	rsp, err := c.ImportEndUserWithBody(ctx, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseImportEndUserResponse(rsp)
+}
+
+func (c *ClientWithResponses) ImportEndUserWithResponse(ctx context.Context, params *ImportEndUserParams, body ImportEndUserJSONRequestBody, reqEditors ...RequestEditorFn) (*ImportEndUserResponse, error) {
+	rsp, err := c.ImportEndUser(ctx, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseImportEndUserResponse(rsp)
 }
 
 // GetEndUserWithResponse request returning *GetEndUserResponse
@@ -15877,6 +16194,88 @@ func ParseValidateEndUserAccessTokenResponse(rsp *http.Response) (*ValidateEndUs
 			return nil, err
 		}
 		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseImportEndUserResponse parses an HTTP response from a ImportEndUserWithResponse call
+func ParseImportEndUserResponse(rsp *http.Response) (*ImportEndUserResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ImportEndUserResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest EndUser
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 402:
+		var dest PaymentMethodRequiredError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON402 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest IdempotencyError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 502:
+		var dest BadGatewayError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON502 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ServiceUnavailableError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
 
 	}
 
@@ -19545,11 +19944,18 @@ func ParseSettleX402PaymentResponse(rsp *http.Response) (*SettleX402PaymentRespo
 		response.JSON200 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest Error
+		var dest X402SettleError
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
 		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 402:
+		var dest PaymentMethodRequiredError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON402 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
 		var dest InternalServerError
@@ -19646,7 +20052,7 @@ func ParseVerifyX402PaymentResponse(rsp *http.Response) (*VerifyX402PaymentRespo
 		response.JSON200 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest Error
+		var dest X402VerifyInvalidError
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

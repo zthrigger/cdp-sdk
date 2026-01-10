@@ -2,6 +2,24 @@
 
 <!-- towncrier release notes start -->
 
+## [1.37.0] - 2026-01-09
+
+### Features
+
+- Added importEndUser to the end user client ([#545](https://github.com/coinbase/cdp-sdk/pull/545))
+
+### Bugfixes
+
+- Improved handling of ECDSA-formatted API keys. ([#546](https://github.com/coinbase/cdp-sdk/pull/546))
+
+
+## [1.36.0] - 2026-01-08
+
+### Features
+
+- Added spend permissions for pre-generated smart accounts ([#541](https://github.com/coinbase/cdp-sdk/pull/541))
+
+
 ## [1.35.0] - 2025-12-08
 
 ### Features

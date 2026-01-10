@@ -115,6 +115,35 @@ export type AuthenticationMethod =
 export type AuthenticationMethods = AuthenticationMethod[];
 
 /**
+ * An object containing information about the end user's TOTP enrollment.
+ */
+export type MFAMethodsTotp = {
+  /** The date and time when the method was enrolled, in ISO 8601 format. */
+  enrolledAt: string;
+};
+
+/**
+ * An object containing information about the end user's SMS MFA enrollment.
+ */
+export type MFAMethodsSms = {
+  /** The date and time when the method was enrolled, in ISO 8601 format. */
+  enrolledAt: string;
+};
+
+/**
+ * Information about the end user's MFA enrollments.
+
+ */
+export interface MFAMethods {
+  /** The date and time when the end user was prompted for MFA enrollment, in ISO 8601 format. If the this field exists, and the user has no other enrolled MFA methods, then the user skipped MFA enrollment. */
+  enrollmentPromptedAt?: string;
+  /** An object containing information about the end user's TOTP enrollment. */
+  totp?: MFAMethodsTotp;
+  /** An object containing information about the end user's SMS MFA enrollment. */
+  sms?: MFAMethodsSms;
+}
+
+/**
  * Information about an EVM account associated with an end user.
  */
 export interface EndUserEvmAccount {
@@ -165,6 +194,7 @@ export interface EndUser {
    */
   userId: string;
   authenticationMethods: AuthenticationMethods;
+  mfaMethods?: MFAMethods;
   /**
    * **DEPRECATED**: Use `evmAccountObjects` instead for richer account information. The list of EVM account addresses associated with the end user. End users can have up to 10 EVM accounts.
    * @deprecated
@@ -240,6 +270,8 @@ export const ErrorType = {
   mfa_flow_expired: "mfa_flow_expired",
   mfa_required: "mfa_required",
   mfa_not_enrolled: "mfa_not_enrolled",
+  mfa_multiple_methods_available: "mfa_multiple_methods_available",
+  mfa_invalid_method: "mfa_invalid_method",
 } as const;
 
 /**
@@ -2587,10 +2619,22 @@ service.resource.verb (e.g., "onchain.activity.detected", "wallet.activity.detec
   /** Unique identifier for the subscription. */
   subscriptionId: string;
   target: WebhookTarget;
-  /** Label key for filtering events. Present when subscription uses traditional single-label format.
+  /**
+   * (Deprecated) Use `labels` field instead.
+
+Label key for filtering events. Present when subscription uses traditional single-label format.
+Maintained for backward compatibility only.
+
+   * @deprecated
    */
   labelKey?: string;
-  /** Label value for filtering events. Present when subscription uses traditional single-label format.
+  /**
+   * (Deprecated) Use `labels` field instead.
+
+Label value for filtering events. Present when subscription uses traditional single-label format.
+Maintained for backward compatibility only.
+
+   * @deprecated
    */
   labelValue?: string;
   /** Multi-label filters using total overlap logic. Total overlap means the subscription only triggers when events contain ALL these key-value pairs.
@@ -2618,7 +2662,10 @@ export type WebhookSubscriptionRequestMetadata = { [key: string]: unknown };
  * Multi-label filters using total overlap logic. Total overlap means the subscription will only trigger when 
 an event contains ALL the key-value pairs specified here. Additional labels on 
 the event are allowed and will not prevent matching.
-NOTE: Use either labels OR (labelKey + labelValue), not both.
+
+**Note:** Currently, labels are supported for onchain webhooks only.
+
+See [allowed labels for onchain webhooks](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/webhooks/create-webhook-subscription#onchain-label-filtering).
 
  */
 export type WebhookSubscriptionRequestLabels = { [key: string]: string };
@@ -2642,20 +2689,37 @@ The subscription will only receive events matching these types AND the label fil
       target?: WebhookTarget;
       /** Additional metadata for the subscription. */
       metadata?: WebhookSubscriptionRequestMetadata;
-      /** Label key for filtering events. Each subscription filters on exactly one (labelKey, labelValue) pair 
+      /**
+   * (Deprecated) Use `labels` instead for better filtering capabilities, including filtering on multiple labels simultaneously.
+
+Label key for filtering events. Each subscription filters on exactly one (labelKey, labelValue) pair 
 in addition to the event types. Only events matching both the event types AND this label filter will be delivered.
 NOTE: Use either (labelKey + labelValue) OR labels, not both.
- */
+
+Maintained for backward compatibility only.
+
+   * @deprecated
+   */
       labelKey?: string;
-      /** Label value for filtering events. Must correspond to the labelKey (e.g., contract address for contract_address key).
+      /**
+   * (Deprecated) Use `labels` instead for better filtering capabilities, including filtering on multiple labels simultaneously.
+
+Label value for filtering events. Must correspond to the labelKey (e.g., contract address for contract_address key).
 Only events with this exact label value will be delivered.
 NOTE: Use either (labelKey + labelValue) OR labels, not both.
- */
+
+Maintained for backward compatibility only.
+
+   * @deprecated
+   */
       labelValue?: string;
       /** Multi-label filters using total overlap logic. Total overlap means the subscription will only trigger when 
 an event contains ALL the key-value pairs specified here. Additional labels on 
 the event are allowed and will not prevent matching.
-NOTE: Use either labels OR (labelKey + labelValue), not both.
+
+**Note:** Currently, labels are supported for onchain webhooks only.
+
+See [allowed labels for onchain webhooks](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/webhooks/create-webhook-subscription#onchain-label-filtering).
  */
       labels?: WebhookSubscriptionRequestLabels;
     })
@@ -2672,20 +2736,37 @@ The subscription will only receive events matching these types AND the label fil
       target?: WebhookTarget;
       /** Additional metadata for the subscription. */
       metadata?: WebhookSubscriptionRequestMetadata;
-      /** Label key for filtering events. Each subscription filters on exactly one (labelKey, labelValue) pair 
+      /**
+   * (Deprecated) Use `labels` instead for better filtering capabilities, including filtering on multiple labels simultaneously.
+
+Label key for filtering events. Each subscription filters on exactly one (labelKey, labelValue) pair 
 in addition to the event types. Only events matching both the event types AND this label filter will be delivered.
 NOTE: Use either (labelKey + labelValue) OR labels, not both.
- */
+
+Maintained for backward compatibility only.
+
+   * @deprecated
+   */
       labelKey?: string;
-      /** Label value for filtering events. Must correspond to the labelKey (e.g., contract address for contract_address key).
+      /**
+   * (Deprecated) Use `labels` instead for better filtering capabilities, including filtering on multiple labels simultaneously.
+
+Label value for filtering events. Must correspond to the labelKey (e.g., contract address for contract_address key).
 Only events with this exact label value will be delivered.
 NOTE: Use either (labelKey + labelValue) OR labels, not both.
- */
+
+Maintained for backward compatibility only.
+
+   * @deprecated
+   */
       labelValue?: string;
       /** Multi-label filters using total overlap logic. Total overlap means the subscription will only trigger when 
 an event contains ALL the key-value pairs specified here. Additional labels on 
 the event are allowed and will not prevent matching.
-NOTE: Use either labels OR (labelKey + labelValue), not both.
+
+**Note:** Currently, labels are supported for onchain webhooks only.
+
+See [allowed labels for onchain webhooks](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/webhooks/create-webhook-subscription#onchain-label-filtering).
  */
       labels?: WebhookSubscriptionRequestLabels;
     });
@@ -2696,8 +2777,11 @@ NOTE: Use either labels OR (labelKey + labelValue), not both.
 export type WebhookSubscriptionUpdateRequestMetadata = { [key: string]: unknown };
 
 /**
- * Multi-label filters using total overlap logic. Total overlap means the subscription will only trigger when 
-an event contains ALL the key-value pairs specified here. Use either labels OR (labelKey + labelValue), not both.
+ * Multi-label filters that trigger only when an event contains ALL of these key-value pairs.
+
+**Note:** Currently, labels are supported for onchain webhooks only.
+
+See [allowed labels for onchain webhooks](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/webhooks/create-webhook-subscription#onchain-label-filtering).
 
  */
 export type WebhookSubscriptionUpdateRequestLabels = { [key: string]: string };
@@ -2720,16 +2804,31 @@ service.resource.verb (e.g., "onchain.activity.detected", "wallet.activity.detec
       target?: WebhookTarget;
       /** Additional metadata for the subscription. */
       metadata?: WebhookSubscriptionUpdateRequestMetadata;
-      /** Label key for filtering events. Use either (labelKey + labelValue) OR labels, not both.
-       */
-      labelKey?: string;
-      /** Label value for filtering events. Use either (labelKey + labelValue) OR labels, not both.
-       */
-      labelValue?: string;
-      /** Multi-label filters using total overlap logic. Total overlap means the subscription will only trigger when 
-an event contains ALL the key-value pairs specified here. Use either labels OR (labelKey + labelValue), not both.
+      /** Multi-label filters that trigger only when an event contains ALL of these key-value pairs.
+
+**Note:** Currently, labels are supported for onchain webhooks only.
+
+See [allowed labels for onchain webhooks](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/webhooks/create-webhook-subscription#onchain-label-filtering).
  */
       labels?: WebhookSubscriptionUpdateRequestLabels;
+      /**
+   * (Deprecated) Use `labels` instead for better filtering capabilities, including filtering on multiple labels simultaneously.
+
+Label key for filtering events. Use either (labelKey + labelValue) OR labels, not both.
+Maintained for backward compatibility only.
+
+   * @deprecated
+   */
+      labelKey?: string;
+      /**
+   * (Deprecated) Use `labels` instead for better filtering capabilities, including filtering on multiple labels simultaneously.
+
+Label value for filtering events. Use either (labelKey + labelValue) OR labels, not both.
+Maintained for backward compatibility only.
+
+   * @deprecated
+   */
+      labelValue?: string;
     })
   | (unknown & {
       /** Description of the webhook subscription. */
@@ -2743,16 +2842,31 @@ service.resource.verb (e.g., "onchain.activity.detected", "wallet.activity.detec
       target?: WebhookTarget;
       /** Additional metadata for the subscription. */
       metadata?: WebhookSubscriptionUpdateRequestMetadata;
-      /** Label key for filtering events. Use either (labelKey + labelValue) OR labels, not both.
-       */
-      labelKey?: string;
-      /** Label value for filtering events. Use either (labelKey + labelValue) OR labels, not both.
-       */
-      labelValue?: string;
-      /** Multi-label filters using total overlap logic. Total overlap means the subscription will only trigger when 
-an event contains ALL the key-value pairs specified here. Use either labels OR (labelKey + labelValue), not both.
+      /** Multi-label filters that trigger only when an event contains ALL of these key-value pairs.
+
+**Note:** Currently, labels are supported for onchain webhooks only.
+
+See [allowed labels for onchain webhooks](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/webhooks/create-webhook-subscription#onchain-label-filtering).
  */
       labels?: WebhookSubscriptionUpdateRequestLabels;
+      /**
+   * (Deprecated) Use `labels` instead for better filtering capabilities, including filtering on multiple labels simultaneously.
+
+Label key for filtering events. Use either (labelKey + labelValue) OR labels, not both.
+Maintained for backward compatibility only.
+
+   * @deprecated
+   */
+      labelKey?: string;
+      /**
+   * (Deprecated) Use `labels` instead for better filtering capabilities, including filtering on multiple labels simultaneously.
+
+Label value for filtering events. Use either (labelKey + labelValue) OR labels, not both.
+Maintained for backward compatibility only.
+
+   * @deprecated
+   */
+      labelValue?: string;
     });
 
 /**
@@ -2902,23 +3016,15 @@ For Solana-based networks, payTo will be a base58-encoded Solana address.
 }
 
 /**
- * A valid MIME type (media type) as defined in RFC 6838.
- * @minLength 3
- * @maxLength 255
- * @pattern ^[a-zA-Z0-9][a-zA-Z0-9!#$&^_.+-]*\/[a-zA-Z0-9][a-zA-Z0-9!#$&^_.+-]*$
- */
-export type MimeType = string;
-
-/**
  * Describes the resource being accessed in x402 protocol.
  */
 export interface X402ResourceInfo {
   /** The URL of the resource. */
-  url: Url;
+  url?: string;
   /** The description of the resource. */
   description?: string;
   /** The MIME type of the resource response. */
-  mimeType?: MimeType;
+  mimeType?: string;
 }
 
 /**
@@ -2995,11 +3101,11 @@ export interface X402V1PaymentRequirements {
   /** The maximum amount required to pay for the resource in atomic units of the payment asset. */
   maxAmountRequired: string;
   /** The URL of the resource to pay for. */
-  resource: Url;
+  resource: string;
   /** The description of the resource. */
   description: string;
   /** The MIME type of the resource response. */
-  mimeType: MimeType;
+  mimeType: string;
   /** The optional JSON schema describing the resource output. */
   outputSchema?: X402V1PaymentRequirementsOutputSchema;
   /**
@@ -3102,6 +3208,24 @@ export const X402VerifyInvalidReason = {
 } as const;
 
 /**
+ * The result when x402 payment verification fails.
+ */
+export interface X402VerifyPaymentRejection {
+  /** Indicates whether the payment is valid. */
+  isValid: boolean;
+  invalidReason: X402VerifyInvalidReason;
+  /**
+   * The onchain address of the client that is paying for the resource.
+
+For EVM networks, the payer will be a 0x-prefixed, checksum EVM address.
+
+For Solana-based networks, the payer will be a base58-encoded Solana address.
+   * @pattern ^(0x[a-fA-F0-9]{40}|[1-9A-HJ-NP-Za-km-z]{32,44})$
+   */
+  payer?: string;
+}
+
+/**
  * The reason the payment settlement errored on the x402 protocol.
  */
 export type X402SettleErrorReason =
@@ -3116,6 +3240,8 @@ export const X402SettleErrorReason = {
   invalid_payment_requirements: "invalid_payment_requirements",
   invalid_payload: "invalid_payload",
   invalid_exact_evm_payload_authorization_value: "invalid_exact_evm_payload_authorization_value",
+  invalid_exact_evm_payload_authorization_value_too_low:
+    "invalid_exact_evm_payload_authorization_value_too_low",
   invalid_exact_evm_payload_authorization_valid_after:
     "invalid_exact_evm_payload_authorization_valid_after",
   invalid_exact_evm_payload_authorization_valid_before:
@@ -3126,11 +3252,82 @@ export const X402SettleErrorReason = {
     "invalid_exact_evm_payload_authorization_from_address_kyt",
   invalid_exact_evm_payload_authorization_to_address_kyt:
     "invalid_exact_evm_payload_authorization_to_address_kyt",
+  invalid_exact_evm_payload_signature: "invalid_exact_evm_payload_signature",
   invalid_exact_evm_payload_signature_address: "invalid_exact_evm_payload_signature_address",
+  invalid_exact_svm_payload_transaction: "invalid_exact_svm_payload_transaction",
+  invalid_exact_svm_payload_transaction_amount_mismatch:
+    "invalid_exact_svm_payload_transaction_amount_mismatch",
+  invalid_exact_svm_payload_transaction_create_ata_instruction:
+    "invalid_exact_svm_payload_transaction_create_ata_instruction",
+  invalid_exact_svm_payload_transaction_create_ata_instruction_incorrect_payee:
+    "invalid_exact_svm_payload_transaction_create_ata_instruction_incorrect_payee",
+  invalid_exact_svm_payload_transaction_create_ata_instruction_incorrect_asset:
+    "invalid_exact_svm_payload_transaction_create_ata_instruction_incorrect_asset",
+  invalid_exact_svm_payload_transaction_instructions:
+    "invalid_exact_svm_payload_transaction_instructions",
+  invalid_exact_svm_payload_transaction_instructions_length:
+    "invalid_exact_svm_payload_transaction_instructions_length",
+  invalid_exact_svm_payload_transaction_instructions_compute_limit_instruction:
+    "invalid_exact_svm_payload_transaction_instructions_compute_limit_instruction",
+  invalid_exact_svm_payload_transaction_instructions_compute_price_instruction:
+    "invalid_exact_svm_payload_transaction_instructions_compute_price_instruction",
+  invalid_exact_svm_payload_transaction_instructions_compute_price_instruction_too_high:
+    "invalid_exact_svm_payload_transaction_instructions_compute_price_instruction_too_high",
+  invalid_exact_svm_payload_transaction_instruction_not_spl_token_transfer_checked:
+    "invalid_exact_svm_payload_transaction_instruction_not_spl_token_transfer_checked",
+  invalid_exact_svm_payload_transaction_instruction_not_token_2022_transfer_checked:
+    "invalid_exact_svm_payload_transaction_instruction_not_token_2022_transfer_checked",
+  invalid_exact_svm_payload_transaction_not_a_transfer_instruction:
+    "invalid_exact_svm_payload_transaction_not_a_transfer_instruction",
+  invalid_exact_svm_payload_transaction_cannot_derive_receiver_ata:
+    "invalid_exact_svm_payload_transaction_cannot_derive_receiver_ata",
+  invalid_exact_svm_payload_transaction_receiver_ata_not_found:
+    "invalid_exact_svm_payload_transaction_receiver_ata_not_found",
+  invalid_exact_svm_payload_transaction_sender_ata_not_found:
+    "invalid_exact_svm_payload_transaction_sender_ata_not_found",
+  invalid_exact_svm_payload_transaction_simulation_failed:
+    "invalid_exact_svm_payload_transaction_simulation_failed",
+  invalid_exact_svm_payload_transaction_transfer_to_incorrect_ata:
+    "invalid_exact_svm_payload_transaction_transfer_to_incorrect_ata",
+  invalid_exact_svm_payload_transaction_fee_payer_included_in_instruction_accounts:
+    "invalid_exact_svm_payload_transaction_fee_payer_included_in_instruction_accounts",
+  invalid_exact_svm_payload_transaction_fee_payer_transferring_funds:
+    "invalid_exact_svm_payload_transaction_fee_payer_transferring_funds",
+  settle_exact_evm_transaction_confirmation_timed_out:
+    "settle_exact_evm_transaction_confirmation_timed_out",
+  settle_exact_node_failure: "settle_exact_node_failure",
+  settle_exact_failed_onchain: "settle_exact_failed_onchain",
   settle_exact_svm_block_height_exceeded: "settle_exact_svm_block_height_exceeded",
   settle_exact_svm_transaction_confirmation_timed_out:
     "settle_exact_svm_transaction_confirmation_timed_out",
 } as const;
+
+/**
+ * The result when x402 payment settlement fails.
+ */
+export interface X402SettlePaymentRejection {
+  /** Indicates whether the payment settlement is successful. */
+  success: boolean;
+  errorReason: X402SettleErrorReason;
+  /**
+   * The onchain address of the client that is paying for the resource.
+
+For EVM networks, the payer will be a 0x-prefixed, checksum EVM address.
+
+For Solana-based networks, the payer will be a base58-encoded Solana address.
+   * @pattern ^(0x[a-fA-F0-9]{40}|[1-9A-HJ-NP-Za-km-z]{32,44})$
+   */
+  payer?: string;
+  /**
+   * The transaction of the settlement.
+For EVM networks, the transaction will be a 0x-prefixed, EVM transaction hash.
+For Solana-based networks, the transaction will be a base58-encoded Solana signature.
+   * @pattern ^(0x[a-fA-F0-9]{64}|[1-9A-HJ-NP-Za-km-z]{87,88})$
+   */
+  transaction?: string;
+  /** The network where the settlement occurred. */
+  network?: string;
+}
 
 /**
  * The scheme of the payment protocol.
@@ -3395,6 +3592,11 @@ For Solana-based networks, the payer will be a base58-encoded Solana address.
   payer: string;
 };
 
+/**
+ * Invalid payment verification on the x402 protocol.
+ */
+export type X402VerifyInvalidErrorResponse = X402VerifyPaymentRejection;
+
 export type X402SettleResponseResponse = {
   /** Indicates whether the payment settlement is successful. */
   success: boolean;
@@ -3412,12 +3614,17 @@ For Solana-based networks, the payer will be a base58-encoded Solana address.
    * The transaction of the settlement.
 For EVM networks, the transaction will be a 0x-prefixed, EVM transaction hash.
 For Solana-based networks, the transaction will be a base58-encoded Solana signature.
-   * @pattern ^(0x[a-fA-F0-9]{40}|[1-9A-HJ-NP-Za-km-z]{32,44})$
+   * @pattern ^(0x[a-fA-F0-9]{64}|[1-9A-HJ-NP-Za-km-z]{87,88})$
    */
   transaction: string;
   /** The network where the settlement occurred. */
   network: string;
 };
+
+/**
+ * Unsuccessful payment settlement on the x402 protocol.
+ */
+export type X402SettleErrorResponse = X402SettlePaymentRejection;
 
 /**
  * A map of CAIP-2 network or protocol family patterns to their supported signer addresses.
@@ -3470,6 +3677,8 @@ export type PageTokenParameter = string;
 export type CreateEndUserBodyEvmAccount = {
   /** If true, creates an EVM smart account and a default EVM EOA account as the owner. If false, only a EVM EOA account is created. */
   createSmartAccount?: boolean;
+  /** If true, enables spend permissions for the EVM smart account. */
+  enableSpendPermissions?: boolean;
 };
 
 /**
@@ -3531,6 +3740,31 @@ export type ListEndUsers200 = ListEndUsers200AllOf & ListResponse;
 export type ValidateEndUserAccessTokenBody = {
   /** The access token in JWT format to verify. */
   accessToken: string;
+};
+
+/**
+ * The type of key being imported. Determines what type of account will be associated for the end user.
+ */
+export type ImportEndUserBodyKeyType =
+  (typeof ImportEndUserBodyKeyType)[keyof typeof ImportEndUserBodyKeyType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ImportEndUserBodyKeyType = {
+  evm: "evm",
+  solana: "solana",
+} as const;
+
+export type ImportEndUserBody = {
+  /**
+   * A stable, unique identifier for the end user. The `userId` must be unique across all end users in the developer's CDP Project. It must be between 1 and 100 characters long and can only contain alphanumeric characters and hyphens.
+   * @pattern ^[a-zA-Z0-9-]{1,100}$
+   */
+  userId: string;
+  authenticationMethods: AuthenticationMethods;
+  /** The base64-encoded, encrypted private key to import. The private key must be encrypted using the CDP SDK's encryption scheme. This is a 32-byte raw private key. */
+  encryptedPrivateKey: string;
+  /** The type of key being imported. Determines what type of account will be associated for the end user. */
+  keyType: ImportEndUserBodyKeyType;
 };
 
 export type ListEvmAccountsParams = {
@@ -4218,8 +4452,10 @@ Use the [Onramp Buy Options API](https://docs.cdp.coinbase.com/api-reference/res
   destinationNetwork: string;
   /** The address the purchased crypto will be sent to. */
   destinationAddress: string;
-  /** A string representing the amount of fiat the user wishes to pay in exchange for crypto. */
+  /** A string representing the amount of fiat the user wishes to pay in exchange for crypto. When using this parameter, the returned quote will be inclusive of fees i.e. the user  will pay this exact amount of the payment currency. */
   paymentAmount?: string;
+  /** A string representing the amount of crypto the user wishes to purchase. When using  this parameter, the returned quote will be exclusive of fees i.e. the user will  receive this exact amount of the purchase currency. */
+  purchaseAmount?: string;
   /** The fiat currency to be converted to crypto. */
   paymentCurrency?: string;
   paymentMethod?: OnrampQuotePaymentMethodTypeId;

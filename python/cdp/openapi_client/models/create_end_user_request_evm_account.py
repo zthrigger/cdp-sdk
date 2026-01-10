@@ -28,7 +28,8 @@ class CreateEndUserRequestEvmAccount(BaseModel):
     Configuration for creating an EVM account for the end user.
     """ # noqa: E501
     create_smart_account: Optional[StrictBool] = Field(default=False, description="If true, creates an EVM smart account and a default EVM EOA account as the owner. If false, only a EVM EOA account is created.", alias="createSmartAccount")
-    __properties: ClassVar[List[str]] = ["createSmartAccount"]
+    enable_spend_permissions: Optional[StrictBool] = Field(default=None, description="If true, enables spend permissions for the EVM smart account.", alias="enableSpendPermissions")
+    __properties: ClassVar[List[str]] = ["createSmartAccount", "enableSpendPermissions"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -81,7 +82,8 @@ class CreateEndUserRequestEvmAccount(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "createSmartAccount": obj.get("createSmartAccount") if obj.get("createSmartAccount") is not None else False
+            "createSmartAccount": obj.get("createSmartAccount") if obj.get("createSmartAccount") is not None else False,
+            "enableSpendPermissions": obj.get("enableSpendPermissions")
         })
         return _obj
 

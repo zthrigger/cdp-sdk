@@ -36,7 +36,8 @@ class TestCreateEndUserRequestEvmAccount(unittest.TestCase):
         model = CreateEndUserRequestEvmAccount()
         if include_optional:
             return CreateEndUserRequestEvmAccount(
-                create_smart_account = True
+                create_smart_account = True,
+                enable_spend_permissions = True
             )
         else:
             return CreateEndUserRequestEvmAccount(
