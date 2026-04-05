@@ -66,46 +66,64 @@ const (
 
 // Defines values for ErrorType.
 const (
-	ErrorTypeAccountLimitExceeded            ErrorType = "account_limit_exceeded"
-	ErrorTypeAlreadyExists                   ErrorType = "already_exists"
-	ErrorTypeBadGateway                      ErrorType = "bad_gateway"
-	ErrorTypeDocumentVerificationFailed      ErrorType = "document_verification_failed"
-	ErrorTypeFaucetLimitExceeded             ErrorType = "faucet_limit_exceeded"
-	ErrorTypeForbidden                       ErrorType = "forbidden"
-	ErrorTypeGuestPermissionDenied           ErrorType = "guest_permission_denied"
-	ErrorTypeGuestRegionForbidden            ErrorType = "guest_region_forbidden"
-	ErrorTypeGuestTransactionCount           ErrorType = "guest_transaction_count"
-	ErrorTypeGuestTransactionLimit           ErrorType = "guest_transaction_limit"
-	ErrorTypeIdempotencyError                ErrorType = "idempotency_error"
-	ErrorTypeInternalServerError             ErrorType = "internal_server_error"
-	ErrorTypeInvalidRequest                  ErrorType = "invalid_request"
-	ErrorTypeInvalidSignature                ErrorType = "invalid_signature"
-	ErrorTypeInvalidSqlQuery                 ErrorType = "invalid_sql_query"
-	ErrorTypeMalformedTransaction            ErrorType = "malformed_transaction"
-	ErrorTypeMfaAlreadyEnrolled              ErrorType = "mfa_already_enrolled"
-	ErrorTypeMfaFlowExpired                  ErrorType = "mfa_flow_expired"
-	ErrorTypeMfaInvalidCode                  ErrorType = "mfa_invalid_code"
-	ErrorTypeMfaInvalidMethod                ErrorType = "mfa_invalid_method"
-	ErrorTypeMfaMultipleMethodsAvailable     ErrorType = "mfa_multiple_methods_available"
-	ErrorTypeMfaNotEnrolled                  ErrorType = "mfa_not_enrolled"
-	ErrorTypeMfaRequired                     ErrorType = "mfa_required"
-	ErrorTypeNetworkNotTradable              ErrorType = "network_not_tradable"
-	ErrorTypeNotFound                        ErrorType = "not_found"
-	ErrorTypePaymentMethodRequired           ErrorType = "payment_method_required"
-	ErrorTypePhoneNumberVerificationExpired  ErrorType = "phone_number_verification_expired"
-	ErrorTypePolicyInUse                     ErrorType = "policy_in_use"
-	ErrorTypePolicyViolation                 ErrorType = "policy_violation"
-	ErrorTypeRateLimitExceeded               ErrorType = "rate_limit_exceeded"
-	ErrorTypeRecipientAllowlistPending       ErrorType = "recipient_allowlist_pending"
-	ErrorTypeRecipientAllowlistViolation     ErrorType = "recipient_allowlist_violation"
-	ErrorTypeRequestCanceled                 ErrorType = "request_canceled"
-	ErrorTypeServiceUnavailable              ErrorType = "service_unavailable"
-	ErrorTypeTimedOut                        ErrorType = "timed_out"
-	ErrorTypeTransferAmountOutOfBounds       ErrorType = "transfer_amount_out_of_bounds"
-	ErrorTypeTransferQuoteExpired            ErrorType = "transfer_quote_expired"
-	ErrorTypeTransferRecipientAddressInvalid ErrorType = "transfer_recipient_address_invalid"
-	ErrorTypeTravelRulesRecipientViolation   ErrorType = "travel_rules_recipient_violation"
-	ErrorTypeUnauthorized                    ErrorType = "unauthorized"
+	ErrorTypeAccountLimitExceeded           ErrorType = "account_limit_exceeded"
+	ErrorTypeAccountNotReady                ErrorType = "account_not_ready"
+	ErrorTypeAlreadyExists                  ErrorType = "already_exists"
+	ErrorTypeAssetMismatch                  ErrorType = "asset_mismatch"
+	ErrorTypeBadGateway                     ErrorType = "bad_gateway"
+	ErrorTypeClientClosedRequest            ErrorType = "client_closed_request"
+	ErrorTypeDocumentVerificationFailed     ErrorType = "document_verification_failed"
+	ErrorTypeFaucetLimitExceeded            ErrorType = "faucet_limit_exceeded"
+	ErrorTypeForbidden                      ErrorType = "forbidden"
+	ErrorTypeGuestPermissionDenied          ErrorType = "guest_permission_denied"
+	ErrorTypeGuestRegionForbidden           ErrorType = "guest_region_forbidden"
+	ErrorTypeGuestTransactionCount          ErrorType = "guest_transaction_count"
+	ErrorTypeGuestTransactionLimit          ErrorType = "guest_transaction_limit"
+	ErrorTypeIdempotencyError               ErrorType = "idempotency_error"
+	ErrorTypeInsufficientBalance            ErrorType = "insufficient_balance"
+	ErrorTypeInternalServerError            ErrorType = "internal_server_error"
+	ErrorTypeInvalidRequest                 ErrorType = "invalid_request"
+	ErrorTypeInvalidSignature               ErrorType = "invalid_signature"
+	ErrorTypeInvalidSqlQuery                ErrorType = "invalid_sql_query"
+	ErrorTypeMalformedTransaction           ErrorType = "malformed_transaction"
+	ErrorTypeMetadataKeyTooLong             ErrorType = "metadata_key_too_long"
+	ErrorTypeMetadataTooManyEntries         ErrorType = "metadata_too_many_entries"
+	ErrorTypeMetadataValueTooLong           ErrorType = "metadata_value_too_long"
+	ErrorTypeMfaAlreadyEnrolled             ErrorType = "mfa_already_enrolled"
+	ErrorTypeMfaFlowExpired                 ErrorType = "mfa_flow_expired"
+	ErrorTypeMfaInvalidCode                 ErrorType = "mfa_invalid_code"
+	ErrorTypeMfaNotEnrolled                 ErrorType = "mfa_not_enrolled"
+	ErrorTypeMfaRequired                    ErrorType = "mfa_required"
+	ErrorTypeNetworkNotTradable             ErrorType = "network_not_tradable"
+	ErrorTypeNotFound                       ErrorType = "not_found"
+	ErrorTypeOrderAlreadyCanceled           ErrorType = "order_already_canceled"
+	ErrorTypeOrderAlreadyFilled             ErrorType = "order_already_filled"
+	ErrorTypeOrderQuoteExpired              ErrorType = "order_quote_expired"
+	ErrorTypePaymentMethodRequired          ErrorType = "payment_method_required"
+	ErrorTypePaymentRequired                ErrorType = "payment_required"
+	ErrorTypePhoneNumberVerificationExpired ErrorType = "phone_number_verification_expired"
+	ErrorTypePolicyInUse                    ErrorType = "policy_in_use"
+	ErrorTypePolicyViolation                ErrorType = "policy_violation"
+	ErrorTypeRateLimitExceeded              ErrorType = "rate_limit_exceeded"
+	ErrorTypeRecipientAllowlistPending      ErrorType = "recipient_allowlist_pending"
+	ErrorTypeRecipientAllowlistViolation    ErrorType = "recipient_allowlist_violation"
+	ErrorTypeRequestCanceled                ErrorType = "request_canceled"
+	ErrorTypeServiceUnavailable             ErrorType = "service_unavailable"
+	ErrorTypeSettlementFailed               ErrorType = "settlement_failed"
+	ErrorTypeSourceAccountInvalid           ErrorType = "source_account_invalid"
+	ErrorTypeSourceAccountNotFound          ErrorType = "source_account_not_found"
+	ErrorTypeSourceAssetNotSupported        ErrorType = "source_asset_not_supported"
+	ErrorTypeTargetAccountInvalid           ErrorType = "target_account_invalid"
+	ErrorTypeTargetAccountNotFound          ErrorType = "target_account_not_found"
+	ErrorTypeTargetAssetNotSupported        ErrorType = "target_asset_not_supported"
+	ErrorTypeTargetEmailInvalid             ErrorType = "target_email_invalid"
+	ErrorTypeTargetOnchainAddressInvalid    ErrorType = "target_onchain_address_invalid"
+	ErrorTypeTimedOut                       ErrorType = "timed_out"
+	ErrorTypeTransferAmountInvalid          ErrorType = "transfer_amount_invalid"
+	ErrorTypeTransferAssetNotSupported      ErrorType = "transfer_asset_not_supported"
+	ErrorTypeTravelRulesFieldMissing        ErrorType = "travel_rules_field_missing"
+	ErrorTypeTravelRulesRecipientViolation  ErrorType = "travel_rules_recipient_violation"
+	ErrorTypeUnauthorized                   ErrorType = "unauthorized"
 )
 
 // Defines values for EthValueCriterionOperator.
@@ -153,6 +171,26 @@ const (
 	EvmDataParameterConditionListOperatorNotIn EvmDataParameterConditionListOperator = "not in"
 )
 
+// Defines values for EvmEip7702DelegationNetwork.
+const (
+	EvmEip7702DelegationNetworkArbitrum        EvmEip7702DelegationNetwork = "arbitrum"
+	EvmEip7702DelegationNetworkBase            EvmEip7702DelegationNetwork = "base"
+	EvmEip7702DelegationNetworkBaseSepolia     EvmEip7702DelegationNetwork = "base-sepolia"
+	EvmEip7702DelegationNetworkEthereum        EvmEip7702DelegationNetwork = "ethereum"
+	EvmEip7702DelegationNetworkEthereumSepolia EvmEip7702DelegationNetwork = "ethereum-sepolia"
+	EvmEip7702DelegationNetworkOptimism        EvmEip7702DelegationNetwork = "optimism"
+	EvmEip7702DelegationNetworkPolygon         EvmEip7702DelegationNetwork = "polygon"
+)
+
+// Defines values for EvmEip7702DelegationOperationStatus.
+const (
+	COMPLETED   EvmEip7702DelegationOperationStatus = "COMPLETED"
+	FAILED      EvmEip7702DelegationOperationStatus = "FAILED"
+	PENDING     EvmEip7702DelegationOperationStatus = "PENDING"
+	SUBMITTED   EvmEip7702DelegationOperationStatus = "SUBMITTED"
+	UNSPECIFIED EvmEip7702DelegationOperationStatus = "UNSPECIFIED"
+)
+
 // Defines values for EvmMessageCriterionType.
 const (
 	EvmMessage EvmMessageCriterionType = "evmMessage"
@@ -189,6 +227,7 @@ const (
 	EvmSwapsNetworkBase     EvmSwapsNetwork = "base"
 	EvmSwapsNetworkEthereum EvmSwapsNetwork = "ethereum"
 	EvmSwapsNetworkOptimism EvmSwapsNetwork = "optimism"
+	EvmSwapsNetworkPolygon  EvmSwapsNetwork = "polygon"
 )
 
 // Defines values for EvmTypedAddressConditionOperator.
@@ -289,9 +328,10 @@ const (
 
 // Defines values for OAuth2ProviderType.
 const (
-	Apple  OAuth2ProviderType = "apple"
-	Google OAuth2ProviderType = "google"
-	X      OAuth2ProviderType = "x"
+	Apple    OAuth2ProviderType = "apple"
+	Google   OAuth2ProviderType = "google"
+	Telegram OAuth2ProviderType = "telegram"
+	X        OAuth2ProviderType = "x"
 )
 
 // Defines values for OnchainDataResultSchemaColumnsType.
@@ -318,6 +358,12 @@ const (
 	UUID       OnchainDataResultSchemaColumnsType = "UUID"
 )
 
+// Defines values for OnrampLimitType.
+const (
+	LifetimeTransactions OnrampLimitType = "lifetime_transactions"
+	WeeklySpending       OnrampLimitType = "weekly_spending"
+)
+
 // Defines values for OnrampOrderFeeType.
 const (
 	FEETYPEEXCHANGE OnrampOrderFeeType = "FEE_TYPE_EXCHANGE"
@@ -326,7 +372,8 @@ const (
 
 // Defines values for OnrampOrderPaymentMethodTypeId.
 const (
-	GUESTCHECKOUTAPPLEPAY OnrampOrderPaymentMethodTypeId = "GUEST_CHECKOUT_APPLE_PAY"
+	GUESTCHECKOUTAPPLEPAY  OnrampOrderPaymentMethodTypeId = "GUEST_CHECKOUT_APPLE_PAY"
+	GUESTCHECKOUTGOOGLEPAY OnrampOrderPaymentMethodTypeId = "GUEST_CHECKOUT_GOOGLE_PAY"
 )
 
 // Defines values for OnrampOrderStatus.
@@ -351,6 +398,11 @@ const (
 	CRYPTOWALLET OnrampQuotePaymentMethodTypeId = "CRYPTO_WALLET"
 	FIATWALLET   OnrampQuotePaymentMethodTypeId = "FIAT_WALLET"
 	PAYPAL       OnrampQuotePaymentMethodTypeId = "PAYPAL"
+)
+
+// Defines values for OnrampUserIdType.
+const (
+	PhoneNumber OnrampUserIdType = "phone_number"
 )
 
 // Defines values for PolicyScope.
@@ -379,6 +431,28 @@ const (
 // Defines values for ProgramIdCriterionType.
 const (
 	ProgramId ProgramIdCriterionType = "programId"
+)
+
+// Defines values for SendEndUserEvmTransactionRuleAction.
+const (
+	SendEndUserEvmTransactionRuleActionAccept SendEndUserEvmTransactionRuleAction = "accept"
+	SendEndUserEvmTransactionRuleActionReject SendEndUserEvmTransactionRuleAction = "reject"
+)
+
+// Defines values for SendEndUserEvmTransactionRuleOperation.
+const (
+	SendEndUserEvmTransaction SendEndUserEvmTransactionRuleOperation = "sendEndUserEvmTransaction"
+)
+
+// Defines values for SendEndUserSolTransactionRuleAction.
+const (
+	SendEndUserSolTransactionRuleActionAccept SendEndUserSolTransactionRuleAction = "accept"
+	SendEndUserSolTransactionRuleActionReject SendEndUserSolTransactionRuleAction = "reject"
+)
+
+// Defines values for SendEndUserSolTransactionRuleOperation.
+const (
+	SendEndUserSolTransaction SendEndUserSolTransactionRuleOperation = "sendEndUserSolTransaction"
 )
 
 // Defines values for SendEvmTransactionRuleAction.
@@ -412,6 +486,61 @@ const (
 // Defines values for SendUserOperationRuleOperation.
 const (
 	SendUserOperation SendUserOperationRuleOperation = "sendUserOperation"
+)
+
+// Defines values for SignEndUserEvmMessageRuleAction.
+const (
+	SignEndUserEvmMessageRuleActionAccept SignEndUserEvmMessageRuleAction = "accept"
+	SignEndUserEvmMessageRuleActionReject SignEndUserEvmMessageRuleAction = "reject"
+)
+
+// Defines values for SignEndUserEvmMessageRuleOperation.
+const (
+	SignEndUserEvmMessage SignEndUserEvmMessageRuleOperation = "signEndUserEvmMessage"
+)
+
+// Defines values for SignEndUserEvmTransactionRuleAction.
+const (
+	SignEndUserEvmTransactionRuleActionAccept SignEndUserEvmTransactionRuleAction = "accept"
+	SignEndUserEvmTransactionRuleActionReject SignEndUserEvmTransactionRuleAction = "reject"
+)
+
+// Defines values for SignEndUserEvmTransactionRuleOperation.
+const (
+	SignEndUserEvmTransaction SignEndUserEvmTransactionRuleOperation = "signEndUserEvmTransaction"
+)
+
+// Defines values for SignEndUserEvmTypedDataRuleAction.
+const (
+	SignEndUserEvmTypedDataRuleActionAccept SignEndUserEvmTypedDataRuleAction = "accept"
+	SignEndUserEvmTypedDataRuleActionReject SignEndUserEvmTypedDataRuleAction = "reject"
+)
+
+// Defines values for SignEndUserEvmTypedDataRuleOperation.
+const (
+	SignEndUserEvmTypedData SignEndUserEvmTypedDataRuleOperation = "signEndUserEvmTypedData"
+)
+
+// Defines values for SignEndUserSolMessageRuleAction.
+const (
+	SignEndUserSolMessageRuleActionAccept SignEndUserSolMessageRuleAction = "accept"
+	SignEndUserSolMessageRuleActionReject SignEndUserSolMessageRuleAction = "reject"
+)
+
+// Defines values for SignEndUserSolMessageRuleOperation.
+const (
+	SignEndUserSolMessage SignEndUserSolMessageRuleOperation = "signEndUserSolMessage"
+)
+
+// Defines values for SignEndUserSolTransactionRuleAction.
+const (
+	SignEndUserSolTransactionRuleActionAccept SignEndUserSolTransactionRuleAction = "accept"
+	SignEndUserSolTransactionRuleActionReject SignEndUserSolTransactionRuleAction = "reject"
+)
+
+// Defines values for SignEndUserSolTransactionRuleOperation.
+const (
+	SignEndUserSolTransaction SignEndUserSolTransactionRuleOperation = "signEndUserSolTransaction"
 )
 
 // Defines values for SignEvmHashRuleAction.
@@ -487,8 +616,8 @@ const (
 
 // Defines values for SignSolTransactionRuleAction.
 const (
-	SignSolTransactionRuleActionAccept SignSolTransactionRuleAction = "accept"
-	SignSolTransactionRuleActionReject SignSolTransactionRuleAction = "reject"
+	Accept SignSolTransactionRuleAction = "accept"
+	Reject SignSolTransactionRuleAction = "reject"
 )
 
 // Defines values for SignSolTransactionRuleOperation.
@@ -628,6 +757,13 @@ const (
 	X402SettleErrorReasonInvalidExactEvmPayloadAuthorizationValueTooLow                              X402SettleErrorReason = "invalid_exact_evm_payload_authorization_value_too_low"
 	X402SettleErrorReasonInvalidExactEvmPayloadSignature                                             X402SettleErrorReason = "invalid_exact_evm_payload_signature"
 	X402SettleErrorReasonInvalidExactEvmPayloadSignatureAddress                                      X402SettleErrorReason = "invalid_exact_evm_payload_signature_address"
+	X402SettleErrorReasonInvalidExactEvmPermit2PayloadAllowanceRequired                              X402SettleErrorReason = "invalid_exact_evm_permit2_payload_allowance_required"
+	X402SettleErrorReasonInvalidExactEvmPermit2PayloadAmount                                         X402SettleErrorReason = "invalid_exact_evm_permit2_payload_amount"
+	X402SettleErrorReasonInvalidExactEvmPermit2PayloadDeadline                                       X402SettleErrorReason = "invalid_exact_evm_permit2_payload_deadline"
+	X402SettleErrorReasonInvalidExactEvmPermit2PayloadRecipient                                      X402SettleErrorReason = "invalid_exact_evm_permit2_payload_recipient"
+	X402SettleErrorReasonInvalidExactEvmPermit2PayloadSignature                                      X402SettleErrorReason = "invalid_exact_evm_permit2_payload_signature"
+	X402SettleErrorReasonInvalidExactEvmPermit2PayloadSpender                                        X402SettleErrorReason = "invalid_exact_evm_permit2_payload_spender"
+	X402SettleErrorReasonInvalidExactEvmPermit2PayloadValidAfter                                     X402SettleErrorReason = "invalid_exact_evm_permit2_payload_valid_after"
 	X402SettleErrorReasonInvalidExactSvmPayloadTransaction                                           X402SettleErrorReason = "invalid_exact_svm_payload_transaction"
 	X402SettleErrorReasonInvalidExactSvmPayloadTransactionAmountMismatch                             X402SettleErrorReason = "invalid_exact_svm_payload_transaction_amount_mismatch"
 	X402SettleErrorReasonInvalidExactSvmPayloadTransactionCannotDeriveReceiverAta                    X402SettleErrorReason = "invalid_exact_svm_payload_transaction_cannot_derive_receiver_ata"
@@ -658,14 +794,21 @@ const (
 	X402SettleErrorReasonSettleExactNodeFailure                                                      X402SettleErrorReason = "settle_exact_node_failure"
 	X402SettleErrorReasonSettleExactSvmBlockHeightExceeded                                           X402SettleErrorReason = "settle_exact_svm_block_height_exceeded"
 	X402SettleErrorReasonSettleExactSvmTransactionConfirmationTimedOut                               X402SettleErrorReason = "settle_exact_svm_transaction_confirmation_timed_out"
+	X402SettleErrorReasonUnknownError                                                                X402SettleErrorReason = "unknown_error"
 )
 
 // Defines values for X402SupportedPaymentKindNetwork.
 const (
-	X402SupportedPaymentKindNetworkBase         X402SupportedPaymentKindNetwork = "base"
-	X402SupportedPaymentKindNetworkBaseSepolia  X402SupportedPaymentKindNetwork = "base-sepolia"
-	X402SupportedPaymentKindNetworkSolana       X402SupportedPaymentKindNetwork = "solana"
-	X402SupportedPaymentKindNetworkSolanaDevnet X402SupportedPaymentKindNetwork = "solana-devnet"
+	X402SupportedPaymentKindNetworkBase                                   X402SupportedPaymentKindNetwork = "base"
+	X402SupportedPaymentKindNetworkBaseSepolia                            X402SupportedPaymentKindNetwork = "base-sepolia"
+	X402SupportedPaymentKindNetworkEip155137                              X402SupportedPaymentKindNetwork = "eip155:137"
+	X402SupportedPaymentKindNetworkEip1558453                             X402SupportedPaymentKindNetwork = "eip155:8453"
+	X402SupportedPaymentKindNetworkEip15584532                            X402SupportedPaymentKindNetwork = "eip155:84532"
+	X402SupportedPaymentKindNetworkPolygon                                X402SupportedPaymentKindNetwork = "polygon"
+	X402SupportedPaymentKindNetworkSolana                                 X402SupportedPaymentKindNetwork = "solana"
+	X402SupportedPaymentKindNetworkSolana5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp X402SupportedPaymentKindNetwork = "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp"
+	X402SupportedPaymentKindNetworkSolanaDevnet                           X402SupportedPaymentKindNetwork = "solana-devnet"
+	X402SupportedPaymentKindNetworkSolanaEtWTRABZaYq6iMfeYKouRu166VU2xqa1 X402SupportedPaymentKindNetwork = "solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1"
 )
 
 // Defines values for X402SupportedPaymentKindScheme.
@@ -677,6 +820,7 @@ const (
 const (
 	X402V1PaymentPayloadNetworkBase         X402V1PaymentPayloadNetwork = "base"
 	X402V1PaymentPayloadNetworkBaseSepolia  X402V1PaymentPayloadNetwork = "base-sepolia"
+	X402V1PaymentPayloadNetworkPolygon      X402V1PaymentPayloadNetwork = "polygon"
 	X402V1PaymentPayloadNetworkSolana       X402V1PaymentPayloadNetwork = "solana"
 	X402V1PaymentPayloadNetworkSolanaDevnet X402V1PaymentPayloadNetwork = "solana-devnet"
 )
@@ -690,6 +834,7 @@ const (
 const (
 	X402V1PaymentRequirementsNetworkBase         X402V1PaymentRequirementsNetwork = "base"
 	X402V1PaymentRequirementsNetworkBaseSepolia  X402V1PaymentRequirementsNetwork = "base-sepolia"
+	X402V1PaymentRequirementsNetworkPolygon      X402V1PaymentRequirementsNetwork = "polygon"
 	X402V1PaymentRequirementsNetworkSolana       X402V1PaymentRequirementsNetwork = "solana"
 	X402V1PaymentRequirementsNetworkSolanaDevnet X402V1PaymentRequirementsNetwork = "solana-devnet"
 )
@@ -716,6 +861,13 @@ const (
 	X402VerifyInvalidReasonInvalidExactEvmPayloadAuthorizationValueTooLow                              X402VerifyInvalidReason = "invalid_exact_evm_payload_authorization_value_too_low"
 	X402VerifyInvalidReasonInvalidExactEvmPayloadSignature                                             X402VerifyInvalidReason = "invalid_exact_evm_payload_signature"
 	X402VerifyInvalidReasonInvalidExactEvmPayloadSignatureAddress                                      X402VerifyInvalidReason = "invalid_exact_evm_payload_signature_address"
+	X402VerifyInvalidReasonInvalidExactEvmPermit2PayloadAllowanceRequired                              X402VerifyInvalidReason = "invalid_exact_evm_permit2_payload_allowance_required"
+	X402VerifyInvalidReasonInvalidExactEvmPermit2PayloadAmount                                         X402VerifyInvalidReason = "invalid_exact_evm_permit2_payload_amount"
+	X402VerifyInvalidReasonInvalidExactEvmPermit2PayloadDeadline                                       X402VerifyInvalidReason = "invalid_exact_evm_permit2_payload_deadline"
+	X402VerifyInvalidReasonInvalidExactEvmPermit2PayloadRecipient                                      X402VerifyInvalidReason = "invalid_exact_evm_permit2_payload_recipient"
+	X402VerifyInvalidReasonInvalidExactEvmPermit2PayloadSignature                                      X402VerifyInvalidReason = "invalid_exact_evm_permit2_payload_signature"
+	X402VerifyInvalidReasonInvalidExactEvmPermit2PayloadSpender                                        X402VerifyInvalidReason = "invalid_exact_evm_permit2_payload_spender"
+	X402VerifyInvalidReasonInvalidExactEvmPermit2PayloadValidAfter                                     X402VerifyInvalidReason = "invalid_exact_evm_permit2_payload_valid_after"
 	X402VerifyInvalidReasonInvalidExactSvmPayloadTransaction                                           X402VerifyInvalidReason = "invalid_exact_svm_payload_transaction"
 	X402VerifyInvalidReasonInvalidExactSvmPayloadTransactionAmountMismatch                             X402VerifyInvalidReason = "invalid_exact_svm_payload_transaction_amount_mismatch"
 	X402VerifyInvalidReasonInvalidExactSvmPayloadTransactionCannotDeriveReceiverAta                    X402VerifyInvalidReason = "invalid_exact_svm_payload_transaction_cannot_derive_receiver_ata"
@@ -741,6 +893,7 @@ const (
 	X402VerifyInvalidReasonInvalidPaymentRequirements                                                  X402VerifyInvalidReason = "invalid_payment_requirements"
 	X402VerifyInvalidReasonInvalidScheme                                                               X402VerifyInvalidReason = "invalid_scheme"
 	X402VerifyInvalidReasonInvalidX402Version                                                          X402VerifyInvalidReason = "invalid_x402_version"
+	X402VerifyInvalidReasonUnknownError                                                                X402VerifyInvalidReason = "unknown_error"
 )
 
 // Defines values for ListTokensForAccountParamsNetwork.
@@ -775,9 +928,9 @@ const (
 
 // Defines values for RequestEvmFaucetJSONBodyNetwork.
 const (
-	BaseSepolia     RequestEvmFaucetJSONBodyNetwork = "base-sepolia"
-	EthereumHoodi   RequestEvmFaucetJSONBodyNetwork = "ethereum-hoodi"
-	EthereumSepolia RequestEvmFaucetJSONBodyNetwork = "ethereum-sepolia"
+	RequestEvmFaucetJSONBodyNetworkBaseSepolia     RequestEvmFaucetJSONBodyNetwork = "base-sepolia"
+	RequestEvmFaucetJSONBodyNetworkEthereumHoodi   RequestEvmFaucetJSONBodyNetwork = "ethereum-hoodi"
+	RequestEvmFaucetJSONBodyNetworkEthereumSepolia RequestEvmFaucetJSONBodyNetwork = "ethereum-sepolia"
 )
 
 // Defines values for RequestEvmFaucetJSONBodyToken.
@@ -899,6 +1052,9 @@ type AuthenticationMethod struct {
 
 // AuthenticationMethods The list of valid authentication methods linked to the end user.
 type AuthenticationMethods = []AuthenticationMethod
+
+// BlockchainAddress A blockchain address. Format varies by network (e.g., 0x-prefixed for EVM, base58 for Solana).
+type BlockchainAddress = string
 
 // CommonSwapResponse defines model for CommonSwapResponse.
 type CommonSwapResponse struct {
@@ -1090,6 +1246,9 @@ type CreateSwapQuoteResponseLiquidityAvailable bool
 type CreateSwapQuoteResponseWrapper struct {
 	union json.RawMessage
 }
+
+// Description A human-readable description.
+type Description = string
 
 // DeveloperJWTAuthentication Information about an end user who authenticates using a JWT issued by the developer.
 type DeveloperJWTAuthentication struct {
@@ -1374,6 +1533,32 @@ type EvmDataParameterConditionList struct {
 
 // EvmDataParameterConditionListOperator The operator to use for the comparison. The value resolved at the `name` will be on the left-hand side of the operator, and the `values` field will be on the right-hand side.
 type EvmDataParameterConditionListOperator string
+
+// EvmEip7702DelegationNetwork The network for the EIP-7702 delegation.
+type EvmEip7702DelegationNetwork string
+
+// EvmEip7702DelegationOperation The status of an EIP-7702 delegation operation.
+type EvmEip7702DelegationOperation struct {
+	// DelegateAddress The address the account has delegated to, if any. Only present when the account has an active delegation.
+	DelegateAddress *string `json:"delegateAddress,omitempty"`
+
+	// DelegationOperationId The unique identifier for the delegation operation.
+	DelegationOperationId openapi_types.UUID `json:"delegationOperationId"`
+
+	// Network The network for the EIP-7702 delegation.
+	Network EvmEip7702DelegationNetwork `json:"network"`
+
+	// Status The current status of the delegation operation.
+	// UNSPECIFIED means the status has not been set. PENDING means the operation has been created but not yet submitted. SUBMITTED means the operation has been submitted to the network. COMPLETED means the operation has completed successfully. FAILED means the operation has failed.
+	Status EvmEip7702DelegationOperationStatus `json:"status"`
+
+	// TransactionHash The hash of the delegation transaction, if available. Present once the transaction has been submitted to the network.
+	TransactionHash *string `json:"transactionHash,omitempty"`
+}
+
+// EvmEip7702DelegationOperationStatus The current status of the delegation operation.
+// UNSPECIFIED means the status has not been set. PENDING means the operation has been created but not yet submitted. SUBMITTED means the operation has been submitted to the network. COMPLETED means the operation has completed successfully. FAILED means the operation has failed.
+type EvmEip7702DelegationOperationStatus string
 
 // EvmMessageCriterion A schema for specifying a criterion for the message being signed.
 type EvmMessageCriterion struct {
@@ -1667,6 +1852,9 @@ type MFAMethods struct {
 	} `json:"totp,omitempty"`
 }
 
+// Metadata Optional metadata as key-value pairs. Use this to store additional structured information on a resource, such as customer IDs, order references, or any application-specific data. Up to 50 key/value pairs may be provided.  Keys and values are both strings. Keys must be ≤ 40 characters; values must be ≤ 500 characters.
+type Metadata map[string]string
+
 // MintAddressCriterion The criterion for the token mint addresses of a Solana transaction's SPL token transfer instructions.
 type MintAddressCriterion struct {
 	// Addresses The Solana addresses that are compared to the list of token mint addresses in the transaction's `accountKeys` (for legacy transactions) or `staticAccountKeys` (for V0 transactions) array.
@@ -1774,13 +1962,22 @@ type OnchainDataResult struct {
 // OnchainDataResultSchemaColumnsType Column data type (ClickHouse types).
 type OnchainDataResultSchemaColumnsType string
 
+// OnrampLimitType The type of limit:
+//   - `weekly_spending`: Rolling 7-day spending limit. The limit applies to the sum of all completed transactions
+//     within a sliding 168-hour (7-day) window. As time passes, older transactions naturally expire from the window.
+//     $500 is the default limit.
+//   - `lifetime_transactions`: All-time transaction count limit. Tracks the total number of completed transactions
+//     across the user's entire history with no time-based expiration. Once the limit is reached, no further
+//     transactions are allowed. 15 is the default limit.
+type OnrampLimitType string
+
 // OnrampOrder An Onramp order.
 type OnrampOrder struct {
 	// CreatedAt The date and time the order was created.
 	CreatedAt string `json:"createdAt"`
 
 	// DestinationAddress The destination address to send the crypto to.
-	DestinationAddress string `json:"destinationAddress"`
+	DestinationAddress BlockchainAddress `json:"destinationAddress"`
 
 	// DestinationNetwork The network to send the crypto on.
 	DestinationNetwork string `json:"destinationNetwork"`
@@ -1896,6 +2093,31 @@ type OnrampSession struct {
 	OnrampUrl Url `json:"onrampUrl"`
 }
 
+// OnrampUserIdType The type of user identifier:
+// - `phone_number`: A phone number in E.164 format associated with an onramp user.
+type OnrampUserIdType string
+
+// OnrampUserLimit A single limit with remaining capacity.
+type OnrampUserLimit struct {
+	// Currency The currency of the limit amounts. Only present for spending limits, not for count-based limits.
+	Currency *string `json:"currency,omitempty"`
+
+	// Limit The maximum limit value.
+	Limit string `json:"limit"`
+
+	// LimitType The type of limit:
+	// - `weekly_spending`: Rolling 7-day spending limit. The limit applies to the sum of all completed transactions
+	//   within a sliding 168-hour (7-day) window. As time passes, older transactions naturally expire from the window.
+	//   $500 is the default limit.
+	// - `lifetime_transactions`: All-time transaction count limit. Tracks the total number of completed transactions
+	//   across the user's entire history with no time-based expiration. Once the limit is reached, no further
+	//   transactions are allowed. 15 is the default limit.
+	LimitType OnrampLimitType `json:"limitType"`
+
+	// Remaining The remaining amount or count available.
+	Remaining string `json:"remaining"`
+}
+
 // Policy defines model for Policy.
 type Policy struct {
 	// CreatedAt The ISO 8601 timestamp at which the Policy was created.
@@ -1982,6 +2204,58 @@ type Rule struct {
 	union json.RawMessage
 }
 
+// SendEndUserEvmTransactionCriteria A schema for specifying criteria for the sendEndUserEvmTransaction operation.
+type SendEndUserEvmTransactionCriteria = []SendEndUserEvmTransactionCriteria_Item
+
+// SendEndUserEvmTransactionCriteria_Item defines model for SendEndUserEvmTransactionCriteria.Item.
+type SendEndUserEvmTransactionCriteria_Item struct {
+	union json.RawMessage
+}
+
+// SendEndUserEvmTransactionRule defines model for SendEndUserEvmTransactionRule.
+type SendEndUserEvmTransactionRule struct {
+	// Action Whether matching the rule will cause the request to be rejected or accepted.
+	Action SendEndUserEvmTransactionRuleAction `json:"action"`
+
+	// Criteria A schema for specifying criteria for the sendEndUserEvmTransaction operation.
+	Criteria SendEndUserEvmTransactionCriteria `json:"criteria"`
+
+	// Operation The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
+	Operation SendEndUserEvmTransactionRuleOperation `json:"operation"`
+}
+
+// SendEndUserEvmTransactionRuleAction Whether matching the rule will cause the request to be rejected or accepted.
+type SendEndUserEvmTransactionRuleAction string
+
+// SendEndUserEvmTransactionRuleOperation The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
+type SendEndUserEvmTransactionRuleOperation string
+
+// SendEndUserSolTransactionCriteria A schema for specifying criteria for the sendEndUserSolTransaction operation.
+type SendEndUserSolTransactionCriteria = []SendEndUserSolTransactionCriteria_Item
+
+// SendEndUserSolTransactionCriteria_Item defines model for SendEndUserSolTransactionCriteria.Item.
+type SendEndUserSolTransactionCriteria_Item struct {
+	union json.RawMessage
+}
+
+// SendEndUserSolTransactionRule defines model for SendEndUserSolTransactionRule.
+type SendEndUserSolTransactionRule struct {
+	// Action Whether matching the rule will cause the request to be rejected or accepted.
+	Action SendEndUserSolTransactionRuleAction `json:"action"`
+
+	// Criteria A schema for specifying criteria for the sendEndUserSolTransaction operation.
+	Criteria SendEndUserSolTransactionCriteria `json:"criteria"`
+
+	// Operation The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
+	Operation SendEndUserSolTransactionRuleOperation `json:"operation"`
+}
+
+// SendEndUserSolTransactionRuleAction Whether matching the rule will cause the request to be rejected or accepted.
+type SendEndUserSolTransactionRuleAction string
+
+// SendEndUserSolTransactionRuleOperation The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
+type SendEndUserSolTransactionRuleOperation string
+
 // SendEvmTransactionCriteria A schema for specifying criteria for the SignEvmTransaction operation.
 type SendEvmTransactionCriteria = []SendEvmTransactionCriteria_Item
 
@@ -2059,6 +2333,136 @@ type SendUserOperationRuleAction string
 
 // SendUserOperationRuleOperation The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
 type SendUserOperationRuleOperation string
+
+// SignEndUserEvmMessageCriteria A schema for specifying criteria for the signEndUserEvmMessage operation.
+type SignEndUserEvmMessageCriteria = []SignEndUserEvmMessageCriteria_Item
+
+// SignEndUserEvmMessageCriteria_Item defines model for SignEndUserEvmMessageCriteria.Item.
+type SignEndUserEvmMessageCriteria_Item struct {
+	union json.RawMessage
+}
+
+// SignEndUserEvmMessageRule defines model for SignEndUserEvmMessageRule.
+type SignEndUserEvmMessageRule struct {
+	// Action Whether matching the rule will cause the request to be rejected or accepted.
+	Action SignEndUserEvmMessageRuleAction `json:"action"`
+
+	// Criteria A schema for specifying criteria for the signEndUserEvmMessage operation.
+	Criteria SignEndUserEvmMessageCriteria `json:"criteria"`
+
+	// Operation The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
+	Operation SignEndUserEvmMessageRuleOperation `json:"operation"`
+}
+
+// SignEndUserEvmMessageRuleAction Whether matching the rule will cause the request to be rejected or accepted.
+type SignEndUserEvmMessageRuleAction string
+
+// SignEndUserEvmMessageRuleOperation The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
+type SignEndUserEvmMessageRuleOperation string
+
+// SignEndUserEvmTransactionCriteria A schema for specifying criteria for the signEndUserEvmTransaction operation.
+type SignEndUserEvmTransactionCriteria = []SignEndUserEvmTransactionCriteria_Item
+
+// SignEndUserEvmTransactionCriteria_Item defines model for SignEndUserEvmTransactionCriteria.Item.
+type SignEndUserEvmTransactionCriteria_Item struct {
+	union json.RawMessage
+}
+
+// SignEndUserEvmTransactionRule defines model for SignEndUserEvmTransactionRule.
+type SignEndUserEvmTransactionRule struct {
+	// Action Whether matching the rule will cause the request to be rejected or accepted.
+	Action SignEndUserEvmTransactionRuleAction `json:"action"`
+
+	// Criteria A schema for specifying criteria for the signEndUserEvmTransaction operation.
+	Criteria SignEndUserEvmTransactionCriteria `json:"criteria"`
+
+	// Operation The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
+	Operation SignEndUserEvmTransactionRuleOperation `json:"operation"`
+}
+
+// SignEndUserEvmTransactionRuleAction Whether matching the rule will cause the request to be rejected or accepted.
+type SignEndUserEvmTransactionRuleAction string
+
+// SignEndUserEvmTransactionRuleOperation The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
+type SignEndUserEvmTransactionRuleOperation string
+
+// SignEndUserEvmTypedDataCriteria A schema for specifying criteria for the signEndUserEvmTypedData operation.
+type SignEndUserEvmTypedDataCriteria = []SignEndUserEvmTypedDataCriteria_Item
+
+// SignEndUserEvmTypedDataCriteria_Item defines model for SignEndUserEvmTypedDataCriteria.Item.
+type SignEndUserEvmTypedDataCriteria_Item struct {
+	union json.RawMessage
+}
+
+// SignEndUserEvmTypedDataRule defines model for SignEndUserEvmTypedDataRule.
+type SignEndUserEvmTypedDataRule struct {
+	// Action Whether matching the rule will cause the request to be rejected or accepted.
+	Action SignEndUserEvmTypedDataRuleAction `json:"action"`
+
+	// Criteria A schema for specifying criteria for the signEndUserEvmTypedData operation.
+	Criteria SignEndUserEvmTypedDataCriteria `json:"criteria"`
+
+	// Operation The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
+	Operation SignEndUserEvmTypedDataRuleOperation `json:"operation"`
+}
+
+// SignEndUserEvmTypedDataRuleAction Whether matching the rule will cause the request to be rejected or accepted.
+type SignEndUserEvmTypedDataRuleAction string
+
+// SignEndUserEvmTypedDataRuleOperation The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
+type SignEndUserEvmTypedDataRuleOperation string
+
+// SignEndUserSolMessageCriteria A schema for specifying criteria for the signEndUserSolMessage operation.
+type SignEndUserSolMessageCriteria = []SignEndUserSolMessageCriteria_Item
+
+// SignEndUserSolMessageCriteria_Item defines model for SignEndUserSolMessageCriteria.Item.
+type SignEndUserSolMessageCriteria_Item struct {
+	union json.RawMessage
+}
+
+// SignEndUserSolMessageRule defines model for SignEndUserSolMessageRule.
+type SignEndUserSolMessageRule struct {
+	// Action Whether matching the rule will cause the request to be rejected or accepted.
+	Action SignEndUserSolMessageRuleAction `json:"action"`
+
+	// Criteria A schema for specifying criteria for the signEndUserSolMessage operation.
+	Criteria SignEndUserSolMessageCriteria `json:"criteria"`
+
+	// Operation The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
+	Operation SignEndUserSolMessageRuleOperation `json:"operation"`
+}
+
+// SignEndUserSolMessageRuleAction Whether matching the rule will cause the request to be rejected or accepted.
+type SignEndUserSolMessageRuleAction string
+
+// SignEndUserSolMessageRuleOperation The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
+type SignEndUserSolMessageRuleOperation string
+
+// SignEndUserSolTransactionCriteria A schema for specifying criteria for the signEndUserSolTransaction operation.
+type SignEndUserSolTransactionCriteria = []SignEndUserSolTransactionCriteria_Item
+
+// SignEndUserSolTransactionCriteria_Item defines model for SignEndUserSolTransactionCriteria.Item.
+type SignEndUserSolTransactionCriteria_Item struct {
+	union json.RawMessage
+}
+
+// SignEndUserSolTransactionRule defines model for SignEndUserSolTransactionRule.
+type SignEndUserSolTransactionRule struct {
+	// Action Whether matching the rule will cause the request to be rejected or accepted.
+	Action SignEndUserSolTransactionRuleAction `json:"action"`
+
+	// Criteria A schema for specifying criteria for the signEndUserSolTransaction operation.
+	Criteria SignEndUserSolTransactionCriteria `json:"criteria"`
+
+	// Operation The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
+	Operation SignEndUserSolTransactionRuleOperation `json:"operation"`
+}
+
+// SignEndUserSolTransactionRuleAction Whether matching the rule will cause the request to be rejected or accepted.
+type SignEndUserSolTransactionRuleAction string
+
+// SignEndUserSolTransactionRuleOperation The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
+type SignEndUserSolTransactionRuleOperation string
 
 // SignEvmHashRule defines model for SignEvmHashRule.
 type SignEvmHashRule struct {
@@ -2557,6 +2961,30 @@ type SwapUnavailableResponse struct {
 // SwapUnavailableResponseLiquidityAvailable Whether sufficient liquidity is available to settle the swap. All other fields in the response will be empty if this is false.
 type SwapUnavailableResponseLiquidityAvailable bool
 
+// TelegramAuthentication Information about an end user who authenticates using Telegram.
+type TelegramAuthentication struct {
+	// AuthDate The Telegram user's last login as a Unix timestamp.
+	AuthDate int `json:"authDate"`
+
+	// FirstName The Telegram user's first name.
+	FirstName *string `json:"firstName,omitempty"`
+
+	// Id The Telegram ID for the end user.
+	Id int `json:"id"`
+
+	// LastName The Telegram user's last name.
+	LastName *string `json:"lastName,omitempty"`
+
+	// PhotoUrl The Telegram user's profile picture.
+	PhotoUrl *string `json:"photoUrl,omitempty"`
+
+	// Type The type of OAuth2 provider.
+	Type OAuth2ProviderType `json:"type"`
+
+	// Username The Telegram user's username.
+	Username *string `json:"username,omitempty"`
+}
+
 // Token General information about a token. Includes the type, the network, and other identifying information.
 type Token struct {
 	// ContractAddress The contract address of the token.
@@ -2653,63 +3081,35 @@ type WebhookSubscriptionListResponse struct {
 	Subscriptions []WebhookSubscriptionResponse `json:"subscriptions"`
 }
 
-// WebhookSubscriptionRequest Request to create a new webhook subscription with support for both traditional single-label
-// and multi-label filtering formats.
+// WebhookSubscriptionRequest Request to create a new webhook subscription with support for multi-label filtering.
 type WebhookSubscriptionRequest struct {
 	// Description Description of the webhook subscription.
-	Description *string `json:"description,omitempty"`
+	Description *Description `json:"description,omitempty"`
 
 	// EventTypes Types of events to subscribe to. Event types follow a three-part dot-separated format:
 	// service.resource.verb (e.g., "onchain.activity.detected", "wallet.activity.detected", "onramp.transaction.created").
 	// The subscription will only receive events matching these types AND the label filter(s).
-	EventTypes *[]string `json:"eventTypes,omitempty"`
+	EventTypes []string `json:"eventTypes"`
 
 	// IsEnabled Whether the subscription is enabled.
-	IsEnabled *bool `json:"isEnabled,omitempty"`
+	IsEnabled bool `json:"isEnabled"`
 
-	// LabelKey (Deprecated) Use `labels` instead for better filtering capabilities, including filtering on multiple labels simultaneously.
-	//
-	// Label key for filtering events. Each subscription filters on exactly one (labelKey, labelValue) pair
-	// in addition to the event types. Only events matching both the event types AND this label filter will be delivered.
-	// NOTE: Use either (labelKey + labelValue) OR labels, not both.
-	//
-	// Maintained for backward compatibility only.
-	// Deprecated:
-	LabelKey *string `json:"labelKey,omitempty"`
-
-	// LabelValue (Deprecated) Use `labels` instead for better filtering capabilities, including filtering on multiple labels simultaneously.
-	//
-	// Label value for filtering events. Must correspond to the labelKey (e.g., contract address for contract_address key).
-	// Only events with this exact label value will be delivered.
-	// NOTE: Use either (labelKey + labelValue) OR labels, not both.
-	//
-	// Maintained for backward compatibility only.
-	// Deprecated:
-	LabelValue *string `json:"labelValue,omitempty"`
-
-	// Labels Multi-label filters using total overlap logic. Total overlap means the subscription will only trigger when
+	// Labels Optional. Multi-label filters using total overlap logic. Total overlap means the subscription will only trigger when
 	// an event contains ALL the key-value pairs specified here. Additional labels on
-	// the event are allowed and will not prevent matching.
+	// the event are allowed and will not prevent matching. Omit to receive all events for the selected event types.
 	//
 	// **Note:** Currently, labels are supported for onchain webhooks only.
 	//
 	// See [allowed labels for onchain webhooks](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/webhooks/create-webhook-subscription#onchain-label-filtering).
 	Labels *map[string]string `json:"labels,omitempty"`
 
-	// Metadata Additional metadata for the subscription.
-	Metadata *map[string]interface{} `json:"metadata,omitempty"`
+	// Metadata Optional metadata as key-value pairs. Use this to store additional structured information on a resource, such as customer IDs, order references, or any application-specific data. Up to 50 key/value pairs may be provided.  Keys and values are both strings. Keys must be ≤ 40 characters; values must be ≤ 500 characters.
+	Metadata *Metadata `json:"metadata,omitempty"`
 
 	// Target Target configuration for webhook delivery.
 	// Specifies the destination URL and any custom headers to include in webhook requests.
-	Target *WebhookTarget `json:"target,omitempty"`
-	union  json.RawMessage
+	Target WebhookTarget `json:"target"`
 }
-
-// WebhookSubscriptionRequest0 defines model for .
-type WebhookSubscriptionRequest0 = interface{}
-
-// WebhookSubscriptionRequest1 defines model for .
-type WebhookSubscriptionRequest1 = interface{}
 
 // WebhookSubscriptionResponse Response containing webhook subscription details.
 type WebhookSubscriptionResponse struct {
@@ -2717,7 +3117,7 @@ type WebhookSubscriptionResponse struct {
 	CreatedAt time.Time `json:"createdAt"`
 
 	// Description Description of the webhook subscription.
-	Description *string `json:"description,omitempty"`
+	Description *Description `json:"description,omitempty"`
 
 	// EventTypes Types of events to subscribe to. Event types follow a three-part dot-separated format:
 	// service.resource.verb (e.g., "onchain.activity.detected", "wallet.activity.detected", "onramp.transaction.created").
@@ -2726,30 +3126,12 @@ type WebhookSubscriptionResponse struct {
 	// IsEnabled Whether the subscription is enabled.
 	IsEnabled bool `json:"isEnabled"`
 
-	// LabelKey (Deprecated) Use `labels` field instead.
-	//
-	// Label key for filtering events. Present when subscription uses traditional single-label format.
-	// Maintained for backward compatibility only.
-	// Deprecated:
-	LabelKey *string `json:"labelKey,omitempty"`
-
-	// LabelValue (Deprecated) Use `labels` field instead.
-	//
-	// Label value for filtering events. Present when subscription uses traditional single-label format.
-	// Maintained for backward compatibility only.
-	// Deprecated:
-	LabelValue *string `json:"labelValue,omitempty"`
-
 	// Labels Multi-label filters using total overlap logic. Total overlap means the subscription only triggers when events contain ALL these key-value pairs.
 	// Present when subscription uses multi-label format.
 	Labels *map[string]string `json:"labels,omitempty"`
 
 	// Metadata Additional metadata for the subscription.
-	Metadata *struct {
-		// Secret Use the root-level `secret` field instead. Maintained for backward compatibility only.
-		// Deprecated:
-		Secret *openapi_types.UUID `json:"secret,omitempty"`
-	} `json:"metadata,omitempty"`
+	Metadata *WebhookSubscriptionResponse_Metadata `json:"metadata,omitempty"`
 
 	// Secret Secret for webhook signature validation.
 	Secret openapi_types.UUID `json:"secret"`
@@ -2762,54 +3144,41 @@ type WebhookSubscriptionResponse struct {
 	Target WebhookTarget `json:"target"`
 }
 
-// WebhookSubscriptionUpdateRequest Request to update an existing webhook subscription. The update format must match
-// the original subscription format (traditional or multi-label).
+// WebhookSubscriptionResponse_Metadata defines model for WebhookSubscriptionResponse.Metadata.
+type WebhookSubscriptionResponse_Metadata struct {
+	// Secret Use the root-level `secret` field instead. Maintained for backward compatibility only.
+	// Deprecated:
+	Secret               *openapi_types.UUID `json:"secret,omitempty"`
+	AdditionalProperties map[string]string   `json:"-"`
+}
+
+// WebhookSubscriptionUpdateRequest Request to update an existing webhook subscription.
 type WebhookSubscriptionUpdateRequest struct {
 	// Description Description of the webhook subscription.
-	Description *string `json:"description,omitempty"`
+	Description *Description `json:"description,omitempty"`
 
 	// EventTypes Types of events to subscribe to. Event types follow a three-part dot-separated format:
 	// service.resource.verb (e.g., "onchain.activity.detected", "wallet.activity.detected", "onramp.transaction.created").
-	EventTypes *[]string `json:"eventTypes,omitempty"`
+	EventTypes []string `json:"eventTypes"`
 
 	// IsEnabled Whether the subscription is enabled.
-	IsEnabled *bool `json:"isEnabled,omitempty"`
+	IsEnabled bool `json:"isEnabled"`
 
-	// LabelKey (Deprecated) Use `labels` instead for better filtering capabilities, including filtering on multiple labels simultaneously.
-	//
-	// Label key for filtering events. Use either (labelKey + labelValue) OR labels, not both.
-	// Maintained for backward compatibility only.
-	// Deprecated:
-	LabelKey *string `json:"labelKey,omitempty"`
-
-	// LabelValue (Deprecated) Use `labels` instead for better filtering capabilities, including filtering on multiple labels simultaneously.
-	//
-	// Label value for filtering events. Use either (labelKey + labelValue) OR labels, not both.
-	// Maintained for backward compatibility only.
-	// Deprecated:
-	LabelValue *string `json:"labelValue,omitempty"`
-
-	// Labels Multi-label filters that trigger only when an event contains ALL of these key-value pairs.
+	// Labels Optional. Multi-label filters that trigger only when an event contains ALL of these key-value pairs.
 	//
 	// **Note:** Currently, labels are supported for onchain webhooks only.
 	//
 	// See [allowed labels for onchain webhooks](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/webhooks/create-webhook-subscription#onchain-label-filtering).
+	// Omit to receive all events for the selected event types.
 	Labels *map[string]string `json:"labels,omitempty"`
 
-	// Metadata Additional metadata for the subscription.
-	Metadata *map[string]interface{} `json:"metadata,omitempty"`
+	// Metadata Optional metadata as key-value pairs. Use this to store additional structured information on a resource, such as customer IDs, order references, or any application-specific data. Up to 50 key/value pairs may be provided.  Keys and values are both strings. Keys must be ≤ 40 characters; values must be ≤ 500 characters.
+	Metadata *Metadata `json:"metadata,omitempty"`
 
 	// Target Target configuration for webhook delivery.
 	// Specifies the destination URL and any custom headers to include in webhook requests.
-	Target *WebhookTarget `json:"target,omitempty"`
-	union  json.RawMessage
+	Target WebhookTarget `json:"target"`
 }
-
-// WebhookSubscriptionUpdateRequest0 defines model for .
-type WebhookSubscriptionUpdateRequest0 = interface{}
-
-// WebhookSubscriptionUpdateRequest1 defines model for .
-type WebhookSubscriptionUpdateRequest1 = interface{}
 
 // WebhookTarget Target configuration for webhook delivery.
 // Specifies the destination URL and any custom headers to include in webhook requests.
@@ -2852,7 +3221,7 @@ type X402ExactEvmPayload struct {
 		// From The 0x-prefixed, checksum EVM address of the sender of the payment.
 		From string `json:"from"`
 
-		// Nonce The hex-encoded nonce of the payment.
+		// Nonce The hex-encoded nonce of the payment (bytes32).
 		Nonce string `json:"nonce"`
 
 		// To The 0x-prefixed, checksum EVM address of the recipient of the payment.
@@ -2868,7 +3237,49 @@ type X402ExactEvmPayload struct {
 		Value string `json:"value"`
 	} `json:"authorization"`
 
-	// Signature The EIP-712 hex-encoded signature of the ERC-3009 authorization message.
+	// Signature The EIP-712 hex-encoded signature of the ERC-3009 authorization message. Smart account signatures may be longer than 65 bytes.
+	Signature string `json:"signature"`
+}
+
+// X402ExactEvmPermit2Payload The x402 protocol exact scheme payload for EVM networks using Permit2. Permit2 is a universal token approval mechanism that works with any ERC-20 token, unlike ERC-3009 which requires token-level support.
+type X402ExactEvmPermit2Payload struct {
+	// Permit2Authorization The authorization data for the Permit2 PermitWitnessTransferFrom message.
+	Permit2Authorization struct {
+		// Deadline The unix timestamp before which the permit is valid.
+		Deadline string `json:"deadline"`
+
+		// From The 0x-prefixed, checksum EVM address of the sender of the payment.
+		From string `json:"from"`
+
+		// Nonce The Permit2 nonce as a decimal string (uint256).
+		Nonce string `json:"nonce"`
+
+		// Permitted The token permissions for the transfer.
+		Permitted struct {
+			// Amount The amount to transfer in atomic units.
+			Amount string `json:"amount"`
+
+			// Token The 0x-prefixed, checksum EVM address of the token to transfer.
+			Token string `json:"token"`
+		} `json:"permitted"`
+
+		// Spender The 0x-prefixed, checksum EVM address of the spender (x402 Permit2 proxy contract).
+		Spender string `json:"spender"`
+
+		// Witness The witness data containing payment details.
+		Witness struct {
+			// Extra Optional hex-encoded extra data.
+			Extra *string `json:"extra,omitempty"`
+
+			// To The 0x-prefixed, checksum EVM address of the recipient.
+			To string `json:"to"`
+
+			// ValidAfter The unix timestamp after which the payment is valid.
+			ValidAfter string `json:"validAfter"`
+		} `json:"witness"`
+	} `json:"permit2Authorization"`
+
+	// Signature The EIP-712 hex-encoded signature of the Permit2 PermitWitnessTransferFrom message. Smart account signatures may be longer than 65 bytes.
 	Signature string `json:"signature"`
 }
 
@@ -2879,6 +3290,7 @@ type X402ExactSolanaPayload struct {
 }
 
 // X402PaymentPayload The x402 protocol payment payload that the client attaches to x402-paid API requests to the resource server in the X-PAYMENT header.
+// For EVM networks, smart account signatures can be longer than 65 bytes.
 type X402PaymentPayload struct {
 	union json.RawMessage
 }
@@ -2890,8 +3302,8 @@ type X402PaymentRequirements struct {
 
 // X402ResourceInfo Describes the resource being accessed in x402 protocol.
 type X402ResourceInfo struct {
-	// Description The description of the resource.
-	Description *string `json:"description,omitempty"`
+	// Description A human-readable description of the resource.
+	Description *Description `json:"description,omitempty"`
 
 	// MimeType The MIME type of the resource response.
 	MimeType *string `json:"mimeType,omitempty"`
@@ -2905,6 +3317,9 @@ type X402SettleErrorReason string
 
 // X402SettlePaymentRejection The result when x402 payment settlement fails.
 type X402SettlePaymentRejection struct {
+	// ErrorMessage The message describing the error reason.
+	ErrorMessage *string `json:"errorMessage,omitempty"`
+
 	// ErrorReason The reason the payment settlement errored on the x402 protocol.
 	ErrorReason X402SettleErrorReason `json:"errorReason"`
 
@@ -2983,8 +3398,8 @@ type X402V1PaymentRequirements struct {
 	// For Solana-based networks, the asset will be a base58-encoded Solana address.
 	Asset string `json:"asset"`
 
-	// Description The description of the resource.
-	Description string `json:"description"`
+	// Description A human-readable description of the resource.
+	Description Description `json:"description"`
 
 	// Extra The optional additional scheme-specific payment info.
 	Extra *map[string]interface{} `json:"extra,omitempty"`
@@ -3087,6 +3502,9 @@ type X402VerifyInvalidReason string
 
 // X402VerifyPaymentRejection The result when x402 payment verification fails.
 type X402VerifyPaymentRejection struct {
+	// InvalidMessage The message describing the invalid reason.
+	InvalidMessage *string `json:"invalidMessage,omitempty"`
+
 	// InvalidReason The reason the payment is invalid on the x402 protocol.
 	InvalidReason X402VerifyInvalidReason `json:"invalidReason"`
 
@@ -3119,6 +3537,9 @@ type AlreadyExistsError = Error
 // BadGatewayError An error response including the code for the type of error and a human-readable message describing the error.
 type BadGatewayError = Error
 
+// ClientClosedRequestError An error response including the code for the type of error and a human-readable message describing the error.
+type ClientClosedRequestError = Error
+
 // IdempotencyError An error response including the code for the type of error and a human-readable message describing the error.
 type IdempotencyError = Error
 
@@ -3148,6 +3569,9 @@ type X402SettleError = X402SettlePaymentRejection
 
 // X402SettleResponse defines model for x402SettleResponse.
 type X402SettleResponse struct {
+	// ErrorMessage The message describing the error reason.
+	ErrorMessage *string `json:"errorMessage,omitempty"`
+
 	// ErrorReason The reason the payment settlement errored on the x402 protocol.
 	ErrorReason *X402SettleErrorReason `json:"errorReason,omitempty"`
 
@@ -3187,6 +3611,9 @@ type X402VerifyInvalidError = X402VerifyPaymentRejection
 
 // X402VerifyResponse defines model for x402VerifyResponse.
 type X402VerifyResponse struct {
+	// InvalidMessage The message describing the invalid reason.
+	InvalidMessage *string `json:"invalidMessage,omitempty"`
+
 	// InvalidReason The reason the payment is invalid on the x402 protocol.
 	InvalidReason *X402VerifyInvalidReason `json:"invalidReason,omitempty"`
 
@@ -3270,7 +3697,7 @@ type CreateEndUserParams struct {
 	// section of our Authentication docs for more details on how to generate your Wallet Token.
 	XWalletAuth *XWalletAuth `json:"X-Wallet-Auth,omitempty"`
 
-	// XIdempotencyKey An optional [UUID v4](https://www.uuidgenerator.net/version4) request header for making requests safely retryable.
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
 	// When included, duplicate requests with the same key will return identical responses.
 	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
 	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
@@ -3304,7 +3731,7 @@ type ImportEndUserParams struct {
 	// section of our Authentication docs for more details on how to generate your Wallet Token.
 	XWalletAuth *XWalletAuth `json:"X-Wallet-Auth,omitempty"`
 
-	// XIdempotencyKey An optional [UUID v4](https://www.uuidgenerator.net/version4) request header for making requests safely retryable.
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
 	// When included, duplicate requests with the same key will return identical responses.
 	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
 	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
@@ -3312,6 +3739,57 @@ type ImportEndUserParams struct {
 
 // ImportEndUserJSONBodyKeyType defines parameters for ImportEndUser.
 type ImportEndUserJSONBodyKeyType string
+
+// AddEndUserEvmAccountJSONBody defines parameters for AddEndUserEvmAccount.
+type AddEndUserEvmAccountJSONBody = map[string]interface{}
+
+// AddEndUserEvmAccountParams defines parameters for AddEndUserEvmAccount.
+type AddEndUserEvmAccountParams struct {
+	// XWalletAuth A JWT signed using your Wallet Secret, encoded in base64. Refer to the
+	// [Generate Wallet Token](https://docs.cdp.coinbase.com/api-reference/v2/authentication#2-generate-wallet-token)
+	// section of our Authentication docs for more details on how to generate your Wallet Token.
+	XWalletAuth *XWalletAuth `json:"X-Wallet-Auth,omitempty"`
+
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
+	// When included, duplicate requests with the same key will return identical responses.
+	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
+	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
+}
+
+// AddEndUserEvmSmartAccountJSONBody defines parameters for AddEndUserEvmSmartAccount.
+type AddEndUserEvmSmartAccountJSONBody struct {
+	// EnableSpendPermissions If true, enables spend permissions for the EVM smart account.
+	EnableSpendPermissions *bool `json:"enableSpendPermissions,omitempty"`
+}
+
+// AddEndUserEvmSmartAccountParams defines parameters for AddEndUserEvmSmartAccount.
+type AddEndUserEvmSmartAccountParams struct {
+	// XWalletAuth A JWT signed using your Wallet Secret, encoded in base64. Refer to the
+	// [Generate Wallet Token](https://docs.cdp.coinbase.com/api-reference/v2/authentication#2-generate-wallet-token)
+	// section of our Authentication docs for more details on how to generate your Wallet Token.
+	XWalletAuth *XWalletAuth `json:"X-Wallet-Auth,omitempty"`
+
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
+	// When included, duplicate requests with the same key will return identical responses.
+	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
+	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
+}
+
+// AddEndUserSolanaAccountJSONBody defines parameters for AddEndUserSolanaAccount.
+type AddEndUserSolanaAccountJSONBody = map[string]interface{}
+
+// AddEndUserSolanaAccountParams defines parameters for AddEndUserSolanaAccount.
+type AddEndUserSolanaAccountParams struct {
+	// XWalletAuth A JWT signed using your Wallet Secret, encoded in base64. Refer to the
+	// [Generate Wallet Token](https://docs.cdp.coinbase.com/api-reference/v2/authentication#2-generate-wallet-token)
+	// section of our Authentication docs for more details on how to generate your Wallet Token.
+	XWalletAuth *XWalletAuth `json:"X-Wallet-Auth,omitempty"`
+
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
+	// When included, duplicate requests with the same key will return identical responses.
+	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
+	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
+}
 
 // ListEvmAccountsParams defines parameters for ListEvmAccounts.
 type ListEvmAccountsParams struct {
@@ -3340,7 +3818,7 @@ type CreateEvmAccountParams struct {
 	// section of our Authentication docs for more details on how to generate your Wallet Token.
 	XWalletAuth *XWalletAuth `json:"X-Wallet-Auth,omitempty"`
 
-	// XIdempotencyKey An optional [UUID v4](https://www.uuidgenerator.net/version4) request header for making requests safely retryable.
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
 	// When included, duplicate requests with the same key will return identical responses.
 	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
 	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
@@ -3359,7 +3837,7 @@ type ExportEvmAccountByNameParams struct {
 	// section of our Authentication docs for more details on how to generate your Wallet Token.
 	XWalletAuth *XWalletAuth `json:"X-Wallet-Auth,omitempty"`
 
-	// XIdempotencyKey An optional [UUID v4](https://www.uuidgenerator.net/version4) request header for making requests safely retryable.
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
 	// When included, duplicate requests with the same key will return identical responses.
 	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
 	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
@@ -3386,7 +3864,7 @@ type ImportEvmAccountParams struct {
 	// section of our Authentication docs for more details on how to generate your Wallet Token.
 	XWalletAuth *XWalletAuth `json:"X-Wallet-Auth,omitempty"`
 
-	// XIdempotencyKey An optional [UUID v4](https://www.uuidgenerator.net/version4) request header for making requests safely retryable.
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
 	// When included, duplicate requests with the same key will return identical responses.
 	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
 	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
@@ -3405,7 +3883,29 @@ type UpdateEvmAccountJSONBody struct {
 
 // UpdateEvmAccountParams defines parameters for UpdateEvmAccount.
 type UpdateEvmAccountParams struct {
-	// XIdempotencyKey An optional [UUID v4](https://www.uuidgenerator.net/version4) request header for making requests safely retryable.
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
+	// When included, duplicate requests with the same key will return identical responses.
+	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
+	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
+}
+
+// CreateEvmEip7702DelegationJSONBody defines parameters for CreateEvmEip7702Delegation.
+type CreateEvmEip7702DelegationJSONBody struct {
+	// EnableSpendPermissions Whether to configure spend permissions for the upgraded, delegated account. When enabled, the account can grant permissions for third parties to spend on its behalf.
+	EnableSpendPermissions *bool `json:"enableSpendPermissions,omitempty"`
+
+	// Network The network for the EIP-7702 delegation.
+	Network EvmEip7702DelegationNetwork `json:"network"`
+}
+
+// CreateEvmEip7702DelegationParams defines parameters for CreateEvmEip7702Delegation.
+type CreateEvmEip7702DelegationParams struct {
+	// XWalletAuth A JWT signed using your Wallet Secret, encoded in base64. Refer to the
+	// [Generate Wallet Token](https://docs.cdp.coinbase.com/api-reference/v2/authentication#2-generate-wallet-token)
+	// section of our Authentication docs for more details on how to generate your Wallet Token.
+	XWalletAuth *XWalletAuth `json:"X-Wallet-Auth,omitempty"`
+
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
 	// When included, duplicate requests with the same key will return identical responses.
 	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
 	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
@@ -3424,7 +3924,7 @@ type ExportEvmAccountParams struct {
 	// section of our Authentication docs for more details on how to generate your Wallet Token.
 	XWalletAuth *XWalletAuth `json:"X-Wallet-Auth,omitempty"`
 
-	// XIdempotencyKey An optional [UUID v4](https://www.uuidgenerator.net/version4) request header for making requests safely retryable.
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
 	// When included, duplicate requests with the same key will return identical responses.
 	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
 	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
@@ -3446,7 +3946,7 @@ type SendEvmTransactionParams struct {
 	// section of our Authentication docs for more details on how to generate your Wallet Token.
 	XWalletAuth *XWalletAuth `json:"X-Wallet-Auth,omitempty"`
 
-	// XIdempotencyKey An optional [UUID v4](https://www.uuidgenerator.net/version4) request header for making requests safely retryable.
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
 	// When included, duplicate requests with the same key will return identical responses.
 	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
 	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
@@ -3468,7 +3968,7 @@ type SignEvmHashParams struct {
 	// section of our Authentication docs for more details on how to generate your Wallet Token.
 	XWalletAuth *XWalletAuth `json:"X-Wallet-Auth,omitempty"`
 
-	// XIdempotencyKey An optional [UUID v4](https://www.uuidgenerator.net/version4) request header for making requests safely retryable.
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
 	// When included, duplicate requests with the same key will return identical responses.
 	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
 	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
@@ -3487,7 +3987,7 @@ type SignEvmMessageParams struct {
 	// section of our Authentication docs for more details on how to generate your Wallet Token.
 	XWalletAuth *XWalletAuth `json:"X-Wallet-Auth,omitempty"`
 
-	// XIdempotencyKey An optional [UUID v4](https://www.uuidgenerator.net/version4) request header for making requests safely retryable.
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
 	// When included, duplicate requests with the same key will return identical responses.
 	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
 	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
@@ -3506,7 +4006,7 @@ type SignEvmTransactionParams struct {
 	// section of our Authentication docs for more details on how to generate your Wallet Token.
 	XWalletAuth *XWalletAuth `json:"X-Wallet-Auth,omitempty"`
 
-	// XIdempotencyKey An optional [UUID v4](https://www.uuidgenerator.net/version4) request header for making requests safely retryable.
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
 	// When included, duplicate requests with the same key will return identical responses.
 	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
 	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
@@ -3519,7 +4019,7 @@ type SignEvmTypedDataParams struct {
 	// section of our Authentication docs for more details on how to generate your Wallet Token.
 	XWalletAuth *XWalletAuth `json:"X-Wallet-Auth,omitempty"`
 
-	// XIdempotencyKey An optional [UUID v4](https://www.uuidgenerator.net/version4) request header for making requests safely retryable.
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
 	// When included, duplicate requests with the same key will return identical responses.
 	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
 	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
@@ -3565,7 +4065,7 @@ type CreateEvmSmartAccountJSONBody struct {
 
 // CreateEvmSmartAccountParams defines parameters for CreateEvmSmartAccount.
 type CreateEvmSmartAccountParams struct {
-	// XIdempotencyKey An optional [UUID v4](https://www.uuidgenerator.net/version4) request header for making requests safely retryable.
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
 	// When included, duplicate requests with the same key will return identical responses.
 	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
 	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
@@ -3586,7 +4086,7 @@ type CreateSpendPermissionParams struct {
 	// section of our Authentication docs for more details on how to generate your Wallet Token.
 	XWalletAuth *XWalletAuth `json:"X-Wallet-Auth,omitempty"`
 
-	// XIdempotencyKey An optional [UUID v4](https://www.uuidgenerator.net/version4) request header for making requests safely retryable.
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
 	// When included, duplicate requests with the same key will return identical responses.
 	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
 	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
@@ -3608,7 +4108,7 @@ type RevokeSpendPermissionParams struct {
 	// section of our Authentication docs for more details on how to generate your Wallet Token.
 	XWalletAuth *XWalletAuth `json:"X-Wallet-Auth,omitempty"`
 
-	// XIdempotencyKey An optional [UUID v4](https://www.uuidgenerator.net/version4) request header for making requests safely retryable.
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
 	// When included, duplicate requests with the same key will return identical responses.
 	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
 	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
@@ -3643,7 +4143,7 @@ type PrepareAndSendUserOperationJSONBody struct {
 
 // PrepareAndSendUserOperationParams defines parameters for PrepareAndSendUserOperation.
 type PrepareAndSendUserOperationParams struct {
-	// XIdempotencyKey An optional [UUID v4](https://www.uuidgenerator.net/version4) request header for making requests safely retryable.
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
 	// When included, duplicate requests with the same key will return identical responses.
 	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
 	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
@@ -3689,7 +4189,7 @@ type CreateEvmSwapQuoteJSONBody struct {
 
 // CreateEvmSwapQuoteParams defines parameters for CreateEvmSwapQuote.
 type CreateEvmSwapQuoteParams struct {
-	// XIdempotencyKey An optional [UUID v4](https://www.uuidgenerator.net/version4) request header for making requests safely retryable.
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
 	// When included, duplicate requests with the same key will return identical responses.
 	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
 	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
@@ -3716,6 +4216,19 @@ type ListEvmTokenBalancesParams struct {
 	PageToken *PageToken `form:"pageToken,omitempty" json:"pageToken,omitempty"`
 }
 
+// GetOnrampUserLimitsJSONBody defines parameters for GetOnrampUserLimits.
+type GetOnrampUserLimitsJSONBody struct {
+	// PaymentMethodType The type of payment method to be used to complete an onramp order.
+	PaymentMethodType OnrampOrderPaymentMethodTypeId `json:"paymentMethodType"`
+
+	// UserId The user identifier value. For `phone_number` type, this must be in E.164 format.
+	UserId string `json:"userId"`
+
+	// UserIdType The type of user identifier:
+	// - `phone_number`: A phone number in E.164 format associated with an onramp user.
+	UserIdType OnrampUserIdType `json:"userIdType"`
+}
+
 // CreateOnrampOrderJSONBody defines parameters for CreateOnrampOrder.
 type CreateOnrampOrderJSONBody struct {
 	// AgreementAcceptedAt The timestamp of when the user acknowledged that by using Coinbase Onramp they are accepting the Coinbase Terms  (https://www.coinbase.com/legal/guest-checkout/us), User Agreement (https://www.coinbase.com/legal/user_agreement),  and Privacy Policy (https://www.coinbase.com/legal/privacy).
@@ -3725,7 +4238,7 @@ type CreateOnrampOrderJSONBody struct {
 	ClientIp *string `json:"clientIp,omitempty"`
 
 	// DestinationAddress The address the purchased crypto will be sent to.
-	DestinationAddress string `json:"destinationAddress"`
+	DestinationAddress BlockchainAddress `json:"destinationAddress"`
 
 	// DestinationNetwork The name of the crypto network the purchased currency will be sent on.
 	//
@@ -3784,7 +4297,7 @@ type CreateOnrampSessionJSONBody struct {
 	Country *string `json:"country,omitempty"`
 
 	// DestinationAddress The address the purchased crypto will be sent to.
-	DestinationAddress string `json:"destinationAddress"`
+	DestinationAddress BlockchainAddress `json:"destinationAddress"`
 
 	// DestinationNetwork The name of the crypto network the purchased currency will be sent on.
 	//
@@ -3850,7 +4363,7 @@ type CreatePolicyJSONBody struct {
 
 // CreatePolicyParams defines parameters for CreatePolicy.
 type CreatePolicyParams struct {
-	// XIdempotencyKey An optional [UUID v4](https://www.uuidgenerator.net/version4) request header for making requests safely retryable.
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
 	// When included, duplicate requests with the same key will return identical responses.
 	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
 	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
@@ -3861,7 +4374,7 @@ type CreatePolicyJSONBodyScope string
 
 // DeletePolicyParams defines parameters for DeletePolicy.
 type DeletePolicyParams struct {
-	// XIdempotencyKey An optional [UUID v4](https://www.uuidgenerator.net/version4) request header for making requests safely retryable.
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
 	// When included, duplicate requests with the same key will return identical responses.
 	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
 	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
@@ -3879,7 +4392,7 @@ type UpdatePolicyJSONBody struct {
 
 // UpdatePolicyParams defines parameters for UpdatePolicy.
 type UpdatePolicyParams struct {
-	// XIdempotencyKey An optional [UUID v4](https://www.uuidgenerator.net/version4) request header for making requests safely retryable.
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
 	// When included, duplicate requests with the same key will return identical responses.
 	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
 	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
@@ -3912,7 +4425,7 @@ type CreateSolanaAccountParams struct {
 	// section of our Authentication docs for more details on how to generate your Wallet Token.
 	XWalletAuth *XWalletAuth `json:"X-Wallet-Auth,omitempty"`
 
-	// XIdempotencyKey An optional [UUID v4](https://www.uuidgenerator.net/version4) request header for making requests safely retryable.
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
 	// When included, duplicate requests with the same key will return identical responses.
 	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
 	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
@@ -3931,7 +4444,7 @@ type ExportSolanaAccountByNameParams struct {
 	// section of our Authentication docs for more details on how to generate your Wallet Token.
 	XWalletAuth *XWalletAuth `json:"X-Wallet-Auth,omitempty"`
 
-	// XIdempotencyKey An optional [UUID v4](https://www.uuidgenerator.net/version4) request header for making requests safely retryable.
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
 	// When included, duplicate requests with the same key will return identical responses.
 	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
 	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
@@ -3955,7 +4468,7 @@ type ImportSolanaAccountParams struct {
 	// section of our Authentication docs for more details on how to generate your Wallet Token.
 	XWalletAuth *XWalletAuth `json:"X-Wallet-Auth,omitempty"`
 
-	// XIdempotencyKey An optional [UUID v4](https://www.uuidgenerator.net/version4) request header for making requests safely retryable.
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
 	// When included, duplicate requests with the same key will return identical responses.
 	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
 	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
@@ -3977,7 +4490,7 @@ type SendSolanaTransactionParams struct {
 	// section of our Authentication docs for more details on how to generate your Wallet Token.
 	XWalletAuth *XWalletAuth `json:"X-Wallet-Auth,omitempty"`
 
-	// XIdempotencyKey An optional [UUID v4](https://www.uuidgenerator.net/version4) request header for making requests safely retryable.
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
 	// When included, duplicate requests with the same key will return identical responses.
 	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
 	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
@@ -3998,7 +4511,7 @@ type UpdateSolanaAccountJSONBody struct {
 
 // UpdateSolanaAccountParams defines parameters for UpdateSolanaAccount.
 type UpdateSolanaAccountParams struct {
-	// XIdempotencyKey An optional [UUID v4](https://www.uuidgenerator.net/version4) request header for making requests safely retryable.
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
 	// When included, duplicate requests with the same key will return identical responses.
 	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
 	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
@@ -4017,7 +4530,7 @@ type ExportSolanaAccountParams struct {
 	// section of our Authentication docs for more details on how to generate your Wallet Token.
 	XWalletAuth *XWalletAuth `json:"X-Wallet-Auth,omitempty"`
 
-	// XIdempotencyKey An optional [UUID v4](https://www.uuidgenerator.net/version4) request header for making requests safely retryable.
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
 	// When included, duplicate requests with the same key will return identical responses.
 	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
 	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
@@ -4036,7 +4549,7 @@ type SignSolanaMessageParams struct {
 	// section of our Authentication docs for more details on how to generate your Wallet Token.
 	XWalletAuth *XWalletAuth `json:"X-Wallet-Auth,omitempty"`
 
-	// XIdempotencyKey An optional [UUID v4](https://www.uuidgenerator.net/version4) request header for making requests safely retryable.
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
 	// When included, duplicate requests with the same key will return identical responses.
 	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
 	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
@@ -4055,7 +4568,7 @@ type SignSolanaTransactionParams struct {
 	// section of our Authentication docs for more details on how to generate your Wallet Token.
 	XWalletAuth *XWalletAuth `json:"X-Wallet-Auth,omitempty"`
 
-	// XIdempotencyKey An optional [UUID v4](https://www.uuidgenerator.net/version4) request header for making requests safely retryable.
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
 	// When included, duplicate requests with the same key will return identical responses.
 	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
 	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
@@ -4085,6 +4598,7 @@ type ListSolanaTokenBalancesParams struct {
 // SettleX402PaymentJSONBody defines parameters for SettleX402Payment.
 type SettleX402PaymentJSONBody struct {
 	// PaymentPayload The x402 protocol payment payload that the client attaches to x402-paid API requests to the resource server in the X-PAYMENT header.
+	// For EVM networks, smart account signatures can be longer than 65 bytes.
 	PaymentPayload X402PaymentPayload `json:"paymentPayload"`
 
 	// PaymentRequirements The x402 protocol payment requirements that the resource server expects the client's payment payload to meet.
@@ -4097,6 +4611,7 @@ type SettleX402PaymentJSONBody struct {
 // VerifyX402PaymentJSONBody defines parameters for VerifyX402Payment.
 type VerifyX402PaymentJSONBody struct {
 	// PaymentPayload The x402 protocol payment payload that the client attaches to x402-paid API requests to the resource server in the X-PAYMENT header.
+	// For EVM networks, smart account signatures can be longer than 65 bytes.
 	PaymentPayload X402PaymentPayload `json:"paymentPayload"`
 
 	// PaymentRequirements The x402 protocol payment requirements that the resource server expects the client's payment payload to meet.
@@ -4124,6 +4639,15 @@ type ValidateEndUserAccessTokenJSONRequestBody ValidateEndUserAccessTokenJSONBod
 // ImportEndUserJSONRequestBody defines body for ImportEndUser for application/json ContentType.
 type ImportEndUserJSONRequestBody ImportEndUserJSONBody
 
+// AddEndUserEvmAccountJSONRequestBody defines body for AddEndUserEvmAccount for application/json ContentType.
+type AddEndUserEvmAccountJSONRequestBody = AddEndUserEvmAccountJSONBody
+
+// AddEndUserEvmSmartAccountJSONRequestBody defines body for AddEndUserEvmSmartAccount for application/json ContentType.
+type AddEndUserEvmSmartAccountJSONRequestBody AddEndUserEvmSmartAccountJSONBody
+
+// AddEndUserSolanaAccountJSONRequestBody defines body for AddEndUserSolanaAccount for application/json ContentType.
+type AddEndUserSolanaAccountJSONRequestBody = AddEndUserSolanaAccountJSONBody
+
 // CreateEvmAccountJSONRequestBody defines body for CreateEvmAccount for application/json ContentType.
 type CreateEvmAccountJSONRequestBody CreateEvmAccountJSONBody
 
@@ -4135,6 +4659,9 @@ type ImportEvmAccountJSONRequestBody ImportEvmAccountJSONBody
 
 // UpdateEvmAccountJSONRequestBody defines body for UpdateEvmAccount for application/json ContentType.
 type UpdateEvmAccountJSONRequestBody UpdateEvmAccountJSONBody
+
+// CreateEvmEip7702DelegationJSONRequestBody defines body for CreateEvmEip7702Delegation for application/json ContentType.
+type CreateEvmEip7702DelegationJSONRequestBody CreateEvmEip7702DelegationJSONBody
 
 // ExportEvmAccountJSONRequestBody defines body for ExportEvmAccount for application/json ContentType.
 type ExportEvmAccountJSONRequestBody ExportEvmAccountJSONBody
@@ -4181,6 +4708,9 @@ type SendUserOperationJSONRequestBody SendUserOperationJSONBody
 // CreateEvmSwapQuoteJSONRequestBody defines body for CreateEvmSwapQuote for application/json ContentType.
 type CreateEvmSwapQuoteJSONRequestBody CreateEvmSwapQuoteJSONBody
 
+// GetOnrampUserLimitsJSONRequestBody defines body for GetOnrampUserLimits for application/json ContentType.
+type GetOnrampUserLimitsJSONRequestBody GetOnrampUserLimitsJSONBody
+
 // CreateOnrampOrderJSONRequestBody defines body for CreateOnrampOrder for application/json ContentType.
 type CreateOnrampOrderJSONRequestBody CreateOnrampOrderJSONBody
 
@@ -4225,6 +4755,74 @@ type SettleX402PaymentJSONRequestBody SettleX402PaymentJSONBody
 
 // VerifyX402PaymentJSONRequestBody defines body for VerifyX402Payment for application/json ContentType.
 type VerifyX402PaymentJSONRequestBody VerifyX402PaymentJSONBody
+
+// Getter for additional properties for WebhookSubscriptionResponse_Metadata. Returns the specified
+// element and whether it was found
+func (a WebhookSubscriptionResponse_Metadata) Get(fieldName string) (value string, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for WebhookSubscriptionResponse_Metadata
+func (a *WebhookSubscriptionResponse_Metadata) Set(fieldName string, value string) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]string)
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for WebhookSubscriptionResponse_Metadata to handle AdditionalProperties
+func (a *WebhookSubscriptionResponse_Metadata) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["secret"]; found {
+		err = json.Unmarshal(raw, &a.Secret)
+		if err != nil {
+			return fmt.Errorf("error reading 'secret': %w", err)
+		}
+		delete(object, "secret")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]string)
+		for fieldName, fieldBuf := range object {
+			var fieldVal string
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for WebhookSubscriptionResponse_Metadata to handle AdditionalProperties
+func (a WebhookSubscriptionResponse_Metadata) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	if a.Secret != nil {
+		object["secret"], err = json.Marshal(a.Secret)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'secret': %w", err)
+		}
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
 
 // AsAbiFunction returns the union data inside the Abi_Item as a AbiFunction
 func (t Abi_Item) AsAbiFunction() (AbiFunction, error) {
@@ -4382,6 +4980,32 @@ func (t *AuthenticationMethod) FromOAuth2Authentication(v OAuth2Authentication) 
 
 // MergeOAuth2Authentication performs a merge with any union data inside the AuthenticationMethod, using the provided OAuth2Authentication
 func (t *AuthenticationMethod) MergeOAuth2Authentication(v OAuth2Authentication) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsTelegramAuthentication returns the union data inside the AuthenticationMethod as a TelegramAuthentication
+func (t AuthenticationMethod) AsTelegramAuthentication() (TelegramAuthentication, error) {
+	var body TelegramAuthentication
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromTelegramAuthentication overwrites any union data inside the AuthenticationMethod as the provided TelegramAuthentication
+func (t *AuthenticationMethod) FromTelegramAuthentication(v TelegramAuthentication) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeTelegramAuthentication performs a merge with any union data inside the AuthenticationMethod, using the provided TelegramAuthentication
+func (t *AuthenticationMethod) MergeTelegramAuthentication(v TelegramAuthentication) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -5050,12 +5674,552 @@ func (t *Rule) MergeSendUserOperationRule(v SendUserOperationRule) error {
 	return err
 }
 
+// AsSignEndUserEvmTransactionRule returns the union data inside the Rule as a SignEndUserEvmTransactionRule
+func (t Rule) AsSignEndUserEvmTransactionRule() (SignEndUserEvmTransactionRule, error) {
+	var body SignEndUserEvmTransactionRule
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSignEndUserEvmTransactionRule overwrites any union data inside the Rule as the provided SignEndUserEvmTransactionRule
+func (t *Rule) FromSignEndUserEvmTransactionRule(v SignEndUserEvmTransactionRule) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSignEndUserEvmTransactionRule performs a merge with any union data inside the Rule, using the provided SignEndUserEvmTransactionRule
+func (t *Rule) MergeSignEndUserEvmTransactionRule(v SignEndUserEvmTransactionRule) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsSendEndUserEvmTransactionRule returns the union data inside the Rule as a SendEndUserEvmTransactionRule
+func (t Rule) AsSendEndUserEvmTransactionRule() (SendEndUserEvmTransactionRule, error) {
+	var body SendEndUserEvmTransactionRule
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSendEndUserEvmTransactionRule overwrites any union data inside the Rule as the provided SendEndUserEvmTransactionRule
+func (t *Rule) FromSendEndUserEvmTransactionRule(v SendEndUserEvmTransactionRule) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSendEndUserEvmTransactionRule performs a merge with any union data inside the Rule, using the provided SendEndUserEvmTransactionRule
+func (t *Rule) MergeSendEndUserEvmTransactionRule(v SendEndUserEvmTransactionRule) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsSignEndUserEvmMessageRule returns the union data inside the Rule as a SignEndUserEvmMessageRule
+func (t Rule) AsSignEndUserEvmMessageRule() (SignEndUserEvmMessageRule, error) {
+	var body SignEndUserEvmMessageRule
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSignEndUserEvmMessageRule overwrites any union data inside the Rule as the provided SignEndUserEvmMessageRule
+func (t *Rule) FromSignEndUserEvmMessageRule(v SignEndUserEvmMessageRule) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSignEndUserEvmMessageRule performs a merge with any union data inside the Rule, using the provided SignEndUserEvmMessageRule
+func (t *Rule) MergeSignEndUserEvmMessageRule(v SignEndUserEvmMessageRule) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsSignEndUserEvmTypedDataRule returns the union data inside the Rule as a SignEndUserEvmTypedDataRule
+func (t Rule) AsSignEndUserEvmTypedDataRule() (SignEndUserEvmTypedDataRule, error) {
+	var body SignEndUserEvmTypedDataRule
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSignEndUserEvmTypedDataRule overwrites any union data inside the Rule as the provided SignEndUserEvmTypedDataRule
+func (t *Rule) FromSignEndUserEvmTypedDataRule(v SignEndUserEvmTypedDataRule) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSignEndUserEvmTypedDataRule performs a merge with any union data inside the Rule, using the provided SignEndUserEvmTypedDataRule
+func (t *Rule) MergeSignEndUserEvmTypedDataRule(v SignEndUserEvmTypedDataRule) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsSignEndUserSolTransactionRule returns the union data inside the Rule as a SignEndUserSolTransactionRule
+func (t Rule) AsSignEndUserSolTransactionRule() (SignEndUserSolTransactionRule, error) {
+	var body SignEndUserSolTransactionRule
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSignEndUserSolTransactionRule overwrites any union data inside the Rule as the provided SignEndUserSolTransactionRule
+func (t *Rule) FromSignEndUserSolTransactionRule(v SignEndUserSolTransactionRule) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSignEndUserSolTransactionRule performs a merge with any union data inside the Rule, using the provided SignEndUserSolTransactionRule
+func (t *Rule) MergeSignEndUserSolTransactionRule(v SignEndUserSolTransactionRule) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsSendEndUserSolTransactionRule returns the union data inside the Rule as a SendEndUserSolTransactionRule
+func (t Rule) AsSendEndUserSolTransactionRule() (SendEndUserSolTransactionRule, error) {
+	var body SendEndUserSolTransactionRule
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSendEndUserSolTransactionRule overwrites any union data inside the Rule as the provided SendEndUserSolTransactionRule
+func (t *Rule) FromSendEndUserSolTransactionRule(v SendEndUserSolTransactionRule) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSendEndUserSolTransactionRule performs a merge with any union data inside the Rule, using the provided SendEndUserSolTransactionRule
+func (t *Rule) MergeSendEndUserSolTransactionRule(v SendEndUserSolTransactionRule) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsSignEndUserSolMessageRule returns the union data inside the Rule as a SignEndUserSolMessageRule
+func (t Rule) AsSignEndUserSolMessageRule() (SignEndUserSolMessageRule, error) {
+	var body SignEndUserSolMessageRule
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSignEndUserSolMessageRule overwrites any union data inside the Rule as the provided SignEndUserSolMessageRule
+func (t *Rule) FromSignEndUserSolMessageRule(v SignEndUserSolMessageRule) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSignEndUserSolMessageRule performs a merge with any union data inside the Rule, using the provided SignEndUserSolMessageRule
+func (t *Rule) MergeSignEndUserSolMessageRule(v SignEndUserSolMessageRule) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
 func (t Rule) MarshalJSON() ([]byte, error) {
 	b, err := t.union.MarshalJSON()
 	return b, err
 }
 
 func (t *Rule) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsEthValueCriterion returns the union data inside the SendEndUserEvmTransactionCriteria_Item as a EthValueCriterion
+func (t SendEndUserEvmTransactionCriteria_Item) AsEthValueCriterion() (EthValueCriterion, error) {
+	var body EthValueCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromEthValueCriterion overwrites any union data inside the SendEndUserEvmTransactionCriteria_Item as the provided EthValueCriterion
+func (t *SendEndUserEvmTransactionCriteria_Item) FromEthValueCriterion(v EthValueCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeEthValueCriterion performs a merge with any union data inside the SendEndUserEvmTransactionCriteria_Item, using the provided EthValueCriterion
+func (t *SendEndUserEvmTransactionCriteria_Item) MergeEthValueCriterion(v EthValueCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsEvmAddressCriterion returns the union data inside the SendEndUserEvmTransactionCriteria_Item as a EvmAddressCriterion
+func (t SendEndUserEvmTransactionCriteria_Item) AsEvmAddressCriterion() (EvmAddressCriterion, error) {
+	var body EvmAddressCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromEvmAddressCriterion overwrites any union data inside the SendEndUserEvmTransactionCriteria_Item as the provided EvmAddressCriterion
+func (t *SendEndUserEvmTransactionCriteria_Item) FromEvmAddressCriterion(v EvmAddressCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeEvmAddressCriterion performs a merge with any union data inside the SendEndUserEvmTransactionCriteria_Item, using the provided EvmAddressCriterion
+func (t *SendEndUserEvmTransactionCriteria_Item) MergeEvmAddressCriterion(v EvmAddressCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsEvmNetworkCriterion returns the union data inside the SendEndUserEvmTransactionCriteria_Item as a EvmNetworkCriterion
+func (t SendEndUserEvmTransactionCriteria_Item) AsEvmNetworkCriterion() (EvmNetworkCriterion, error) {
+	var body EvmNetworkCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromEvmNetworkCriterion overwrites any union data inside the SendEndUserEvmTransactionCriteria_Item as the provided EvmNetworkCriterion
+func (t *SendEndUserEvmTransactionCriteria_Item) FromEvmNetworkCriterion(v EvmNetworkCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeEvmNetworkCriterion performs a merge with any union data inside the SendEndUserEvmTransactionCriteria_Item, using the provided EvmNetworkCriterion
+func (t *SendEndUserEvmTransactionCriteria_Item) MergeEvmNetworkCriterion(v EvmNetworkCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsEvmDataCriterion returns the union data inside the SendEndUserEvmTransactionCriteria_Item as a EvmDataCriterion
+func (t SendEndUserEvmTransactionCriteria_Item) AsEvmDataCriterion() (EvmDataCriterion, error) {
+	var body EvmDataCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromEvmDataCriterion overwrites any union data inside the SendEndUserEvmTransactionCriteria_Item as the provided EvmDataCriterion
+func (t *SendEndUserEvmTransactionCriteria_Item) FromEvmDataCriterion(v EvmDataCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeEvmDataCriterion performs a merge with any union data inside the SendEndUserEvmTransactionCriteria_Item, using the provided EvmDataCriterion
+func (t *SendEndUserEvmTransactionCriteria_Item) MergeEvmDataCriterion(v EvmDataCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsNetUSDChangeCriterion returns the union data inside the SendEndUserEvmTransactionCriteria_Item as a NetUSDChangeCriterion
+func (t SendEndUserEvmTransactionCriteria_Item) AsNetUSDChangeCriterion() (NetUSDChangeCriterion, error) {
+	var body NetUSDChangeCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromNetUSDChangeCriterion overwrites any union data inside the SendEndUserEvmTransactionCriteria_Item as the provided NetUSDChangeCriterion
+func (t *SendEndUserEvmTransactionCriteria_Item) FromNetUSDChangeCriterion(v NetUSDChangeCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeNetUSDChangeCriterion performs a merge with any union data inside the SendEndUserEvmTransactionCriteria_Item, using the provided NetUSDChangeCriterion
+func (t *SendEndUserEvmTransactionCriteria_Item) MergeNetUSDChangeCriterion(v NetUSDChangeCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t SendEndUserEvmTransactionCriteria_Item) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *SendEndUserEvmTransactionCriteria_Item) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsSolAddressCriterion returns the union data inside the SendEndUserSolTransactionCriteria_Item as a SolAddressCriterion
+func (t SendEndUserSolTransactionCriteria_Item) AsSolAddressCriterion() (SolAddressCriterion, error) {
+	var body SolAddressCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSolAddressCriterion overwrites any union data inside the SendEndUserSolTransactionCriteria_Item as the provided SolAddressCriterion
+func (t *SendEndUserSolTransactionCriteria_Item) FromSolAddressCriterion(v SolAddressCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSolAddressCriterion performs a merge with any union data inside the SendEndUserSolTransactionCriteria_Item, using the provided SolAddressCriterion
+func (t *SendEndUserSolTransactionCriteria_Item) MergeSolAddressCriterion(v SolAddressCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsSolValueCriterion returns the union data inside the SendEndUserSolTransactionCriteria_Item as a SolValueCriterion
+func (t SendEndUserSolTransactionCriteria_Item) AsSolValueCriterion() (SolValueCriterion, error) {
+	var body SolValueCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSolValueCriterion overwrites any union data inside the SendEndUserSolTransactionCriteria_Item as the provided SolValueCriterion
+func (t *SendEndUserSolTransactionCriteria_Item) FromSolValueCriterion(v SolValueCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSolValueCriterion performs a merge with any union data inside the SendEndUserSolTransactionCriteria_Item, using the provided SolValueCriterion
+func (t *SendEndUserSolTransactionCriteria_Item) MergeSolValueCriterion(v SolValueCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsSplAddressCriterion returns the union data inside the SendEndUserSolTransactionCriteria_Item as a SplAddressCriterion
+func (t SendEndUserSolTransactionCriteria_Item) AsSplAddressCriterion() (SplAddressCriterion, error) {
+	var body SplAddressCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSplAddressCriterion overwrites any union data inside the SendEndUserSolTransactionCriteria_Item as the provided SplAddressCriterion
+func (t *SendEndUserSolTransactionCriteria_Item) FromSplAddressCriterion(v SplAddressCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSplAddressCriterion performs a merge with any union data inside the SendEndUserSolTransactionCriteria_Item, using the provided SplAddressCriterion
+func (t *SendEndUserSolTransactionCriteria_Item) MergeSplAddressCriterion(v SplAddressCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsSplValueCriterion returns the union data inside the SendEndUserSolTransactionCriteria_Item as a SplValueCriterion
+func (t SendEndUserSolTransactionCriteria_Item) AsSplValueCriterion() (SplValueCriterion, error) {
+	var body SplValueCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSplValueCriterion overwrites any union data inside the SendEndUserSolTransactionCriteria_Item as the provided SplValueCriterion
+func (t *SendEndUserSolTransactionCriteria_Item) FromSplValueCriterion(v SplValueCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSplValueCriterion performs a merge with any union data inside the SendEndUserSolTransactionCriteria_Item, using the provided SplValueCriterion
+func (t *SendEndUserSolTransactionCriteria_Item) MergeSplValueCriterion(v SplValueCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsMintAddressCriterion returns the union data inside the SendEndUserSolTransactionCriteria_Item as a MintAddressCriterion
+func (t SendEndUserSolTransactionCriteria_Item) AsMintAddressCriterion() (MintAddressCriterion, error) {
+	var body MintAddressCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromMintAddressCriterion overwrites any union data inside the SendEndUserSolTransactionCriteria_Item as the provided MintAddressCriterion
+func (t *SendEndUserSolTransactionCriteria_Item) FromMintAddressCriterion(v MintAddressCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeMintAddressCriterion performs a merge with any union data inside the SendEndUserSolTransactionCriteria_Item, using the provided MintAddressCriterion
+func (t *SendEndUserSolTransactionCriteria_Item) MergeMintAddressCriterion(v MintAddressCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsSolDataCriterion returns the union data inside the SendEndUserSolTransactionCriteria_Item as a SolDataCriterion
+func (t SendEndUserSolTransactionCriteria_Item) AsSolDataCriterion() (SolDataCriterion, error) {
+	var body SolDataCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSolDataCriterion overwrites any union data inside the SendEndUserSolTransactionCriteria_Item as the provided SolDataCriterion
+func (t *SendEndUserSolTransactionCriteria_Item) FromSolDataCriterion(v SolDataCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSolDataCriterion performs a merge with any union data inside the SendEndUserSolTransactionCriteria_Item, using the provided SolDataCriterion
+func (t *SendEndUserSolTransactionCriteria_Item) MergeSolDataCriterion(v SolDataCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsProgramIdCriterion returns the union data inside the SendEndUserSolTransactionCriteria_Item as a ProgramIdCriterion
+func (t SendEndUserSolTransactionCriteria_Item) AsProgramIdCriterion() (ProgramIdCriterion, error) {
+	var body ProgramIdCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromProgramIdCriterion overwrites any union data inside the SendEndUserSolTransactionCriteria_Item as the provided ProgramIdCriterion
+func (t *SendEndUserSolTransactionCriteria_Item) FromProgramIdCriterion(v ProgramIdCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeProgramIdCriterion performs a merge with any union data inside the SendEndUserSolTransactionCriteria_Item, using the provided ProgramIdCriterion
+func (t *SendEndUserSolTransactionCriteria_Item) MergeProgramIdCriterion(v ProgramIdCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsSolNetworkCriterion returns the union data inside the SendEndUserSolTransactionCriteria_Item as a SolNetworkCriterion
+func (t SendEndUserSolTransactionCriteria_Item) AsSolNetworkCriterion() (SolNetworkCriterion, error) {
+	var body SolNetworkCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSolNetworkCriterion overwrites any union data inside the SendEndUserSolTransactionCriteria_Item as the provided SolNetworkCriterion
+func (t *SendEndUserSolTransactionCriteria_Item) FromSolNetworkCriterion(v SolNetworkCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSolNetworkCriterion performs a merge with any union data inside the SendEndUserSolTransactionCriteria_Item, using the provided SolNetworkCriterion
+func (t *SendEndUserSolTransactionCriteria_Item) MergeSolNetworkCriterion(v SolNetworkCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t SendEndUserSolTransactionCriteria_Item) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *SendEndUserSolTransactionCriteria_Item) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -5528,6 +6692,446 @@ func (t SendUserOperationCriteria_Item) MarshalJSON() ([]byte, error) {
 }
 
 func (t *SendUserOperationCriteria_Item) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsEvmMessageCriterion returns the union data inside the SignEndUserEvmMessageCriteria_Item as a EvmMessageCriterion
+func (t SignEndUserEvmMessageCriteria_Item) AsEvmMessageCriterion() (EvmMessageCriterion, error) {
+	var body EvmMessageCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromEvmMessageCriterion overwrites any union data inside the SignEndUserEvmMessageCriteria_Item as the provided EvmMessageCriterion
+func (t *SignEndUserEvmMessageCriteria_Item) FromEvmMessageCriterion(v EvmMessageCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeEvmMessageCriterion performs a merge with any union data inside the SignEndUserEvmMessageCriteria_Item, using the provided EvmMessageCriterion
+func (t *SignEndUserEvmMessageCriteria_Item) MergeEvmMessageCriterion(v EvmMessageCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t SignEndUserEvmMessageCriteria_Item) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *SignEndUserEvmMessageCriteria_Item) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsEthValueCriterion returns the union data inside the SignEndUserEvmTransactionCriteria_Item as a EthValueCriterion
+func (t SignEndUserEvmTransactionCriteria_Item) AsEthValueCriterion() (EthValueCriterion, error) {
+	var body EthValueCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromEthValueCriterion overwrites any union data inside the SignEndUserEvmTransactionCriteria_Item as the provided EthValueCriterion
+func (t *SignEndUserEvmTransactionCriteria_Item) FromEthValueCriterion(v EthValueCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeEthValueCriterion performs a merge with any union data inside the SignEndUserEvmTransactionCriteria_Item, using the provided EthValueCriterion
+func (t *SignEndUserEvmTransactionCriteria_Item) MergeEthValueCriterion(v EthValueCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsEvmAddressCriterion returns the union data inside the SignEndUserEvmTransactionCriteria_Item as a EvmAddressCriterion
+func (t SignEndUserEvmTransactionCriteria_Item) AsEvmAddressCriterion() (EvmAddressCriterion, error) {
+	var body EvmAddressCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromEvmAddressCriterion overwrites any union data inside the SignEndUserEvmTransactionCriteria_Item as the provided EvmAddressCriterion
+func (t *SignEndUserEvmTransactionCriteria_Item) FromEvmAddressCriterion(v EvmAddressCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeEvmAddressCriterion performs a merge with any union data inside the SignEndUserEvmTransactionCriteria_Item, using the provided EvmAddressCriterion
+func (t *SignEndUserEvmTransactionCriteria_Item) MergeEvmAddressCriterion(v EvmAddressCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsEvmDataCriterion returns the union data inside the SignEndUserEvmTransactionCriteria_Item as a EvmDataCriterion
+func (t SignEndUserEvmTransactionCriteria_Item) AsEvmDataCriterion() (EvmDataCriterion, error) {
+	var body EvmDataCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromEvmDataCriterion overwrites any union data inside the SignEndUserEvmTransactionCriteria_Item as the provided EvmDataCriterion
+func (t *SignEndUserEvmTransactionCriteria_Item) FromEvmDataCriterion(v EvmDataCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeEvmDataCriterion performs a merge with any union data inside the SignEndUserEvmTransactionCriteria_Item, using the provided EvmDataCriterion
+func (t *SignEndUserEvmTransactionCriteria_Item) MergeEvmDataCriterion(v EvmDataCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsNetUSDChangeCriterion returns the union data inside the SignEndUserEvmTransactionCriteria_Item as a NetUSDChangeCriterion
+func (t SignEndUserEvmTransactionCriteria_Item) AsNetUSDChangeCriterion() (NetUSDChangeCriterion, error) {
+	var body NetUSDChangeCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromNetUSDChangeCriterion overwrites any union data inside the SignEndUserEvmTransactionCriteria_Item as the provided NetUSDChangeCriterion
+func (t *SignEndUserEvmTransactionCriteria_Item) FromNetUSDChangeCriterion(v NetUSDChangeCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeNetUSDChangeCriterion performs a merge with any union data inside the SignEndUserEvmTransactionCriteria_Item, using the provided NetUSDChangeCriterion
+func (t *SignEndUserEvmTransactionCriteria_Item) MergeNetUSDChangeCriterion(v NetUSDChangeCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t SignEndUserEvmTransactionCriteria_Item) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *SignEndUserEvmTransactionCriteria_Item) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsSignEvmTypedDataFieldCriterion returns the union data inside the SignEndUserEvmTypedDataCriteria_Item as a SignEvmTypedDataFieldCriterion
+func (t SignEndUserEvmTypedDataCriteria_Item) AsSignEvmTypedDataFieldCriterion() (SignEvmTypedDataFieldCriterion, error) {
+	var body SignEvmTypedDataFieldCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSignEvmTypedDataFieldCriterion overwrites any union data inside the SignEndUserEvmTypedDataCriteria_Item as the provided SignEvmTypedDataFieldCriterion
+func (t *SignEndUserEvmTypedDataCriteria_Item) FromSignEvmTypedDataFieldCriterion(v SignEvmTypedDataFieldCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSignEvmTypedDataFieldCriterion performs a merge with any union data inside the SignEndUserEvmTypedDataCriteria_Item, using the provided SignEvmTypedDataFieldCriterion
+func (t *SignEndUserEvmTypedDataCriteria_Item) MergeSignEvmTypedDataFieldCriterion(v SignEvmTypedDataFieldCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsSignEvmTypedDataVerifyingContractCriterion returns the union data inside the SignEndUserEvmTypedDataCriteria_Item as a SignEvmTypedDataVerifyingContractCriterion
+func (t SignEndUserEvmTypedDataCriteria_Item) AsSignEvmTypedDataVerifyingContractCriterion() (SignEvmTypedDataVerifyingContractCriterion, error) {
+	var body SignEvmTypedDataVerifyingContractCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSignEvmTypedDataVerifyingContractCriterion overwrites any union data inside the SignEndUserEvmTypedDataCriteria_Item as the provided SignEvmTypedDataVerifyingContractCriterion
+func (t *SignEndUserEvmTypedDataCriteria_Item) FromSignEvmTypedDataVerifyingContractCriterion(v SignEvmTypedDataVerifyingContractCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSignEvmTypedDataVerifyingContractCriterion performs a merge with any union data inside the SignEndUserEvmTypedDataCriteria_Item, using the provided SignEvmTypedDataVerifyingContractCriterion
+func (t *SignEndUserEvmTypedDataCriteria_Item) MergeSignEvmTypedDataVerifyingContractCriterion(v SignEvmTypedDataVerifyingContractCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t SignEndUserEvmTypedDataCriteria_Item) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *SignEndUserEvmTypedDataCriteria_Item) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsSolMessageCriterion returns the union data inside the SignEndUserSolMessageCriteria_Item as a SolMessageCriterion
+func (t SignEndUserSolMessageCriteria_Item) AsSolMessageCriterion() (SolMessageCriterion, error) {
+	var body SolMessageCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSolMessageCriterion overwrites any union data inside the SignEndUserSolMessageCriteria_Item as the provided SolMessageCriterion
+func (t *SignEndUserSolMessageCriteria_Item) FromSolMessageCriterion(v SolMessageCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSolMessageCriterion performs a merge with any union data inside the SignEndUserSolMessageCriteria_Item, using the provided SolMessageCriterion
+func (t *SignEndUserSolMessageCriteria_Item) MergeSolMessageCriterion(v SolMessageCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t SignEndUserSolMessageCriteria_Item) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *SignEndUserSolMessageCriteria_Item) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsSolAddressCriterion returns the union data inside the SignEndUserSolTransactionCriteria_Item as a SolAddressCriterion
+func (t SignEndUserSolTransactionCriteria_Item) AsSolAddressCriterion() (SolAddressCriterion, error) {
+	var body SolAddressCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSolAddressCriterion overwrites any union data inside the SignEndUserSolTransactionCriteria_Item as the provided SolAddressCriterion
+func (t *SignEndUserSolTransactionCriteria_Item) FromSolAddressCriterion(v SolAddressCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSolAddressCriterion performs a merge with any union data inside the SignEndUserSolTransactionCriteria_Item, using the provided SolAddressCriterion
+func (t *SignEndUserSolTransactionCriteria_Item) MergeSolAddressCriterion(v SolAddressCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsSolValueCriterion returns the union data inside the SignEndUserSolTransactionCriteria_Item as a SolValueCriterion
+func (t SignEndUserSolTransactionCriteria_Item) AsSolValueCriterion() (SolValueCriterion, error) {
+	var body SolValueCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSolValueCriterion overwrites any union data inside the SignEndUserSolTransactionCriteria_Item as the provided SolValueCriterion
+func (t *SignEndUserSolTransactionCriteria_Item) FromSolValueCriterion(v SolValueCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSolValueCriterion performs a merge with any union data inside the SignEndUserSolTransactionCriteria_Item, using the provided SolValueCriterion
+func (t *SignEndUserSolTransactionCriteria_Item) MergeSolValueCriterion(v SolValueCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsSplAddressCriterion returns the union data inside the SignEndUserSolTransactionCriteria_Item as a SplAddressCriterion
+func (t SignEndUserSolTransactionCriteria_Item) AsSplAddressCriterion() (SplAddressCriterion, error) {
+	var body SplAddressCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSplAddressCriterion overwrites any union data inside the SignEndUserSolTransactionCriteria_Item as the provided SplAddressCriterion
+func (t *SignEndUserSolTransactionCriteria_Item) FromSplAddressCriterion(v SplAddressCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSplAddressCriterion performs a merge with any union data inside the SignEndUserSolTransactionCriteria_Item, using the provided SplAddressCriterion
+func (t *SignEndUserSolTransactionCriteria_Item) MergeSplAddressCriterion(v SplAddressCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsSplValueCriterion returns the union data inside the SignEndUserSolTransactionCriteria_Item as a SplValueCriterion
+func (t SignEndUserSolTransactionCriteria_Item) AsSplValueCriterion() (SplValueCriterion, error) {
+	var body SplValueCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSplValueCriterion overwrites any union data inside the SignEndUserSolTransactionCriteria_Item as the provided SplValueCriterion
+func (t *SignEndUserSolTransactionCriteria_Item) FromSplValueCriterion(v SplValueCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSplValueCriterion performs a merge with any union data inside the SignEndUserSolTransactionCriteria_Item, using the provided SplValueCriterion
+func (t *SignEndUserSolTransactionCriteria_Item) MergeSplValueCriterion(v SplValueCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsMintAddressCriterion returns the union data inside the SignEndUserSolTransactionCriteria_Item as a MintAddressCriterion
+func (t SignEndUserSolTransactionCriteria_Item) AsMintAddressCriterion() (MintAddressCriterion, error) {
+	var body MintAddressCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromMintAddressCriterion overwrites any union data inside the SignEndUserSolTransactionCriteria_Item as the provided MintAddressCriterion
+func (t *SignEndUserSolTransactionCriteria_Item) FromMintAddressCriterion(v MintAddressCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeMintAddressCriterion performs a merge with any union data inside the SignEndUserSolTransactionCriteria_Item, using the provided MintAddressCriterion
+func (t *SignEndUserSolTransactionCriteria_Item) MergeMintAddressCriterion(v MintAddressCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsSolDataCriterion returns the union data inside the SignEndUserSolTransactionCriteria_Item as a SolDataCriterion
+func (t SignEndUserSolTransactionCriteria_Item) AsSolDataCriterion() (SolDataCriterion, error) {
+	var body SolDataCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSolDataCriterion overwrites any union data inside the SignEndUserSolTransactionCriteria_Item as the provided SolDataCriterion
+func (t *SignEndUserSolTransactionCriteria_Item) FromSolDataCriterion(v SolDataCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSolDataCriterion performs a merge with any union data inside the SignEndUserSolTransactionCriteria_Item, using the provided SolDataCriterion
+func (t *SignEndUserSolTransactionCriteria_Item) MergeSolDataCriterion(v SolDataCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsProgramIdCriterion returns the union data inside the SignEndUserSolTransactionCriteria_Item as a ProgramIdCriterion
+func (t SignEndUserSolTransactionCriteria_Item) AsProgramIdCriterion() (ProgramIdCriterion, error) {
+	var body ProgramIdCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromProgramIdCriterion overwrites any union data inside the SignEndUserSolTransactionCriteria_Item as the provided ProgramIdCriterion
+func (t *SignEndUserSolTransactionCriteria_Item) FromProgramIdCriterion(v ProgramIdCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeProgramIdCriterion performs a merge with any union data inside the SignEndUserSolTransactionCriteria_Item, using the provided ProgramIdCriterion
+func (t *SignEndUserSolTransactionCriteria_Item) MergeProgramIdCriterion(v ProgramIdCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t SignEndUserSolTransactionCriteria_Item) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *SignEndUserSolTransactionCriteria_Item) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -6184,394 +7788,6 @@ func (t *SolDataCriterion_Idls_Item) UnmarshalJSON(b []byte) error {
 	return err
 }
 
-// AsWebhookSubscriptionRequest0 returns the union data inside the WebhookSubscriptionRequest as a WebhookSubscriptionRequest0
-func (t WebhookSubscriptionRequest) AsWebhookSubscriptionRequest0() (WebhookSubscriptionRequest0, error) {
-	var body WebhookSubscriptionRequest0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromWebhookSubscriptionRequest0 overwrites any union data inside the WebhookSubscriptionRequest as the provided WebhookSubscriptionRequest0
-func (t *WebhookSubscriptionRequest) FromWebhookSubscriptionRequest0(v WebhookSubscriptionRequest0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeWebhookSubscriptionRequest0 performs a merge with any union data inside the WebhookSubscriptionRequest, using the provided WebhookSubscriptionRequest0
-func (t *WebhookSubscriptionRequest) MergeWebhookSubscriptionRequest0(v WebhookSubscriptionRequest0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JsonMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsWebhookSubscriptionRequest1 returns the union data inside the WebhookSubscriptionRequest as a WebhookSubscriptionRequest1
-func (t WebhookSubscriptionRequest) AsWebhookSubscriptionRequest1() (WebhookSubscriptionRequest1, error) {
-	var body WebhookSubscriptionRequest1
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromWebhookSubscriptionRequest1 overwrites any union data inside the WebhookSubscriptionRequest as the provided WebhookSubscriptionRequest1
-func (t *WebhookSubscriptionRequest) FromWebhookSubscriptionRequest1(v WebhookSubscriptionRequest1) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeWebhookSubscriptionRequest1 performs a merge with any union data inside the WebhookSubscriptionRequest, using the provided WebhookSubscriptionRequest1
-func (t *WebhookSubscriptionRequest) MergeWebhookSubscriptionRequest1(v WebhookSubscriptionRequest1) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JsonMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t WebhookSubscriptionRequest) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	if err != nil {
-		return nil, err
-	}
-	object := make(map[string]json.RawMessage)
-	if t.union != nil {
-		err = json.Unmarshal(b, &object)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	if t.Description != nil {
-		object["description"], err = json.Marshal(t.Description)
-		if err != nil {
-			return nil, fmt.Errorf("error marshaling 'description': %w", err)
-		}
-	}
-
-	if t.EventTypes != nil {
-		object["eventTypes"], err = json.Marshal(t.EventTypes)
-		if err != nil {
-			return nil, fmt.Errorf("error marshaling 'eventTypes': %w", err)
-		}
-	}
-
-	if t.IsEnabled != nil {
-		object["isEnabled"], err = json.Marshal(t.IsEnabled)
-		if err != nil {
-			return nil, fmt.Errorf("error marshaling 'isEnabled': %w", err)
-		}
-	}
-
-	if t.LabelKey != nil {
-		object["labelKey"], err = json.Marshal(t.LabelKey)
-		if err != nil {
-			return nil, fmt.Errorf("error marshaling 'labelKey': %w", err)
-		}
-	}
-
-	if t.LabelValue != nil {
-		object["labelValue"], err = json.Marshal(t.LabelValue)
-		if err != nil {
-			return nil, fmt.Errorf("error marshaling 'labelValue': %w", err)
-		}
-	}
-
-	if t.Labels != nil {
-		object["labels"], err = json.Marshal(t.Labels)
-		if err != nil {
-			return nil, fmt.Errorf("error marshaling 'labels': %w", err)
-		}
-	}
-
-	if t.Metadata != nil {
-		object["metadata"], err = json.Marshal(t.Metadata)
-		if err != nil {
-			return nil, fmt.Errorf("error marshaling 'metadata': %w", err)
-		}
-	}
-
-	if t.Target != nil {
-		object["target"], err = json.Marshal(t.Target)
-		if err != nil {
-			return nil, fmt.Errorf("error marshaling 'target': %w", err)
-		}
-	}
-	b, err = json.Marshal(object)
-	return b, err
-}
-
-func (t *WebhookSubscriptionRequest) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	if err != nil {
-		return err
-	}
-	object := make(map[string]json.RawMessage)
-	err = json.Unmarshal(b, &object)
-	if err != nil {
-		return err
-	}
-
-	if raw, found := object["description"]; found {
-		err = json.Unmarshal(raw, &t.Description)
-		if err != nil {
-			return fmt.Errorf("error reading 'description': %w", err)
-		}
-	}
-
-	if raw, found := object["eventTypes"]; found {
-		err = json.Unmarshal(raw, &t.EventTypes)
-		if err != nil {
-			return fmt.Errorf("error reading 'eventTypes': %w", err)
-		}
-	}
-
-	if raw, found := object["isEnabled"]; found {
-		err = json.Unmarshal(raw, &t.IsEnabled)
-		if err != nil {
-			return fmt.Errorf("error reading 'isEnabled': %w", err)
-		}
-	}
-
-	if raw, found := object["labelKey"]; found {
-		err = json.Unmarshal(raw, &t.LabelKey)
-		if err != nil {
-			return fmt.Errorf("error reading 'labelKey': %w", err)
-		}
-	}
-
-	if raw, found := object["labelValue"]; found {
-		err = json.Unmarshal(raw, &t.LabelValue)
-		if err != nil {
-			return fmt.Errorf("error reading 'labelValue': %w", err)
-		}
-	}
-
-	if raw, found := object["labels"]; found {
-		err = json.Unmarshal(raw, &t.Labels)
-		if err != nil {
-			return fmt.Errorf("error reading 'labels': %w", err)
-		}
-	}
-
-	if raw, found := object["metadata"]; found {
-		err = json.Unmarshal(raw, &t.Metadata)
-		if err != nil {
-			return fmt.Errorf("error reading 'metadata': %w", err)
-		}
-	}
-
-	if raw, found := object["target"]; found {
-		err = json.Unmarshal(raw, &t.Target)
-		if err != nil {
-			return fmt.Errorf("error reading 'target': %w", err)
-		}
-	}
-
-	return err
-}
-
-// AsWebhookSubscriptionUpdateRequest0 returns the union data inside the WebhookSubscriptionUpdateRequest as a WebhookSubscriptionUpdateRequest0
-func (t WebhookSubscriptionUpdateRequest) AsWebhookSubscriptionUpdateRequest0() (WebhookSubscriptionUpdateRequest0, error) {
-	var body WebhookSubscriptionUpdateRequest0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromWebhookSubscriptionUpdateRequest0 overwrites any union data inside the WebhookSubscriptionUpdateRequest as the provided WebhookSubscriptionUpdateRequest0
-func (t *WebhookSubscriptionUpdateRequest) FromWebhookSubscriptionUpdateRequest0(v WebhookSubscriptionUpdateRequest0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeWebhookSubscriptionUpdateRequest0 performs a merge with any union data inside the WebhookSubscriptionUpdateRequest, using the provided WebhookSubscriptionUpdateRequest0
-func (t *WebhookSubscriptionUpdateRequest) MergeWebhookSubscriptionUpdateRequest0(v WebhookSubscriptionUpdateRequest0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JsonMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsWebhookSubscriptionUpdateRequest1 returns the union data inside the WebhookSubscriptionUpdateRequest as a WebhookSubscriptionUpdateRequest1
-func (t WebhookSubscriptionUpdateRequest) AsWebhookSubscriptionUpdateRequest1() (WebhookSubscriptionUpdateRequest1, error) {
-	var body WebhookSubscriptionUpdateRequest1
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromWebhookSubscriptionUpdateRequest1 overwrites any union data inside the WebhookSubscriptionUpdateRequest as the provided WebhookSubscriptionUpdateRequest1
-func (t *WebhookSubscriptionUpdateRequest) FromWebhookSubscriptionUpdateRequest1(v WebhookSubscriptionUpdateRequest1) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeWebhookSubscriptionUpdateRequest1 performs a merge with any union data inside the WebhookSubscriptionUpdateRequest, using the provided WebhookSubscriptionUpdateRequest1
-func (t *WebhookSubscriptionUpdateRequest) MergeWebhookSubscriptionUpdateRequest1(v WebhookSubscriptionUpdateRequest1) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JsonMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t WebhookSubscriptionUpdateRequest) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	if err != nil {
-		return nil, err
-	}
-	object := make(map[string]json.RawMessage)
-	if t.union != nil {
-		err = json.Unmarshal(b, &object)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	if t.Description != nil {
-		object["description"], err = json.Marshal(t.Description)
-		if err != nil {
-			return nil, fmt.Errorf("error marshaling 'description': %w", err)
-		}
-	}
-
-	if t.EventTypes != nil {
-		object["eventTypes"], err = json.Marshal(t.EventTypes)
-		if err != nil {
-			return nil, fmt.Errorf("error marshaling 'eventTypes': %w", err)
-		}
-	}
-
-	if t.IsEnabled != nil {
-		object["isEnabled"], err = json.Marshal(t.IsEnabled)
-		if err != nil {
-			return nil, fmt.Errorf("error marshaling 'isEnabled': %w", err)
-		}
-	}
-
-	if t.LabelKey != nil {
-		object["labelKey"], err = json.Marshal(t.LabelKey)
-		if err != nil {
-			return nil, fmt.Errorf("error marshaling 'labelKey': %w", err)
-		}
-	}
-
-	if t.LabelValue != nil {
-		object["labelValue"], err = json.Marshal(t.LabelValue)
-		if err != nil {
-			return nil, fmt.Errorf("error marshaling 'labelValue': %w", err)
-		}
-	}
-
-	if t.Labels != nil {
-		object["labels"], err = json.Marshal(t.Labels)
-		if err != nil {
-			return nil, fmt.Errorf("error marshaling 'labels': %w", err)
-		}
-	}
-
-	if t.Metadata != nil {
-		object["metadata"], err = json.Marshal(t.Metadata)
-		if err != nil {
-			return nil, fmt.Errorf("error marshaling 'metadata': %w", err)
-		}
-	}
-
-	if t.Target != nil {
-		object["target"], err = json.Marshal(t.Target)
-		if err != nil {
-			return nil, fmt.Errorf("error marshaling 'target': %w", err)
-		}
-	}
-	b, err = json.Marshal(object)
-	return b, err
-}
-
-func (t *WebhookSubscriptionUpdateRequest) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	if err != nil {
-		return err
-	}
-	object := make(map[string]json.RawMessage)
-	err = json.Unmarshal(b, &object)
-	if err != nil {
-		return err
-	}
-
-	if raw, found := object["description"]; found {
-		err = json.Unmarshal(raw, &t.Description)
-		if err != nil {
-			return fmt.Errorf("error reading 'description': %w", err)
-		}
-	}
-
-	if raw, found := object["eventTypes"]; found {
-		err = json.Unmarshal(raw, &t.EventTypes)
-		if err != nil {
-			return fmt.Errorf("error reading 'eventTypes': %w", err)
-		}
-	}
-
-	if raw, found := object["isEnabled"]; found {
-		err = json.Unmarshal(raw, &t.IsEnabled)
-		if err != nil {
-			return fmt.Errorf("error reading 'isEnabled': %w", err)
-		}
-	}
-
-	if raw, found := object["labelKey"]; found {
-		err = json.Unmarshal(raw, &t.LabelKey)
-		if err != nil {
-			return fmt.Errorf("error reading 'labelKey': %w", err)
-		}
-	}
-
-	if raw, found := object["labelValue"]; found {
-		err = json.Unmarshal(raw, &t.LabelValue)
-		if err != nil {
-			return fmt.Errorf("error reading 'labelValue': %w", err)
-		}
-	}
-
-	if raw, found := object["labels"]; found {
-		err = json.Unmarshal(raw, &t.Labels)
-		if err != nil {
-			return fmt.Errorf("error reading 'labels': %w", err)
-		}
-	}
-
-	if raw, found := object["metadata"]; found {
-		err = json.Unmarshal(raw, &t.Metadata)
-		if err != nil {
-			return fmt.Errorf("error reading 'metadata': %w", err)
-		}
-	}
-
-	if raw, found := object["target"]; found {
-		err = json.Unmarshal(raw, &t.Target)
-		if err != nil {
-			return fmt.Errorf("error reading 'target': %w", err)
-		}
-	}
-
-	return err
-}
-
 // AsX402V1PaymentPayload returns the union data inside the X402PaymentPayload as a X402V1PaymentPayload
 func (t X402PaymentPayload) AsX402V1PaymentPayload() (X402V1PaymentPayload, error) {
 	var body X402V1PaymentPayload
@@ -6722,6 +7938,32 @@ func (t *X402V1PaymentPayload_Payload) MergeX402ExactEvmPayload(v X402ExactEvmPa
 	return err
 }
 
+// AsX402ExactEvmPermit2Payload returns the union data inside the X402V1PaymentPayload_Payload as a X402ExactEvmPermit2Payload
+func (t X402V1PaymentPayload_Payload) AsX402ExactEvmPermit2Payload() (X402ExactEvmPermit2Payload, error) {
+	var body X402ExactEvmPermit2Payload
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromX402ExactEvmPermit2Payload overwrites any union data inside the X402V1PaymentPayload_Payload as the provided X402ExactEvmPermit2Payload
+func (t *X402V1PaymentPayload_Payload) FromX402ExactEvmPermit2Payload(v X402ExactEvmPermit2Payload) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeX402ExactEvmPermit2Payload performs a merge with any union data inside the X402V1PaymentPayload_Payload, using the provided X402ExactEvmPermit2Payload
+func (t *X402V1PaymentPayload_Payload) MergeX402ExactEvmPermit2Payload(v X402ExactEvmPermit2Payload) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
 // AsX402ExactSolanaPayload returns the union data inside the X402V1PaymentPayload_Payload as a X402ExactSolanaPayload
 func (t X402V1PaymentPayload_Payload) AsX402ExactSolanaPayload() (X402ExactSolanaPayload, error) {
 	var body X402ExactSolanaPayload
@@ -6774,6 +8016,32 @@ func (t *X402V2PaymentPayload_Payload) FromX402ExactEvmPayload(v X402ExactEvmPay
 
 // MergeX402ExactEvmPayload performs a merge with any union data inside the X402V2PaymentPayload_Payload, using the provided X402ExactEvmPayload
 func (t *X402V2PaymentPayload_Payload) MergeX402ExactEvmPayload(v X402ExactEvmPayload) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsX402ExactEvmPermit2Payload returns the union data inside the X402V2PaymentPayload_Payload as a X402ExactEvmPermit2Payload
+func (t X402V2PaymentPayload_Payload) AsX402ExactEvmPermit2Payload() (X402ExactEvmPermit2Payload, error) {
+	var body X402ExactEvmPermit2Payload
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromX402ExactEvmPermit2Payload overwrites any union data inside the X402V2PaymentPayload_Payload as the provided X402ExactEvmPermit2Payload
+func (t *X402V2PaymentPayload_Payload) FromX402ExactEvmPermit2Payload(v X402ExactEvmPermit2Payload) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeX402ExactEvmPermit2Payload performs a merge with any union data inside the X402V2PaymentPayload_Payload, using the provided X402ExactEvmPermit2Payload
+func (t *X402V2PaymentPayload_Payload) MergeX402ExactEvmPermit2Payload(v X402ExactEvmPermit2Payload) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -6947,6 +8215,21 @@ type ClientInterface interface {
 	// GetEndUser request
 	GetEndUser(ctx context.Context, userId string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// AddEndUserEvmAccountWithBody request with any body
+	AddEndUserEvmAccountWithBody(ctx context.Context, userId string, params *AddEndUserEvmAccountParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	AddEndUserEvmAccount(ctx context.Context, userId string, params *AddEndUserEvmAccountParams, body AddEndUserEvmAccountJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AddEndUserEvmSmartAccountWithBody request with any body
+	AddEndUserEvmSmartAccountWithBody(ctx context.Context, userId string, params *AddEndUserEvmSmartAccountParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	AddEndUserEvmSmartAccount(ctx context.Context, userId string, params *AddEndUserEvmSmartAccountParams, body AddEndUserEvmSmartAccountJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AddEndUserSolanaAccountWithBody request with any body
+	AddEndUserSolanaAccountWithBody(ctx context.Context, userId string, params *AddEndUserSolanaAccountParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	AddEndUserSolanaAccount(ctx context.Context, userId string, params *AddEndUserSolanaAccountParams, body AddEndUserSolanaAccountJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// ListEvmAccounts request
 	ListEvmAccounts(ctx context.Context, params *ListEvmAccountsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -6975,6 +8258,11 @@ type ClientInterface interface {
 	UpdateEvmAccountWithBody(ctx context.Context, address string, params *UpdateEvmAccountParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	UpdateEvmAccount(ctx context.Context, address string, params *UpdateEvmAccountParams, body UpdateEvmAccountJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CreateEvmEip7702DelegationWithBody request with any body
+	CreateEvmEip7702DelegationWithBody(ctx context.Context, address string, params *CreateEvmEip7702DelegationParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CreateEvmEip7702Delegation(ctx context.Context, address string, params *CreateEvmEip7702DelegationParams, body CreateEvmEip7702DelegationJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// ExportEvmAccountWithBody request with any body
 	ExportEvmAccountWithBody(ctx context.Context, address string, params *ExportEvmAccountParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -7005,6 +8293,9 @@ type ClientInterface interface {
 	SignEvmTypedDataWithBody(ctx context.Context, address string, params *SignEvmTypedDataParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	SignEvmTypedData(ctx context.Context, address string, params *SignEvmTypedDataParams, body SignEvmTypedDataJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetEvmEip7702DelegationOperationById request
+	GetEvmEip7702DelegationOperationById(ctx context.Context, delegationOperationId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// RequestEvmFaucetWithBody request with any body
 	RequestEvmFaucetWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -7071,6 +8362,11 @@ type ClientInterface interface {
 
 	// ListEvmTokenBalances request
 	ListEvmTokenBalances(ctx context.Context, network ListEvmTokenBalancesNetwork, address string, params *ListEvmTokenBalancesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetOnrampUserLimitsWithBody request with any body
+	GetOnrampUserLimitsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	GetOnrampUserLimits(ctx context.Context, body GetOnrampUserLimitsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// CreateOnrampOrderWithBody request with any body
 	CreateOnrampOrderWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -7415,6 +8711,78 @@ func (c *CDPClient) GetEndUser(ctx context.Context, userId string, reqEditors ..
 	return c.Client.Do(req)
 }
 
+func (c *CDPClient) AddEndUserEvmAccountWithBody(ctx context.Context, userId string, params *AddEndUserEvmAccountParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAddEndUserEvmAccountRequestWithBody(c.Server, userId, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *CDPClient) AddEndUserEvmAccount(ctx context.Context, userId string, params *AddEndUserEvmAccountParams, body AddEndUserEvmAccountJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAddEndUserEvmAccountRequest(c.Server, userId, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *CDPClient) AddEndUserEvmSmartAccountWithBody(ctx context.Context, userId string, params *AddEndUserEvmSmartAccountParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAddEndUserEvmSmartAccountRequestWithBody(c.Server, userId, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *CDPClient) AddEndUserEvmSmartAccount(ctx context.Context, userId string, params *AddEndUserEvmSmartAccountParams, body AddEndUserEvmSmartAccountJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAddEndUserEvmSmartAccountRequest(c.Server, userId, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *CDPClient) AddEndUserSolanaAccountWithBody(ctx context.Context, userId string, params *AddEndUserSolanaAccountParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAddEndUserSolanaAccountRequestWithBody(c.Server, userId, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *CDPClient) AddEndUserSolanaAccount(ctx context.Context, userId string, params *AddEndUserSolanaAccountParams, body AddEndUserSolanaAccountJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAddEndUserSolanaAccountRequest(c.Server, userId, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *CDPClient) ListEvmAccounts(ctx context.Context, params *ListEvmAccountsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewListEvmAccountsRequest(c.Server, params)
 	if err != nil {
@@ -7537,6 +8905,30 @@ func (c *CDPClient) UpdateEvmAccountWithBody(ctx context.Context, address string
 
 func (c *CDPClient) UpdateEvmAccount(ctx context.Context, address string, params *UpdateEvmAccountParams, body UpdateEvmAccountJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewUpdateEvmAccountRequest(c.Server, address, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *CDPClient) CreateEvmEip7702DelegationWithBody(ctx context.Context, address string, params *CreateEvmEip7702DelegationParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateEvmEip7702DelegationRequestWithBody(c.Server, address, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *CDPClient) CreateEvmEip7702Delegation(ctx context.Context, address string, params *CreateEvmEip7702DelegationParams, body CreateEvmEip7702DelegationJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateEvmEip7702DelegationRequest(c.Server, address, params, body)
 	if err != nil {
 		return nil, err
 	}
@@ -7681,6 +9073,18 @@ func (c *CDPClient) SignEvmTypedDataWithBody(ctx context.Context, address string
 
 func (c *CDPClient) SignEvmTypedData(ctx context.Context, address string, params *SignEvmTypedDataParams, body SignEvmTypedDataJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewSignEvmTypedDataRequest(c.Server, address, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *CDPClient) GetEvmEip7702DelegationOperationById(ctx context.Context, delegationOperationId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetEvmEip7702DelegationOperationByIdRequest(c.Server, delegationOperationId)
 	if err != nil {
 		return nil, err
 	}
@@ -7981,6 +9385,30 @@ func (c *CDPClient) GetEvmSwapPrice(ctx context.Context, params *GetEvmSwapPrice
 
 func (c *CDPClient) ListEvmTokenBalances(ctx context.Context, network ListEvmTokenBalancesNetwork, address string, params *ListEvmTokenBalancesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewListEvmTokenBalancesRequest(c.Server, network, address, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *CDPClient) GetOnrampUserLimitsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetOnrampUserLimitsRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *CDPClient) GetOnrampUserLimits(ctx context.Context, body GetOnrampUserLimitsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetOnrampUserLimitsRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -9153,6 +10581,225 @@ func NewGetEndUserRequest(server string, userId string) (*http.Request, error) {
 	return req, nil
 }
 
+// NewAddEndUserEvmAccountRequest calls the generic AddEndUserEvmAccount builder with application/json body
+func NewAddEndUserEvmAccountRequest(server string, userId string, params *AddEndUserEvmAccountParams, body AddEndUserEvmAccountJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewAddEndUserEvmAccountRequestWithBody(server, userId, params, "application/json", bodyReader)
+}
+
+// NewAddEndUserEvmAccountRequestWithBody generates requests for AddEndUserEvmAccount with any type of body
+func NewAddEndUserEvmAccountRequestWithBody(server string, userId string, params *AddEndUserEvmAccountParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "userId", runtime.ParamLocationPath, userId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/end-users/%s/evm", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	if params != nil {
+
+		if params.XWalletAuth != nil {
+			var headerParam0 string
+
+			headerParam0, err = runtime.StyleParamWithLocation("simple", false, "X-Wallet-Auth", runtime.ParamLocationHeader, *params.XWalletAuth)
+			if err != nil {
+				return nil, err
+			}
+
+			req.Header.Set("X-Wallet-Auth", headerParam0)
+		}
+
+		if params.XIdempotencyKey != nil {
+			var headerParam1 string
+
+			headerParam1, err = runtime.StyleParamWithLocation("simple", false, "X-Idempotency-Key", runtime.ParamLocationHeader, *params.XIdempotencyKey)
+			if err != nil {
+				return nil, err
+			}
+
+			req.Header.Set("X-Idempotency-Key", headerParam1)
+		}
+
+	}
+
+	return req, nil
+}
+
+// NewAddEndUserEvmSmartAccountRequest calls the generic AddEndUserEvmSmartAccount builder with application/json body
+func NewAddEndUserEvmSmartAccountRequest(server string, userId string, params *AddEndUserEvmSmartAccountParams, body AddEndUserEvmSmartAccountJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewAddEndUserEvmSmartAccountRequestWithBody(server, userId, params, "application/json", bodyReader)
+}
+
+// NewAddEndUserEvmSmartAccountRequestWithBody generates requests for AddEndUserEvmSmartAccount with any type of body
+func NewAddEndUserEvmSmartAccountRequestWithBody(server string, userId string, params *AddEndUserEvmSmartAccountParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "userId", runtime.ParamLocationPath, userId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/end-users/%s/evm-smart-account", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	if params != nil {
+
+		if params.XWalletAuth != nil {
+			var headerParam0 string
+
+			headerParam0, err = runtime.StyleParamWithLocation("simple", false, "X-Wallet-Auth", runtime.ParamLocationHeader, *params.XWalletAuth)
+			if err != nil {
+				return nil, err
+			}
+
+			req.Header.Set("X-Wallet-Auth", headerParam0)
+		}
+
+		if params.XIdempotencyKey != nil {
+			var headerParam1 string
+
+			headerParam1, err = runtime.StyleParamWithLocation("simple", false, "X-Idempotency-Key", runtime.ParamLocationHeader, *params.XIdempotencyKey)
+			if err != nil {
+				return nil, err
+			}
+
+			req.Header.Set("X-Idempotency-Key", headerParam1)
+		}
+
+	}
+
+	return req, nil
+}
+
+// NewAddEndUserSolanaAccountRequest calls the generic AddEndUserSolanaAccount builder with application/json body
+func NewAddEndUserSolanaAccountRequest(server string, userId string, params *AddEndUserSolanaAccountParams, body AddEndUserSolanaAccountJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewAddEndUserSolanaAccountRequestWithBody(server, userId, params, "application/json", bodyReader)
+}
+
+// NewAddEndUserSolanaAccountRequestWithBody generates requests for AddEndUserSolanaAccount with any type of body
+func NewAddEndUserSolanaAccountRequestWithBody(server string, userId string, params *AddEndUserSolanaAccountParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "userId", runtime.ParamLocationPath, userId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/end-users/%s/solana", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	if params != nil {
+
+		if params.XWalletAuth != nil {
+			var headerParam0 string
+
+			headerParam0, err = runtime.StyleParamWithLocation("simple", false, "X-Wallet-Auth", runtime.ParamLocationHeader, *params.XWalletAuth)
+			if err != nil {
+				return nil, err
+			}
+
+			req.Header.Set("X-Wallet-Auth", headerParam0)
+		}
+
+		if params.XIdempotencyKey != nil {
+			var headerParam1 string
+
+			headerParam1, err = runtime.StyleParamWithLocation("simple", false, "X-Idempotency-Key", runtime.ParamLocationHeader, *params.XIdempotencyKey)
+			if err != nil {
+				return nil, err
+			}
+
+			req.Header.Set("X-Idempotency-Key", headerParam1)
+		}
+
+	}
+
+	return req, nil
+}
+
 // NewListEvmAccountsRequest generates requests for ListEvmAccounts
 func NewListEvmAccountsRequest(server string, params *ListEvmAccountsParams) (*http.Request, error) {
 	var err error
@@ -9546,6 +11193,79 @@ func NewUpdateEvmAccountRequestWithBody(server string, address string, params *U
 			}
 
 			req.Header.Set("X-Idempotency-Key", headerParam0)
+		}
+
+	}
+
+	return req, nil
+}
+
+// NewCreateEvmEip7702DelegationRequest calls the generic CreateEvmEip7702Delegation builder with application/json body
+func NewCreateEvmEip7702DelegationRequest(server string, address string, params *CreateEvmEip7702DelegationParams, body CreateEvmEip7702DelegationJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCreateEvmEip7702DelegationRequestWithBody(server, address, params, "application/json", bodyReader)
+}
+
+// NewCreateEvmEip7702DelegationRequestWithBody generates requests for CreateEvmEip7702Delegation with any type of body
+func NewCreateEvmEip7702DelegationRequestWithBody(server string, address string, params *CreateEvmEip7702DelegationParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "address", runtime.ParamLocationPath, address)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/evm/accounts/%s/eip7702/delegation", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	if params != nil {
+
+		if params.XWalletAuth != nil {
+			var headerParam0 string
+
+			headerParam0, err = runtime.StyleParamWithLocation("simple", false, "X-Wallet-Auth", runtime.ParamLocationHeader, *params.XWalletAuth)
+			if err != nil {
+				return nil, err
+			}
+
+			req.Header.Set("X-Wallet-Auth", headerParam0)
+		}
+
+		if params.XIdempotencyKey != nil {
+			var headerParam1 string
+
+			headerParam1, err = runtime.StyleParamWithLocation("simple", false, "X-Idempotency-Key", runtime.ParamLocationHeader, *params.XIdempotencyKey)
+			if err != nil {
+				return nil, err
+			}
+
+			req.Header.Set("X-Idempotency-Key", headerParam1)
 		}
 
 	}
@@ -9986,6 +11706,40 @@ func NewSignEvmTypedDataRequestWithBody(server string, address string, params *S
 			req.Header.Set("X-Idempotency-Key", headerParam1)
 		}
 
+	}
+
+	return req, nil
+}
+
+// NewGetEvmEip7702DelegationOperationByIdRequest generates requests for GetEvmEip7702DelegationOperationById
+func NewGetEvmEip7702DelegationOperationByIdRequest(server string, delegationOperationId openapi_types.UUID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "delegationOperationId", runtime.ParamLocationPath, delegationOperationId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/evm/eip7702/delegation-operations/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
 	}
 
 	return req, nil
@@ -10970,6 +12724,46 @@ func NewListEvmTokenBalancesRequest(server string, network ListEvmTokenBalancesN
 	if err != nil {
 		return nil, err
 	}
+
+	return req, nil
+}
+
+// NewGetOnrampUserLimitsRequest calls the generic GetOnrampUserLimits builder with application/json body
+func NewGetOnrampUserLimitsRequest(server string, body GetOnrampUserLimitsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewGetOnrampUserLimitsRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewGetOnrampUserLimitsRequestWithBody generates requests for GetOnrampUserLimits with any type of body
+func NewGetOnrampUserLimitsRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/onramp/limits")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
 
 	return req, nil
 }
@@ -12377,6 +14171,21 @@ type ClientWithResponsesInterface interface {
 	// GetEndUserWithResponse request
 	GetEndUserWithResponse(ctx context.Context, userId string, reqEditors ...RequestEditorFn) (*GetEndUserResponse, error)
 
+	// AddEndUserEvmAccountWithBodyWithResponse request with any body
+	AddEndUserEvmAccountWithBodyWithResponse(ctx context.Context, userId string, params *AddEndUserEvmAccountParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AddEndUserEvmAccountResponse, error)
+
+	AddEndUserEvmAccountWithResponse(ctx context.Context, userId string, params *AddEndUserEvmAccountParams, body AddEndUserEvmAccountJSONRequestBody, reqEditors ...RequestEditorFn) (*AddEndUserEvmAccountResponse, error)
+
+	// AddEndUserEvmSmartAccountWithBodyWithResponse request with any body
+	AddEndUserEvmSmartAccountWithBodyWithResponse(ctx context.Context, userId string, params *AddEndUserEvmSmartAccountParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AddEndUserEvmSmartAccountResponse, error)
+
+	AddEndUserEvmSmartAccountWithResponse(ctx context.Context, userId string, params *AddEndUserEvmSmartAccountParams, body AddEndUserEvmSmartAccountJSONRequestBody, reqEditors ...RequestEditorFn) (*AddEndUserEvmSmartAccountResponse, error)
+
+	// AddEndUserSolanaAccountWithBodyWithResponse request with any body
+	AddEndUserSolanaAccountWithBodyWithResponse(ctx context.Context, userId string, params *AddEndUserSolanaAccountParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AddEndUserSolanaAccountResponse, error)
+
+	AddEndUserSolanaAccountWithResponse(ctx context.Context, userId string, params *AddEndUserSolanaAccountParams, body AddEndUserSolanaAccountJSONRequestBody, reqEditors ...RequestEditorFn) (*AddEndUserSolanaAccountResponse, error)
+
 	// ListEvmAccountsWithResponse request
 	ListEvmAccountsWithResponse(ctx context.Context, params *ListEvmAccountsParams, reqEditors ...RequestEditorFn) (*ListEvmAccountsResponse, error)
 
@@ -12405,6 +14214,11 @@ type ClientWithResponsesInterface interface {
 	UpdateEvmAccountWithBodyWithResponse(ctx context.Context, address string, params *UpdateEvmAccountParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UpdateEvmAccountResponse, error)
 
 	UpdateEvmAccountWithResponse(ctx context.Context, address string, params *UpdateEvmAccountParams, body UpdateEvmAccountJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateEvmAccountResponse, error)
+
+	// CreateEvmEip7702DelegationWithBodyWithResponse request with any body
+	CreateEvmEip7702DelegationWithBodyWithResponse(ctx context.Context, address string, params *CreateEvmEip7702DelegationParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateEvmEip7702DelegationResponse, error)
+
+	CreateEvmEip7702DelegationWithResponse(ctx context.Context, address string, params *CreateEvmEip7702DelegationParams, body CreateEvmEip7702DelegationJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateEvmEip7702DelegationResponse, error)
 
 	// ExportEvmAccountWithBodyWithResponse request with any body
 	ExportEvmAccountWithBodyWithResponse(ctx context.Context, address string, params *ExportEvmAccountParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ExportEvmAccountResponse, error)
@@ -12435,6 +14249,9 @@ type ClientWithResponsesInterface interface {
 	SignEvmTypedDataWithBodyWithResponse(ctx context.Context, address string, params *SignEvmTypedDataParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SignEvmTypedDataResponse, error)
 
 	SignEvmTypedDataWithResponse(ctx context.Context, address string, params *SignEvmTypedDataParams, body SignEvmTypedDataJSONRequestBody, reqEditors ...RequestEditorFn) (*SignEvmTypedDataResponse, error)
+
+	// GetEvmEip7702DelegationOperationByIdWithResponse request
+	GetEvmEip7702DelegationOperationByIdWithResponse(ctx context.Context, delegationOperationId openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetEvmEip7702DelegationOperationByIdResponse, error)
 
 	// RequestEvmFaucetWithBodyWithResponse request with any body
 	RequestEvmFaucetWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*RequestEvmFaucetResponse, error)
@@ -12501,6 +14318,11 @@ type ClientWithResponsesInterface interface {
 
 	// ListEvmTokenBalancesWithResponse request
 	ListEvmTokenBalancesWithResponse(ctx context.Context, network ListEvmTokenBalancesNetwork, address string, params *ListEvmTokenBalancesParams, reqEditors ...RequestEditorFn) (*ListEvmTokenBalancesResponse, error)
+
+	// GetOnrampUserLimitsWithBodyWithResponse request with any body
+	GetOnrampUserLimitsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*GetOnrampUserLimitsResponse, error)
+
+	GetOnrampUserLimitsWithResponse(ctx context.Context, body GetOnrampUserLimitsJSONRequestBody, reqEditors ...RequestEditorFn) (*GetOnrampUserLimitsResponse, error)
 
 	// CreateOnrampOrderWithBodyWithResponse request with any body
 	CreateOnrampOrderWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateOnrampOrderResponse, error)
@@ -12698,6 +14520,7 @@ type RunSQLQueryResponse struct {
 	JSON401      *UnauthorizedError
 	JSON408      *Error
 	JSON429      *Error
+	JSON499      *ClientClosedRequestError
 	JSON500      *InternalServerError
 	JSON504      *TimedOutError
 }
@@ -12988,6 +14811,105 @@ func (r GetEndUserResponse) StatusCode() int {
 	return 0
 }
 
+type AddEndUserEvmAccountResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *struct {
+		// EvmAccount Information about an EVM account associated with an end user.
+		EvmAccount EndUserEvmAccount `json:"evmAccount"`
+	}
+	JSON400 *Error
+	JSON401 *Error
+	JSON402 *PaymentMethodRequiredError
+	JSON404 *Error
+	JSON422 *IdempotencyError
+	JSON500 *InternalServerError
+	JSON502 *BadGatewayError
+	JSON503 *ServiceUnavailableError
+}
+
+// Status returns HTTPResponse.Status
+func (r AddEndUserEvmAccountResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AddEndUserEvmAccountResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type AddEndUserEvmSmartAccountResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *struct {
+		// EvmSmartAccount Information about an EVM smart account associated with an end user.
+		EvmSmartAccount EndUserEvmSmartAccount `json:"evmSmartAccount"`
+	}
+	JSON400 *Error
+	JSON401 *Error
+	JSON402 *PaymentMethodRequiredError
+	JSON404 *Error
+	JSON422 *IdempotencyError
+	JSON500 *InternalServerError
+	JSON502 *BadGatewayError
+	JSON503 *ServiceUnavailableError
+}
+
+// Status returns HTTPResponse.Status
+func (r AddEndUserEvmSmartAccountResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AddEndUserEvmSmartAccountResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type AddEndUserSolanaAccountResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *struct {
+		// SolanaAccount Information about a Solana account associated with an end user.
+		SolanaAccount EndUserSolanaAccount `json:"solanaAccount"`
+	}
+	JSON400 *Error
+	JSON401 *Error
+	JSON402 *PaymentMethodRequiredError
+	JSON404 *Error
+	JSON422 *IdempotencyError
+	JSON500 *InternalServerError
+	JSON502 *BadGatewayError
+	JSON503 *ServiceUnavailableError
+}
+
+// Status returns HTTPResponse.Status
+func (r AddEndUserSolanaAccountResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AddEndUserSolanaAccountResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type ListEvmAccountsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -13195,6 +15117,40 @@ func (r UpdateEvmAccountResponse) StatusCode() int {
 	return 0
 }
 
+type CreateEvmEip7702DelegationResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *struct {
+		// DelegationOperationId The unique identifier for the delegation operation. Use this to poll the operation status.
+		DelegationOperationId openapi_types.UUID `json:"delegationOperationId"`
+	}
+	JSON400 *Error
+	JSON401 *UnauthorizedError
+	JSON402 *PaymentMethodRequiredError
+	JSON404 *Error
+	JSON409 *Error
+	JSON422 *IdempotencyError
+	JSON500 *InternalServerError
+	JSON502 *BadGatewayError
+	JSON503 *ServiceUnavailableError
+}
+
+// Status returns HTTPResponse.Status
+func (r CreateEvmEip7702DelegationResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CreateEvmEip7702DelegationResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type ExportEvmAccountResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -13391,6 +15347,33 @@ func (r SignEvmTypedDataResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r SignEvmTypedDataResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetEvmEip7702DelegationOperationByIdResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *EvmEip7702DelegationOperation
+	JSON400      *Error
+	JSON404      *Error
+	JSON500      *InternalServerError
+	JSON502      *BadGatewayError
+	JSON503      *ServiceUnavailableError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetEvmEip7702DelegationOperationByIdResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetEvmEip7702DelegationOperationByIdResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -13855,6 +15838,35 @@ func (r ListEvmTokenBalancesResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r ListEvmTokenBalancesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetOnrampUserLimitsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		// Limits The list of limits applicable to the user.
+		Limits []OnrampUserLimit `json:"limits"`
+	}
+	JSON400 *Error
+	JSON401 *UnauthorizedError
+	JSON429 *RateLimitExceeded
+	JSON500 *InternalServerError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetOnrampUserLimitsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetOnrampUserLimitsResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -14756,6 +16768,57 @@ func (c *ClientWithResponses) GetEndUserWithResponse(ctx context.Context, userId
 	return ParseGetEndUserResponse(rsp)
 }
 
+// AddEndUserEvmAccountWithBodyWithResponse request with arbitrary body returning *AddEndUserEvmAccountResponse
+func (c *ClientWithResponses) AddEndUserEvmAccountWithBodyWithResponse(ctx context.Context, userId string, params *AddEndUserEvmAccountParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AddEndUserEvmAccountResponse, error) {
+	rsp, err := c.AddEndUserEvmAccountWithBody(ctx, userId, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAddEndUserEvmAccountResponse(rsp)
+}
+
+func (c *ClientWithResponses) AddEndUserEvmAccountWithResponse(ctx context.Context, userId string, params *AddEndUserEvmAccountParams, body AddEndUserEvmAccountJSONRequestBody, reqEditors ...RequestEditorFn) (*AddEndUserEvmAccountResponse, error) {
+	rsp, err := c.AddEndUserEvmAccount(ctx, userId, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAddEndUserEvmAccountResponse(rsp)
+}
+
+// AddEndUserEvmSmartAccountWithBodyWithResponse request with arbitrary body returning *AddEndUserEvmSmartAccountResponse
+func (c *ClientWithResponses) AddEndUserEvmSmartAccountWithBodyWithResponse(ctx context.Context, userId string, params *AddEndUserEvmSmartAccountParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AddEndUserEvmSmartAccountResponse, error) {
+	rsp, err := c.AddEndUserEvmSmartAccountWithBody(ctx, userId, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAddEndUserEvmSmartAccountResponse(rsp)
+}
+
+func (c *ClientWithResponses) AddEndUserEvmSmartAccountWithResponse(ctx context.Context, userId string, params *AddEndUserEvmSmartAccountParams, body AddEndUserEvmSmartAccountJSONRequestBody, reqEditors ...RequestEditorFn) (*AddEndUserEvmSmartAccountResponse, error) {
+	rsp, err := c.AddEndUserEvmSmartAccount(ctx, userId, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAddEndUserEvmSmartAccountResponse(rsp)
+}
+
+// AddEndUserSolanaAccountWithBodyWithResponse request with arbitrary body returning *AddEndUserSolanaAccountResponse
+func (c *ClientWithResponses) AddEndUserSolanaAccountWithBodyWithResponse(ctx context.Context, userId string, params *AddEndUserSolanaAccountParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AddEndUserSolanaAccountResponse, error) {
+	rsp, err := c.AddEndUserSolanaAccountWithBody(ctx, userId, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAddEndUserSolanaAccountResponse(rsp)
+}
+
+func (c *ClientWithResponses) AddEndUserSolanaAccountWithResponse(ctx context.Context, userId string, params *AddEndUserSolanaAccountParams, body AddEndUserSolanaAccountJSONRequestBody, reqEditors ...RequestEditorFn) (*AddEndUserSolanaAccountResponse, error) {
+	rsp, err := c.AddEndUserSolanaAccount(ctx, userId, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAddEndUserSolanaAccountResponse(rsp)
+}
+
 // ListEvmAccountsWithResponse request returning *ListEvmAccountsResponse
 func (c *ClientWithResponses) ListEvmAccountsWithResponse(ctx context.Context, params *ListEvmAccountsParams, reqEditors ...RequestEditorFn) (*ListEvmAccountsResponse, error) {
 	rsp, err := c.ListEvmAccounts(ctx, params, reqEditors...)
@@ -14849,6 +16912,23 @@ func (c *ClientWithResponses) UpdateEvmAccountWithResponse(ctx context.Context, 
 		return nil, err
 	}
 	return ParseUpdateEvmAccountResponse(rsp)
+}
+
+// CreateEvmEip7702DelegationWithBodyWithResponse request with arbitrary body returning *CreateEvmEip7702DelegationResponse
+func (c *ClientWithResponses) CreateEvmEip7702DelegationWithBodyWithResponse(ctx context.Context, address string, params *CreateEvmEip7702DelegationParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateEvmEip7702DelegationResponse, error) {
+	rsp, err := c.CreateEvmEip7702DelegationWithBody(ctx, address, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateEvmEip7702DelegationResponse(rsp)
+}
+
+func (c *ClientWithResponses) CreateEvmEip7702DelegationWithResponse(ctx context.Context, address string, params *CreateEvmEip7702DelegationParams, body CreateEvmEip7702DelegationJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateEvmEip7702DelegationResponse, error) {
+	rsp, err := c.CreateEvmEip7702Delegation(ctx, address, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateEvmEip7702DelegationResponse(rsp)
 }
 
 // ExportEvmAccountWithBodyWithResponse request with arbitrary body returning *ExportEvmAccountResponse
@@ -14951,6 +17031,15 @@ func (c *ClientWithResponses) SignEvmTypedDataWithResponse(ctx context.Context, 
 		return nil, err
 	}
 	return ParseSignEvmTypedDataResponse(rsp)
+}
+
+// GetEvmEip7702DelegationOperationByIdWithResponse request returning *GetEvmEip7702DelegationOperationByIdResponse
+func (c *ClientWithResponses) GetEvmEip7702DelegationOperationByIdWithResponse(ctx context.Context, delegationOperationId openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetEvmEip7702DelegationOperationByIdResponse, error) {
+	rsp, err := c.GetEvmEip7702DelegationOperationById(ctx, delegationOperationId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetEvmEip7702DelegationOperationByIdResponse(rsp)
 }
 
 // RequestEvmFaucetWithBodyWithResponse request with arbitrary body returning *RequestEvmFaucetResponse
@@ -15167,6 +17256,23 @@ func (c *ClientWithResponses) ListEvmTokenBalancesWithResponse(ctx context.Conte
 		return nil, err
 	}
 	return ParseListEvmTokenBalancesResponse(rsp)
+}
+
+// GetOnrampUserLimitsWithBodyWithResponse request with arbitrary body returning *GetOnrampUserLimitsResponse
+func (c *ClientWithResponses) GetOnrampUserLimitsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*GetOnrampUserLimitsResponse, error) {
+	rsp, err := c.GetOnrampUserLimitsWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetOnrampUserLimitsResponse(rsp)
+}
+
+func (c *ClientWithResponses) GetOnrampUserLimitsWithResponse(ctx context.Context, body GetOnrampUserLimitsJSONRequestBody, reqEditors ...RequestEditorFn) (*GetOnrampUserLimitsResponse, error) {
+	rsp, err := c.GetOnrampUserLimits(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetOnrampUserLimitsResponse(rsp)
 }
 
 // CreateOnrampOrderWithBodyWithResponse request with arbitrary body returning *CreateOnrampOrderResponse
@@ -15728,6 +17834,13 @@ func ParseRunSQLQueryResponse(rsp *http.Response) (*RunSQLQueryResponse, error) 
 			return nil, err
 		}
 		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 499:
+		var dest ClientClosedRequestError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON499 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
 		var dest InternalServerError
@@ -16322,6 +18435,261 @@ func ParseGetEndUserResponse(rsp *http.Response) (*GetEndUserResponse, error) {
 	return response, nil
 }
 
+// ParseAddEndUserEvmAccountResponse parses an HTTP response from a AddEndUserEvmAccountWithResponse call
+func ParseAddEndUserEvmAccountResponse(rsp *http.Response) (*AddEndUserEvmAccountResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AddEndUserEvmAccountResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest struct {
+			// EvmAccount Information about an EVM account associated with an end user.
+			EvmAccount EndUserEvmAccount `json:"evmAccount"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 402:
+		var dest PaymentMethodRequiredError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON402 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest IdempotencyError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 502:
+		var dest BadGatewayError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON502 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ServiceUnavailableError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAddEndUserEvmSmartAccountResponse parses an HTTP response from a AddEndUserEvmSmartAccountWithResponse call
+func ParseAddEndUserEvmSmartAccountResponse(rsp *http.Response) (*AddEndUserEvmSmartAccountResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AddEndUserEvmSmartAccountResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest struct {
+			// EvmSmartAccount Information about an EVM smart account associated with an end user.
+			EvmSmartAccount EndUserEvmSmartAccount `json:"evmSmartAccount"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 402:
+		var dest PaymentMethodRequiredError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON402 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest IdempotencyError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 502:
+		var dest BadGatewayError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON502 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ServiceUnavailableError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAddEndUserSolanaAccountResponse parses an HTTP response from a AddEndUserSolanaAccountWithResponse call
+func ParseAddEndUserSolanaAccountResponse(rsp *http.Response) (*AddEndUserSolanaAccountResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AddEndUserSolanaAccountResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest struct {
+			// SolanaAccount Information about a Solana account associated with an end user.
+			SolanaAccount EndUserSolanaAccount `json:"solanaAccount"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 402:
+		var dest PaymentMethodRequiredError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON402 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest IdempotencyError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 502:
+		var dest BadGatewayError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON502 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ServiceUnavailableError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseListEvmAccountsResponse parses an HTTP response from a ListEvmAccountsWithResponse call
 func ParseListEvmAccountsResponse(rsp *http.Response) (*ListEvmAccountsResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -16783,6 +19151,98 @@ func ParseUpdateEvmAccountResponse(rsp *http.Response) (*UpdateEvmAccountRespons
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
 		var dest AlreadyExistsError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest IdempotencyError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 502:
+		var dest BadGatewayError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON502 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ServiceUnavailableError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCreateEvmEip7702DelegationResponse parses an HTTP response from a CreateEvmEip7702DelegationWithResponse call
+func ParseCreateEvmEip7702DelegationResponse(rsp *http.Response) (*CreateEvmEip7702DelegationResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CreateEvmEip7702DelegationResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest struct {
+			// DelegationOperationId The unique identifier for the delegation operation. Use this to poll the operation status.
+			DelegationOperationId openapi_types.UUID `json:"delegationOperationId"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest UnauthorizedError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 402:
+		var dest PaymentMethodRequiredError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON402 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest Error
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -17332,6 +19792,67 @@ func ParseSignEvmTypedDataResponse(rsp *http.Response) (*SignEvmTypedDataRespons
 			return nil, err
 		}
 		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 502:
+		var dest BadGatewayError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON502 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ServiceUnavailableError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetEvmEip7702DelegationOperationByIdResponse parses an HTTP response from a GetEvmEip7702DelegationOperationByIdWithResponse call
+func ParseGetEvmEip7702DelegationOperationByIdResponse(rsp *http.Response) (*GetEvmEip7702DelegationOperationByIdResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetEvmEip7702DelegationOperationByIdResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest EvmEip7702DelegationOperation
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
 		var dest InternalServerError
@@ -18421,6 +20942,63 @@ func ParseListEvmTokenBalancesResponse(rsp *http.Response) (*ListEvmTokenBalance
 			return nil, err
 		}
 		response.JSON503 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetOnrampUserLimitsResponse parses an HTTP response from a GetOnrampUserLimitsWithResponse call
+func ParseGetOnrampUserLimitsResponse(rsp *http.Response) (*GetOnrampUserLimitsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetOnrampUserLimitsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			// Limits The list of limits applicable to the user.
+			Limits []OnrampUserLimit `json:"limits"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest UnauthorizedError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest RateLimitExceeded
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
 
 	}
 

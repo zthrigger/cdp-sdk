@@ -134,8 +134,12 @@ function requiresWalletAuth(requestMethod: string, requestPath: string): boolean
     (requestPath?.includes("/accounts") ||
       requestPath?.includes("/spend-permissions") ||
       requestPath?.includes("/user-operations/prepare-and-send") ||
+      requestPath?.includes("/embedded-wallet-api/") ||
       requestPath?.endsWith("/end-users") ||
-      requestPath?.endsWith("/end-users/import")) &&
+      requestPath?.endsWith("/end-users/import") ||
+      /\/end-users\/[^/]+\/evm$/.test(requestPath) ||
+      /\/end-users\/[^/]+\/evm-smart-account$/.test(requestPath) ||
+      /\/end-users\/[^/]+\/solana$/.test(requestPath)) &&
     (requestMethod === "POST" || requestMethod === "DELETE" || requestMethod === "PUT")
   );
 }
@@ -148,7 +152,7 @@ function requiresWalletAuth(requestMethod: string, requestPath: string): boolean
  * @returns Encoded correlation data as a query string
  */
 export function getCorrelationData(source?: string, sourceVersion?: string): string {
-  const data = {
+  const data: Record<string, string> = {
     sdk_version: version,
     sdk_language: "typescript",
     source: source || "sdk-auth",

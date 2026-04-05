@@ -12,12 +12,20 @@
   - [Updating Accounts](#updating-evm-or-solana-accounts)
   - [Testnet Faucet](#testnet-faucet)
   - [Sending Transactions](#sending-transactions)
+  - [EIP-7702 delegation](#eip-7702-delegation)
   - [EVM Smart Accounts](#evm-smart-accounts)
   - [EVM Swaps](#evm-swaps)
   - [Transferring Tokens](#transferring-tokens)
   - [Account Actions](#account-actions)
 - [Policy Management](#policy-management)
+  - [End User Policies](#end-user-policies)
 - [End-user Management](#end-user-management)
+  - [Create End User](#create-end-user)
+  - [Import End User](#import-end-user)
+  - [Add EVM Account to End User](#add-evm-account-to-end-user)
+  - [Add EVM Smart Account to End User](#add-evm-smart-account-to-end-user)
+  - [Add Solana Account to End User](#add-solana-account-to-end-user)
+  - [Validate Access Token](#validate-access-token)
 - [Authentication tools](#authentication-tools)
 - [Error Reporting](#error-reporting)
 - [Usage Tracking](#usage-tracking)
@@ -108,6 +116,14 @@ const cdp = new CdpClient({
   walletSecret: "YOUR_WALLET_SECRET",
 });
 ```
+
+### Client Lifecycle
+
+The CDP client wraps an HTTP client (Axios) and should be created once and reused throughout your application's lifecycle. The underlying HTTP client handles connection pooling automatically, so there's no need to recreate the client per request—doing so would be less efficient.
+
+- **Long-lived services**: Create a single client instance at startup
+- **Serverless/request-based runtimes**: Create once per cold start, or use a module-level singleton
+- **Concurrency**: The client is safe to use across concurrent async operations
 
 ### Creating EVM or Solana accounts
 
@@ -362,37 +378,49 @@ import { CdpClient } from "@coinbase/cdp-sdk";
 import "dotenv/config";
 
 import {
-  PublicKey,
-  SystemProgram,
-  SYSVAR_RECENT_BLOCKHASHES_PUBKEY,
-  Transaction,
-} from "@solana/web3.js";
+  address as solanaAddress,
+  appendTransactionMessageInstructions,
+  compileTransaction,
+  createNoopSigner,
+  createSolanaRpc,
+  createTransactionMessage,
+  getBase64EncodedWireTransaction,
+  pipe,
+  setTransactionMessageFeePayer,
+  setTransactionMessageLifetimeUsingBlockhash,
+} from "@solana/kit";
+import { getTransferSolInstruction } from "@solana-program/system";
 
 const cdp = new CdpClient();
 
 const account = await cdp.solana.createAccount();
 
-const faucetResp = await cdp.solana.requestFaucet({
+await cdp.solana.requestFaucet({
   address: account.address,
   token: "sol",
 });
 
-const transaction = new Transaction();
-transaction.add(
-  SystemProgram.transfer({
-    fromPubkey: new PublicKey(account.address),
-    toPubkey: new PublicKey("3KzDtddx4i53FBkvCzuDmRbaMozTZoJBb1TToWhz3JfE"),
-    lamports: 10000,
-  })
+const rpc = createSolanaRpc("https://api.devnet.solana.com");
+const { value: { blockhash, lastValidBlockHeight } } = await rpc.getLatestBlockhash().send();
+
+const instruction = getTransferSolInstruction({
+  source: createNoopSigner(solanaAddress(account.address)),
+  destination: solanaAddress("3KzDtddx4i53FBkvCzuDmRbaMozTZoJBb1TToWhz3JfE"),
+  amount: 10000n,
+});
+
+const txMsg = pipe(
+  createTransactionMessage({ version: 0 }),
+  (tx) => setTransactionMessageFeePayer(solanaAddress(account.address), tx),
+  (tx) =>
+    setTransactionMessageLifetimeUsingBlockhash(
+      { blockhash, lastValidBlockHeight },
+      tx,
+    ),
+  (tx) => appendTransactionMessageInstructions([instruction], tx),
 );
 
-// A more recent blockhash is set in the backend by CDP
-transaction.recentBlockhash = SYSVAR_RECENT_BLOCKHASHES_PUBKEY.toBase58();
-transaction.feePayer = new PublicKey(account.address);
-
-const serializedTx = Buffer.from(
-  transaction.serialize({ requireAllSignatures: false })
-).toString("base64");
+const serializedTx = getBase64EncodedWireTransaction(compileTransaction(txMsg));
 
 console.log("Transaction serialized successfully");
 
@@ -402,9 +430,42 @@ const txResult = await cdp.solana.sendTransaction({
 });
 
 console.log(
-  `Transaction confirmed! Explorer link: https://explorer.solana.com/tx/${txResult.signature}?cluster=devnet`
+  `Transaction confirmed! Explorer link: https://explorer.solana.com/tx/${txResult.signature}?cluster=devnet`,
 );
 ```
+
+### EIP-7702 delegation
+
+You can create an [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702) delegation for an existing EOA, upgrading it with smart account capabilities on supported networks. The delegated EOA can then use batched transactions and gas sponsorship via paymaster.
+
+```typescript
+import { CdpClient } from "@coinbase/cdp-sdk";
+import { createPublicClient, http } from "viem";
+import { baseSepolia } from "viem/chains";
+
+const cdp = new CdpClient();
+const publicClient = createPublicClient({
+  chain: baseSepolia,
+  transport: http(),
+});
+
+const account = await cdp.evm.getOrCreateAccount({ name: "MyAccount" });
+
+const { delegationOperationId } = await cdp.evm.createEvmEip7702Delegation({
+  address: account.address,
+  network: "base-sepolia",
+  enableSpendPermissions: false, // optional, defaults to false
+  idempotencyKey: "optional-uuid", // optional
+});
+
+// Wait for the delegation operation to complete
+const delegationOperation = await cdp.evm.waitForEvmEip7702DelegationOperationStatus({
+  delegationOperationId,
+});
+console.log(`Delegation confirmed (status: ${delegationOperation.status})`);
+```
+
+For a runnable example that includes faucet and receipt waiting, see [examples/typescript/evm/eip7702/createEip7702Delegation.ts](https://github.com/coinbase/cdp-sdk/blob/main/examples/typescript/evm/eip7702/createEip7702Delegation.ts).
 
 ### EVM Smart Accounts
 
@@ -740,35 +801,27 @@ await sender.transfer({
 
 For complete examples, check out [solana/account.transfer.ts](https://github.com/coinbase/cdp-sdk/blob/main/examples/typescript/solana/account.transfer.ts).
 
-You can transfer tokens between accounts using the `transfer` function, and wait for the transaction to be confirmed using the `confirmTransaction` function from `@solana/web3.js`:
+You can transfer tokens between accounts using the `transfer` function:
 
 ```typescript
-import { LAMPORTS_PER_SOL } from "@solana/web3.js";
+import { createSolanaRpc, type Signature } from "@solana/kit";
 
 const sender = await cdp.solana.createAccount();
 
-const connection = new Connection("https://api.devnet.solana.com");
-
 const { signature } = await sender.transfer({
   to: "3KzDtddx4i53FBkvCzuDmRbaMozTZoJBb1TToWhz3JfE",
-  amount: 0.01 * LAMPORTS_PER_SOL,
+  amount: 10_000_000n, // 0.01 SOL in lamports
   token: "sol",
-  network: connection,
+  network: "devnet",
 });
 
-const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
+// Poll for confirmation using @solana/kit
+const rpc = createSolanaRpc("https://api.devnet.solana.com");
+const result = await rpc.getSignatureStatuses([signature as Signature]).send();
+const status = result.value[0];
 
-const confirmation = await connection.confirmTransaction(
-  {
-    signature,
-    blockhash,
-    lastValidBlockHeight,
-  },
-  "confirmed",
-);
-
-if (confirmation.value.err) {
-  console.log(`Something went wrong! Error: ${confirmation.value.err.toString()}`);
+if (status?.err) {
+  console.log(`Something went wrong! Error: ${JSON.stringify(status.err)}`);
 } else {
   console.log(
     `Transaction confirmed: Link: https://explorer.solana.com/tx/${signature}?cluster=devnet`,
@@ -787,18 +840,18 @@ const { signature } = await sender.transfer({
 });
 ```
 
-If you want to use your own Connection, you can pass one to the `network` parameter:
+If you want to use your own RPC client, you can pass one to the `network` parameter:
 
 ```typescript
-import { Connection } from "@solana/web3.js";
+import { createSolanaRpc } from "@solana/kit";
 
-const connection = new Connection("YOUR_RPC_URL");
+const rpc = createSolanaRpc("YOUR_RPC_URL");
 
 const { signature } = await sender.transfer({
   to: "3KzDtddx4i53FBkvCzuDmRbaMozTZoJBb1TToWhz3JfE",
   amount: "0.01",
   token: "usdc",
-  network: connection,
+  network: rpc,
 });
 ```
 
@@ -1065,6 +1118,8 @@ try {
 
 We currently support the following policy rules:
 
+**Server wallet rules:**
+
 - [SignEvmTransactionRule](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/policy-engine/create-a-policy#signevmtransactionrule)
 - [SendEvmTransactionRule](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/policy-engine/create-a-policy#sendevmtransactionrule)
 - [SignEvmMessageRule](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/policy-engine/create-a-policy#signevmmessagerule)
@@ -1074,6 +1129,86 @@ We currently support the following policy rules:
 - [SignEvmHashRule](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/policy-engine/create-a-policy#signevmhashrule)
 - [PrepareUserOperationRule](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/policy-engine/create-a-policy#prepareuseroperationrule)
 - [SendUserOperationRule](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/policy-engine/create-a-policy#senduseroperationrule)
+
+**End user rules:**
+
+- `SignEndUserEvmTransactionRule` — operation: `signEndUserEvmTransaction` (criteria: `ethValue`, `evmAddress`, `evmData`, `netUSDChange`)
+- `SendEndUserEvmTransactionRule` — operation: `sendEndUserEvmTransaction` (criteria: `ethValue`, `evmAddress`, `evmNetwork`, `evmData`, `netUSDChange`)
+- `SignEndUserEvmMessageRule` — operation: `signEndUserEvmMessage` (criteria: `evmMessage`)
+- `SignEndUserEvmTypedDataRule` — operation: `signEndUserEvmTypedData` (criteria: `evmTypedDataField`, `evmTypedDataVerifyingContract`)
+- `SignEndUserSolTransactionRule` — operation: `signEndUserSolTransaction` (criteria: `solAddress`, `solValue`, `splAddress`, `splValue`, `mintAddress`, `solData`, `programId`)
+- `SendEndUserSolTransactionRule` — operation: `sendEndUserSolTransaction` (criteria: `solAddress`, `solValue`, `splAddress`, `splValue`, `mintAddress`, `solData`, `programId`, `solNetwork`)
+- `SignEndUserSolMessageRule` — operation: `signEndUserSolMessage` (criteria: `solMessage`)
+
+End user rules use the same criteria types as their server wallet counterparts. For example, `signEndUserEvmTransaction` supports the same `ethValue`, `evmAddress`, and `evmData` criteria as `signEvmTransaction`.
+
+### End User Policies
+
+You can create policies that govern end-user operations using the same criteria types available for server wallet policies. The only difference is the `operation` value, which targets end-user-specific actions.
+
+#### End User EVM Policy
+
+This policy restricts end-user EVM transaction signing to a max value and allowlisted recipients — the same criteria used in `signEvmTransaction`:
+
+```typescript
+const policy = await cdp.policies.createPolicy({
+  policy: {
+    scope: "project",
+    description: "End User EVM Policy",
+    rules: [
+      {
+        action: "accept",
+        operation: "signEndUserEvmTransaction",
+        criteria: [
+          {
+            type: "ethValue",
+            ethValue: "1000000000000000000", // 1 ETH in wei
+            operator: "<=",
+          },
+          {
+            type: "evmAddress",
+            addresses: ["0x000000000000000000000000000000000000dEaD"],
+            operator: "in",
+          },
+        ],
+      },
+    ],
+  },
+});
+```
+
+#### End User Solana Policy
+
+This policy restricts end-user Solana transaction signing to allowlisted recipients under a SOL value threshold — the same criteria used in `signSolTransaction`:
+
+```typescript
+const policy = await cdp.policies.createPolicy({
+  policy: {
+    scope: "project",
+    description: "End User Solana Policy",
+    rules: [
+      {
+        action: "accept",
+        operation: "signEndUserSolTransaction",
+        criteria: [
+          {
+            type: "solAddress",
+            addresses: ["11111111111111111111111111111111"],
+            operator: "in",
+          },
+          {
+            type: "solValue",
+            solValue: "1000000000", // 1 SOL in lamports
+            operator: "<=",
+          },
+        ],
+      },
+    ],
+  },
+});
+```
+
+> For a comprehensive example demonstrating all 7 end-user operations, see [createEndUserPolicy.ts](https://github.com/coinbase/cdp-sdk/blob/main/examples/typescript/end-users/createEndUserPolicy.ts).
 
 ### End-user Management
 
@@ -1123,6 +1258,55 @@ const endUser = await cdp.endUser.importEndUser({
 });
 
 console.log(endUser);
+```
+
+#### Add EVM Account to End User
+
+Add an additional EVM EOA (Externally Owned Account) to an existing end user. You can call the method directly on the EndUser object:
+
+```typescript
+// Using the EndUser object method (recommended)
+const result = await endUser.addEvmAccount();
+console.log(`Added EVM account: ${result.evmAccount.address}`);
+
+// Or using the client method
+const result = await cdp.endUser.addEndUserEvmAccount({
+  userId: endUser.userId,
+});
+console.log(`Added EVM account: ${result.evmAccount.address}`);
+```
+
+#### Add EVM Smart Account to End User
+
+Add an EVM smart account to an existing end user:
+
+```typescript
+// Using the EndUser object method (recommended)
+const result = await endUser.addEvmSmartAccount({ enableSpendPermissions: true });
+console.log(`Added EVM smart account: ${result.evmSmartAccount.address}`);
+
+// Or using the client method
+const result = await cdp.endUser.addEndUserEvmSmartAccount({
+  userId: endUser.userId,
+  enableSpendPermissions: true,
+});
+console.log(`Added EVM smart account: ${result.evmSmartAccount.address}`);
+```
+
+#### Add Solana Account to End User
+
+Add an additional Solana account to an existing end user:
+
+```typescript
+// Using the EndUser object method (recommended)
+const result = await endUser.addSolanaAccount();
+console.log(`Added Solana account: ${result.solanaAccount.address}`);
+
+// Or using the client method
+const result = await cdp.endUser.addEndUserSolanaAccount({
+  userId: endUser.userId,
+});
+console.log(`Added Solana account: ${result.solanaAccount.address}`);
 ```
 
 #### Validate Access Token

@@ -75,6 +75,8 @@ vi.mock("../../openapi-client", () => {
       signEvmTypedData: vi.fn(),
       updateEvmAccount: vi.fn(),
       updateEvmSmartAccount: vi.fn(),
+      createEvmEip7702Delegation: vi.fn(),
+      getEvmEip7702DelegationOperationById: vi.fn(),
       getEvmSwapQuote: vi.fn(),
       createEvmSwap: vi.fn(),
       getEvmSwapPrice: vi.fn(),
@@ -1499,6 +1501,58 @@ describe("EvmClient", () => {
         account: updatedAccount,
       });
       expect(result).toBe(serverAccount);
+    });
+  });
+
+  describe("createEvmEip7702Delegation", () => {
+    it("should create EIP-7702 delegation for an EOA account", async () => {
+      const mockResult = {
+        delegationOperationId: "delegation-op-123",
+      };
+
+      const createEvmEip7702DelegationMock =
+        CdpOpenApiClient.createEvmEip7702Delegation as MockedFunction<
+          typeof CdpOpenApiClient.createEvmEip7702Delegation
+        >;
+      createEvmEip7702DelegationMock.mockResolvedValue(mockResult);
+
+      const result = await client.createEvmEip7702Delegation({
+        address: "0x1234567890123456789012345678901234567890",
+        network: "base-sepolia",
+        enableSpendPermissions: false,
+        idempotencyKey: "idem-key-eip7702",
+      });
+
+      expect(CdpOpenApiClient.createEvmEip7702Delegation).toHaveBeenCalledWith(
+        "0x1234567890123456789012345678901234567890",
+        { network: "base-sepolia", enableSpendPermissions: false },
+        "idem-key-eip7702",
+      );
+      expect(result).toStrictEqual(mockResult);
+    });
+
+    it("should create EIP-7702 delegation without idempotency key or enableSpendPermissions", async () => {
+      const mockResult = {
+        delegationOperationId: "delegation-op-456",
+      };
+
+      const createEvmEip7702DelegationMock =
+        CdpOpenApiClient.createEvmEip7702Delegation as MockedFunction<
+          typeof CdpOpenApiClient.createEvmEip7702Delegation
+        >;
+      createEvmEip7702DelegationMock.mockResolvedValue(mockResult);
+
+      const result = await client.createEvmEip7702Delegation({
+        address: "0x9876543210987654321098765432109876543210",
+        network: "base-sepolia",
+      });
+
+      expect(CdpOpenApiClient.createEvmEip7702Delegation).toHaveBeenCalledWith(
+        "0x9876543210987654321098765432109876543210",
+        { network: "base-sepolia" },
+        undefined,
+      );
+      expect(result).toStrictEqual(mockResult);
     });
   });
 

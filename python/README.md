@@ -16,12 +16,17 @@
   - [Sending Transactions](#sending-transactions)
   - [Transferring Tokens](#transferring-tokens)
   - [EVM Swaps](#evm-swaps)
+  - [EIP-7702 delegation](#eip-7702-delegation)
   - [EVM Smart Accounts](#evm-smart-accounts)
 - [Account Actions](#account-actions)
 - [Policy Management](#policy-management)
+  - [End User Policies](#end-user-policies)
 - [End-user Management](#end-user-management)
   - [Create End User](#create-end-user)
   - [Import End User](#import-end-user)
+  - [Add EVM Account to End User](#add-evm-account-to-end-user)
+  - [Add EVM Smart Account to End User](#add-evm-smart-account-to-end-user)
+  - [Add Solana Account to End User](#add-solana-account-to-end-user)
   - [Validate Access Token](#validate-access-token)
 - [Authentication Tools](#authentication-tools)
 - [Error Reporting](#error-reporting)
@@ -128,6 +133,14 @@ async def main():
 
 asyncio.run(main())
 ```
+
+### Client Lifecycle
+
+The CDP client wraps an HTTP client (aiohttp) and should be created once and reused throughout your application's lifecycle. The underlying HTTP client handles connection pooling automatically, so there's no need to recreate the client per request—doing so would be less efficient.
+
+- **Long-lived services**: Create a single client instance at startup using `async with CdpClient() as cdp:`
+- **Serverless/request-based runtimes**: Create once per cold start, or use a module-level singleton
+- **Concurrency**: The client is safe to use across concurrent async operations
 
 ### Creating EVM or Solana accounts
 
@@ -520,7 +533,20 @@ async def main():
 asyncio.run(main())
 ```
 
-CDP SDK server accounts are compatible with `eth-account`'s BaseAccount interface via `EvmLocalAccount`. With it, you may sign a hash, message, typed data, or a transaction.
+### EvmServerAccount vs EvmLocalAccount
+
+CDP SDK provides two account types for different use cases:
+
+- **`EvmServerAccount`** - Async-first API for CDP server-managed accounts. All signing operations are asynchronous and involve network calls to the CDP API. This is the recommended type for most CDP SDK usage.
+
+- **`EvmLocalAccount`** - Synchronous wrapper around `EvmServerAccount` that provides compatibility with `eth-account`'s `BaseAccount` interface. Use this when you need to integrate with libraries that expect synchronous `eth-account` LocalAccount objects (e.g., creating smart accounts with a server account as owner).
+
+**When to use `EvmLocalAccount`:**
+- Creating smart accounts where the owner must be a `BaseAccount`
+- Integrating with `web3.py` or other libraries expecting `eth-account` LocalAccount
+- Any synchronous context where you cannot use async/await
+
+With `EvmLocalAccount`, you may sign a hash, message, typed data, or a transaction synchronously.
 
 ```python
 import asyncio
@@ -943,6 +969,38 @@ To help you get started with token swaps in your application, we provide the fol
 - [Quote swap using smart account convenience method](https://github.com/coinbase/cdp-sdk/blob/main/examples/python/evm/smart_account.quote_swap.py) - Smart account convenience method for creating quotes
 - [Two-step quote and execute process](https://github.com/coinbase/cdp-sdk/blob/main/examples/python/evm/smart_account.quote_swap_and_execute.py) - Detailed two-step approach with analysis
 
+### EIP-7702 delegation
+
+You can create an [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702) delegation for an existing EOA, upgrading it with smart account capabilities on supported networks. The delegated EOA can then use batched transactions and gas sponsorship via paymaster.
+
+```python
+import asyncio
+
+from cdp import CdpClient
+
+
+async def main():
+    async with CdpClient() as cdp:
+        account = await cdp.evm.get_or_create_account(name="MyAccount")
+
+        delegation_operation_id = await cdp.evm.create_evm_eip7702_delegation(
+            address=account.address,
+            network="base-sepolia",
+            enable_spend_permissions=False,  # optional, defaults to False
+        )
+
+        # Wait for the delegation operation to complete
+        delegation_operation = await cdp.evm.wait_for_evm_eip7702_delegation_operation_status(
+            delegation_operation_id=delegation_operation_id,
+        )
+        print(f"Delegation confirmed (status: {delegation_operation.status})")
+
+
+asyncio.run(main())
+```
+
+For a runnable example that includes faucet and receipt waiting, see [examples/python/evm/eip7702/create_eip7702_delegation.py](https://github.com/coinbase/cdp-sdk/blob/main/examples/python/evm/eip7702/create_eip7702_delegation.py).
+
 ### EVM Smart Accounts
 
 For EVM, we support Smart Accounts which are account-abstraction (ERC-4337) accounts. Currently there is only support for Base Sepolia and Base Mainnet for Smart Accounts.
@@ -1197,6 +1255,8 @@ policy = await cdp.policies.delete_policy(id="__POLICY_ID__")
 
 We currently support the following policy rules:
 
+**Server wallet rules:**
+
 - [SignEvmTransactionRule](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/policy-engine/create-a-policy#signevmtransactionrule)
 - [SendEvmTransactionRule](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/policy-engine/create-a-policy#sendevmtransactionrule)
 - [SignEvmMessageRule](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/policy-engine/create-a-policy#signevmmessagerule)
@@ -1206,6 +1266,94 @@ We currently support the following policy rules:
 - [SignEvmHashRule](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/policy-engine/create-a-policy#signevmhashrule)
 - [PrepareUserOperationRule](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/policy-engine/create-a-policy#prepareuseroperationrule)
 - [SendUserOperationRule](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/policy-engine/create-a-policy#senduseroperationrule)
+
+**End user embedded wallet rules:**
+
+- `SignEndUserEvmTransactionRule` — operation: `signEndUserEvmTransaction` (criteria: `ethValue`, `evmAddress`, `evmData`, `netUSDChange`)
+- `SendEndUserEvmTransactionRule` — operation: `sendEndUserEvmTransaction` (criteria: `ethValue`, `evmAddress`, `evmNetwork`, `evmData`, `netUSDChange`)
+- `SignEndUserEvmMessageRule` — operation: `signEndUserEvmMessage` (criteria: `evmMessage`)
+- `SignEndUserEvmTypedDataRule` — operation: `signEndUserEvmTypedData` (criteria: `evmTypedDataField`, `evmTypedDataVerifyingContract`)
+- `SignEndUserSolTransactionRule` — operation: `signEndUserSolTransaction` (criteria: `solAddress`, `solValue`, `splAddress`, `splValue`, `mintAddress`, `solData`, `programId`)
+- `SendEndUserSolTransactionRule` — operation: `sendEndUserSolTransaction` (criteria: `solAddress`, `solValue`, `splAddress`, `splValue`, `mintAddress`, `solData`, `programId`, `solNetwork`)
+- `SignEndUserSolMessageRule` — operation: `signEndUserSolMessage` (criteria: `solMessage`)
+
+End user rules use the same criteria types as their server wallet counterparts. For example, `SignEndUserEvmTransactionRule` supports the same `EthValueCriterion`, `EvmAddressCriterion`, and `EvmDataCriterion` criteria as `SignEvmTransactionRule`.
+
+### End User embedded wallet Policies
+
+You can create policies that govern end-user operations using the same criteria types available for server wallet policies. The only difference is the rule type, which targets end-user-specific actions.
+
+#### End User EVM Policy
+
+This policy restricts end-user EVM transaction signing to a max value and allowlisted recipients — the same criteria used in `SignEvmTransactionRule`:
+
+```python
+from cdp.policies.types import (
+    CreatePolicyOptions,
+    SignEndUserEvmTransactionRule,
+    EthValueCriterion,
+    EvmAddressCriterion,
+)
+
+policy = await cdp.policies.create_policy(
+    policy=CreatePolicyOptions(
+        scope="project",
+        description="End User EVM Policy",
+        rules=[
+            SignEndUserEvmTransactionRule(
+                action="accept",
+                criteria=[
+                    EthValueCriterion(
+                        ethValue="1000000000000000000",  # 1 ETH in wei
+                        operator="<=",
+                    ),
+                    EvmAddressCriterion(
+                        addresses=["0x000000000000000000000000000000000000dEaD"],
+                        operator="in",
+                    ),
+                ],
+            ),
+        ],
+    )
+)
+```
+
+#### End User Solana Policy
+
+This policy restricts end-user Solana transaction signing to allowlisted recipients under a SOL value threshold — the same criteria used in `SignSolanaTransactionRule`:
+
+```python
+from cdp.policies.types import (
+    CreatePolicyOptions,
+    SignEndUserSolTransactionRule,
+    SolAddressCriterion,
+    SolValueCriterion,
+)
+
+policy = await cdp.policies.create_policy(
+    policy=CreatePolicyOptions(
+        scope="project",
+        description="End User Solana Policy",
+        rules=[
+            SignEndUserSolTransactionRule(
+                action="accept",
+                criteria=[
+                    SolAddressCriterion(
+                        addresses=["11111111111111111111111111111111"],
+                        operator="in",
+                    ),
+                    SolValueCriterion(
+                        solValue="1000000000",  # 1 SOL in lamports
+                        operator="<=",
+                    ),
+                ],
+            ),
+        ],
+    )
+)
+```
+
+> For a comprehensive example demonstrating all 7 end-user operations, see [create_end_user_policy.py](https://github.com/coinbase/cdp-sdk/blob/main/examples/python/end_user/create_end_user_policy.py).
 
 ### End-user Management
 
@@ -1275,6 +1423,63 @@ end_user = await cdp.end_user.import_end_user(
     private_key="3Kzj...",  # base58 encoded
     key_type="solana",
 )
+```
+
+#### Add EVM Account to End User
+
+Add an additional EVM EOA (Externally Owned Account) to an existing end user. You can call the method directly on the EndUserAccount object:
+
+```python
+result = await end_user.add_evm_account()
+
+print(f"Added EVM account: {result.evm_account.address}")
+```
+
+Or use the client method with a user ID:
+
+```python
+result = await cdp.end_user.add_end_user_evm_account(user_id=end_user.user_id)
+
+print(f"Added EVM account: {result.evm_account.address}")
+```
+
+#### Add EVM Smart Account to End User
+
+Add an EVM smart account to an existing end user. You can call the method directly on the EndUserAccount object:
+
+```python
+result = await end_user.add_evm_smart_account(enable_spend_permissions=True)
+
+print(f"Added EVM smart account: {result.evm_smart_account.address}")
+```
+
+Or use the client method with a user ID:
+
+```python
+result = await cdp.end_user.add_end_user_evm_smart_account(
+    user_id=end_user.user_id,
+    enable_spend_permissions=True,
+)
+
+print(f"Added EVM smart account: {result.evm_smart_account.address}")
+```
+
+#### Add Solana Account to End User
+
+Add an additional Solana account to an existing end user. You can call the method directly on the EndUserAccount object:
+
+```python
+result = await end_user.add_solana_account()
+
+print(f"Added Solana account: {result.solana_account.address}")
+```
+
+Or use the client method with a user ID:
+
+```python
+result = await cdp.end_user.add_end_user_solana_account(user_id=end_user.user_id)
+
+print(f"Added Solana account: {result.solana_account.address}")
 ```
 
 #### Validate Access Token

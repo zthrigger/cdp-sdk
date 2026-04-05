@@ -1,5 +1,63 @@
 # CDP SDK Changelog
 
+## [1.46.1] - 2026-03-30
+
+### Security fix
+
+- Pinned `axios` dependency to `1.13.6` to prevent installation of the compromised `axios@1.14.1` release.
+
+## 1.46.0
+
+### Minor Changes
+
+- [#624](https://github.com/coinbase/cdp-sdk/pull/624) [`0c0c1c8`](https://github.com/coinbase/cdp-sdk/commit/0c0c1c8d4202dc24bd07b926de2d81144fba8599) Thanks [@sammccord](https://github.com/sammccord)! - Add revokeDelegation, and delegated signing operations to end user client
+
+### Patch Changes
+
+- [#627](https://github.com/coinbase/cdp-sdk/pull/627) [`4a10b49`](https://github.com/coinbase/cdp-sdk/commit/4a10b4940c825a77e7af2378e1cb9f8e6d4db956) Thanks [@0xRAG](https://github.com/0xRAG)! - Removed @solana/web3.js dependency to avoid transitive LGPL license
+
+- [#622](https://github.com/coinbase/cdp-sdk/pull/622) [`03d0b68`](https://github.com/coinbase/cdp-sdk/commit/03d0b680b0a5d3758a9092a8cf9abaeb2ae4790a) Thanks [@0xRAG](https://github.com/0xRAG)! - Patched security vulnerabilities across several dependencies.
+
+- [#623](https://github.com/coinbase/cdp-sdk/pull/623) [`ec2866f`](https://github.com/coinbase/cdp-sdk/commit/ec2866ff0423130a3a6ed948ab7e3c741e376b90) Thanks [@milan-cb](https://github.com/milan-cb)! - Added EIP-6492 signature wrapping for undeployed smart accounts
+
+## 1.45.0
+
+### Minor Changes
+
+- [#606](https://github.com/coinbase/cdp-sdk/pull/606) [`3fef84a`](https://github.com/coinbase/cdp-sdk/commit/3fef84a828ee897fcbdc9bb920fcc3641eac8641) Thanks [@milan-cb](https://github.com/milan-cb)! - Added createEvmEip7702Delegation to upgrade EOAs with smart account capabilities
+
+- [#612](https://github.com/coinbase/cdp-sdk/pull/612) [`7ed8a11`](https://github.com/coinbase/cdp-sdk/commit/7ed8a1177e5fddc70929ee7ec339887c780657b1) Thanks [@milan-cb](https://github.com/milan-cb)! - Added getEvmEip7702DelegationOperationById and waitForEvmEip7702DelegationOperationStatus
+
+- [#608](https://github.com/coinbase/cdp-sdk/pull/608) [`8fcfac3`](https://github.com/coinbase/cdp-sdk/commit/8fcfac348487f586b224b77074f52594ad44198b) Thanks [@sammccord](https://github.com/sammccord)! - Added support for new end user embedded wallet policy rules, reusing existing criteria - signEndUserEvmTransaction, sendEndUserEvmTransaction, signEndUserEvmMessage, signEndUserEvmTypedData, signEndUserSolTransaction, sendEndUserSolTransaction, and signEndUserSolMessage.
+
+### Patch Changes
+
+- [#607](https://github.com/coinbase/cdp-sdk/pull/607) [`21244e3`](https://github.com/coinbase/cdp-sdk/commit/21244e32384fb189facbea96668087d24ded035a) Thanks [@0xRAG](https://github.com/0xRAG)! - Simplify analytics
+
+## 1.44.1
+
+### Patch Changes
+
+- [#594](https://github.com/coinbase/cdp-sdk/pull/594) [`80547d1`](https://github.com/coinbase/cdp-sdk/commit/80547d1803cc991121564cdd802f3d5245bef18d) Thanks [@jazz-cb](https://github.com/jazz-cb)! - Fixed a bug where concurrent async method calls on the same object were short-circuited by the analytics error tracking wrapper, causing only the first call to execute and subsequent calls to return the input parameters instead of the actual result.
+
+## 1.44.0
+
+### Minor Changes
+
+- [#577](https://github.com/coinbase/cdp-sdk/pull/577) [`142499a`](https://github.com/coinbase/cdp-sdk/commit/142499abc3ea8d9835b5d953e8d1e22d4922e663) Thanks [@marcin-cb](https://github.com/marcin-cb)! - Added new methods for the end user client to add additional EVM accounts, EVM Smart Accounts, and Solana accounts.
+
+- [#579](https://github.com/coinbase/cdp-sdk/pull/579) [`fe9d065`](https://github.com/coinbase/cdp-sdk/commit/fe9d065c6cd547497d2ab3534a84ff43d752d2cd) Thanks [@marcin-cb](https://github.com/marcin-cb)! - Added convenience methods to the EndUserAccount object for adding accounts.
+
+### Patch Changes
+
+- [#571](https://github.com/coinbase/cdp-sdk/pull/571) [`a5546d1`](https://github.com/coinbase/cdp-sdk/commit/a5546d1d4132f7703b4625dcd9b218039775e8d9) Thanks [@0xRAG](https://github.com/0xRAG)! - Improve typing and make tsconfig stricter
+
+## 1.43.1
+
+### Patch Changes
+
+- [#565](https://github.com/coinbase/cdp-sdk/pull/565) [`80dd120`](https://github.com/coinbase/cdp-sdk/commit/80dd120d255c3aa6880af02d7fd320d392431ed3) Thanks [@0xRAG](https://github.com/0xRAG)! - Fixed bug in transfer method to support transfers on non-Base networks
+
 ## 1.43.0
 
 ### Minor Changes
@@ -390,7 +448,6 @@
 - [#122](https://github.com/coinbase/cdp-sdk/pull/122) [`ee41d98`](https://github.com/coinbase/cdp-sdk/commit/ee41d986406e3e8666d1d1a1b1525e7ff7435a2b) Thanks [@sddioulde](https://github.com/sddioulde)! - Added account actions to Solana
 
 - [#103](https://github.com/coinbase/cdp-sdk/pull/103) [`2777cde`](https://github.com/coinbase/cdp-sdk/commit/2777cde93e4f10579a4ca31e140720067799cf66) Thanks [@0xRAG](https://github.com/0xRAG)! - Added additional options to transfer methods:
-
   - Added `paymasterUrl` and `waitOptions` to EvmSmartAccount.transfer
   - Added `waitOptions` to EvmAccount.transfer
 
@@ -399,7 +456,6 @@
 ### Minor Changes
 
 - [#99](https://github.com/coinbase/cdp-sdk/pull/99) [`0fd6d2b`](https://github.com/coinbase/cdp-sdk/commit/0fd6d2ba56b2da52c96eb19278dc782560b7680b) Thanks [@0xRAG](https://github.com/0xRAG)! - Added actions to EvmAccount and EvmSmartAccount:
-
   - listTokenBalances
   - requestFaucet
   - sendTransaction (EvmAccount only)
