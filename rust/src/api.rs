@@ -1547,6 +1547,9 @@ pub mod types {
     ///    },
     ///    {
     ///      "$ref": "#/components/schemas/TelegramAuthentication"
+    ///    },
+    ///    {
+    ///      "$ref": "#/components/schemas/SiweAuthentication"
     ///    }
     ///  ]
     ///}
@@ -1560,6 +1563,7 @@ pub mod types {
         DeveloperJwtAuthentication(DeveloperJwtAuthentication),
         OAuth2Authentication(OAuth2Authentication),
         TelegramAuthentication(TelegramAuthentication),
+        SiweAuthentication(SiweAuthentication),
     }
     impl ::std::convert::From<&Self> for AuthenticationMethod {
         fn from(value: &AuthenticationMethod) -> Self {
@@ -1589,6 +1593,11 @@ pub mod types {
     impl ::std::convert::From<TelegramAuthentication> for AuthenticationMethod {
         fn from(value: TelegramAuthentication) -> Self {
             Self::TelegramAuthentication(value)
+        }
+    }
+    impl ::std::convert::From<SiweAuthentication> for AuthenticationMethod {
+        fn from(value: SiweAuthentication) -> Self {
+            Self::SiweAuthentication(value)
         }
     }
     ///The list of valid authentication methods linked to the end user.
@@ -1626,6 +1635,10 @@ pub mod types {
     ///        "photoUrl": "https://image.url/profile.jpg",
     ///        "type": "telegram",
     ///        "username": "satoshinakamoto"
+    ///      },
+    ///      {
+    ///        "address": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+    ///        "type": "siwe"
     ///      }
     ///    ]
     ///  ],
@@ -10879,7 +10892,10 @@ pub mod types {
     ///    "order_quote_expired",
     ///    "order_already_filled",
     ///    "order_already_canceled",
-    ///    "account_not_ready"
+    ///    "account_not_ready",
+    ///    "insufficient_liquidity",
+    ///    "insufficient_allowance",
+    ///    "transaction_simulation_failed"
     ///  ],
     ///  "x-error-instructions": {
     ///    "account_not_ready": "This error occurs when an operation is attempted on an account that is still being provisioned.\n\n**Steps to resolve:**\n1. Wait a few moments and retry the request\n2. If the error persists, the account may still be completing setup — retry with exponential backoff",
@@ -10895,7 +10911,9 @@ pub mod types {
     ///    "guest_transaction_count": "This error occurs when the user has reached the lifetime guest onramp transaction count limit.\n\n**Steps to resolve:**\n1. Redirect the user to create a Coinbase account to buy and send crypto.",
     ///    "guest_transaction_limit": "This error occurs when the user has reached the weekly guest onramp transaction limit.\n\n**Steps to resolve:**\n1. Inform the user they have reached their weekly limit and will have to wait until next week.",
     ///    "idempotency_error": "This error occurs when an idempotency key is reused with different parameters.\n\n**Steps to resolve:**\n1. Generate a new UUID v4 for each unique request\n2. Only reuse idempotency keys for exact request duplicates\n3. Track used keys within your application\n\n**Example idempotency key implementation:**\n```typescript lines wrap\nimport { v4 as uuidv4 } from 'uuid';\n\nfunction createIdempotencyKey() {\n  return uuidv4();\n}\n```",
+    ///    "insufficient_allowance": "This error occurs when the taker has not approved the Permit2 contract to spend the `fromToken`\non their behalf. ERC-20 swaps require a Permit2 allowance. Native ETH swaps do not.\n\n**Steps to resolve:**\n1. Submit an ERC-20 `approve` transaction on the `fromToken` contract, granting the Permit2\n   contract (`0x000000000022D473030F116dDEE9F6B43aC78BA3`) an allowance of at least `fromAmount`\n2. Wait for the approval transaction to be confirmed on-chain\n3. Retry the swap\n\n**Example:**\n```typescript lines wrap\n// Approve Permit2 to spend fromToken\nawait walletClient.writeContract({\n  address: fromToken,\n  abi: erc20Abi,\n  functionName: \"approve\",\n  args: [\"0x000000000022D473030F116dDEE9F6B43aC78BA3\", fromAmount],\n});\n```",
     ///    "insufficient_balance": "This error occurs when the source account does not have enough funds to complete the transfer including fees.\n\n**Steps to resolve:**\n1. Check the source account balance\n2. Ensure the balance covers both the transfer amount and any fees\n3. Consider using `amountType: \"source\"` to transfer the maximum available amount minus fees\n4. Add funds to the source account if needed\n\n**Common causes:**\n- Transfer amount exceeds available balance\n- Not accounting for transfer fees\n- Pending transactions reducing available balance",
+    ///    "insufficient_liquidity": "This error occurs when no swap route is available for the requested token pair or amount.\n\n**Steps to resolve:**\n1. Try a smaller `fromAmount` — large orders may exceed available liquidity\n2. Try a different token pair\n3. Retry after a short delay; liquidity conditions change with market activity",
     ///    "internal_server_error": "This indicates an unexpected error that occurred on the CDP servers.\n\n**Important**: If you encounter this error, please note that your operation's status should be treated as unknown by your application, as it could have been a success within the CDP back-end.\n\n**Steps to resolve:**\n1. Retry your request after a short delay\n2. If persistent, contact CDP support with:\n   - Your correlation ID\n   - Timestamp of the error\n   - Request details\n3. Consider implementing retry logic with an exponential backoff\n\n**Note:** These errors are automatically logged and monitored by CDP.",
     ///    "invalid_request": "This error occurs when the request is malformed or contains invalid data, including issues with the request body, query parameters, path parameters, or headers.\n\n**Steps to resolve:**\n1. Check all required fields and parameters are present\n2. Ensure request body (if applicable) follows the correct schema\n3. Verify all parameter formats match the API specification:\n   - Query parameters\n   - Path parameters\n   - Request headers\n4. Validate any addresses, IDs, or other formatted strings meet requirements\n\n**Common validation issues:**\n- Missing required parameters\n- Invalid parameter types or formats\n- Malformed JSON in request body\n- Invalid enum values",
     ///    "invalid_signature": "This error occurs when the signature provided for the given user operation is invalid.\n\n**Steps to resolve:**\n1. Verify the signature was generated by the correct owner account\n2. Ensure the signature corresponds to the exact user operation hash\n3. Check that the signature format matches the expected format\n4. Confirm you're using the correct network for the Smart Account\n\n**Common causes:**\n- Using wrong owner account to sign\n- Signing modified/incorrect user operation data\n- Malformed signature encoding\n- Network mismatch between signature and broadcast",
@@ -10933,6 +10951,7 @@ pub mod types {
     ///    "target_email_invalid": "This error occurs when the email address specified as the transfer target is invalid.\n\n**Steps to resolve:**\n1. Verify the email address format is valid (e.g., `user@example.com`)\n2. Check for typos in the email address\n3. Ensure the email domain is valid\n\n**Common causes:**\n- Invalid email format\n- Missing @ symbol or domain\n- Typo in the email address",
     ///    "target_onchain_address_invalid": "This error occurs when the onchain address specified as the transfer target is invalid for the specified network.\n\n**Steps to resolve:**\n1. Ensure the network is supported for the transfer type\n2. Verify the address format matches the target network\n3. Ensure you haven't mixed up addresses from different networks\n\n**Common causes:**\n- Network not supported for the transfer type\n- Address format doesn't match network\n- Address from a different blockchain network",
     ///    "timed_out": "This error occurs when a request exceeds the maximum allowed processing time.\n\n**Steps to resolve:**\n1. Break down large requests into smaller chunks (if applicable)\n2. Implement retry logic with exponential backoff\n3. Use streaming endpoints for large data sets\n\n**Example retry implementation:**\n```typescript lines wrap\nasync function withRetryAndTimeout<T>(\n  operation: () => Promise<T>,\n  maxRetries = 3,\n  timeout = 30000,\n): Promise<T> {\n  let attempts = 0;\n  while (attempts < maxRetries) {\n    try {\n      return await Promise.race([\n        operation(),\n        new Promise((_, reject) =>\n          setTimeout(() => reject(new Error(\"Timeout\")), timeout)\n        ),\n      ]);\n    } catch (error) {\n      attempts++;\n      if (attempts === maxRetries) throw error;\n      // Exponential backoff\n      await new Promise(resolve =>\n        setTimeout(resolve, Math.pow(2, attempts) * 1000)\n      );\n    }\n  }\n  throw new Error(\"Max retries exceeded\");\n}\n```",
+    ///    "transaction_simulation_failed": "This error occurs when the pre-broadcast simulation of the swap transaction predicted a revert.\nNo transaction was submitted and no gas was spent.\n\n**Common causes:**\n- The on-chain price moved past the `slippageBps` tolerance between the price estimate and execution\n- Taker balance changed between the price estimate and execution\n\n**Steps to resolve:**\n1. Retry immediately — prices change quickly and a new quote may succeed\n2. Increase `slippageBps` if retries continue to fail (e.g. from 100 to 200)\n3. For large swaps, consider splitting into smaller amounts to reduce price impact",
     ///    "transfer_amount_invalid": "This error occurs when the transfer amount is invalid.\n\n**Steps to resolve:**\n1. Ensure the amount is a positive number and greater than $1 USD equivalent amount\n2. Verify the amount format is a valid decimal string (e.g., `\"100.50\"`)\n3. Check the number of decimal places for the asset\n\n**Common causes:**\n- Zero or negative amount\n- Too many decimal places for the asset\n- Amount below minimum threshold ($1 USD equivalent amount)",
     ///    "transfer_asset_not_supported": "This error occurs when the asset specified for the transfer is not supported.\n\n**Steps to resolve:**\n1. Check the list of supported assets for transfers\n2. Verify the asset symbol is correctly specified\n3. Ensure the asset is supported for the transfer route (source → target)\n\n**Common causes:**\n- Asset not supported for transfers\n- Incorrect asset symbol",
     ///    "travel_rules_field_missing": "This error occurs when required travel rule fields are missing from the transfer request.\n\n**Steps to resolve:**\n1. Include the `travelRule` object in your transfer request\n2. Supply the required missing fields prompted by the error message\n3. Review the travel rule requirements for your jurisdiction\n\nNote: Required fields may vary by region.",
@@ -11071,6 +11090,12 @@ pub mod types {
         OrderAlreadyCanceled,
         #[serde(rename = "account_not_ready")]
         AccountNotReady,
+        #[serde(rename = "insufficient_liquidity")]
+        InsufficientLiquidity,
+        #[serde(rename = "insufficient_allowance")]
+        InsufficientAllowance,
+        #[serde(rename = "transaction_simulation_failed")]
+        TransactionSimulationFailed,
     }
     impl ::std::convert::From<&Self> for ErrorType {
         fn from(value: &ErrorType) -> Self {
@@ -11142,6 +11167,9 @@ pub mod types {
                 Self::OrderAlreadyFilled => f.write_str("order_already_filled"),
                 Self::OrderAlreadyCanceled => f.write_str("order_already_canceled"),
                 Self::AccountNotReady => f.write_str("account_not_ready"),
+                Self::InsufficientLiquidity => f.write_str("insufficient_liquidity"),
+                Self::InsufficientAllowance => f.write_str("insufficient_allowance"),
+                Self::TransactionSimulationFailed => f.write_str("transaction_simulation_failed"),
             }
         }
     }
@@ -11207,6 +11235,9 @@ pub mod types {
                 "order_already_filled" => Ok(Self::OrderAlreadyFilled),
                 "order_already_canceled" => Ok(Self::OrderAlreadyCanceled),
                 "account_not_ready" => Ok(Self::AccountNotReady),
+                "insufficient_liquidity" => Ok(Self::InsufficientLiquidity),
+                "insufficient_allowance" => Ok(Self::InsufficientAllowance),
+                "transaction_simulation_failed" => Ok(Self::TransactionSimulationFailed),
                 _ => Err("invalid value".into()),
             }
         }
@@ -17162,6 +17193,89 @@ pub mod types {
                 })
         }
     }
+    ///`GetSqlSchemaDatabase`
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "default": "base",
+    ///  "type": "string",
+    ///  "enum": [
+    ///    "base",
+    ///    "base_sepolia"
+    ///  ]
+    ///}
+    /// ```
+    /// </details>
+    #[derive(
+        ::serde::Deserialize,
+        ::serde::Serialize,
+        Clone,
+        Copy,
+        Debug,
+        Eq,
+        Hash,
+        Ord,
+        PartialEq,
+        PartialOrd,
+    )]
+    pub enum GetSqlSchemaDatabase {
+        #[serde(rename = "base")]
+        Base,
+        #[serde(rename = "base_sepolia")]
+        BaseSepolia,
+    }
+    impl ::std::convert::From<&Self> for GetSqlSchemaDatabase {
+        fn from(value: &GetSqlSchemaDatabase) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::fmt::Display for GetSqlSchemaDatabase {
+        fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+            match *self {
+                Self::Base => f.write_str("base"),
+                Self::BaseSepolia => f.write_str("base_sepolia"),
+            }
+        }
+    }
+    impl ::std::str::FromStr for GetSqlSchemaDatabase {
+        type Err = self::error::ConversionError;
+        fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            match value {
+                "base" => Ok(Self::Base),
+                "base_sepolia" => Ok(Self::BaseSepolia),
+                _ => Err("invalid value".into()),
+            }
+        }
+    }
+    impl ::std::convert::TryFrom<&str> for GetSqlSchemaDatabase {
+        type Error = self::error::ConversionError;
+        fn try_from(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<&::std::string::String> for GetSqlSchemaDatabase {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: &::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<::std::string::String> for GetSqlSchemaDatabase {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: ::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::default::Default for GetSqlSchemaDatabase {
+        fn default() -> Self {
+            GetSqlSchemaDatabase::Base
+        }
+    }
     ///`GetSwapPriceResponse`
     ///
     /// <details><summary>JSON schema</summary>
@@ -21902,7 +22016,7 @@ pub mod types {
         }
     }
     /**Information about the end user's MFA enrollments.
-     */
+    */
     ///
     /// <details><summary>JSON schema</summary>
     ///
@@ -22723,7 +22837,8 @@ pub mod types {
     ///    "google",
     ///    "apple",
     ///    "x",
-    ///    "telegram"
+    ///    "telegram",
+    ///    "github"
     ///  ]
     ///}
     /// ```
@@ -22749,6 +22864,8 @@ pub mod types {
         X,
         #[serde(rename = "telegram")]
         Telegram,
+        #[serde(rename = "github")]
+        Github,
     }
     impl ::std::convert::From<&Self> for OAuth2ProviderType {
         fn from(value: &OAuth2ProviderType) -> Self {
@@ -22762,6 +22879,7 @@ pub mod types {
                 Self::Apple => f.write_str("apple"),
                 Self::X => f.write_str("x"),
                 Self::Telegram => f.write_str("telegram"),
+                Self::Github => f.write_str("github"),
             }
         }
     }
@@ -22773,6 +22891,7 @@ pub mod types {
                 "apple" => Ok(Self::Apple),
                 "x" => Ok(Self::X),
                 "telegram" => Ok(Self::Telegram),
+                "github" => Ok(Self::Github),
                 _ => Err("invalid value".into()),
             }
         }
@@ -22797,6 +22916,114 @@ pub mod types {
             value: ::std::string::String,
         ) -> ::std::result::Result<Self, self::error::ConversionError> {
             value.parse()
+        }
+    }
+    ///Schema definition for a table column.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "Schema definition for a table column.",
+    ///  "examples": [
+    ///    {
+    ///      "description": "The signature of the decoded event log.",
+    ///      "indexOrder": 0,
+    ///      "name": "event_signature",
+    ///      "nullable": false,
+    ///      "type": "String"
+    ///    }
+    ///  ],
+    ///  "type": "object",
+    ///  "properties": {
+    ///    "description": {
+    ///      "description": "Human-readable description of the column.",
+    ///      "examples": [
+    ///        "The signature of the decoded event log."
+    ///      ],
+    ///      "allOf": [
+    ///        {
+    ///          "$ref": "#/components/schemas/Description"
+    ///        }
+    ///      ]
+    ///    },
+    ///    "indexOrder": {
+    ///      "description": "The order of the column in the index. A lower number means the column is more important for the index and should be first in the query.",
+    ///      "examples": [
+    ///        0
+    ///      ],
+    ///      "type": "integer"
+    ///    },
+    ///    "name": {
+    ///      "description": "Column name.",
+    ///      "examples": [
+    ///        "event_signature"
+    ///      ],
+    ///      "type": "string"
+    ///    },
+    ///    "nullable": {
+    ///      "description": "Whether this column can contain NULL values.",
+    ///      "examples": [
+    ///        false
+    ///      ],
+    ///      "type": "boolean"
+    ///    },
+    ///    "type": {
+    ///      "description": "Column data type.",
+    ///      "examples": [
+    ///        "String"
+    ///      ],
+    ///      "type": "string"
+    ///    }
+    ///  }
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct OnchainDataColumnSchema {
+        ///Human-readable description of the column.
+        #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+        pub description: ::std::option::Option<Description>,
+        ///The order of the column in the index. A lower number means the column is more important for the index and should be first in the query.
+        #[serde(
+            rename = "indexOrder",
+            default,
+            skip_serializing_if = "::std::option::Option::is_none"
+        )]
+        pub index_order: ::std::option::Option<i64>,
+        ///Column name.
+        #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+        pub name: ::std::option::Option<::std::string::String>,
+        ///Whether this column can contain NULL values.
+        #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+        pub nullable: ::std::option::Option<bool>,
+        ///Column data type.
+        #[serde(
+            rename = "type",
+            default,
+            skip_serializing_if = "::std::option::Option::is_none"
+        )]
+        pub type_: ::std::option::Option<::std::string::String>,
+    }
+    impl ::std::convert::From<&OnchainDataColumnSchema> for OnchainDataColumnSchema {
+        fn from(value: &OnchainDataColumnSchema) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::default::Default for OnchainDataColumnSchema {
+        fn default() -> Self {
+            Self {
+                description: Default::default(),
+                index_order: Default::default(),
+                name: Default::default(),
+                nullable: Default::default(),
+                type_: Default::default(),
+            }
+        }
+    }
+    impl OnchainDataColumnSchema {
+        pub fn builder() -> builder::OnchainDataColumnSchema {
+            Default::default()
         }
     }
     ///Request to execute a SQL query against indexed blockchain data.
@@ -23226,7 +23453,7 @@ pub mod types {
         }
     }
     /**Schema information for the query result. This is a derived schema from the query result, so types may not match the underlying table.
-     */
+    */
     ///
     /// <details><summary>JSON schema</summary>
     ///
@@ -23551,6 +23778,164 @@ pub mod types {
             value: ::std::string::String,
         ) -> ::std::result::Result<Self, self::error::ConversionError> {
             value.parse()
+        }
+    }
+    ///Schema information for available blockchain data tables.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "Schema information for available blockchain data tables.",
+    ///  "type": "object",
+    ///  "properties": {
+    ///    "tables": {
+    ///      "description": "List of available tables.",
+    ///      "examples": [
+    ///        [
+    ///          {
+    ///            "columns": [
+    ///              {
+    ///                "description": "The signature of the decoded event log.",
+    ///                "indexOrder": 0,
+    ///                "name": "event_signature",
+    ///                "nullable": false,
+    ///                "type": "String"
+    ///              }
+    ///            ],
+    ///            "database": "base",
+    ///            "table": "events"
+    ///          }
+    ///        ]
+    ///      ],
+    ///      "type": "array",
+    ///      "items": {
+    ///        "$ref": "#/components/schemas/OnchainDataTableSchema"
+    ///      }
+    ///    }
+    ///  }
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct OnchainDataSchemaResponse {
+        ///List of available tables.
+        #[serde(default, skip_serializing_if = "::std::vec::Vec::is_empty")]
+        pub tables: ::std::vec::Vec<OnchainDataTableSchema>,
+    }
+    impl ::std::convert::From<&OnchainDataSchemaResponse> for OnchainDataSchemaResponse {
+        fn from(value: &OnchainDataSchemaResponse) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::default::Default for OnchainDataSchemaResponse {
+        fn default() -> Self {
+            Self {
+                tables: Default::default(),
+            }
+        }
+    }
+    impl OnchainDataSchemaResponse {
+        pub fn builder() -> builder::OnchainDataSchemaResponse {
+            Default::default()
+        }
+    }
+    ///Schema definition for a data table.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "Schema definition for a data table.",
+    ///  "examples": [
+    ///    {
+    ///      "columns": [
+    ///        {
+    ///          "description": "The signature of the decoded event log.",
+    ///          "indexOrder": 0,
+    ///          "name": "event_signature",
+    ///          "nullable": false,
+    ///          "type": "String"
+    ///        },
+    ///        {
+    ///          "description": "The address of the smart contract that emitted the event log.",
+    ///          "indexOrder": 1,
+    ///          "name": "address",
+    ///          "nullable": false,
+    ///          "type": "String"
+    ///        }
+    ///      ],
+    ///      "database": "base",
+    ///      "table": "events"
+    ///    }
+    ///  ],
+    ///  "type": "object",
+    ///  "properties": {
+    ///    "columns": {
+    ///      "description": "Column definitions for this table.",
+    ///      "examples": [
+    ///        [
+    ///          {
+    ///            "description": "The signature of the decoded event log.",
+    ///            "indexOrder": 0,
+    ///            "name": "event_signature",
+    ///            "nullable": false,
+    ///            "type": "String"
+    ///          }
+    ///        ]
+    ///      ],
+    ///      "type": "array",
+    ///      "items": {
+    ///        "$ref": "#/components/schemas/OnchainDataColumnSchema"
+    ///      }
+    ///    },
+    ///    "database": {
+    ///      "description": "The blockchain network database this table belongs to.",
+    ///      "examples": [
+    ///        "base"
+    ///      ],
+    ///      "type": "string"
+    ///    },
+    ///    "table": {
+    ///      "description": "Table name.",
+    ///      "examples": [
+    ///        "events"
+    ///      ],
+    ///      "type": "string"
+    ///    }
+    ///  }
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct OnchainDataTableSchema {
+        ///Column definitions for this table.
+        #[serde(default, skip_serializing_if = "::std::vec::Vec::is_empty")]
+        pub columns: ::std::vec::Vec<OnchainDataColumnSchema>,
+        ///The blockchain network database this table belongs to.
+        #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+        pub database: ::std::option::Option<::std::string::String>,
+        ///Table name.
+        #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+        pub table: ::std::option::Option<::std::string::String>,
+    }
+    impl ::std::convert::From<&OnchainDataTableSchema> for OnchainDataTableSchema {
+        fn from(value: &OnchainDataTableSchema) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::default::Default for OnchainDataTableSchema {
+        fn default() -> Self {
+            Self {
+                columns: Default::default(),
+                database: Default::default(),
+                table: Default::default(),
+            }
+        }
+    }
+    impl OnchainDataTableSchema {
+        pub fn builder() -> builder::OnchainDataTableSchema {
+            Default::default()
         }
     }
     /**The type of limit:
@@ -26665,7 +27050,7 @@ pub mod types {
     #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
     pub struct RequestEvmFaucetResponse {
         /**The hash of the transaction that requested the funds.
-         **Note:** In rare cases, when gas conditions are unusually high, the transaction may not confirm, and the system may issue a replacement transaction to complete the faucet request. In these rare cases, the `transactionHash` will be out of sync with the actual faucet transaction that was confirmed onchain.*/
+        **Note:** In rare cases, when gas conditions are unusually high, the transaction may not confirm, and the system may issue a replacement transaction to complete the faucet request. In these rare cases, the `transactionHash` will be out of sync with the actual faucet transaction that was confirmed onchain.*/
         #[serde(rename = "transactionHash")]
         pub transaction_hash: ::std::string::String,
     }
@@ -26707,7 +27092,8 @@ pub mod types {
     ///      "type": "string",
     ///      "enum": [
     ///        "sol",
-    ///        "usdc"
+    ///        "usdc",
+    ///        "cbtusd"
     ///      ]
     ///    }
     ///  }
@@ -26825,7 +27211,8 @@ pub mod types {
     ///  "type": "string",
     ///  "enum": [
     ///    "sol",
-    ///    "usdc"
+    ///    "usdc",
+    ///    "cbtusd"
     ///  ]
     ///}
     /// ```
@@ -26847,6 +27234,8 @@ pub mod types {
         Sol,
         #[serde(rename = "usdc")]
         Usdc,
+        #[serde(rename = "cbtusd")]
+        Cbtusd,
     }
     impl ::std::convert::From<&Self> for RequestSolanaFaucetBodyToken {
         fn from(value: &RequestSolanaFaucetBodyToken) -> Self {
@@ -26858,6 +27247,7 @@ pub mod types {
             match *self {
                 Self::Sol => f.write_str("sol"),
                 Self::Usdc => f.write_str("usdc"),
+                Self::Cbtusd => f.write_str("cbtusd"),
             }
         }
     }
@@ -26867,6 +27257,7 @@ pub mod types {
             match value {
                 "sol" => Ok(Self::Sol),
                 "usdc" => Ok(Self::Usdc),
+                "cbtusd" => Ok(Self::Cbtusd),
                 _ => Err("invalid value".into()),
             }
         }
@@ -27221,6 +27612,9 @@ pub mod types {
     ///      "$ref": "#/components/schemas/SignEndUserEvmTypedDataRule"
     ///    },
     ///    {
+    ///      "$ref": "#/components/schemas/SignEndUserEvmHashRule"
+    ///    },
+    ///    {
     ///      "$ref": "#/components/schemas/SignEndUserSolTransactionRule"
     ///    },
     ///    {
@@ -27250,6 +27644,7 @@ pub mod types {
         SendEndUserEvmTransactionRule(SendEndUserEvmTransactionRule),
         SignEndUserEvmMessageRule(SignEndUserEvmMessageRule),
         SignEndUserEvmTypedDataRule(SignEndUserEvmTypedDataRule),
+        SignEndUserEvmHashRule(SignEndUserEvmHashRule),
         SignEndUserSolTransactionRule(SignEndUserSolTransactionRule),
         SendEndUserSolTransactionRule(SendEndUserSolTransactionRule),
         SignEndUserSolMessageRule(SignEndUserSolMessageRule),
@@ -27327,6 +27722,11 @@ pub mod types {
     impl ::std::convert::From<SignEndUserEvmTypedDataRule> for Rule {
         fn from(value: SignEndUserEvmTypedDataRule) -> Self {
             Self::SignEndUserEvmTypedDataRule(value)
+        }
+    }
+    impl ::std::convert::From<SignEndUserEvmHashRule> for Rule {
+        fn from(value: SignEndUserEvmHashRule) -> Self {
+            Self::SignEndUserEvmHashRule(value)
         }
     }
     impl ::std::convert::From<SignEndUserSolTransactionRule> for Rule {
@@ -30399,6 +30799,218 @@ pub mod types {
                 .map_err(|e: self::error::ConversionError| {
                     <D::Error as ::serde::de::Error>::custom(e.to_string())
                 })
+        }
+    }
+    ///`SignEndUserEvmHashRule`
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "title": "SignEndUserEvmHashRule",
+    ///  "required": [
+    ///    "action",
+    ///    "operation"
+    ///  ],
+    ///  "properties": {
+    ///    "action": {
+    ///      "description": "Whether any attempts to sign a hash will be accepted or rejected. This rule does not accept any criteria.",
+    ///      "examples": [
+    ///        "accept"
+    ///      ],
+    ///      "type": "string",
+    ///      "enum": [
+    ///        "reject",
+    ///        "accept"
+    ///      ]
+    ///    },
+    ///    "operation": {
+    ///      "description": "The operation to which the rule applies.",
+    ///      "examples": [
+    ///        "signEndUserEvmHash"
+    ///      ],
+    ///      "type": "string",
+    ///      "enum": [
+    ///        "signEndUserEvmHash"
+    ///      ]
+    ///    }
+    ///  },
+    ///  "x-audience": "public"
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct SignEndUserEvmHashRule {
+        ///Whether any attempts to sign a hash will be accepted or rejected. This rule does not accept any criteria.
+        pub action: SignEndUserEvmHashRuleAction,
+        ///The operation to which the rule applies.
+        pub operation: SignEndUserEvmHashRuleOperation,
+    }
+    impl ::std::convert::From<&SignEndUserEvmHashRule> for SignEndUserEvmHashRule {
+        fn from(value: &SignEndUserEvmHashRule) -> Self {
+            value.clone()
+        }
+    }
+    impl SignEndUserEvmHashRule {
+        pub fn builder() -> builder::SignEndUserEvmHashRule {
+            Default::default()
+        }
+    }
+    ///Whether any attempts to sign a hash will be accepted or rejected. This rule does not accept any criteria.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "Whether any attempts to sign a hash will be accepted or rejected. This rule does not accept any criteria.",
+    ///  "examples": [
+    ///    "accept"
+    ///  ],
+    ///  "type": "string",
+    ///  "enum": [
+    ///    "reject",
+    ///    "accept"
+    ///  ]
+    ///}
+    /// ```
+    /// </details>
+    #[derive(
+        ::serde::Deserialize,
+        ::serde::Serialize,
+        Clone,
+        Copy,
+        Debug,
+        Eq,
+        Hash,
+        Ord,
+        PartialEq,
+        PartialOrd,
+    )]
+    pub enum SignEndUserEvmHashRuleAction {
+        #[serde(rename = "reject")]
+        Reject,
+        #[serde(rename = "accept")]
+        Accept,
+    }
+    impl ::std::convert::From<&Self> for SignEndUserEvmHashRuleAction {
+        fn from(value: &SignEndUserEvmHashRuleAction) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::fmt::Display for SignEndUserEvmHashRuleAction {
+        fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+            match *self {
+                Self::Reject => f.write_str("reject"),
+                Self::Accept => f.write_str("accept"),
+            }
+        }
+    }
+    impl ::std::str::FromStr for SignEndUserEvmHashRuleAction {
+        type Err = self::error::ConversionError;
+        fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            match value {
+                "reject" => Ok(Self::Reject),
+                "accept" => Ok(Self::Accept),
+                _ => Err("invalid value".into()),
+            }
+        }
+    }
+    impl ::std::convert::TryFrom<&str> for SignEndUserEvmHashRuleAction {
+        type Error = self::error::ConversionError;
+        fn try_from(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<&::std::string::String> for SignEndUserEvmHashRuleAction {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: &::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<::std::string::String> for SignEndUserEvmHashRuleAction {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: ::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    ///The operation to which the rule applies.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "The operation to which the rule applies.",
+    ///  "examples": [
+    ///    "signEndUserEvmHash"
+    ///  ],
+    ///  "type": "string",
+    ///  "enum": [
+    ///    "signEndUserEvmHash"
+    ///  ]
+    ///}
+    /// ```
+    /// </details>
+    #[derive(
+        ::serde::Deserialize,
+        ::serde::Serialize,
+        Clone,
+        Copy,
+        Debug,
+        Eq,
+        Hash,
+        Ord,
+        PartialEq,
+        PartialOrd,
+    )]
+    pub enum SignEndUserEvmHashRuleOperation {
+        #[serde(rename = "signEndUserEvmHash")]
+        SignEndUserEvmHash,
+    }
+    impl ::std::convert::From<&Self> for SignEndUserEvmHashRuleOperation {
+        fn from(value: &SignEndUserEvmHashRuleOperation) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::fmt::Display for SignEndUserEvmHashRuleOperation {
+        fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+            match *self {
+                Self::SignEndUserEvmHash => f.write_str("signEndUserEvmHash"),
+            }
+        }
+    }
+    impl ::std::str::FromStr for SignEndUserEvmHashRuleOperation {
+        type Err = self::error::ConversionError;
+        fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            match value {
+                "signEndUserEvmHash" => Ok(Self::SignEndUserEvmHash),
+                _ => Err("invalid value".into()),
+            }
+        }
+    }
+    impl ::std::convert::TryFrom<&str> for SignEndUserEvmHashRuleOperation {
+        type Error = self::error::ConversionError;
+        fn try_from(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<&::std::string::String> for SignEndUserEvmHashRuleOperation {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: &::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<::std::string::String> for SignEndUserEvmHashRuleOperation {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: ::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
         }
     }
     ///A schema for specifying criteria for the signEndUserEvmMessage operation.
@@ -36130,6 +36742,139 @@ pub mod types {
                 .map_err(|e: self::error::ConversionError| {
                     <D::Error as ::serde::de::Error>::custom(e.to_string())
                 })
+        }
+    }
+    ///Information about an end user who authenticates using Sign In With Ethereum (EIP-4361).
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "title": "SiweAuthentication",
+    ///  "description": "Information about an end user who authenticates using Sign In With Ethereum (EIP-4361).",
+    ///  "type": "object",
+    ///  "required": [
+    ///    "address",
+    ///    "type"
+    ///  ],
+    ///  "properties": {
+    ///    "address": {
+    ///      "description": "The ERC-55 checksummed Ethereum address of the end user.",
+    ///      "examples": [
+    ///        "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
+    ///      ],
+    ///      "allOf": [
+    ///        {
+    ///          "$ref": "#/components/schemas/BlockchainAddress"
+    ///        }
+    ///      ]
+    ///    },
+    ///    "type": {
+    ///      "description": "The type of authentication information.",
+    ///      "examples": [
+    ///        "siwe"
+    ///      ],
+    ///      "type": "string",
+    ///      "enum": [
+    ///        "siwe"
+    ///      ]
+    ///    }
+    ///  }
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct SiweAuthentication {
+        ///The ERC-55 checksummed Ethereum address of the end user.
+        pub address: BlockchainAddress,
+        ///The type of authentication information.
+        #[serde(rename = "type")]
+        pub type_: SiweAuthenticationType,
+    }
+    impl ::std::convert::From<&SiweAuthentication> for SiweAuthentication {
+        fn from(value: &SiweAuthentication) -> Self {
+            value.clone()
+        }
+    }
+    impl SiweAuthentication {
+        pub fn builder() -> builder::SiweAuthentication {
+            Default::default()
+        }
+    }
+    ///The type of authentication information.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "The type of authentication information.",
+    ///  "examples": [
+    ///    "siwe"
+    ///  ],
+    ///  "type": "string",
+    ///  "enum": [
+    ///    "siwe"
+    ///  ]
+    ///}
+    /// ```
+    /// </details>
+    #[derive(
+        ::serde::Deserialize,
+        ::serde::Serialize,
+        Clone,
+        Copy,
+        Debug,
+        Eq,
+        Hash,
+        Ord,
+        PartialEq,
+        PartialOrd,
+    )]
+    pub enum SiweAuthenticationType {
+        #[serde(rename = "siwe")]
+        Siwe,
+    }
+    impl ::std::convert::From<&Self> for SiweAuthenticationType {
+        fn from(value: &SiweAuthenticationType) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::fmt::Display for SiweAuthenticationType {
+        fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+            match *self {
+                Self::Siwe => f.write_str("siwe"),
+            }
+        }
+    }
+    impl ::std::str::FromStr for SiweAuthenticationType {
+        type Err = self::error::ConversionError;
+        fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            match value {
+                "siwe" => Ok(Self::Siwe),
+                _ => Err("invalid value".into()),
+            }
+        }
+    }
+    impl ::std::convert::TryFrom<&str> for SiweAuthenticationType {
+        type Error = self::error::ConversionError;
+        fn try_from(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<&::std::string::String> for SiweAuthenticationType {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: &::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<::std::string::String> for SiweAuthenticationType {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: ::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
         }
     }
     ///The maximum acceptable slippage of the `toToken` in basis points. If this parameter is set to 0, no slippage will be tolerated. If not provided, the default slippage tolerance is 100 bps (i.e., 1%).
@@ -42907,6 +43652,379 @@ pub mod types {
                 })
         }
     }
+    ///Response containing a list of webhook event delivery attempts.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "Response containing a list of webhook event delivery attempts.",
+    ///  "examples": [
+    ///    {
+    ///      "events": [
+    ///        {
+    ///          "createdAt": "2025-01-15T10:30:00Z",
+    ///          "eventId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    ///          "eventTypeName": "onchain.activity.detected",
+    ///          "response": {
+    ///            "body": "ok",
+    ///            "elapsedTimeMs": 142,
+    ///            "httpCode": 200
+    ///          },
+    ///          "retryCount": 0,
+    ///          "status": "succeeded",
+    ///          "succeededAt": "2025-01-15T10:30:02Z"
+    ///        }
+    ///      ]
+    ///    }
+    ///  ],
+    ///  "type": "object",
+    ///  "required": [
+    ///    "events"
+    ///  ],
+    ///  "properties": {
+    ///    "events": {
+    ///      "description": "The list of webhook event delivery attempts.",
+    ///      "type": "array",
+    ///      "items": {
+    ///        "$ref": "#/components/schemas/WebhookEventResponse"
+    ///      }
+    ///    }
+    ///  }
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct WebhookEventListResponse {
+        ///The list of webhook event delivery attempts.
+        pub events: ::std::vec::Vec<WebhookEventResponse>,
+    }
+    impl ::std::convert::From<&WebhookEventListResponse> for WebhookEventListResponse {
+        fn from(value: &WebhookEventListResponse) -> Self {
+            value.clone()
+        }
+    }
+    impl WebhookEventListResponse {
+        pub fn builder() -> builder::WebhookEventListResponse {
+            Default::default()
+        }
+    }
+    ///Details of a webhook event delivery attempt for a subscription.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "Details of a webhook event delivery attempt for a subscription.",
+    ///  "examples": [
+    ///    {
+    ///      "createdAt": "2025-01-15T10:30:00Z",
+    ///      "eventId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    ///      "eventTypeName": "onchain.activity.detected",
+    ///      "response": {
+    ///        "body": "ok",
+    ///        "elapsedTimeMs": 142,
+    ///        "httpCode": 200
+    ///      },
+    ///      "retryCount": 0,
+    ///      "status": "succeeded",
+    ///      "succeededAt": "2025-01-15T10:30:02Z"
+    ///    }
+    ///  ],
+    ///  "type": "object",
+    ///  "required": [
+    ///    "createdAt",
+    ///    "eventId",
+    ///    "eventTypeName",
+    ///    "retryCount",
+    ///    "status"
+    ///  ],
+    ///  "properties": {
+    ///    "createdAt": {
+    ///      "description": "Timestamp when the event delivery attempt was created.",
+    ///      "examples": [
+    ///        "2025-01-15T10:30:00Z"
+    ///      ],
+    ///      "type": "string",
+    ///      "format": "date-time"
+    ///    },
+    ///    "eventId": {
+    ///      "description": "Unique identifier for the webhook event.",
+    ///      "examples": [
+    ///        "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    ///      ],
+    ///      "type": "string"
+    ///    },
+    ///    "eventTypeName": {
+    ///      "description": "The type of event that was delivered (e.g., \"onchain.activity.detected\").",
+    ///      "examples": [
+    ///        "onchain.activity.detected"
+    ///      ],
+    ///      "type": "string"
+    ///    },
+    ///    "response": {
+    ///      "$ref": "#/components/schemas/WebhookEventResponseDetail"
+    ///    },
+    ///    "retryCount": {
+    ///      "description": "Number of delivery retry attempts so far.",
+    ///      "examples": [
+    ///        0
+    ///      ],
+    ///      "type": "integer"
+    ///    },
+    ///    "status": {
+    ///      "description": "Current delivery status of the event.",
+    ///      "examples": [
+    ///        "succeeded"
+    ///      ],
+    ///      "type": "string",
+    ///      "enum": [
+    ///        "pending",
+    ///        "processing",
+    ///        "succeeded",
+    ///        "failed",
+    ///        "retrying"
+    ///      ]
+    ///    },
+    ///    "succeededAt": {
+    ///      "description": "Timestamp when the event was successfully delivered. Only present if status is \"succeeded\".",
+    ///      "examples": [
+    ///        "2025-01-15T10:30:02Z"
+    ///      ],
+    ///      "type": "string",
+    ///      "format": "date-time"
+    ///    }
+    ///  }
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct WebhookEventResponse {
+        ///Timestamp when the event delivery attempt was created.
+        #[serde(rename = "createdAt")]
+        pub created_at: ::chrono::DateTime<::chrono::offset::Utc>,
+        ///Unique identifier for the webhook event.
+        #[serde(rename = "eventId")]
+        pub event_id: ::std::string::String,
+        ///The type of event that was delivered (e.g., "onchain.activity.detected").
+        #[serde(rename = "eventTypeName")]
+        pub event_type_name: ::std::string::String,
+        #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+        pub response: ::std::option::Option<WebhookEventResponseDetail>,
+        ///Number of delivery retry attempts so far.
+        #[serde(rename = "retryCount")]
+        pub retry_count: i64,
+        ///Current delivery status of the event.
+        pub status: WebhookEventResponseStatus,
+        ///Timestamp when the event was successfully delivered. Only present if status is "succeeded".
+        #[serde(
+            rename = "succeededAt",
+            default,
+            skip_serializing_if = "::std::option::Option::is_none"
+        )]
+        pub succeeded_at: ::std::option::Option<::chrono::DateTime<::chrono::offset::Utc>>,
+    }
+    impl ::std::convert::From<&WebhookEventResponse> for WebhookEventResponse {
+        fn from(value: &WebhookEventResponse) -> Self {
+            value.clone()
+        }
+    }
+    impl WebhookEventResponse {
+        pub fn builder() -> builder::WebhookEventResponse {
+            Default::default()
+        }
+    }
+    ///Details of the HTTP response received from the webhook target.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "Details of the HTTP response received from the webhook target.",
+    ///  "examples": [
+    ///    {
+    ///      "body": "ok",
+    ///      "elapsedTimeMs": 142,
+    ///      "httpCode": 200
+    ///    }
+    ///  ],
+    ///  "type": "object",
+    ///  "properties": {
+    ///    "body": {
+    ///      "description": "Response body returned by the webhook target.",
+    ///      "examples": [
+    ///        "ok"
+    ///      ],
+    ///      "type": "string"
+    ///    },
+    ///    "elapsedTimeMs": {
+    ///      "description": "Round-trip time of the webhook delivery in milliseconds.",
+    ///      "examples": [
+    ///        142
+    ///      ],
+    ///      "type": "integer"
+    ///    },
+    ///    "errorName": {
+    ///      "description": "Error name if the delivery failed (e.g., timeout, connection_refused).",
+    ///      "examples": [
+    ///        "timeout"
+    ///      ],
+    ///      "type": "string"
+    ///    },
+    ///    "httpCode": {
+    ///      "description": "HTTP status code returned by the webhook target.",
+    ///      "examples": [
+    ///        200
+    ///      ],
+    ///      "type": "integer"
+    ///    }
+    ///  }
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct WebhookEventResponseDetail {
+        ///Response body returned by the webhook target.
+        #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+        pub body: ::std::option::Option<::std::string::String>,
+        ///Round-trip time of the webhook delivery in milliseconds.
+        #[serde(
+            rename = "elapsedTimeMs",
+            default,
+            skip_serializing_if = "::std::option::Option::is_none"
+        )]
+        pub elapsed_time_ms: ::std::option::Option<i64>,
+        ///Error name if the delivery failed (e.g., timeout, connection_refused).
+        #[serde(
+            rename = "errorName",
+            default,
+            skip_serializing_if = "::std::option::Option::is_none"
+        )]
+        pub error_name: ::std::option::Option<::std::string::String>,
+        ///HTTP status code returned by the webhook target.
+        #[serde(
+            rename = "httpCode",
+            default,
+            skip_serializing_if = "::std::option::Option::is_none"
+        )]
+        pub http_code: ::std::option::Option<i64>,
+    }
+    impl ::std::convert::From<&WebhookEventResponseDetail> for WebhookEventResponseDetail {
+        fn from(value: &WebhookEventResponseDetail) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::default::Default for WebhookEventResponseDetail {
+        fn default() -> Self {
+            Self {
+                body: Default::default(),
+                elapsed_time_ms: Default::default(),
+                error_name: Default::default(),
+                http_code: Default::default(),
+            }
+        }
+    }
+    impl WebhookEventResponseDetail {
+        pub fn builder() -> builder::WebhookEventResponseDetail {
+            Default::default()
+        }
+    }
+    ///Current delivery status of the event.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "Current delivery status of the event.",
+    ///  "examples": [
+    ///    "succeeded"
+    ///  ],
+    ///  "type": "string",
+    ///  "enum": [
+    ///    "pending",
+    ///    "processing",
+    ///    "succeeded",
+    ///    "failed",
+    ///    "retrying"
+    ///  ]
+    ///}
+    /// ```
+    /// </details>
+    #[derive(
+        ::serde::Deserialize,
+        ::serde::Serialize,
+        Clone,
+        Copy,
+        Debug,
+        Eq,
+        Hash,
+        Ord,
+        PartialEq,
+        PartialOrd,
+    )]
+    pub enum WebhookEventResponseStatus {
+        #[serde(rename = "pending")]
+        Pending,
+        #[serde(rename = "processing")]
+        Processing,
+        #[serde(rename = "succeeded")]
+        Succeeded,
+        #[serde(rename = "failed")]
+        Failed,
+        #[serde(rename = "retrying")]
+        Retrying,
+    }
+    impl ::std::convert::From<&Self> for WebhookEventResponseStatus {
+        fn from(value: &WebhookEventResponseStatus) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::fmt::Display for WebhookEventResponseStatus {
+        fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+            match *self {
+                Self::Pending => f.write_str("pending"),
+                Self::Processing => f.write_str("processing"),
+                Self::Succeeded => f.write_str("succeeded"),
+                Self::Failed => f.write_str("failed"),
+                Self::Retrying => f.write_str("retrying"),
+            }
+        }
+    }
+    impl ::std::str::FromStr for WebhookEventResponseStatus {
+        type Err = self::error::ConversionError;
+        fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            match value {
+                "pending" => Ok(Self::Pending),
+                "processing" => Ok(Self::Processing),
+                "succeeded" => Ok(Self::Succeeded),
+                "failed" => Ok(Self::Failed),
+                "retrying" => Ok(Self::Retrying),
+                _ => Err("invalid value".into()),
+            }
+        }
+    }
+    impl ::std::convert::TryFrom<&str> for WebhookEventResponseStatus {
+        type Error = self::error::ConversionError;
+        fn try_from(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<&::std::string::String> for WebhookEventResponseStatus {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: &::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<::std::string::String> for WebhookEventResponseStatus {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: ::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
     ///`WebhookSubscriptionListResponse`
     ///
     /// <details><summary>JSON schema</summary>
@@ -42960,7 +44078,7 @@ pub mod types {
         }
     }
     /**Request to create a new webhook subscription with support for multi-label filtering.
-     */
+    */
     ///
     /// <details><summary>JSON schema</summary>
     ///
@@ -42986,7 +44104,7 @@ pub mod types {
     ///      ]
     ///    },
     ///    "eventTypes": {
-    ///      "description": "Types of events to subscribe to. Event types follow a three-part dot-separated format:\nservice.resource.verb (e.g., \"onchain.activity.detected\", \"wallet.activity.detected\", \"onramp.transaction.created\").\nThe subscription will only receive events matching these types AND the label filter(s).\n",
+    ///      "description": "Types of events to subscribe to. Event types follow a three-part dot-separated format:\nservice.resource.verb (e.g., \"onchain.activity.detected\", \"wallet.activity.detected\", \"onramp.transaction.created\",\n\"acceptance.payment_session\").\nThe subscription will only receive events matching these types AND the label filter(s).\n",
     ///      "examples": [
     ///        [
     ///          "onchain.activity.detected"
@@ -43034,7 +44152,8 @@ pub mod types {
         #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
         pub description: ::std::option::Option<Description>,
         /**Types of events to subscribe to. Event types follow a three-part dot-separated format:
-        service.resource.verb (e.g., "onchain.activity.detected", "wallet.activity.detected", "onramp.transaction.created").
+        service.resource.verb (e.g., "onchain.activity.detected", "wallet.activity.detected", "onramp.transaction.created",
+        "acceptance.payment_session").
         The subscription will only receive events matching these types AND the label filter(s).
         */
         #[serde(rename = "eventTypes")]
@@ -43097,7 +44216,8 @@ pub mod types {
     ///      "subscriptionId": "123e4567-e89b-12d3-a456-426614174000",
     ///      "target": {
     ///        "url": "https://api.example.com/webhooks"
-    ///      }
+    ///      },
+    ///      "updatedAt": "2025-11-13T11:30:00.000Z"
     ///    }
     ///  ],
     ///  "type": "object",
@@ -43130,7 +44250,7 @@ pub mod types {
     ///      ]
     ///    },
     ///    "eventTypes": {
-    ///      "description": "Types of events to subscribe to. Event types follow a three-part dot-separated format:\nservice.resource.verb (e.g., \"onchain.activity.detected\", \"wallet.activity.detected\", \"onramp.transaction.created\").\n",
+    ///      "description": "Types of events to subscribe to. Event types follow a three-part dot-separated format:\nservice.resource.verb (e.g., \"onchain.activity.detected\", \"wallet.activity.detected\", \"onramp.transaction.created\",\n\"acceptance.payment_session\").\n",
     ///      "examples": [
     ///        [
     ///          "onchain.activity.detected"
@@ -43207,6 +44327,14 @@ pub mod types {
     ///    },
     ///    "target": {
     ///      "$ref": "#/components/schemas/WebhookTarget"
+    ///    },
+    ///    "updatedAt": {
+    ///      "description": "When the subscription was last updated.",
+    ///      "examples": [
+    ///        "2025-01-16T14:00:00Z"
+    ///      ],
+    ///      "type": "string",
+    ///      "format": "date-time"
     ///    }
     ///  }
     ///}
@@ -43221,7 +44349,8 @@ pub mod types {
         #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
         pub description: ::std::option::Option<Description>,
         /**Types of events to subscribe to. Event types follow a three-part dot-separated format:
-        service.resource.verb (e.g., "onchain.activity.detected", "wallet.activity.detected", "onramp.transaction.created").
+        service.resource.verb (e.g., "onchain.activity.detected", "wallet.activity.detected", "onramp.transaction.created",
+        "acceptance.payment_session").
         */
         #[serde(rename = "eventTypes")]
         pub event_types: ::std::vec::Vec<::std::string::String>,
@@ -43244,6 +44373,13 @@ pub mod types {
         #[serde(rename = "subscriptionId")]
         pub subscription_id: ::uuid::Uuid,
         pub target: WebhookTarget,
+        ///When the subscription was last updated.
+        #[serde(
+            rename = "updatedAt",
+            default,
+            skip_serializing_if = "::std::option::Option::is_none"
+        )]
+        pub updated_at: ::std::option::Option<::chrono::DateTime<::chrono::offset::Utc>>,
     }
     impl ::std::convert::From<&WebhookSubscriptionResponse> for WebhookSubscriptionResponse {
         fn from(value: &WebhookSubscriptionResponse) -> Self {
@@ -43391,7 +44527,7 @@ pub mod types {
         }
     }
     /**Request to update an existing webhook subscription.
-     */
+    */
     ///
     /// <details><summary>JSON schema</summary>
     ///
@@ -45249,10 +46385,10 @@ pub mod types {
     ///  "type": "object",
     ///  "oneOf": [
     ///    {
-    ///      "$ref": "#/components/schemas/x402V1PaymentPayload"
+    ///      "$ref": "#/components/schemas/x402V2PaymentPayload"
     ///    },
     ///    {
-    ///      "$ref": "#/components/schemas/x402V2PaymentPayload"
+    ///      "$ref": "#/components/schemas/x402V1PaymentPayload"
     ///    }
     ///  ]
     ///}
@@ -45261,24 +46397,24 @@ pub mod types {
     #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
     #[serde(untagged)]
     pub enum X402PaymentPayload {
-        #[serde(rename = "X402V1PaymentPayload")]
-        X402v1PaymentPayload(X402V1PaymentPayload),
         #[serde(rename = "X402V2PaymentPayload")]
         X402v2PaymentPayload(X402V2PaymentPayload),
+        #[serde(rename = "X402V1PaymentPayload")]
+        X402v1PaymentPayload(X402V1PaymentPayload),
     }
     impl ::std::convert::From<&Self> for X402PaymentPayload {
         fn from(value: &X402PaymentPayload) -> Self {
             value.clone()
         }
     }
-    impl ::std::convert::From<X402V1PaymentPayload> for X402PaymentPayload {
-        fn from(value: X402V1PaymentPayload) -> Self {
-            Self::X402v1PaymentPayload(value)
-        }
-    }
     impl ::std::convert::From<X402V2PaymentPayload> for X402PaymentPayload {
         fn from(value: X402V2PaymentPayload) -> Self {
             Self::X402v2PaymentPayload(value)
+        }
+    }
+    impl ::std::convert::From<X402V1PaymentPayload> for X402PaymentPayload {
+        fn from(value: X402V1PaymentPayload) -> Self {
+            Self::X402v1PaymentPayload(value)
         }
     }
     ///The x402 protocol payment requirements that the resource server expects the client's payment payload to meet.
@@ -45291,10 +46427,10 @@ pub mod types {
     ///  "type": "object",
     ///  "oneOf": [
     ///    {
-    ///      "$ref": "#/components/schemas/x402V1PaymentRequirements"
+    ///      "$ref": "#/components/schemas/x402V2PaymentRequirements"
     ///    },
     ///    {
-    ///      "$ref": "#/components/schemas/x402V2PaymentRequirements"
+    ///      "$ref": "#/components/schemas/x402V1PaymentRequirements"
     ///    }
     ///  ]
     ///}
@@ -45303,24 +46439,24 @@ pub mod types {
     #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
     #[serde(untagged)]
     pub enum X402PaymentRequirements {
-        #[serde(rename = "X402V1PaymentRequirements")]
-        X402v1PaymentRequirements(X402V1PaymentRequirements),
         #[serde(rename = "X402V2PaymentRequirements")]
         X402v2PaymentRequirements(X402V2PaymentRequirements),
+        #[serde(rename = "X402V1PaymentRequirements")]
+        X402v1PaymentRequirements(X402V1PaymentRequirements),
     }
     impl ::std::convert::From<&Self> for X402PaymentRequirements {
         fn from(value: &X402PaymentRequirements) -> Self {
             value.clone()
         }
     }
-    impl ::std::convert::From<X402V1PaymentRequirements> for X402PaymentRequirements {
-        fn from(value: X402V1PaymentRequirements) -> Self {
-            Self::X402v1PaymentRequirements(value)
-        }
-    }
     impl ::std::convert::From<X402V2PaymentRequirements> for X402PaymentRequirements {
         fn from(value: X402V2PaymentRequirements) -> Self {
             Self::X402v2PaymentRequirements(value)
+        }
+    }
+    impl ::std::convert::From<X402V1PaymentRequirements> for X402PaymentRequirements {
+        fn from(value: X402V1PaymentRequirements) -> Self {
+            Self::X402v1PaymentRequirements(value)
         }
     }
     ///Describes the resource being accessed in x402 protocol.
@@ -47715,7 +48851,7 @@ pub mod types {
     ///{
     ///  "description": "The version of the x402 protocol.",
     ///  "examples": [
-    ///    1
+    ///    2
     ///  ],
     ///  "type": "integer",
     ///  "enum": [
@@ -56724,6 +57860,111 @@ pub mod types {
             }
         }
         #[derive(Clone, Debug)]
+        pub struct OnchainDataColumnSchema {
+            description: ::std::result::Result<
+                ::std::option::Option<super::Description>,
+                ::std::string::String,
+            >,
+            index_order: ::std::result::Result<::std::option::Option<i64>, ::std::string::String>,
+            name: ::std::result::Result<
+                ::std::option::Option<::std::string::String>,
+                ::std::string::String,
+            >,
+            nullable: ::std::result::Result<::std::option::Option<bool>, ::std::string::String>,
+            type_: ::std::result::Result<
+                ::std::option::Option<::std::string::String>,
+                ::std::string::String,
+            >,
+        }
+        impl ::std::default::Default for OnchainDataColumnSchema {
+            fn default() -> Self {
+                Self {
+                    description: Ok(Default::default()),
+                    index_order: Ok(Default::default()),
+                    name: Ok(Default::default()),
+                    nullable: Ok(Default::default()),
+                    type_: Ok(Default::default()),
+                }
+            }
+        }
+        impl OnchainDataColumnSchema {
+            pub fn description<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<super::Description>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.description = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for description: {}", e));
+                self
+            }
+            pub fn index_order<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<i64>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.index_order = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for index_order: {}", e));
+                self
+            }
+            pub fn name<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<::std::string::String>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.name = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for name: {}", e));
+                self
+            }
+            pub fn nullable<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<bool>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.nullable = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for nullable: {}", e));
+                self
+            }
+            pub fn type_<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<::std::string::String>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.type_ = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for type_: {}", e));
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<OnchainDataColumnSchema> for super::OnchainDataColumnSchema {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: OnchainDataColumnSchema,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    description: value.description?,
+                    index_order: value.index_order?,
+                    name: value.name?,
+                    nullable: value.nullable?,
+                    type_: value.type_?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::OnchainDataColumnSchema> for OnchainDataColumnSchema {
+            fn from(value: super::OnchainDataColumnSchema) -> Self {
+                Self {
+                    description: Ok(value.description),
+                    index_order: Ok(value.index_order),
+                    name: Ok(value.name),
+                    nullable: Ok(value.nullable),
+                    type_: Ok(value.type_),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
         pub struct OnchainDataQuery {
             cache: ::std::result::Result<
                 ::std::option::Option<super::QueryResultCacheConfiguration>,
@@ -57063,6 +58304,126 @@ pub mod types {
                 Self {
                     name: Ok(value.name),
                     type_: Ok(value.type_),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
+        pub struct OnchainDataSchemaResponse {
+            tables: ::std::result::Result<
+                ::std::vec::Vec<super::OnchainDataTableSchema>,
+                ::std::string::String,
+            >,
+        }
+        impl ::std::default::Default for OnchainDataSchemaResponse {
+            fn default() -> Self {
+                Self {
+                    tables: Ok(Default::default()),
+                }
+            }
+        }
+        impl OnchainDataSchemaResponse {
+            pub fn tables<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::vec::Vec<super::OnchainDataTableSchema>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.tables = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for tables: {}", e));
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<OnchainDataSchemaResponse> for super::OnchainDataSchemaResponse {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: OnchainDataSchemaResponse,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    tables: value.tables?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::OnchainDataSchemaResponse> for OnchainDataSchemaResponse {
+            fn from(value: super::OnchainDataSchemaResponse) -> Self {
+                Self {
+                    tables: Ok(value.tables),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
+        pub struct OnchainDataTableSchema {
+            columns: ::std::result::Result<
+                ::std::vec::Vec<super::OnchainDataColumnSchema>,
+                ::std::string::String,
+            >,
+            database: ::std::result::Result<
+                ::std::option::Option<::std::string::String>,
+                ::std::string::String,
+            >,
+            table: ::std::result::Result<
+                ::std::option::Option<::std::string::String>,
+                ::std::string::String,
+            >,
+        }
+        impl ::std::default::Default for OnchainDataTableSchema {
+            fn default() -> Self {
+                Self {
+                    columns: Ok(Default::default()),
+                    database: Ok(Default::default()),
+                    table: Ok(Default::default()),
+                }
+            }
+        }
+        impl OnchainDataTableSchema {
+            pub fn columns<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::vec::Vec<super::OnchainDataColumnSchema>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.columns = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for columns: {}", e));
+                self
+            }
+            pub fn database<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<::std::string::String>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.database = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for database: {}", e));
+                self
+            }
+            pub fn table<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<::std::string::String>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.table = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for table: {}", e));
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<OnchainDataTableSchema> for super::OnchainDataTableSchema {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: OnchainDataTableSchema,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    columns: value.columns?,
+                    database: value.database?,
+                    table: value.table?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::OnchainDataTableSchema> for OnchainDataTableSchema {
+            fn from(value: super::OnchainDataTableSchema) -> Self {
+                Self {
+                    columns: Ok(value.columns),
+                    database: Ok(value.database),
+                    table: Ok(value.table),
                 }
             }
         }
@@ -59318,6 +60679,64 @@ pub mod types {
             }
         }
         #[derive(Clone, Debug)]
+        pub struct SignEndUserEvmHashRule {
+            action:
+                ::std::result::Result<super::SignEndUserEvmHashRuleAction, ::std::string::String>,
+            operation: ::std::result::Result<
+                super::SignEndUserEvmHashRuleOperation,
+                ::std::string::String,
+            >,
+        }
+        impl ::std::default::Default for SignEndUserEvmHashRule {
+            fn default() -> Self {
+                Self {
+                    action: Err("no value supplied for action".to_string()),
+                    operation: Err("no value supplied for operation".to_string()),
+                }
+            }
+        }
+        impl SignEndUserEvmHashRule {
+            pub fn action<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<super::SignEndUserEvmHashRuleAction>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.action = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for action: {}", e));
+                self
+            }
+            pub fn operation<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<super::SignEndUserEvmHashRuleOperation>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.operation = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for operation: {}", e));
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<SignEndUserEvmHashRule> for super::SignEndUserEvmHashRule {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: SignEndUserEvmHashRule,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    action: value.action?,
+                    operation: value.operation?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::SignEndUserEvmHashRule> for SignEndUserEvmHashRule {
+            fn from(value: super::SignEndUserEvmHashRule) -> Self {
+                Self {
+                    action: Ok(value.action),
+                    operation: Ok(value.operation),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
         pub struct SignEndUserEvmMessageRule {
             action: ::std::result::Result<
                 super::SignEndUserEvmMessageRuleAction,
@@ -60854,6 +62273,60 @@ pub mod types {
             fn from(value: super::SignSolanaTransactionResponse) -> Self {
                 Self {
                     signed_transaction: Ok(value.signed_transaction),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
+        pub struct SiweAuthentication {
+            address: ::std::result::Result<super::BlockchainAddress, ::std::string::String>,
+            type_: ::std::result::Result<super::SiweAuthenticationType, ::std::string::String>,
+        }
+        impl ::std::default::Default for SiweAuthentication {
+            fn default() -> Self {
+                Self {
+                    address: Err("no value supplied for address".to_string()),
+                    type_: Err("no value supplied for type_".to_string()),
+                }
+            }
+        }
+        impl SiweAuthentication {
+            pub fn address<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<super::BlockchainAddress>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.address = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for address: {}", e));
+                self
+            }
+            pub fn type_<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<super::SiweAuthenticationType>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.type_ = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for type_: {}", e));
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<SiweAuthentication> for super::SiweAuthentication {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: SiweAuthentication,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    address: value.address?,
+                    type_: value.type_?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::SiweAuthentication> for SiweAuthentication {
+            fn from(value: super::SiweAuthentication) -> Self {
+                Self {
+                    address: Ok(value.address),
+                    type_: Ok(value.type_),
                 }
             }
         }
@@ -63303,6 +64776,275 @@ pub mod types {
             }
         }
         #[derive(Clone, Debug)]
+        pub struct WebhookEventListResponse {
+            events: ::std::result::Result<
+                ::std::vec::Vec<super::WebhookEventResponse>,
+                ::std::string::String,
+            >,
+        }
+        impl ::std::default::Default for WebhookEventListResponse {
+            fn default() -> Self {
+                Self {
+                    events: Err("no value supplied for events".to_string()),
+                }
+            }
+        }
+        impl WebhookEventListResponse {
+            pub fn events<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::vec::Vec<super::WebhookEventResponse>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.events = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for events: {}", e));
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<WebhookEventListResponse> for super::WebhookEventListResponse {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: WebhookEventListResponse,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    events: value.events?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::WebhookEventListResponse> for WebhookEventListResponse {
+            fn from(value: super::WebhookEventListResponse) -> Self {
+                Self {
+                    events: Ok(value.events),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
+        pub struct WebhookEventResponse {
+            created_at: ::std::result::Result<
+                ::chrono::DateTime<::chrono::offset::Utc>,
+                ::std::string::String,
+            >,
+            event_id: ::std::result::Result<::std::string::String, ::std::string::String>,
+            event_type_name: ::std::result::Result<::std::string::String, ::std::string::String>,
+            response: ::std::result::Result<
+                ::std::option::Option<super::WebhookEventResponseDetail>,
+                ::std::string::String,
+            >,
+            retry_count: ::std::result::Result<i64, ::std::string::String>,
+            status: ::std::result::Result<super::WebhookEventResponseStatus, ::std::string::String>,
+            succeeded_at: ::std::result::Result<
+                ::std::option::Option<::chrono::DateTime<::chrono::offset::Utc>>,
+                ::std::string::String,
+            >,
+        }
+        impl ::std::default::Default for WebhookEventResponse {
+            fn default() -> Self {
+                Self {
+                    created_at: Err("no value supplied for created_at".to_string()),
+                    event_id: Err("no value supplied for event_id".to_string()),
+                    event_type_name: Err("no value supplied for event_type_name".to_string()),
+                    response: Ok(Default::default()),
+                    retry_count: Err("no value supplied for retry_count".to_string()),
+                    status: Err("no value supplied for status".to_string()),
+                    succeeded_at: Ok(Default::default()),
+                }
+            }
+        }
+        impl WebhookEventResponse {
+            pub fn created_at<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::chrono::DateTime<::chrono::offset::Utc>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.created_at = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for created_at: {}", e));
+                self
+            }
+            pub fn event_id<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::string::String>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.event_id = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for event_id: {}", e));
+                self
+            }
+            pub fn event_type_name<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::string::String>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.event_type_name = value.try_into().map_err(|e| {
+                    format!("error converting supplied value for event_type_name: {}", e)
+                });
+                self
+            }
+            pub fn response<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<
+                    ::std::option::Option<super::WebhookEventResponseDetail>,
+                >,
+                T::Error: ::std::fmt::Display,
+            {
+                self.response = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for response: {}", e));
+                self
+            }
+            pub fn retry_count<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<i64>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.retry_count = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for retry_count: {}", e));
+                self
+            }
+            pub fn status<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<super::WebhookEventResponseStatus>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.status = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for status: {}", e));
+                self
+            }
+            pub fn succeeded_at<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<
+                    ::std::option::Option<::chrono::DateTime<::chrono::offset::Utc>>,
+                >,
+                T::Error: ::std::fmt::Display,
+            {
+                self.succeeded_at = value.try_into().map_err(|e| {
+                    format!("error converting supplied value for succeeded_at: {}", e)
+                });
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<WebhookEventResponse> for super::WebhookEventResponse {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: WebhookEventResponse,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    created_at: value.created_at?,
+                    event_id: value.event_id?,
+                    event_type_name: value.event_type_name?,
+                    response: value.response?,
+                    retry_count: value.retry_count?,
+                    status: value.status?,
+                    succeeded_at: value.succeeded_at?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::WebhookEventResponse> for WebhookEventResponse {
+            fn from(value: super::WebhookEventResponse) -> Self {
+                Self {
+                    created_at: Ok(value.created_at),
+                    event_id: Ok(value.event_id),
+                    event_type_name: Ok(value.event_type_name),
+                    response: Ok(value.response),
+                    retry_count: Ok(value.retry_count),
+                    status: Ok(value.status),
+                    succeeded_at: Ok(value.succeeded_at),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
+        pub struct WebhookEventResponseDetail {
+            body: ::std::result::Result<
+                ::std::option::Option<::std::string::String>,
+                ::std::string::String,
+            >,
+            elapsed_time_ms:
+                ::std::result::Result<::std::option::Option<i64>, ::std::string::String>,
+            error_name: ::std::result::Result<
+                ::std::option::Option<::std::string::String>,
+                ::std::string::String,
+            >,
+            http_code: ::std::result::Result<::std::option::Option<i64>, ::std::string::String>,
+        }
+        impl ::std::default::Default for WebhookEventResponseDetail {
+            fn default() -> Self {
+                Self {
+                    body: Ok(Default::default()),
+                    elapsed_time_ms: Ok(Default::default()),
+                    error_name: Ok(Default::default()),
+                    http_code: Ok(Default::default()),
+                }
+            }
+        }
+        impl WebhookEventResponseDetail {
+            pub fn body<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<::std::string::String>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.body = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for body: {}", e));
+                self
+            }
+            pub fn elapsed_time_ms<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<i64>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.elapsed_time_ms = value.try_into().map_err(|e| {
+                    format!("error converting supplied value for elapsed_time_ms: {}", e)
+                });
+                self
+            }
+            pub fn error_name<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<::std::string::String>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.error_name = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for error_name: {}", e));
+                self
+            }
+            pub fn http_code<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<i64>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.http_code = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for http_code: {}", e));
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<WebhookEventResponseDetail> for super::WebhookEventResponseDetail {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: WebhookEventResponseDetail,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    body: value.body?,
+                    elapsed_time_ms: value.elapsed_time_ms?,
+                    error_name: value.error_name?,
+                    http_code: value.http_code?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::WebhookEventResponseDetail> for WebhookEventResponseDetail {
+            fn from(value: super::WebhookEventResponseDetail) -> Self {
+                Self {
+                    body: Ok(value.body),
+                    elapsed_time_ms: Ok(value.elapsed_time_ms),
+                    error_name: Ok(value.error_name),
+                    http_code: Ok(value.http_code),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
         pub struct WebhookSubscriptionListResponse {
             next_page_token: ::std::result::Result<
                 ::std::option::Option<::std::string::String>,
@@ -63516,6 +65258,10 @@ pub mod types {
             secret: ::std::result::Result<::uuid::Uuid, ::std::string::String>,
             subscription_id: ::std::result::Result<::uuid::Uuid, ::std::string::String>,
             target: ::std::result::Result<super::WebhookTarget, ::std::string::String>,
+            updated_at: ::std::result::Result<
+                ::std::option::Option<::chrono::DateTime<::chrono::offset::Utc>>,
+                ::std::string::String,
+            >,
         }
         impl ::std::default::Default for WebhookSubscriptionResponse {
             fn default() -> Self {
@@ -63529,6 +65275,7 @@ pub mod types {
                     secret: Err("no value supplied for secret".to_string()),
                     subscription_id: Err("no value supplied for subscription_id".to_string()),
                     target: Err("no value supplied for target".to_string()),
+                    updated_at: Ok(Default::default()),
                 }
             }
         }
@@ -63627,6 +65374,18 @@ pub mod types {
                     .map_err(|e| format!("error converting supplied value for target: {}", e));
                 self
             }
+            pub fn updated_at<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<
+                    ::std::option::Option<::chrono::DateTime<::chrono::offset::Utc>>,
+                >,
+                T::Error: ::std::fmt::Display,
+            {
+                self.updated_at = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for updated_at: {}", e));
+                self
+            }
         }
         impl ::std::convert::TryFrom<WebhookSubscriptionResponse> for super::WebhookSubscriptionResponse {
             type Error = super::error::ConversionError;
@@ -63643,6 +65402,7 @@ pub mod types {
                     secret: value.secret?,
                     subscription_id: value.subscription_id?,
                     target: value.target?,
+                    updated_at: value.updated_at?,
                 })
             }
         }
@@ -63658,6 +65418,7 @@ pub mod types {
                     secret: Ok(value.secret),
                     subscription_id: Ok(value.subscription_id),
                     target: Ok(value.target),
+                    updated_at: Ok(value.updated_at),
                 }
             }
         }
@@ -65559,9 +67320,11 @@ impl Client {
 
     Retrieve the SQL grammar for the SQL API.
 
-    The SQL queries that are supported by the SQL API are defined via an ANTLR4 grammar which is evaluated by server before executing the query. This ensures the safety and soundness of the SQL API.
+    The SQL queries that are supported by the SQL API are defined in ANTLR4 grammar which is evaluated by server before executing the query. This ensures the safety and soundness of the SQL query before execution.
 
-    This endpoint returns the ANTLR4 grammar that is used to evaluate the SQL queries so that developers can understand the SQL API and build SQL queries with high confidence and correctness. LLMs interact well with ANTLR4 grammar as well.
+    This endpoint returns the ANTLR4 grammar that is used to evaluate the SQL queries so that developers can understand the SQL API and build SQL queries with high confidence and correctness.
+
+    LLMs interact well with ANTLR4 grammar. You can feed the grammar directly into the LLMs to help generate SQL queries.
 
 
     Sends a `GET` request to `/v2/data/query/grammar`
@@ -65579,27 +67342,45 @@ impl Client {
     Run a read-only SQL query against indexed blockchain data including transactions, events, and decoded logs.
 
     This endpoint provides direct SQL access to comprehensive blockchain data across supported networks.
+
     Queries are executed against optimized data structures for high-performance analytics.
 
     ### Allowed Queries
 
-      - Standard SQL syntax (ClickHouse dialect)
+      - Standard SQL syntax (CoinbaSeQL dialect, based on ClickHouse dialect)
       - Read-only queries (SELECT statements)
       - No DDL or DML operations
-      - No cartesian products
+      - Query that follow limits (defined below)
 
     ### Supported Tables
 
-      - `base.events` - Base mainnet decoded event logs with parameters, event signature, topics, and more.
-      - `base.transactions` - Base mainnet transaction data including hash, block number, gas usage.
-      - `base.blocks` - Base mainnet block information.
-      - `base.encoded_logs` - Encoded log data of event logs that aren't able to be decoded by our event decoder (ex: log0 opcode).
-      - `base.transfers` - All event logs with event signature `Transfer(address,address,uint256)`. ERC-20, ERC-721, and ERC-1155 transfers are all included.
+      - `<network>.events` - Base mainnet decoded event logs with parameters, event signature, topics, and more.
+      - `<network>.transactions` - Base mainnet transaction data including hash, block number, gas usage.
+      - `<network>.blocks` - Base mainnet block information.
+      - `<network>.encoded_logs` - Encoded log data of event logs that aren't able to be decoded by our event decoder (ex: log0 opcode).
+      - `<network>.decoded_user_operations` - Decoded user operations data including hash, block number, gas usage, builder codes, entrypoint version, and more.
+      - `<network>.transaction_attributions` - Information about the attributions of a transaction to a builder and associated builder codes.
+
+    ### Supported Networks
+
+      - Base Mainnet: `base`
+      - Base Sepolia: `base_sepolia`
+
+      So for example, valid tables are: `base.events`, `base_sepolia.events`, `base.transactions`, etc.
 
     ### Query Limits
 
-      - Maximum result set: 100,000 rows
+      - Maximum result set: 50,000 rows
+      - Maximum query length: 10,000 characters
+      - Maximum on-disk data to read: 100GB
+      - Maximum memory usage: 15GB
       - Query timeout: 30 seconds
+      - Maximum JOINs: 12
+
+    ### Query Caching
+
+    By default, each query result is returned from cache so long as the result is from an identical query and less than 750ms old. This freshness tolerance can be modified upwards, to a maximum of 900000ms (i.e. 900s, 15m).
+    This can be helpful for users who wish to reduce expensive calls to the SQL API by reusing cached results.
 
 
     Sends a `POST` request to `/v2/data/query/run`
@@ -65612,6 +67393,28 @@ impl Client {
     ```*/
     pub fn run_sql_query(&self) -> builder::RunSqlQuery<'_> {
         builder::RunSqlQuery::new(self)
+    }
+    /**Get schemas details
+
+    Retrieve the schema information for the available tables in the SQL API's indexed data.
+
+    This includes table names, column definitions, data types, and indexed fields.
+
+
+    Sends a `GET` request to `/v2/data/query/schema`
+
+    Arguments:
+    - `database`: The name of the database to query. Defaults to "base" when not specified.
+    - `table`: Get the schema for a specific table.
+    ```ignore
+    let response = client.get_sql_schema()
+        .database(database)
+        .table(table)
+        .send()
+        .await;
+    ```*/
+    pub fn get_sql_schema(&self) -> builder::GetSqlSchema<'_> {
+        builder::GetSqlSchema::new(self)
     }
     /**List webhook subscriptions
 
@@ -65781,6 +67584,48 @@ impl Client {
     ```*/
     pub fn delete_webhook_subscription(&self) -> builder::DeleteWebhookSubscription<'_> {
         builder::DeleteWebhookSubscription::new(self)
+    }
+    /**List webhook subscription events
+
+    Retrieve webhook event delivery attempts for a specific subscription.
+    Returns event deliveries in descending order by creation time (newest first),
+    including delivery status, retry count, and response details.
+
+    ### Use Cases
+    - Debug webhook delivery failures and inspect response codes
+    - Monitor delivery status and retry counts
+    - Audit event delivery history for a subscription
+    - Verify that expected events were sent to webhook URLs
+
+    ### Filtering
+    Use optional query parameters to narrow results:
+    - `eventId` — find a specific event by ID
+    - `minCreatedAt` / `maxCreatedAt` — filter by time range
+    - `eventTypeNames` — filter by event type (comma-separated)
+
+    **Note:** Results are limited to the 50 most recent events (newest first). No pagination is supported.
+
+
+    Sends a `GET` request to `/v2/data/webhooks/subscriptions/{subscriptionId}/events`
+
+    Arguments:
+    - `subscription_id`: Unique identifier for the webhook subscription.
+    - `event_id`: Filter by a specific event ID.
+    - `event_type_names`: Filter by event type names (comma-separated).
+    - `max_created_at`: Filter events created at or before this timestamp (RFC 3339 format).
+    - `min_created_at`: Filter events created at or after this timestamp (RFC 3339 format).
+    ```ignore
+    let response = client.list_webhook_subscription_events()
+        .subscription_id(subscription_id)
+        .event_id(event_id)
+        .event_type_names(event_type_names)
+        .max_created_at(max_created_at)
+        .min_created_at(min_created_at)
+        .send()
+        .await;
+    ```*/
+    pub fn list_webhook_subscription_events(&self) -> builder::ListWebhookSubscriptionEvents<'_> {
+        builder::ListWebhookSubscriptionEvents::new(self)
     }
     /**List end users
 
@@ -67273,16 +69118,17 @@ impl Client {
 
     Request funds from the CDP Faucet on Solana devnet.
 
-    Faucets are available for SOL.
+    Faucets are available for SOL, USDC, and CBTUSD.
 
     To prevent abuse, we enforce rate limits within a rolling 24-hour window to control the amount of funds that can be requested.
     These limits are applied at both the CDP Project level and the blockchain address level.
     A single blockchain address cannot exceed the specified limits, even if multiple users submit requests to the same address.
 
-    | Token | Amount per Faucet Request |Rolling 24-hour window Rate Limits|
-    |:-----:|:-------------------------:|:--------------------------------:|
-    | SOL   | 0.00125 SOL               | 0.0125 SOL                       |
-    | USDC  | 1 USDC                    | 10 USDC                          |
+    | Token  | Amount per Faucet Request |Rolling 24-hour window Rate Limits|
+    |:-----: |:-------------------------:|:--------------------------------:|
+    | SOL    | 0.00125 SOL               | 0.0125 SOL                       |
+    | USDC   | 1 USDC                    | 10 USDC                          |
+    | CBTUSD | 1 CBTUSD                  | 10 CBTUSD                        |
 
 
     Sends a `POST` request to `/v2/solana/faucet`
@@ -67730,6 +69576,9 @@ pub mod builder {
                 401u16 => Err(Error::ErrorResponse(
                     ResponseValue::from_response(response).await?,
                 )),
+                402u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
                 408u16 => Err(Error::ErrorResponse(
                     ResponseValue::from_response(response).await?,
                 )),
@@ -67743,6 +69592,93 @@ pub mod builder {
                     ResponseValue::from_response(response).await?,
                 )),
                 504u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                _ => Err(Error::UnexpectedResponse(response)),
+            }
+        }
+    }
+    /**Builder for [`Client::get_sql_schema`]
+
+    [`Client::get_sql_schema`]: super::Client::get_sql_schema*/
+    #[derive(Debug, Clone)]
+    pub struct GetSqlSchema<'a> {
+        client: &'a super::Client,
+        database: Result<Option<types::GetSqlSchemaDatabase>, String>,
+        table: Result<Option<::std::string::String>, String>,
+    }
+    impl<'a> GetSqlSchema<'a> {
+        pub fn new(client: &'a super::Client) -> Self {
+            Self {
+                client: client,
+                database: Ok(None),
+                table: Ok(None),
+            }
+        }
+        pub fn database<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<types::GetSqlSchemaDatabase>,
+        {
+            self.database = value.try_into().map(Some).map_err(|_| {
+                "conversion to `GetSqlSchemaDatabase` for database failed".to_string()
+            });
+            self
+        }
+        pub fn table<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<::std::string::String>,
+        {
+            self.table = value.try_into().map(Some).map_err(|_| {
+                "conversion to `:: std :: string :: String` for table failed".to_string()
+            });
+            self
+        }
+        ///Sends a `GET` request to `/v2/data/query/schema`
+        pub async fn send(
+            self,
+        ) -> Result<ResponseValue<types::OnchainDataSchemaResponse>, Error<types::Error>> {
+            let Self {
+                client,
+                database,
+                table,
+            } = self;
+            let database = database.map_err(Error::InvalidRequest)?;
+            let table = table.map_err(Error::InvalidRequest)?;
+            let url = format!("{}/v2/data/query/schema", client.baseurl,);
+            let mut header_map = ::reqwest::header::HeaderMap::with_capacity(1usize);
+            header_map.append(
+                ::reqwest::header::HeaderName::from_static("api-version"),
+                ::reqwest::header::HeaderValue::from_static(super::Client::api_version()),
+            );
+            #[allow(unused_mut)]
+            let mut request = client
+                .client
+                .get(url)
+                .header(
+                    ::reqwest::header::ACCEPT,
+                    ::reqwest::header::HeaderValue::from_static("application/json"),
+                )
+                .query(&progenitor_middleware_client::QueryParam::new(
+                    "database", &database,
+                ))
+                .query(&progenitor_middleware_client::QueryParam::new(
+                    "table", &table,
+                ))
+                .headers(header_map)
+                .build()?;
+            let info = OperationInfo {
+                operation_id: "get_sql_schema",
+            };
+            client.pre(&mut request, &info).await?;
+            let result = client.exec(request, &info).await;
+            client.post(&result, &info).await?;
+            let response = result?;
+            match response.status().as_u16() {
+                200u16 => ResponseValue::from_response::<types::Error>(response).await,
+                401u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                500u16 => Err(Error::ErrorResponse(
                     ResponseValue::from_response(response).await?,
                 )),
                 _ => Err(Error::UnexpectedResponse(response)),
@@ -68188,6 +70124,163 @@ pub mod builder {
             let response = result?;
             match response.status().as_u16() {
                 204u16 => Ok(ResponseValue::empty(response)),
+                401u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                404u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                429u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                500u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                _ => Err(Error::UnexpectedResponse(response)),
+            }
+        }
+    }
+    /**Builder for [`Client::list_webhook_subscription_events`]
+
+    [`Client::list_webhook_subscription_events`]: super::Client::list_webhook_subscription_events*/
+    #[derive(Debug, Clone)]
+    pub struct ListWebhookSubscriptionEvents<'a> {
+        client: &'a super::Client,
+        subscription_id: Result<::uuid::Uuid, String>,
+        event_id: Result<Option<::uuid::Uuid>, String>,
+        event_type_names: Result<Option<::std::string::String>, String>,
+        max_created_at: Result<Option<::chrono::DateTime<::chrono::offset::Utc>>, String>,
+        min_created_at: Result<Option<::chrono::DateTime<::chrono::offset::Utc>>, String>,
+    }
+    impl<'a> ListWebhookSubscriptionEvents<'a> {
+        pub fn new(client: &'a super::Client) -> Self {
+            Self {
+                client: client,
+                subscription_id: Err("subscription_id was not initialized".to_string()),
+                event_id: Ok(None),
+                event_type_names: Ok(None),
+                max_created_at: Ok(None),
+                min_created_at: Ok(None),
+            }
+        }
+        pub fn subscription_id<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<::uuid::Uuid>,
+        {
+            self.subscription_id = value.try_into().map_err(|_| {
+                "conversion to `:: uuid :: Uuid` for subscription_id failed".to_string()
+            });
+            self
+        }
+        pub fn event_id<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<::uuid::Uuid>,
+        {
+            self.event_id = value
+                .try_into()
+                .map(Some)
+                .map_err(|_| "conversion to `:: uuid :: Uuid` for event_id failed".to_string());
+            self
+        }
+        pub fn event_type_names<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<::std::string::String>,
+        {
+            self.event_type_names = value.try_into().map(Some).map_err(|_| {
+                "conversion to `:: std :: string :: String` for event_type_names failed".to_string()
+            });
+            self
+        }
+        pub fn max_created_at<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<::chrono::DateTime<::chrono::offset::Utc>>,
+        {
+            self.max_created_at = value
+                .try_into()
+                .map(Some)
+                .map_err(|_| {
+                    "conversion to `:: chrono :: DateTime < :: chrono :: offset :: Utc >` for max_created_at failed"
+                        .to_string()
+                });
+            self
+        }
+        pub fn min_created_at<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<::chrono::DateTime<::chrono::offset::Utc>>,
+        {
+            self.min_created_at = value
+                .try_into()
+                .map(Some)
+                .map_err(|_| {
+                    "conversion to `:: chrono :: DateTime < :: chrono :: offset :: Utc >` for min_created_at failed"
+                        .to_string()
+                });
+            self
+        }
+        ///Sends a `GET` request to `/v2/data/webhooks/subscriptions/{subscriptionId}/events`
+        pub async fn send(
+            self,
+        ) -> Result<ResponseValue<types::WebhookEventListResponse>, Error<types::Error>> {
+            let Self {
+                client,
+                subscription_id,
+                event_id,
+                event_type_names,
+                max_created_at,
+                min_created_at,
+            } = self;
+            let subscription_id = subscription_id.map_err(Error::InvalidRequest)?;
+            let event_id = event_id.map_err(Error::InvalidRequest)?;
+            let event_type_names = event_type_names.map_err(Error::InvalidRequest)?;
+            let max_created_at = max_created_at.map_err(Error::InvalidRequest)?;
+            let min_created_at = min_created_at.map_err(Error::InvalidRequest)?;
+            let url = format!(
+                "{}/v2/data/webhooks/subscriptions/{}/events",
+                client.baseurl,
+                encode_path(&subscription_id.to_string()),
+            );
+            let mut header_map = ::reqwest::header::HeaderMap::with_capacity(1usize);
+            header_map.append(
+                ::reqwest::header::HeaderName::from_static("api-version"),
+                ::reqwest::header::HeaderValue::from_static(super::Client::api_version()),
+            );
+            #[allow(unused_mut)]
+            let mut request = client
+                .client
+                .get(url)
+                .header(
+                    ::reqwest::header::ACCEPT,
+                    ::reqwest::header::HeaderValue::from_static("application/json"),
+                )
+                .query(&progenitor_middleware_client::QueryParam::new(
+                    "eventId", &event_id,
+                ))
+                .query(&progenitor_middleware_client::QueryParam::new(
+                    "eventTypeNames",
+                    &event_type_names,
+                ))
+                .query(&progenitor_middleware_client::QueryParam::new(
+                    "maxCreatedAt",
+                    &max_created_at,
+                ))
+                .query(&progenitor_middleware_client::QueryParam::new(
+                    "minCreatedAt",
+                    &min_created_at,
+                ))
+                .headers(header_map)
+                .build()?;
+            let info = OperationInfo {
+                operation_id: "list_webhook_subscription_events",
+            };
+            client.pre(&mut request, &info).await?;
+            let result = client.exec(request, &info).await;
+            client.post(&result, &info).await?;
+            let response = result?;
+            match response.status().as_u16() {
+                200u16 => ResponseValue::from_response::<types::Error>(response).await,
+                400u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
                 401u16 => Err(Error::ErrorResponse(
                     ResponseValue::from_response(response).await?,
                 )),

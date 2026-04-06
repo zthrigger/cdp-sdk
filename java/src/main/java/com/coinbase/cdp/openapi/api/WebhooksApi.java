@@ -18,7 +18,9 @@ import com.coinbase.cdp.openapi.ApiResponse;
 import com.coinbase.cdp.openapi.Pair;
 
 import com.coinbase.cdp.openapi.model.Error;
+import java.time.OffsetDateTime;
 import java.util.UUID;
+import com.coinbase.cdp.openapi.model.WebhookEventListResponse;
 import com.coinbase.cdp.openapi.model.WebhookSubscriptionListResponse;
 import com.coinbase.cdp.openapi.model.WebhookSubscriptionRequest;
 import com.coinbase.cdp.openapi.model.WebhookSubscriptionResponse;
@@ -322,6 +324,119 @@ public class WebhooksApi {
         .replace("{subscriptionId}", ApiClient.urlEncode(subscriptionId.toString()));
 
     localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+
+  /**
+   * List webhook subscription events
+   * Retrieve webhook event delivery attempts for a specific subscription. Returns event deliveries in descending order by creation time (newest first), including delivery status, retry count, and response details.  ### Use Cases - Debug webhook delivery failures and inspect response codes - Monitor delivery status and retry counts - Audit event delivery history for a subscription - Verify that expected events were sent to webhook URLs  ### Filtering Use optional query parameters to narrow results: - &#x60;eventId&#x60; — find a specific event by ID - &#x60;minCreatedAt&#x60; / &#x60;maxCreatedAt&#x60; — filter by time range - &#x60;eventTypeNames&#x60; — filter by event type (comma-separated)  **Note:** Results are limited to the 50 most recent events (newest first). No pagination is supported. 
+   * @param subscriptionId Unique identifier for the webhook subscription. (required)
+   * @param eventId Filter by a specific event ID. (optional)
+   * @param minCreatedAt Filter events created at or after this timestamp (RFC 3339 format). (optional)
+   * @param maxCreatedAt Filter events created at or before this timestamp (RFC 3339 format). (optional)
+   * @param eventTypeNames Filter by event type names (comma-separated). (optional)
+   * @return WebhookEventListResponse
+   * @throws ApiException if fails to make API call
+   */
+  public WebhookEventListResponse listWebhookSubscriptionEvents(UUID subscriptionId, UUID eventId, OffsetDateTime minCreatedAt, OffsetDateTime maxCreatedAt, String eventTypeNames) throws ApiException {
+    ApiResponse<WebhookEventListResponse> localVarResponse = listWebhookSubscriptionEventsWithHttpInfo(subscriptionId, eventId, minCreatedAt, maxCreatedAt, eventTypeNames);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * List webhook subscription events
+   * Retrieve webhook event delivery attempts for a specific subscription. Returns event deliveries in descending order by creation time (newest first), including delivery status, retry count, and response details.  ### Use Cases - Debug webhook delivery failures and inspect response codes - Monitor delivery status and retry counts - Audit event delivery history for a subscription - Verify that expected events were sent to webhook URLs  ### Filtering Use optional query parameters to narrow results: - &#x60;eventId&#x60; — find a specific event by ID - &#x60;minCreatedAt&#x60; / &#x60;maxCreatedAt&#x60; — filter by time range - &#x60;eventTypeNames&#x60; — filter by event type (comma-separated)  **Note:** Results are limited to the 50 most recent events (newest first). No pagination is supported. 
+   * @param subscriptionId Unique identifier for the webhook subscription. (required)
+   * @param eventId Filter by a specific event ID. (optional)
+   * @param minCreatedAt Filter events created at or after this timestamp (RFC 3339 format). (optional)
+   * @param maxCreatedAt Filter events created at or before this timestamp (RFC 3339 format). (optional)
+   * @param eventTypeNames Filter by event type names (comma-separated). (optional)
+   * @return ApiResponse&lt;WebhookEventListResponse&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<WebhookEventListResponse> listWebhookSubscriptionEventsWithHttpInfo(UUID subscriptionId, UUID eventId, OffsetDateTime minCreatedAt, OffsetDateTime maxCreatedAt, String eventTypeNames) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = listWebhookSubscriptionEventsRequestBuilder(subscriptionId, eventId, minCreatedAt, maxCreatedAt, eventTypeNames);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("listWebhookSubscriptionEvents", localVarResponse);
+        }
+        if (localVarResponse.body() == null) {
+          return new ApiResponse<WebhookEventListResponse>(
+              localVarResponse.statusCode(),
+              localVarResponse.headers().map(),
+              null
+          );
+        }
+
+        String responseBody = new String(localVarResponse.body().readAllBytes());
+        localVarResponse.body().close();
+
+        return new ApiResponse<WebhookEventListResponse>(
+            localVarResponse.statusCode(),
+            localVarResponse.headers().map(),
+            responseBody.isBlank()? null: memberVarObjectMapper.readValue(responseBody, new TypeReference<WebhookEventListResponse>() {})
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder listWebhookSubscriptionEventsRequestBuilder(UUID subscriptionId, UUID eventId, OffsetDateTime minCreatedAt, OffsetDateTime maxCreatedAt, String eventTypeNames) throws ApiException {
+    // verify the required parameter 'subscriptionId' is set
+    if (subscriptionId == null) {
+      throw new ApiException(400, "Missing the required parameter 'subscriptionId' when calling listWebhookSubscriptionEvents");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/v2/data/webhooks/subscriptions/{subscriptionId}/events"
+        .replace("{subscriptionId}", ApiClient.urlEncode(subscriptionId.toString()));
+
+    List<Pair> localVarQueryParams = new ArrayList<>();
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    localVarQueryParameterBaseName = "eventId";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("eventId", eventId));
+    localVarQueryParameterBaseName = "minCreatedAt";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("minCreatedAt", minCreatedAt));
+    localVarQueryParameterBaseName = "maxCreatedAt";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("maxCreatedAt", maxCreatedAt));
+    localVarQueryParameterBaseName = "eventTypeNames";
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("eventTypeNames", eventTypeNames));
+
+    if (!localVarQueryParams.isEmpty() || localVarQueryStringJoiner.length() != 0) {
+      StringJoiner queryJoiner = new StringJoiner("&");
+      localVarQueryParams.forEach(p -> queryJoiner.add(p.getName() + '=' + p.getValue()));
+      if (localVarQueryStringJoiner.length() != 0) {
+        queryJoiner.add(localVarQueryStringJoiner.toString());
+      }
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath + '?' + queryJoiner.toString()));
+    } else {
+      localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+    }
 
     localVarRequestBuilder.header("Accept", "application/json");
 
