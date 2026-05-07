@@ -6,7 +6,9 @@
  * OpenAPI spec version: 2.0.0
  */
 import type {
+  ListWebhookSubscriptionEventsParams,
   ListWebhookSubscriptionsParams,
+  WebhookEventListResponse,
   WebhookSubscriptionListResponse,
   WebhookSubscriptionRequest,
   WebhookSubscriptionResponse,
@@ -55,10 +57,12 @@ export const listWebhookSubscriptions = (
 - **No labels required** - maximum simplicity for transaction monitoring
 
 **Payments Transfers Events** - Transfer lifecycle notifications:
-- `payments.transfers.quoted`
-- `payments.transfers.processing`
-- `payments.transfers.completed`
-- `payments.transfers.failed`
+- `payments.transfers.quoted` - Transfer created and awaiting execution
+- `payments.transfers.processing` - Transfer execution in progress
+- `payments.transfers.completed` - Transfer completed successfully
+- `payments.transfers.failed` - Transfer failed
+- `payments.transfers.travel_rule_incomplete` - Travel rule information is missing
+- `payments.transfers.travel_rule_completed` - Travel rule information has been provided and the transfer will proceed
 - **No labels required** - enable the transfers webhook to monitor status transitions
 
 **Wallet Events** - Wallet activity notifications:
@@ -175,6 +179,37 @@ export const deleteWebhookSubscription = (
     options,
   );
 };
+/**
+ * Retrieve webhook event delivery attempts for a specific subscription.
+Returns event deliveries in descending order by creation time (newest first),
+including delivery status, retry count, and response details.
+
+### Use Cases
+- Debug webhook delivery failures and inspect response codes
+- Monitor delivery status and retry counts
+- Audit event delivery history for a subscription
+- Verify that expected events were sent to webhook URLs
+
+### Filtering
+Use optional query parameters to narrow results:
+- `eventId` — find a specific event by ID
+- `minCreatedAt` / `maxCreatedAt` — filter by time range
+- `eventTypeNames` — filter by event type (comma-separated)
+
+**Note:** Results are limited to the 50 most recent events (newest first). No pagination is supported.
+
+ * @summary List webhook subscription events
+ */
+export const listWebhookSubscriptionEvents = (
+  subscriptionId: string,
+  params?: ListWebhookSubscriptionEventsParams,
+  options?: SecondParameter<typeof cdpApiClient<WebhookEventListResponse>>,
+) => {
+  return cdpApiClient<WebhookEventListResponse>(
+    { url: `/v2/data/webhooks/subscriptions/${subscriptionId}/events`, method: "GET", params },
+    options,
+  );
+};
 export type ListWebhookSubscriptionsResult = NonNullable<
   Awaited<ReturnType<typeof listWebhookSubscriptions>>
 >;
@@ -189,4 +224,7 @@ export type UpdateWebhookSubscriptionResult = NonNullable<
 >;
 export type DeleteWebhookSubscriptionResult = NonNullable<
   Awaited<ReturnType<typeof deleteWebhookSubscription>>
+>;
+export type ListWebhookSubscriptionEventsResult = NonNullable<
+  Awaited<ReturnType<typeof listWebhookSubscriptionEvents>>
 >;

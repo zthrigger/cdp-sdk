@@ -27,11 +27,11 @@ from cdp.openapi_client.models.import_solana_account_request import ImportSolana
 from cdp.openapi_client.models.request_solana_faucet200_response import (
     RequestSolanaFaucet200Response as RequestSolanaFaucetResponse,
 )
-from cdp.openapi_client.models.sign_solana_message200_response import (
-    SignSolanaMessage200Response as SignSolanaMessageResponse,
+from cdp.openapi_client.models.sign_solana_message_with_end_user_account200_response import (
+    SignSolanaMessageWithEndUserAccount200Response as SignSolanaMessageResponse,
 )
-from cdp.openapi_client.models.sign_solana_transaction200_response import (
-    SignSolanaTransaction200Response as SignSolanaTransactionResponse,
+from cdp.openapi_client.models.sign_solana_transaction_with_end_user_account200_response import (
+    SignSolanaTransactionWithEndUserAccount200Response as SignSolanaTransactionResponse,
 )
 from cdp.openapi_client.models.update_solana_account_request import UpdateSolanaAccountRequest
 from cdp.solana_account import ListSolanaAccountsResponse, SolanaAccount
@@ -375,6 +375,7 @@ class SolanaClient:
         network: str,
         transaction: str,
         idempotency_key: str | None = None,
+        use_cdp_sponsor: bool | None = None,
     ) -> str:
         """Send a Solana transaction.
 
@@ -382,6 +383,7 @@ class SolanaClient:
             network (str): The network to send the transaction to.
             transaction (str): The transaction to send.
             idempotency_key (str, optional): The idempotency key. Defaults to None.
+            use_cdp_sponsor (bool, optional): Whether CDP should sponsor the transaction fees. Defaults to None.
 
         """
         track_action(
@@ -393,6 +395,7 @@ class SolanaClient:
                 transaction,
                 network,
                 idempotency_key,
+                use_cdp_sponsor,
             )
         except Exception as error:
             track_error(error, "send_transaction")

@@ -19,8 +19,6 @@ export type {
   ListEndUsersOptions,
   EndUserAccount,
   RevokeDelegationForEndUserOptions,
-  SignEvmHashOptions,
-  SignEvmHashResult,
   SignEvmTransactionOptions,
   SignEvmTransactionResult,
   SignEvmMessageOptions,
@@ -35,8 +33,6 @@ export type {
   SendUserOperationResult,
   CreateEvmEip7702DelegationOptions as CreateEvmEip7702DelegationForEndUserOptions,
   CreateEvmEip7702DelegationForEndUserResult,
-  SignSolanaHashOptions,
-  SignSolanaHashResult,
   SignSolanaMessageOptions,
   SignSolanaMessageResult,
   SignSolanaTransactionOptions,
@@ -50,5 +46,11 @@ export {
   SPEND_PERMISSION_MANAGER_ABI as spendPermissionManagerAbi,
   SPEND_PERMISSION_MANAGER_ADDRESS as spendPermissionManagerAddress,
 } from "./spend-permissions/constants.js";
+
+export type {
+  CreateWebhookSubscriptionOptions,
+  CreateWebhookSubscriptionResult,
+  WebhookEventType,
+} from "./actions/webhooks/index.js";
 
 export { parseEther, parseUnits } from "viem";

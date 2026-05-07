@@ -2,6 +2,54 @@
 
 <!-- towncrier release notes start -->
 
+## [1.44.0] - 2026-04-22
+
+### Features
+
+- Add get_delegation method to EndUserClient for retrieving active delegation details ([#get-delegation](https://github.com/coinbase/cdp-sdk/pull/get-delegation))
+
+### Bugfixes
+
+- Added new webhook events for signing and delegated signing ([#671](https://github.com/coinbase/cdp-sdk/pull/671))
+
+
+## [1.43.0] - 2026-04-20
+
+### Features
+
+- Added delegated signing and sending methods to EndUserClient and EndUserAccount for EVM and Solana operations ([#663](https://github.com/coinbase/cdp-sdk/pull/663))
+
+### Bugfixes
+
+- Removed upper bound pin on web3.py dependency ([#657](https://github.com/coinbase/cdp-sdk/pull/657))
+
+
+## [1.42.0] - 2026-04-15
+
+### Features
+
+- Added CreateSubscription for Webhooks Client ([#634](https://github.com/coinbase/cdp-sdk/pull/634))
+
+### Bugfixes
+
+- Removed nest_asyncio dependency ([#652](https://github.com/coinbase/cdp-sdk/pull/652))
+
+
+## [1.41.0] - 2026-04-09
+
+### Features
+
+- Added solana fee sponsorship ([#646](https://github.com/coinbase/cdp-sdk/pull/646))
+
+### Bugfixes
+
+- Added EIP-6492 signature wrapping for undeployed smart accounts ([#623](https://github.com/coinbase/cdp-sdk/pull/623))
+
+### Misc
+
+- [#622](https://github.com/coinbase/cdp-sdk/pull/622)
+
+
 ## [1.40.0] - 2026-03-06
 
 ### Features

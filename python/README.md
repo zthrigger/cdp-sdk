@@ -28,6 +28,9 @@
   - [Add EVM Smart Account to End User](#add-evm-smart-account-to-end-user)
   - [Add Solana Account to End User](#add-solana-account-to-end-user)
   - [Validate Access Token](#validate-access-token)
+  - [Delegated End User Operations](#delegated-end-user-operations)
+- [Webhooks](#webhooks)
+  - [Create Subscription](#create-subscription)
 - [Authentication Tools](#authentication-tools)
 - [Error Reporting](#error-reporting)
 - [Usage Tracking](#usage-tracking)
@@ -645,6 +648,16 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
+To have CDP sponsor the transaction fees, pass `use_cdp_sponsor=True`. When enabled, CDP pays the network fee so the sender does not need SOL for fees.
+
+```python
+response = await cdp.solana.send_transaction(
+    network="solana-devnet",
+    transaction=serialized_tx,
+    use_cdp_sponsor=True,
+)
+```
+
 ### Transferring tokens
 
 #### EVM
@@ -1112,6 +1125,24 @@ SolanaAccount supports the following actions:
 - `sign_transaction`
 - `request_faucet`
 
+EndUserAccount supports the following actions:
+
+- `sign_evm_transaction`
+- `sign_evm_message`
+- `sign_evm_typed_data`
+- `send_evm_transaction`
+- `send_evm_asset`
+- `send_user_operation`
+- `create_evm_eip7702_delegation`
+- `revoke_delegation`
+- `sign_solana_message`
+- `sign_solana_transaction`
+- `send_solana_transaction`
+- `send_solana_asset`
+- `add_evm_account`
+- `add_evm_smart_account`
+- `add_solana_account`
+
 ## Policy Management
 
 You can use the policies SDK to manage sets of rules that govern the behavior of accounts and projects, such as enforce allowlists and denylists.
@@ -1495,6 +1526,182 @@ try:
 except Exception as e:
     # Access token is invalid or expired
 ```
+
+#### Delegated End User Operations
+
+You can perform signing and sending operations on behalf of end users using the `EndUserClient` delegated methods, or call them directly on an `EndUserAccount` object.
+
+##### Sign an EVM transaction
+
+Using the client:
+
+```python
+result = await cdp.end_user.sign_evm_transaction(
+    user_id=end_user.user_id,
+    address="0x1234...",
+    transaction="0x...",
+)
+print(f"Signature: {result.signature}")
+```
+
+Or directly on the EndUserAccount:
+
+```python
+result = await end_user.sign_evm_transaction(
+    transaction="0x...",
+)
+print(f"Signature: {result.signature}")
+```
+
+##### Sign an EVM message
+
+```python
+result = await end_user.sign_evm_message(
+    message="Hello, World!",
+)
+print(f"Signature: {result.signature}")
+```
+
+##### Send an EVM transaction
+
+```python
+result = await end_user.send_evm_transaction(
+    transaction="0x...",
+    network="base-sepolia",
+)
+print(f"Transaction hash: {result.transaction_hash}")
+```
+
+##### Send an EVM asset
+
+```python
+result = await end_user.send_evm_asset(
+    to="0x9F663335Cd6Ad02a37B633602E98866CF944124d",
+    amount="10000",
+    network="base-sepolia",
+    asset="usdc",
+)
+print(f"Transaction hash: {result.transaction_hash}")
+```
+
+##### Send a user operation (smart account)
+
+```python
+from cdp.evm_call_types import EncodedCall
+
+result = await end_user.send_user_operation(
+    network="base-sepolia",
+    calls=[
+        EncodedCall(
+            to="0x0000000000000000000000000000000000000000",
+            value=0,
+            data="0x",
+        )
+    ],
+)
+print(f"User operation hash: {result.user_op_hash}")
+```
+
+##### Create an EIP-7702 delegation
+
+```python
+result = await end_user.create_evm_eip7702_delegation(
+    network="base-sepolia",
+)
+```
+
+##### Revoke delegation
+
+```python
+await end_user.revoke_delegation()
+```
+
+##### Sign a Solana message
+
+```python
+result = await end_user.sign_solana_message(
+    message="Hello, Solana!",
+)
+print(f"Signature: {result.signature}")
+```
+
+##### Sign a Solana transaction
+
+```python
+result = await end_user.sign_solana_transaction(
+    transaction="base64-encoded-transaction...",
+)
+print(f"Signed transaction: {result.signed_transaction}")
+```
+
+##### Send a Solana transaction
+
+```python
+result = await end_user.send_solana_transaction(
+    transaction="base64-encoded-transaction...",
+    network="solana-devnet",
+)
+print(f"Signature: {result.transaction_signature}")
+```
+
+##### Send a Solana asset
+
+```python
+result = await end_user.send_solana_asset(
+    to="3KzDtddx4i53FBkvCzuDmRbaMozTZoJBb1TToWhz3JfE",
+    amount="1000000",
+    network="solana-devnet",
+    asset="usdc",
+)
+print(f"Signature: {result.transaction_signature}")
+```
+
+## Webhooks
+
+You can use the webhooks SDK to subscribe to on-chain and wallet events and receive notifications at a URL of your choice.
+
+### Create Subscription
+
+Create a webhook subscription to receive event notifications:
+
+```python
+from cdp.webhook_types import CreateWebhookSubscriptionOptions
+
+subscription = await cdp.webhooks.create_subscription(
+    CreateWebhookSubscriptionOptions(
+        description="Monitor wallet transactions",
+        event_types=[
+            "wallet.transaction.pending",
+            "wallet.transaction.confirmed",
+            "wallet.transaction.failed",
+        ],
+        target_url="https://example.com/webhook",
+        target_headers={"X-Custom-Header": "custom-value"},  # optional
+        is_enabled=True,  # optional, defaults to True
+        metadata={"env": "production"},  # optional
+    )
+)
+
+print(f"Subscription ID: {subscription.subscription_id}")
+print(f"Secret: {subscription.secret}")  # use to verify webhook signatures
+```
+
+The available wallet event types are:
+
+- `wallet.transaction.created`
+- `wallet.transaction.broadcast`
+- `wallet.transaction.pending`
+- `wallet.transaction.replaced`
+- `wallet.transaction.confirmed`
+- `wallet.transaction.failed`
+- `wallet.transaction.signed`
+- `wallet.typed_data.signed`
+- `wallet.message.signed`
+- `wallet.hash.signed`
+- `wallet.delegation.created`
+- `wallet.delegation.revoked`
+
+For a complete working example, see [webhooks/create_webhook_subscription.py](https://github.com/coinbase/cdp-sdk/blob/main/examples/python/webhooks/create_webhook_subscription.py).
 
 ## Authentication tools
 

@@ -7,7 +7,7 @@ import type {
   AddEndUserEvmSmartAccount201,
   AddEndUserSolanaAccount201,
   EndUser as OpenAPIEndUser,
-  SignEvmHashWithEndUserAccount200,
+  GetDelegationForEndUser200,
   SignEvmTransactionWithEndUserAccount200,
   SignEvmMessageWithEndUserAccount200,
   SignEvmTypedDataWithEndUserAccount200,
@@ -20,7 +20,6 @@ import type {
   EvmCall,
   CreateEvmEip7702DelegationWithEndUserAccount201,
   EvmEip7702DelegationNetwork,
-  SignSolanaHashWithEndUserAccount200,
   SignSolanaMessageWithEndUserAccount200,
   SignSolanaTransactionWithEndUserAccount200,
   SendSolanaTransactionWithEndUserAccount200,
@@ -142,6 +141,21 @@ export interface ImportEndUserOptions {
 }
 
 /**
+ * The options for getting the active delegation for an end user.
+ */
+export interface GetDelegationForEndUserOptions {
+  /**
+   * The unique identifier of the end user.
+   */
+  userId: string;
+}
+
+/**
+ * The result of getting the active delegation for an end user.
+ */
+export type GetDelegationForEndUserResult = GetDelegationForEndUser200;
+
+/**
  * The options for revoking all active delegations for an end user.
  */
 export interface RevokeDelegationForEndUserOptions {
@@ -152,23 +166,6 @@ export interface RevokeDelegationForEndUserOptions {
 }
 
 // ─── EVM Sign Options/Results ───
-
-/**
- * The options for signing an EVM hash on behalf of an end user.
- */
-export interface SignEvmHashOptions {
-  /** The unique identifier of the end user. */
-  userId: string;
-  /** The 32-byte hash to sign, hex-encoded. */
-  hash: string;
-  /** The EVM address to sign with. */
-  address: string;
-}
-
-/**
- * The result of signing an EVM hash on behalf of an end user.
- */
-export type SignEvmHashResult = SignEvmHashWithEndUserAccount200;
 
 /**
  * The options for signing an EVM transaction on behalf of an end user.
@@ -319,23 +316,6 @@ export type CreateEvmEip7702DelegationForEndUserResult =
 // ─── Solana Sign Options/Results ───
 
 /**
- * The options for signing a Solana hash on behalf of an end user.
- */
-export interface SignSolanaHashOptions {
-  /** The unique identifier of the end user. */
-  userId: string;
-  /** The 32-byte hash to sign. */
-  hash: string;
-  /** The Solana address to sign with. */
-  address: string;
-}
-
-/**
- * The result of signing a Solana hash on behalf of an end user.
- */
-export type SignSolanaHashResult = SignSolanaHashWithEndUserAccount200;
-
-/**
  * The options for signing a Solana message on behalf of an end user.
  */
 export interface SignSolanaMessageOptions {
@@ -416,16 +396,6 @@ export interface SendSolanaAssetOptions {
 export type SendSolanaAssetResult = SendSolanaAssetWithEndUserAccount200;
 
 // ─── EndUserAccount Action Method Options (address optional, userId auto-bound) ───
-
-/**
- * The options for signing an EVM hash on an EndUser object.
- */
-export interface AccountSignEvmHashOptions {
-  /** The 32-byte hash to sign, hex-encoded. */
-  hash: string;
-  /** The EVM address to sign with. Uses the first EVM account if not provided. */
-  address?: string;
-}
 
 /**
  * The options for signing an EVM transaction on an EndUser object.
@@ -517,16 +487,6 @@ export interface AccountCreateEvmEip7702DelegationOptions {
   network: EvmEip7702DelegationNetwork;
   /** Whether to enable spend permissions for the delegation. */
   enableSpendPermissions?: boolean;
-}
-
-/**
- * The options for signing a Solana hash on an EndUser object.
- */
-export interface AccountSignSolanaHashOptions {
-  /** The 32-byte hash to sign. */
-  hash: string;
-  /** The Solana address to sign with. Uses the first Solana account if not provided. */
-  address?: string;
 }
 
 /**
@@ -652,6 +612,21 @@ export type EndUserAccountActions = {
   addSolanaAccount: () => Promise<AddEndUserSolanaAccountResult>;
 
   /**
+   * Gets the active delegation for this end user, if one exists.
+   *
+   * @returns A promise that resolves to the delegation details including its expiry.
+   *
+   * @example
+   * ```ts
+   * const endUser = await cdp.endUser.getEndUser({ userId: "user-123" });
+   *
+   * const delegation = await endUser.getDelegation();
+   * console.log(delegation.expiresAt);
+   * ```
+   */
+  getDelegation: () => Promise<GetDelegationForEndUserResult>;
+
+  /**
    * Revokes all active delegations for this end user.
    * This operation can be performed by the end user themselves or by a developer using their API key.
    *
@@ -667,14 +642,6 @@ export type EndUserAccountActions = {
   revokeDelegation: () => Promise<void>;
 
   // ─── Delegated EVM Sign Methods ───
-
-  /**
-   * Signs an EVM hash on behalf of this end user using a delegation.
-   *
-   * @param options - The signing options.
-   * @returns A promise that resolves to the signature.
-   */
-  signEvmHash: (options: AccountSignEvmHashOptions) => Promise<SignEvmHashResult>;
 
   /**
    * Signs an EVM transaction on behalf of this end user using a delegation.
@@ -743,14 +710,6 @@ export type EndUserAccountActions = {
   ) => Promise<CreateEvmEip7702DelegationForEndUserResult>;
 
   // ─── Delegated Solana Sign Methods ───
-
-  /**
-   * Signs a Solana hash on behalf of this end user using a delegation.
-   *
-   * @param options - The signing options.
-   * @returns A promise that resolves to the signature.
-   */
-  signSolanaHash: (options: AccountSignSolanaHashOptions) => Promise<SignSolanaHashResult>;
 
   /**
    * Signs a Solana message on behalf of this end user using a delegation.

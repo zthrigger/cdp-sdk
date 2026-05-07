@@ -32,7 +32,11 @@ public enum ErrorType {
   
   ALREADY_EXISTS("already_exists"),
   
+  AUTHORIZATION_EXPIRED("authorization_expired"),
+  
   BAD_GATEWAY("bad_gateway"),
+  
+  CAPTURE_EXPIRED("capture_expired"),
   
   CLIENT_CLOSED_REQUEST("client_closed_request"),
   
@@ -94,6 +98,8 @@ public enum ErrorType {
   
   RECIPIENT_ALLOWLIST_PENDING("recipient_allowlist_pending"),
   
+  REFUND_EXPIRED("refund_expired"),
+  
   TRAVEL_RULES_RECIPIENT_VIOLATION("travel_rules_recipient_violation"),
   
   SOURCE_ACCOUNT_INVALID("source_account_invalid"),
@@ -144,7 +150,13 @@ public enum ErrorType {
   
   ORDER_ALREADY_CANCELED("order_already_canceled"),
   
-  ACCOUNT_NOT_READY("account_not_ready");
+  ACCOUNT_NOT_READY("account_not_ready"),
+  
+  INSUFFICIENT_LIQUIDITY("insufficient_liquidity"),
+  
+  INSUFFICIENT_ALLOWANCE("insufficient_allowance"),
+  
+  TRANSACTION_SIMULATION_FAILED("transaction_simulation_failed");
 
   private String value;
 

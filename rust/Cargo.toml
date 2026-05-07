@@ -1,6 +1,6 @@
 [package]
 name = "cdp-sdk"
-version = "0.3.0"
+version = "0.5.0"
 edition = "2021"
 rust-version = "1.86"
 authors = ["Coinbase Inc."]
@@ -18,7 +18,7 @@ async-trait = "^0.1"
 bon = { version = "3.7.1" }
 chrono = { version = "0.4", features = ["serde"] }
 progenitor-middleware-client = { version = "^0.12.0" }
-reqwest = { version = "0.12.4", features = ["json", "stream"] }
+reqwest = { version = "0.12.4", default-features = false, features = ["json", "stream"] }
 base64 = "0.22"
 rand = "0.9"
 regress = "0.10"
@@ -34,10 +34,21 @@ http = "1.0"
 hex = "0.4"
 reqwest-middleware = { version = "0.4.2", default-features = false, features = ["json"] }
 
+[features]
+default = ["native-tls"]
+native-tls = ["reqwest/native-tls"]
+native-tls-alpn = ["reqwest/native-tls-alpn"]
+native-tls-vendored = ["reqwest/native-tls-vendored"]
+rustls-tls = ["reqwest/rustls-tls"]
+rustls-tls-native-roots = ["reqwest/rustls-tls-native-roots"]
+rustls-tls-webpki-roots = ["reqwest/rustls-tls-webpki-roots"]
+
 [dev-dependencies]
 tokio = { version = "1.0", features = ["full"] }
 alloy = "1.0.24"
 bs58 = "0.5"
+p256 = { version = "0.13", features = ["ecdsa"] }
+ed25519-dalek = { version = "2", features = ["rand_core"] }
 
 [build-dependencies]
 prettyplease = "0.2.36"

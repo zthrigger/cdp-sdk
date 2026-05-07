@@ -1,3 +1,4 @@
+from cdp.openapi_client.api.embedded_wallets_api import EmbeddedWalletsApi
 from cdp.openapi_client.api.end_user_accounts_api import EndUserAccountsApi
 from cdp.openapi_client.api.evm_accounts_api import EVMAccountsApi
 from cdp.openapi_client.api.evm_smart_accounts_api import EVMSmartAccountsApi
@@ -8,6 +9,7 @@ from cdp.openapi_client.api.onchain_data_api import OnchainDataApi
 from cdp.openapi_client.api.policy_engine_api import PolicyEngineApi
 from cdp.openapi_client.api.solana_accounts_api import SolanaAccountsApi
 from cdp.openapi_client.api.solana_token_balances_api import SolanaTokenBalancesApi
+from cdp.openapi_client.api.webhooks_api import WebhooksApi
 from cdp.openapi_client.cdp_api_client import CdpApiClient
 
 
@@ -49,6 +51,8 @@ class ApiClients:
         self._solana_token_balances: SolanaTokenBalancesApi | None = None
         self._policies: PolicyEngineApi | None = None
         self._end_user: EndUserAccountsApi | None = None
+        self._embedded_wallets: EmbeddedWalletsApi | None = None
+        self._webhooks: WebhooksApi | None = None
         self._closed = False
 
     def _check_closed(self) -> None:
@@ -215,6 +219,38 @@ class ApiClients:
         if self._end_user is None:
             self._end_user = EndUserAccountsApi(api_client=self._cdp_client)
         return self._end_user
+
+    @property
+    def embedded_wallets(self) -> EmbeddedWalletsApi:
+        """Get the EmbeddedWalletsApi client instance.
+
+        Returns:
+            EmbeddedWalletsApi: The EmbeddedWalletsApi client instance.
+
+        Note:
+            This property lazily initializes the EmbeddedWalletsApi client on first access.
+
+        """
+        self._check_closed()
+        if self._embedded_wallets is None:
+            self._embedded_wallets = EmbeddedWalletsApi(api_client=self._cdp_client)
+        return self._embedded_wallets
+
+    @property
+    def webhooks(self) -> WebhooksApi:
+        """Get the WebhooksApi client instance.
+
+        Returns:
+            WebhooksApi: The WebhooksApi client instance.
+
+        Note:
+            This property lazily initializes the WebhooksApi client on first access.
+
+        """
+        self._check_closed()
+        if self._webhooks is None:
+            self._webhooks = WebhooksApi(api_client=self._cdp_client)
+        return self._webhooks
 
     async def close(self):
         """Close the CDP client asynchronously."""

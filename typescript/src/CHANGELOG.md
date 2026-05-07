@@ -1,5 +1,31 @@
 # CDP SDK Changelog
 
+## 1.48.2
+
+### Patch Changes
+
+- e937588: Add getDelegationForEndUser method to EndUserClient for retrieving active delegation details
+
+## 1.48.1
+
+### Patch Changes
+
+- [#671](https://github.com/coinbase/cdp-sdk/pull/671) [`04dfba1`](https://github.com/coinbase/cdp-sdk/commit/04dfba190ee410d8f5f52cc340b4039a3e526290) Thanks [@milan-cb](https://github.com/milan-cb)! - Added new webhook events for signing and delegated signing
+
+## 1.48.0
+
+### Minor Changes
+
+- [#634](https://github.com/coinbase/cdp-sdk/pull/634) [`ed47c82`](https://github.com/coinbase/cdp-sdk/commit/ed47c821eca763742137500e3380371dd1b78ec1) Thanks [@milan-cb](https://github.com/milan-cb)! - Added CreateSubscription for Webhooks Client
+
+- [#659](https://github.com/coinbase/cdp-sdk/pull/659) [`48ea200`](https://github.com/coinbase/cdp-sdk/commit/48ea20026283f10aa094af66dab4fc1d8feb051e) Thanks [@sammccord](https://github.com/sammccord)! - Consume refactored end user operations for delegated signing in end user client
+
+## 1.47.0
+
+### Minor Changes
+
+- [#645](https://github.com/coinbase/cdp-sdk/pull/645) [`413b179`](https://github.com/coinbase/cdp-sdk/commit/413b179ff853f2786c5a5ab8f421eb09b035c9e7) Thanks [@sddioulde](https://github.com/sddioulde)! - Added solana fee sponsorship
+
 ## [1.46.1] - 2026-03-30
 
 ### Security fix

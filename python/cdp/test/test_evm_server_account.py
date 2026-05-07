@@ -1,4 +1,3 @@
-import asyncio
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
@@ -19,8 +18,10 @@ from cdp.evm_transaction_types import TransactionRequestEIP1559
 from cdp.openapi_client.models.eip712_domain import EIP712Domain
 from cdp.openapi_client.models.eip712_message import EIP712Message
 from cdp.openapi_client.models.request_evm_faucet_request import RequestEvmFaucetRequest
-from cdp.openapi_client.models.send_evm_transaction200_response import SendEvmTransaction200Response
 from cdp.openapi_client.models.send_evm_transaction_request import SendEvmTransactionRequest
+from cdp.openapi_client.models.send_evm_transaction_with_end_user_account200_response import (
+    SendEvmTransactionWithEndUserAccount200Response,
+)
 from cdp.openapi_client.models.sign_evm_hash_request import SignEvmHashRequest
 from cdp.openapi_client.models.sign_evm_message_request import SignEvmMessageRequest
 from cdp.openapi_client.models.sign_evm_transaction_request import (
@@ -312,7 +313,7 @@ async def test_send_transaction_serialized(mock_api, server_account_model_factor
     server_account_model = server_account_model_factory(address, name)
     mock_api_instance = mock_api.return_value
     mock_api_instance.send_evm_transaction = AsyncMock(
-        return_value=SendEvmTransaction200Response(transaction_hash="0x123")
+        return_value=SendEvmTransactionWithEndUserAccount200Response(transaction_hash="0x123")
     )
     server_account = EvmServerAccount(server_account_model, mock_api_instance, mock_api_instance)
 
@@ -343,7 +344,7 @@ async def test_send_transaction_eip1559(mock_api, server_account_model_factory):
     server_account_model = server_account_model_factory(address, name)
     mock_api_instance = mock_api.return_value
     mock_api_instance.send_evm_transaction = AsyncMock(
-        return_value=SendEvmTransaction200Response(transaction_hash="0x456")
+        return_value=SendEvmTransactionWithEndUserAccount200Response(transaction_hash="0x456")
     )
     server_account = EvmServerAccount(server_account_model, mock_api_instance, mock_api_instance)
 
@@ -380,7 +381,7 @@ async def test_send_transaction_dynamic_fee(mock_api, server_account_model_facto
     server_account_model = server_account_model_factory(address, name)
     mock_api_instance = mock_api.return_value
     mock_api_instance.send_evm_transaction = AsyncMock(
-        return_value=SendEvmTransaction200Response(transaction_hash="0x789")
+        return_value=SendEvmTransactionWithEndUserAccount200Response(transaction_hash="0x789")
     )
     server_account = EvmServerAccount(server_account_model, mock_api_instance, mock_api_instance)
 
@@ -474,9 +475,7 @@ async def test_use_network(server_account_model_factory):
     account = EvmServerAccount(server_account_model, dummy_api, dummy_api)
 
     # Test the use_network method
-    network_account = asyncio.get_event_loop().run_until_complete(
-        account.__experimental_use_network__(network)
-    )
+    network_account = await account.__experimental_use_network__(network)
 
     assert network_account.address == address
     assert network_account.network == network
