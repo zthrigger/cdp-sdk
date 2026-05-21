@@ -19,57 +19,25 @@ import java.util.StringJoiner;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.fasterxml.jackson.annotation.JsonValue;
-import java.util.Arrays;
+import com.coinbase.cdp.openapi.model.SendEndUserEvmAssetCriteriaInner;
+import java.util.ArrayList;
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
 import com.coinbase.cdp.openapi.ApiClient;
 /**
- * SignEvmHashWithEndUserAccount200Response
+ * A schema for specifying criteria for the createEndUserEvmSwap operation.
  */
 @JsonPropertyOrder({
-  SignEvmHashWithEndUserAccount200Response.JSON_PROPERTY_SIGNATURE
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.11.0")
-public class SignEvmHashWithEndUserAccount200Response {
-  public static final String JSON_PROPERTY_SIGNATURE = "signature";
-  @jakarta.annotation.Nonnull
-  private String signature;
-
-  public SignEvmHashWithEndUserAccount200Response() { 
-  }
-
-  public SignEvmHashWithEndUserAccount200Response signature(@jakarta.annotation.Nonnull String signature) {
-    this.signature = signature;
-    return this;
+public class CreateEndUserEvmSwapCriteria extends ArrayList<SendEndUserEvmAssetCriteriaInner> {
+  public CreateEndUserEvmSwapCriteria() { 
   }
 
   /**
-   * The signature of the hash, as a 0x-prefixed hex string.
-   * @return signature
-   */
-  @jakarta.annotation.Nonnull
-  @JsonProperty(JSON_PROPERTY_SIGNATURE)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public String getSignature() {
-    return signature;
-  }
-
-
-  @JsonProperty(JSON_PROPERTY_SIGNATURE)
-  @JsonInclude(value = JsonInclude.Include.ALWAYS)
-  public void setSignature(@jakarta.annotation.Nonnull String signature) {
-    this.signature = signature;
-  }
-
-
-  /**
-   * Return true if this signEvmHashWithEndUserAccount_200_response object is equal to o.
+   * Return true if this CreateEndUserEvmSwapCriteria object is equal to o.
    */
   @Override
   public boolean equals(Object o) {
@@ -79,20 +47,19 @@ public class SignEvmHashWithEndUserAccount200Response {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SignEvmHashWithEndUserAccount200Response signEvmHashWithEndUserAccount200Response = (SignEvmHashWithEndUserAccount200Response) o;
-    return Objects.equals(this.signature, signEvmHashWithEndUserAccount200Response.signature);
+    return super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(signature);
+    return Objects.hash(super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class SignEvmHashWithEndUserAccount200Response {\n");
-    sb.append("    signature: ").append(toIndentedString(signature)).append("\n");
+    sb.append("class CreateEndUserEvmSwapCriteria {\n");
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -140,38 +107,29 @@ public class SignEvmHashWithEndUserAccount200Response {
 
     StringJoiner joiner = new StringJoiner("&");
 
-    // add `signature` to the URL query string
-    if (getSignature() != null) {
-      joiner.add(String.format("%ssignature%s=%s", prefix, suffix, URLEncoder.encode(ApiClient.valueToString(getSignature()), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
-    }
-
     return joiner.toString();
   }
 
     public static class Builder {
 
-    private SignEvmHashWithEndUserAccount200Response instance;
+    private CreateEndUserEvmSwapCriteria instance;
 
     public Builder() {
-      this(new SignEvmHashWithEndUserAccount200Response());
+      this(new CreateEndUserEvmSwapCriteria());
     }
 
-    protected Builder(SignEvmHashWithEndUserAccount200Response instance) {
+    protected Builder(CreateEndUserEvmSwapCriteria instance) {
       this.instance = instance;
     }
 
-    public SignEvmHashWithEndUserAccount200Response.Builder signature(String signature) {
-      this.instance.signature = signature;
-      return this;
-    }
 
 
     /**
-    * returns a built SignEvmHashWithEndUserAccount200Response instance.
+    * returns a built CreateEndUserEvmSwapCriteria instance.
     *
     * The builder is not reusable.
     */
-    public SignEvmHashWithEndUserAccount200Response build() {
+    public CreateEndUserEvmSwapCriteria build() {
       try {
         return this.instance;
       } finally {
@@ -189,16 +147,15 @@ public class SignEvmHashWithEndUserAccount200Response {
   /**
   * Create a builder with no initialized field.
   */
-  public static SignEvmHashWithEndUserAccount200Response.Builder builder() {
-    return new SignEvmHashWithEndUserAccount200Response.Builder();
+  public static CreateEndUserEvmSwapCriteria.Builder builder() {
+    return new CreateEndUserEvmSwapCriteria.Builder();
   }
 
   /**
   * Create a builder with a shallow copy of this instance.
   */
-  public SignEvmHashWithEndUserAccount200Response.Builder toBuilder() {
-    return new SignEvmHashWithEndUserAccount200Response.Builder()
-      .signature(getSignature());
+  public CreateEndUserEvmSwapCriteria.Builder toBuilder() {
+    return new CreateEndUserEvmSwapCriteria.Builder();
   }
 
 }

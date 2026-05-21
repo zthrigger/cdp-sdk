@@ -637,7 +637,7 @@ tags:
   - name: x402 Facilitator
     x-audience: public
     x-slo-tier:
-      tier: ga
+      tier: beta
     description: |-
       The x402 payment protocol is an HTTP-based payment protocol that enables developers running resource servers to accept payments from users using a variety of payment methods.
       For more details on the x402 payment protocol, please see the [x402 specification](https://www.x402.org/).
@@ -1079,6 +1079,181 @@ paths:
                     errorMessage: End user with the given ID not found.
         '500':
           $ref: '#/components/responses/InternalServerError'
+  /v2/end-users/lookup:
+    get:
+      x-audience: public
+      summary: Look up end users by identity
+      description: |-
+        Looks up end users. Exactly one lookup type must be provided per request:
+
+        - **email**: searches across all email-based authentication methods
+          (email, Google, Apple, GitHub). May return multiple end users if the
+          same email address appears across different auth methods.
+
+        - **oauthProvider + oauthSubject**: looks up a user by their OAuth
+          provider and subject (the `sub` claim from the provider's ID token).
+          Both params must be provided together.
+
+        - **phoneNumber**: looks up a user by their SMS-verified phone number.
+
+        Returns all matching end users. If no end users match, an empty array is returned.
+
+        This API is intended to be used by the developer's own backend, and is authenticated using the developer's CDP API key.
+      operationId: lookupEndUser
+      tags:
+        - End User Accounts
+      security:
+        - apiKeyAuth: []
+      parameters:
+        - name: email
+          in: query
+          required: false
+          description: The email address to search for across all email-based authentication methods.
+          schema:
+            type: string
+            format: email
+          example: user@example.com
+        - name: oauthProvider
+          in: query
+          required: false
+          description: The OAuth provider to search by. Must be provided together with oauthSubject.
+          schema:
+            $ref: '#/components/schemas/OAuth2ProviderType'
+          example: google
+        - name: oauthSubject
+          in: query
+          required: false
+          description: The OAuth subject (the `sub` claim from the provider's ID token). Must be provided together with oauthProvider.
+          schema:
+            type: string
+          example: '1234567890'
+        - name: phoneNumber
+          in: query
+          required: false
+          description: The E.164-formatted phone number to search for. Must be URL-encoded when passed as a query parameter (e.g. `+14155552671` → `%2B14155552671`).
+          schema:
+            type: string
+            pattern: ^\+[1-9]\d{1,14}$
+          example: '+14155552671'
+      responses:
+        '200':
+          description: Successfully looked up end users.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - endUsers
+                properties:
+                  endUsers:
+                    type: array
+                    description: The list of end users matching the lookup.
+                    items:
+                      $ref: '#/components/schemas/EndUser'
+              examples:
+                email_match:
+                  summary: End user found by email
+                  value:
+                    endUsers:
+                      - userId: user-001
+                        authenticationMethods:
+                          - type: email
+                            email: user@example.com
+                        evmAccounts: []
+                        evmAccountObjects: []
+                        evmSmartAccounts: []
+                        evmSmartAccountObjects: []
+                        solanaAccounts: []
+                        solanaAccountObjects: []
+                        createdAt: '2025-11-17T10:00:00Z'
+                multiple_email_matches:
+                  summary: Multiple end users with same email across auth methods
+                  value:
+                    endUsers:
+                      - userId: user-001
+                        authenticationMethods:
+                          - type: email
+                            email: user@example.com
+                        evmAccounts: []
+                        evmAccountObjects: []
+                        evmSmartAccounts: []
+                        evmSmartAccountObjects: []
+                        solanaAccounts: []
+                        solanaAccountObjects: []
+                        createdAt: '2025-11-17T10:00:00Z'
+                      - userId: user-002
+                        authenticationMethods:
+                          - type: google
+                            sub: google-sub-123
+                            email: user@example.com
+                        evmAccounts: []
+                        evmAccountObjects: []
+                        evmSmartAccounts: []
+                        evmSmartAccountObjects: []
+                        solanaAccounts: []
+                        solanaAccountObjects: []
+                        createdAt: '2025-11-17T11:00:00Z'
+                oauth_match:
+                  summary: End user found by OAuth subject
+                  value:
+                    endUsers:
+                      - userId: user-003
+                        authenticationMethods:
+                          - type: google
+                            sub: '1234567890'
+                            email: user@example.com
+                        evmAccounts: []
+                        evmAccountObjects: []
+                        evmSmartAccounts: []
+                        evmSmartAccountObjects: []
+                        solanaAccounts: []
+                        solanaAccountObjects: []
+                        createdAt: '2025-11-17T12:00:00Z'
+                phone_match:
+                  summary: End user found by phone number
+                  value:
+                    endUsers:
+                      - userId: user-004
+                        authenticationMethods:
+                          - type: sms
+                            phoneNumber: '+14155552671'
+                        evmAccounts: []
+                        evmAccountObjects: []
+                        evmSmartAccounts: []
+                        evmSmartAccountObjects: []
+                        solanaAccounts: []
+                        solanaAccountObjects: []
+                        createdAt: '2025-11-17T13:00:00Z'
+                no_matches:
+                  summary: No end users found
+                  value:
+                    endUsers: []
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                no_lookup_param:
+                  summary: No lookup parameter provided
+                  value:
+                    errorType: invalid_request
+                    errorMessage: 'Exactly one lookup type must be provided: email, phoneNumber, or oauthProvider+oauthSubject'
+                multiple_lookup_params:
+                  summary: Multiple lookup parameters provided
+                  value:
+                    errorType: invalid_request
+                    errorMessage: 'Exactly one lookup type must be provided: email, phoneNumber, or oauthProvider+oauthSubject'
+                oauth_missing_subject:
+                  summary: oauthProvider provided without oauthSubject
+                  value:
+                    errorType: invalid_request
+                    errorMessage: oauthProvider and oauthSubject must be provided together
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /v2/end-users/{userId}/evm:
     post:
       summary: Add an EVM account to an end user
@@ -1285,7 +1460,7 @@ paths:
     post:
       summary: Add a Solana account to an end user
       description: |-
-        Adds a new Solana account to an existing end user. End users can have  up to 10 Solana accounts.
+        Adds a new Solana account to an existing end user. End users can have up to 10 Solana accounts.
         This API is intended to be used by the developer's own backend, and is authenticated using the developer's CDP API key.
       operationId: addEndUserSolanaAccount
       tags:
@@ -2281,6 +2456,7 @@ paths:
             type: string
             pattern: ^[a-zA-Z0-9-]{1,100}$
             example: e051beeb-7163-4527-a5b6-35e301529ff2
+        - $ref: '#/components/parameters/ProjectIDOptional'
       requestBody:
         required: true
         content:
@@ -2312,6 +2488,290 @@ paths:
                     errorType: not_found
                     errorMessage: No active delegation found for the specified end user.
                     errorParam: userId
+                    errorLink: https://docs.cdp.coinbase.com/api-reference/v2/errors#not-found
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          $ref: '#/components/responses/BadGatewayError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+  /v2/embedded-wallet-api/end-users/{userId}/address/{address}/delegation:
+    post:
+      x-audience: public
+      summary: Create account-scoped delegation for an end user account
+      description: |-
+        Creates an account-scoped delegation that allows a developer to sign on behalf of an end user for a single blockchain account (identified by its address) for the specified duration. The end user must be authenticated to authorize this delegation.
+        Multiple account-scoped delegations may exist concurrently for a single end user (one per canonical account address). Account-scoped and user-scoped delegations cannot coexist for the same user.
+        When the address corresponds to an EVM Smart Account, the delegation is scoped to the Smart Account's owner EOA rather than the Smart Account address itself. This means `/address/{smartAccountAddress}/delegation` and `/address/{ownerEoaAddress}/delegation` resolve to the same delegation, and the 409 `account_scoped_delegation_active` error may be returned when creating via either address if one already exists for the canonical owner.
+      operationId: createDelegationForEndUserAccount
+      tags:
+        - Embedded Wallets
+      security:
+        - endUserAuth: []
+      parameters:
+        - $ref: '#/components/parameters/XWalletAuth'
+        - $ref: '#/components/parameters/IdempotencyKey'
+        - name: userId
+          in: path
+          required: true
+          description: The ID of the end user.
+          schema:
+            type: string
+            pattern: ^[a-zA-Z0-9-]{1,100}$
+            example: e051beeb-7163-4527-a5b6-35e301529ff2
+        - name: address
+          in: path
+          required: true
+          description: The blockchain address of the end user account to scope this delegation to. Format varies by network (e.g., 0x-prefixed for EVM, base58 for Solana). For EVM addresses, matching is case-insensitive.
+          schema:
+            $ref: '#/components/schemas/BlockchainAddress'
+          example: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
+        - $ref: '#/components/parameters/ProjectIDOptional'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                expiresAt:
+                  type: string
+                  format: date-time
+                  description: The date until which the delegation is valid.
+                  example: '2026-02-03T10:35:00Z'
+                walletSecretId:
+                  description: The ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header.
+                  type: string
+                  pattern: ^[a-zA-Z0-9-]{1,100}$
+                  example: e051beeb-7163-4527-a5b6-35e301529ff2
+              required:
+                - expiresAt
+                - walletSecretId
+            example:
+              expiresAt: '2026-02-03T10:35:00Z'
+              walletSecretId: e051beeb-7163-4527-a5b6-35e301529ff2
+      responses:
+        '201':
+          description: Delegation created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  expiresAt:
+                    type: string
+                    format: date-time
+                    description: The date until which the delegation is valid.
+                    example: '2026-02-03T10:35:00Z'
+                required:
+                  - expiresAt
+              example:
+                expiresAt: '2026-02-03T10:35:00Z'
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                missing_expiresAt:
+                  value:
+                    errorType: invalid_request
+                    errorMessage: Field 'expiresAt' is required.
+                    errorParam: expiresAt
+                    errorLink: https://docs.cdp.coinbase.com/api-reference/v2/errors#invalid-request
+                invalid_expiresAt:
+                  value:
+                    errorType: invalid_request
+                    errorMessage: Field 'expiresAt' must be a valid ISO 8601 string.
+                    errorParam: expiresAt
+                    errorLink: https://docs.cdp.coinbase.com/api-reference/v2/errors#invalid-request
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '402':
+          $ref: '#/components/responses/PaymentMethodRequiredError'
+        '404':
+          description: Account not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                unknown_address:
+                  value:
+                    errorType: not_found
+                    errorMessage: No account with the given address exists for this end user.
+                    errorParam: address
+                    errorLink: https://docs.cdp.coinbase.com/api-reference/v2/errors#not-found
+        '409':
+          description: Conflict with an existing delegation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                user_scoped_delegation_active:
+                  value:
+                    errorType: already_exists
+                    errorMessage: A user-scoped delegation is already active for this user. Revoke it before creating an account-scoped delegation.
+                    errorLink: https://docs.cdp.coinbase.com/api-reference/v2/errors#already-exists
+                account_scoped_delegation_active:
+                  value:
+                    errorType: already_exists
+                    errorMessage: An account-scoped delegation is already active for this address.
+                    errorParam: address
+                    errorLink: https://docs.cdp.coinbase.com/api-reference/v2/errors#already-exists
+        '422':
+          $ref: '#/components/responses/IdempotencyError'
+        '429':
+          description: Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                rate_limit_exceeded:
+                  value:
+                    errorType: rate_limit_exceeded
+                    errorMessage: Too many requests. Please try again later.
+                    errorLink: https://docs.cdp.coinbase.com/api-reference/v2/errors#rate-limit-exceeded
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          $ref: '#/components/responses/BadGatewayError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+    get:
+      x-audience: public
+      summary: Get account-scoped delegation for an end user account
+      description: |-
+        Returns the active account-scoped delegation for the specified end user account, if one exists. Useful for showing delegation status in a UI.
+        When the address corresponds to an EVM Smart Account, this returns the delegation for the Smart Account's owner EOA.
+      operationId: getDelegationForEndUserAccount
+      tags:
+        - Embedded Wallets
+      security:
+        - endUserAuth: []
+        - apiKeyAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: The ID of the end user.
+          schema:
+            type: string
+            pattern: ^[a-zA-Z0-9-]{1,100}$
+            example: e051beeb-7163-4527-a5b6-35e301529ff2
+        - name: address
+          in: path
+          required: true
+          description: The blockchain address of the end user account to query. For EVM addresses, matching is case-insensitive.
+          schema:
+            $ref: '#/components/schemas/BlockchainAddress'
+          example: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
+        - $ref: '#/components/parameters/ProjectIDOptional'
+      responses:
+        '200':
+          description: Active delegation found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  expiresAt:
+                    type: string
+                    format: date-time
+                    description: The date until which the delegation is valid.
+                    example: '2026-02-03T10:35:00Z'
+                required:
+                  - expiresAt
+              example:
+                expiresAt: '2026-02-03T10:35:00Z'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: No active delegation found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                not_found:
+                  value:
+                    errorType: not_found
+                    errorMessage: No active account-scoped delegation found for the specified address.
+                    errorParam: address
+                    errorLink: https://docs.cdp.coinbase.com/api-reference/v2/errors#not-found
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          $ref: '#/components/responses/BadGatewayError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+    delete:
+      x-audience: public
+      summary: Revoke account-scoped delegation for an end user account
+      description: |-
+        Revokes the active account-scoped delegation for the specified end user account. Other account-scoped delegations for the same user are unaffected. This operation can be performed by the end user themselves or by a developer using their API key.
+        When the address corresponds to an EVM Smart Account, this revokes the delegation for the Smart Account's owner EOA.
+      operationId: revokeDelegationForEndUserAccount
+      tags:
+        - Embedded Wallets
+      security:
+        - endUserAuth: []
+        - apiKeyAuth: []
+      parameters:
+        - $ref: '#/components/parameters/XWalletAuthOptional'
+        - $ref: '#/components/parameters/XDeveloperAuth'
+          required: false
+        - $ref: '#/components/parameters/IdempotencyKey'
+        - name: userId
+          in: path
+          required: true
+          description: The ID of the end user.
+          schema:
+            type: string
+            pattern: ^[a-zA-Z0-9-]{1,100}$
+            example: e051beeb-7163-4527-a5b6-35e301529ff2
+        - name: address
+          in: path
+          required: true
+          description: The blockchain address of the end user account whose delegation should be revoked. For EVM addresses, matching is case-insensitive.
+          schema:
+            $ref: '#/components/schemas/BlockchainAddress'
+          example: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
+        - $ref: '#/components/parameters/ProjectIDOptional'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                walletSecretId:
+                  description: When revoking with a wallet authentication scheme, the ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header.
+                  type: string
+                  pattern: ^[a-zA-Z0-9-]{1,100}$
+                  example: e051beeb-7163-4527-a5b6-35e301529ff2
+            example:
+              walletSecretId: e051beeb-7163-4527-a5b6-35e301529ff2
+      responses:
+        '204':
+          description: Delegation revoked successfully.
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          description: Delegation not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                not_found:
+                  value:
+                    errorType: not_found
+                    errorMessage: No active account-scoped delegation found for the specified address.
+                    errorParam: address
                     errorLink: https://docs.cdp.coinbase.com/api-reference/v2/errors#not-found
         '500':
           $ref: '#/components/responses/InternalServerError'
@@ -8182,6 +8642,334 @@ paths:
           $ref: '#/components/responses/BadGatewayError'
         '503':
           $ref: '#/components/responses/ServiceUnavailableError'
+  /v2/x402/discovery/resources:
+    get:
+      x-audience: public
+      summary: List discovered x402 resources
+      description: |-
+        Lists all active discovered x402 resources.
+        This endpoint returns resources that have been discovered and cached by the x402 facilitator, including their payment requirements and metadata.
+        The response is paginated, and by default, returns 100 items per page.
+      operationId: listX402DiscoveryResources
+      tags:
+        - x402 Facilitator
+      security:
+        - unauthenticated: []
+      parameters:
+        - name: type
+          in: query
+          description: |-
+            Filter by protocol type (e.g., "http", "mcp").
+            Currently, the only supported protocol type is "http".
+          required: false
+          schema:
+            type: string
+            example: http
+        - name: limit
+          in: query
+          description: The number of discovered x402 resources to return per page.
+          required: false
+          schema:
+            type: integer
+            default: 100
+          example: 50
+        - name: offset
+          in: query
+          description: The offset of the first discovered x402 resource to return.
+          required: false
+          schema:
+            type: integer
+            default: 0
+          example: 0
+      responses:
+        '200':
+          description: Successfully retrieved discovery list.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/x402DiscoveryResourcesResponse'
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                invalid_request:
+                  value:
+                    errorType: invalid_request
+                    errorMessage: Invalid request. Please check the request parameters.
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          $ref: '#/components/responses/BadGatewayError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+  /v2/x402/discovery/merchant:
+    get:
+      x-audience: public
+      summary: List merchant discovery info
+      description: |-
+        Gets x402 merchant discovery information for a given merchant payment address.
+        This endpoint returns all active x402 resources associated with the specified `payTo` address, allowing clients to discover what payment-gated resources a merchant exposes and their corresponding payment requirements.
+        The response is paginated, and by default, returns 20 items per page.
+      operationId: listX402DiscoveryMerchant
+      tags:
+        - x402 Facilitator
+      security:
+        - unauthenticated: []
+      parameters:
+        - name: payTo
+          in: query
+          description: |-
+            The merchant's payment address to look up.
+            This is the onchain address that payment requirements route funds to.
+          required: true
+          schema:
+            $ref: '#/components/schemas/BlockchainAddress'
+          example: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
+        - name: limit
+          in: query
+          description: The number of resources to return per page.
+          required: false
+          schema:
+            type: integer
+            default: 20
+          example: 20
+        - name: offset
+          in: query
+          description: The offset of the first resource to return.
+          required: false
+          schema:
+            type: integer
+            default: 0
+          example: 0
+      responses:
+        '200':
+          description: Successfully retrieved merchant discovery info.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/x402DiscoveryMerchantResponse'
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                invalid_request:
+                  value:
+                    errorType: invalid_request
+                    errorMessage: Invalid request. Please check the request parameters.
+        '404':
+          description: Merchant not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                not_found:
+                  value:
+                    errorType: not_found
+                    errorMessage: No resources found for the specified payTo address.
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          $ref: '#/components/responses/BadGatewayError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+  /v2/x402/discovery/search:
+    get:
+      x-audience: public
+      summary: Search x402 resources
+      description: |-
+        Searches for active x402 resources using a text query and optional filters.
+        Supports both text-based and vector-based search depending on availability. Results are sorted by relevance and quality score.
+        Legacy network names (e.g., `base`, `base-sepolia`, `solana`) are automatically normalized to their CAIP-2 equivalents.
+        The response is limited to 20 items per request. If more results exist, `partialResults` will be `true`.
+      operationId: searchX402Resources
+      tags:
+        - x402 Facilitator
+      security:
+        - unauthenticated: []
+      parameters:
+        - name: query
+          in: query
+          description: Full-text or semantic search query to find matching resources.
+          required: false
+          schema:
+            type: string
+            maxLength: 400
+            example: weather forecast
+        - name: network
+          in: query
+          description: |-
+            Filter results by network in CAIP-2 format (e.g., `eip155:8453`) or legacy name (e.g., `base`, `base-sepolia`, `solana`).
+            Legacy names are normalized to their CAIP-2 equivalents before filtering.
+          required: false
+          schema:
+            type: string
+            example: eip155:8453
+        - name: asset
+          in: query
+          description: |-
+            Filter results by asset address.
+            For EVM networks, provide a 0x-prefixed EVM address. For Solana networks, provide a base58-encoded address.
+            Matching is case-insensitive.
+          required: false
+          schema:
+            type: string
+            example: '0x036CbD53842c5426634e7929541eC2318f3dCF7e'
+        - name: scheme
+          in: query
+          description: Filter results by payment scheme (e.g., `exact`).
+          required: false
+          schema:
+            type: string
+            example: exact
+        - name: payTo
+          in: query
+          description: |-
+            Filter results by the merchant's payment address.
+            For EVM networks, provide a 0x-prefixed EVM address. For Solana networks, provide a base58-encoded address.
+          required: false
+          schema:
+            $ref: '#/components/schemas/BlockchainAddress'
+            example: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
+        - name: urlSubstring
+          in: query
+          description: |-
+            Filter results to resources whose URL contains this value (case-insensitive substring match against the resource URL).
+            Useful for narrowing results to a specific domain, subdomain, or path segment. Combine with `query` to perform semantic search restricted to a URL subset.
+            Tip: include enough of the URL to disambiguate (e.g. `api.example.com` rather than `example`) — a short substring may also match resources whose path contains the same string.
+          required: false
+          schema:
+            type: string
+            minLength: 3
+            maxLength: 2048
+            example: api.example.com
+        - name: maxUsdPrice
+          in: query
+          description: Filter results to resources with a USD price at or below this value.
+          required: false
+          schema:
+            type: string
+            example: '1.00'
+        - name: extensions
+          in: query
+          description: Filter results to resources that support the specified protocol extensions. Can be specified multiple times to filter by multiple extensions.
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+            example:
+              - bazaar
+          style: form
+          explode: true
+        - name: limit
+          in: query
+          description: |-
+            Maximum number of resources to return. Must be a positive integer no greater than 20.
+            Defaults to 20.
+          required: false
+          schema:
+            type: integer
+            default: 20
+            maximum: 20
+            minimum: 1
+          example: 20
+      responses:
+        '200':
+          description: Successfully retrieved matching x402 resources.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/x402SearchResourcesResponse'
+              examples:
+                search_results:
+                  value:
+                    x402Version: 2
+                    resources:
+                      - resource: https://api.example.com/weather/forecast
+                        description: Real-time weather forecast data.
+                        type: http
+                        x402Version: 2
+                        lastUpdated: '2024-01-15T10:30:00Z'
+                        extensions:
+                          bazaar:
+                            info:
+                              input:
+                                type: http
+                                method: GET
+                            schema: {}
+                        accepts:
+                          - scheme: exact
+                            network: eip155:8453
+                            amount: '1000000'
+                            payTo: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
+                            asset: '0x036CbD53842c5426634e7929541eC2318f3dCF7e'
+                            maxTimeoutSeconds: 60
+                        quality:
+                          l30DaysTotalCalls: 42
+                          l30DaysUniquePayers: 15
+                          lastCalledAt: '2024-01-15T10:30:00Z'
+                    partialResults: false
+                    searchMethod: text
+        '400':
+          description: Invalid request parameters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                invalid_request:
+                  value:
+                    errorType: invalid_request
+                    errorMessage: limit must be a positive integer
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '502':
+          $ref: '#/components/responses/BadGatewayError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailableError'
+  /v2/x402/discovery/mcp:
+    post:
+      x-audience: public
+      summary: Handle MCP JSON-RPC request
+      description: Handles JSON-RPC requests for the Model Context Protocol (MCP). Supports MCP methods for discovering x402 payment resources and tools.
+      operationId: postX402DiscoveryMcp
+      tags:
+        - x402 Facilitator
+      security:
+        - unauthenticated: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/x402McpRequest'
+      responses:
+        '200':
+          description: MCP response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/x402McpResponse'
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                invalid_request:
+                  value:
+                    errorType: invalid_request
+                    errorMessage: Invalid JSON-RPC request. Please check the request format.
+        '500':
+          $ref: '#/components/responses/InternalServerError'
   /v2/onramp/orders:
     post:
       x-audience: public
@@ -8592,6 +9380,60 @@ paths:
           $ref: '#/components/responses/RateLimitExceeded'
         '500':
           $ref: '#/components/responses/InternalServerError'
+  /v2/onramp/limits/upgrade:
+    post:
+      summary: Request limit upgrade
+      x-audience: public
+      description: |-
+        Requests a limit upgrade for an onramp user by submitting identity information. Only phone number is currently supported as a userId. 
+
+        The verification process is asynchronous. After calling this endpoint, use the [Get Onramp User Limits](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/onramp/get-onramp-user-limits) endpoint to check the status in the `limitUpgradeOptions` array.
+
+        **Prerequisites:**
+        - The phone number must have been previously verified by your app via OTP. - Upgrades may not be available until a certain number of successful transactions by the user.
+
+        **Supported fields:**
+        - `ssnLast4`: Last 4 digits of the Social Security Number (no dashes or spaces).
+        - `dateOfBirth`: Date of birth (day, month, year as zero-padded strings).
+      operationId: requestLimitsUpgrade
+      tags:
+        - Onramp
+      security:
+        - apiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnrampLimitUpgradeRequest'
+            example:
+              userId: '+12055555555'
+              userIdType: phone_number
+              fields:
+                ssnLast4: '5678'
+                dateOfBirth:
+                  day: '15'
+                  month: '08'
+                  year: '1990'
+      responses:
+        '202':
+          description: Limit upgrade request accepted.
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                invalid_request:
+                  value:
+                    errorType: invalid_request
+                    errorMessage: Invalid user identifier or fields.
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 webhooks: {}
 components:
   securitySchemes:
@@ -8606,6 +9448,11 @@ components:
       scheme: bearer
       bearerFormat: JWT
       description: A JWT signed using the developer's own JWT private key (in the case of JWT authentication), or an end user JWT signed by CDP, encoded in base64. This is used for End User Account APIs.
+    unauthenticated:
+      x-audience: public
+      type: http
+      scheme: none
+      description: This security scheme is used for APIs that do not require authentication, such as End User Auth flows used to initiate authentication or public, read-only endpoints.
   schemas:
     EmailAuthentication:
       type: object
@@ -12739,6 +13586,166 @@ components:
         - action
         - operation
         - criteria
+    SendEndUserEvmAssetCriteria:
+      x-audience: public
+      type: array
+      description: A schema for specifying criteria for the sendEndUserEvmAsset operation.
+      items:
+        oneOf:
+          - $ref: '#/components/schemas/EvmNetworkCriterion'
+          - $ref: '#/components/schemas/EvmDataCriterion'
+          - $ref: '#/components/schemas/NetUSDChangeCriterion'
+      example:
+        - type: ethValue
+          ethValue: '1000000'
+          operator: '>='
+        - type: evmAddress
+          addresses:
+            - '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
+          operator: in
+        - type: evmNetwork
+          networks:
+            - base
+            - ethereum
+          operator: in
+        - type: evmData
+          abi: erc20
+          conditions:
+            - function: transfer
+              params:
+                - name: value
+                  operator: <=
+                  value: '10000'
+        - type: netUSDChange
+          changeCents: 10000
+          operator: <=
+    SendEndUserEvmAssetRule:
+      x-audience: public
+      title: SendEndUserEvmAssetRule
+      properties:
+        action:
+          type: string
+          description: Whether matching the rule will cause the request to be rejected or accepted.
+          example: accept
+          enum:
+            - reject
+            - accept
+        operation:
+          type: string
+          description: The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
+          example: sendEndUserEvmAsset
+          enum:
+            - sendEndUserEvmAsset
+        criteria:
+          $ref: '#/components/schemas/SendEndUserEvmAssetCriteria'
+      required:
+        - action
+        - operation
+        - criteria
+    SendEndUserSolAssetCriteria:
+      x-audience: public
+      type: array
+      description: A schema for specifying criteria for the sendEndUserSolAsset operation.
+      items:
+        oneOf:
+          - $ref: '#/components/schemas/SplAddressCriterion'
+          - $ref: '#/components/schemas/SplValueCriterion'
+          - $ref: '#/components/schemas/SolDataCriterion'
+          - $ref: '#/components/schemas/SolNetworkCriterion'
+      example:
+        - type: splAddress
+          addresses:
+            - HpabPRRCFbBKSuJr5PdkVvQc85FyxyTWkFM2obBRSvHT
+          operator: in
+        - type: splValue
+          splValue: '1000000000000000000'
+          operator: <=
+        - type: solData
+          idls:
+            - SystemProgram
+          conditions:
+            - instruction: transfer_checked
+              params:
+                - name: lamports
+                  operator: <=
+                  value: '1000000'
+        - type: solNetwork
+          networks:
+            - solana-devnet
+            - solana
+          operator: in
+    SendEndUserSolAssetRule:
+      x-audience: public
+      title: SendEndUserSolAssetRule
+      properties:
+        action:
+          type: string
+          description: Whether matching the rule will cause the request to be rejected or accepted.
+          example: accept
+          enum:
+            - reject
+            - accept
+        operation:
+          type: string
+          description: The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
+          example: sendEndUserSolAsset
+          enum:
+            - sendEndUserSolAsset
+        criteria:
+          $ref: '#/components/schemas/SendEndUserSolAssetCriteria'
+      required:
+        - action
+        - operation
+        - criteria
+    CreateEndUserEvmSwapCriteria:
+      x-audience: public
+      type: array
+      description: A schema for specifying criteria for the createEndUserEvmSwap operation.
+      items:
+        oneOf:
+          - $ref: '#/components/schemas/EvmNetworkCriterion'
+          - $ref: '#/components/schemas/EvmDataCriterion'
+          - $ref: '#/components/schemas/NetUSDChangeCriterion'
+      example:
+        - type: evmNetwork
+          networks:
+            - base
+            - ethereum
+          operator: in
+        - type: evmData
+          abi: erc20
+          conditions:
+            - function: transfer
+              params:
+                - name: value
+                  operator: <=
+                  value: '10000'
+        - type: netUSDChange
+          changeCents: 10000
+          operator: <=
+    CreateEndUserEvmSwapRule:
+      x-audience: public
+      title: CreateEndUserEvmSwapRule
+      properties:
+        action:
+          type: string
+          description: Whether matching the rule will cause the request to be rejected or accepted.
+          example: accept
+          enum:
+            - reject
+            - accept
+        operation:
+          type: string
+          description: The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
+          example: createEndUserEvmSwap
+          enum:
+            - createEndUserEvmSwap
+        criteria:
+          $ref: '#/components/schemas/CreateEndUserEvmSwapCriteria'
+      required:
+        - action
+        - operation
+        - criteria
     Rule:
       type: object
       description: A rule that limits the behavior of an account.
@@ -12761,6 +13768,9 @@ components:
         - $ref: '#/components/schemas/SignEndUserSolTransactionRule'
         - $ref: '#/components/schemas/SendEndUserSolTransactionRule'
         - $ref: '#/components/schemas/SignEndUserSolMessageRule'
+        - $ref: '#/components/schemas/SendEndUserEvmAssetRule'
+        - $ref: '#/components/schemas/SendEndUserSolAssetRule'
+        - $ref: '#/components/schemas/CreateEndUserEvmSwapRule'
       example:
         action: accept
         operation: signEvmTransaction
@@ -13826,7 +14836,11 @@ components:
           additionalProperties: true
           example:
             bazaar:
-              discoveryEnabled: true
+              info:
+                input:
+                  type: http
+                  method: GET
+              schema: {}
       example:
         x402Version: 2
         accepted:
@@ -14213,6 +15227,11 @@ components:
             - eip155:137
             - solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp
             - solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1
+            - avalanche
+            - arbitrum
+            - arbitrum-sepolia
+            - world
+            - world-sepolia
         extra:
           type: object
           description: The optional additional scheme-specific payment info.
@@ -14223,6 +15242,286 @@ components:
         - x402Version
         - scheme
         - network
+    x402ResourceQuality:
+      type: object
+      description: Quality metrics for a discovered x402 resource.
+      properties:
+        l30DaysTotalCalls:
+          type: integer
+          description: Total number of paid calls to a resource in the last 30 days.
+          example: 42
+        l30DaysUniquePayers:
+          type: integer
+          description: Number of unique payers to a resource in the last 30 days.
+          example: 15
+        lastCalledAt:
+          type: string
+          format: date-time
+          description: Timestamp of the most recent paid call to a resource.
+          example: '2024-01-15T10:30:00Z'
+      example:
+        l30DaysTotalCalls: 42
+        l30DaysUniquePayers: 15
+        lastCalledAt: '2024-01-15T10:30:00Z'
+    x402DiscoveryResource:
+      type: object
+      description: A single discovered x402 resource.
+      properties:
+        resource:
+          type: string
+          description: The URL of the resource.
+          example: https://api.example.com/weather/forecast
+        description:
+          type: string
+          description: A human-readable description of the resource.
+          example: Real-time weather forecast data
+        type:
+          type: string
+          description: Communication protocol (e.g., "http", "mcp").
+          enum:
+            - http
+            - mcp
+          example: http
+        x402Version:
+          $ref: '#/components/schemas/X402Version'
+        lastUpdated:
+          type: string
+          format: date-time
+          description: Timestamp of the last update.
+          example: '2024-01-15T10:30:00Z'
+        accepts:
+          type: array
+          description: Payment requirements accepted by the resource.
+          items:
+            $ref: '#/components/schemas/x402PaymentRequirements'
+          example:
+            - scheme: exact
+              network: eip155:8453
+              amount: '1000000'
+              payTo: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
+              asset: '0x036CbD53842c5426634e7929541eC2318f3dCF7e'
+              maxTimeoutSeconds: 60
+        extensions:
+          type: object
+          description: Map of x402 protocol extensions supported by the resource, keyed by extension name.
+          additionalProperties: true
+          example:
+            bazaar:
+              info:
+                input:
+                  type: http
+                  method: GET
+              schema: {}
+        quality:
+          $ref: '#/components/schemas/x402ResourceQuality'
+      required:
+        - resource
+        - type
+        - x402Version
+    x402DiscoveryResourcesResponse:
+      type: object
+      description: Response containing discovered x402 resources.
+      properties:
+        x402Version:
+          $ref: '#/components/schemas/X402Version'
+        items:
+          type: array
+          description: List of discovered x402 resources.
+          items:
+            $ref: '#/components/schemas/x402DiscoveryResource'
+          example: []
+        pagination:
+          type: object
+          description: Pagination information for the response.
+          properties:
+            limit:
+              type: integer
+              description: The number of discovered x402 resources to return per page.
+              example: 100
+            offset:
+              type: integer
+              description: The offset of the first discovered x402 resource to return.
+              example: 0
+            total:
+              type: integer
+              description: The total number of discovered x402 resources.
+              example: 1000
+          example:
+            limit: 100
+            offset: 0
+            total: 1000
+      required:
+        - items
+        - x402Version
+        - pagination
+    x402DiscoveryMerchantResponse:
+      type: object
+      description: Response containing x402 resources associated with a merchant payment address.
+      properties:
+        x402Version:
+          $ref: '#/components/schemas/X402Version'
+        payTo:
+          $ref: '#/components/schemas/BlockchainAddress'
+        resources:
+          type: array
+          description: List of discovered x402 resources associated with the merchant's payTo address.
+          items:
+            $ref: '#/components/schemas/x402DiscoveryResource'
+          example:
+            - resource: https://api.example.com/premium/data
+              description: Premium API access for data analysis.
+              type: http
+              x402Version: 2
+              lastUpdated: '2024-01-15T10:30:00Z'
+              accepts:
+                - scheme: exact
+                  network: eip155:8453
+                  amount: '1000000'
+                  payTo: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
+                  asset: '0x036CbD53842c5426634e7929541eC2318f3dCF7e'
+                  maxTimeoutSeconds: 60
+              extensions:
+                bazaar:
+                  info:
+                    input:
+                      type: http
+                      method: POST
+                  schema: {}
+              quality:
+                l30DaysTotalCalls: 42
+                l30DaysUniquePayers: 15
+                lastCalledAt: '2024-01-15T10:30:00Z'
+        pagination:
+          type: object
+          description: Pagination information for the response.
+          properties:
+            limit:
+              type: integer
+              description: The number of resources returned per page.
+              example: 20
+            offset:
+              type: integer
+              description: The offset of the first resource returned.
+              example: 0
+            total:
+              type: integer
+              description: The total number of resources associated with the merchant's payTo address.
+              example: 10
+          example:
+            limit: 20
+            offset: 0
+            total: 10
+      required:
+        - x402Version
+        - payTo
+        - resources
+        - pagination
+    x402SearchResourcesResponse:
+      type: object
+      description: Response from a search for x402 resources.
+      properties:
+        resources:
+          type: array
+          description: List of x402 resources matching the search query and filters.
+          items:
+            $ref: '#/components/schemas/x402DiscoveryResource'
+          example: []
+        partialResults:
+          type: boolean
+          description: Indicates whether the result set was truncated because there were more results than the requested limit.
+          example: false
+        searchMethod:
+          type: string
+          description: The search method used to retrieve the results (e.g., "text" or "vector").
+          enum:
+            - text
+            - vector
+          example: text
+        x402Version:
+          $ref: '#/components/schemas/X402Version'
+      required:
+        - resources
+        - partialResults
+        - x402Version
+    x402McpRequest:
+      type: object
+      description: A JSON-RPC 2.0 request for the Model Context Protocol.
+      properties:
+        jsonrpc:
+          type: string
+          enum:
+            - '2.0'
+          description: JSON-RPC version, must be "2.0".
+          example: '2.0'
+        id:
+          oneOf:
+            - type: string
+            - type: integer
+          description: Request identifier.
+          example: 1
+        method:
+          type: string
+          description: The MCP method to invoke.
+          example: tools/list
+        params:
+          type: object
+          description: Optional parameters for the method.
+          additionalProperties: true
+          example: {}
+      required:
+        - jsonrpc
+        - method
+    x402McpError:
+      type: object
+      description: JSON-RPC 2.0 error object.
+      properties:
+        code:
+          type: integer
+          description: Error code.
+          example: -32600
+        message:
+          type: string
+          description: Error message.
+          example: Invalid Request
+        data:
+          type: object
+          description: Additional error data.
+          additionalProperties: true
+          example: {}
+      required:
+        - code
+        - message
+      example:
+        code: -32600
+        message: Invalid Request
+        data: {}
+    x402McpResponse:
+      type: object
+      description: A JSON-RPC 2.0 response for the Model Context Protocol.
+      properties:
+        jsonrpc:
+          type: string
+          enum:
+            - '2.0'
+          description: JSON-RPC version.
+          example: '2.0'
+        id:
+          oneOf:
+            - type: string
+            - type: integer
+          nullable: true
+          description: Request identifier (matches the request ID, null for notifications).
+          example: 1
+        result:
+          type: object
+          description: The result of the method call (present on success).
+          additionalProperties: true
+          example:
+            tools: []
+        error:
+          $ref: '#/components/schemas/x402McpError'
+      required:
+        - jsonrpc
     OnrampOrderPaymentMethodTypeId:
       type: string
       description: The type of payment method to be used to complete an onramp order.
@@ -14518,6 +15817,79 @@ components:
         - limitType
         - limit
         - remaining
+    DateOfBirth:
+      type: object
+      description: Date of birth.
+      properties:
+        day:
+          type: string
+          description: Day of birth (01-31).
+          minLength: 2
+          maxLength: 2
+          pattern: ^[0-9]{2}$
+          example: '15'
+        month:
+          type: string
+          description: Month of birth (01-12).
+          minLength: 2
+          maxLength: 2
+          pattern: ^[0-9]{2}$
+          example: '08'
+        year:
+          type: string
+          description: Year of birth (four digits).
+          minLength: 4
+          maxLength: 4
+          pattern: ^[0-9]{4}$
+          example: '1990'
+      example:
+        day: '15'
+        month: '08'
+        year: '1990'
+    OnrampLimitUpgradeIdentityFields:
+      type: object
+      description: Populate the properties that correspond to the `fields` array from the user's `OnrampLimitUpgradeOption`.
+      properties:
+        ssnLast4:
+          type: string
+          description: Last 4 digits of the Social Security Number (no dashes or spaces).
+          example: '5678'
+        dateOfBirth:
+          allOf:
+            - $ref: '#/components/schemas/DateOfBirth'
+          description: Date of birth.
+      example:
+        ssnLast4: '5678'
+        dateOfBirth:
+          day: '15'
+          month: '08'
+          year: '1990'
+    OnrampLimitUpgradeRequest:
+      type: object
+      description: Request to request a limits upgrade for a user.
+      properties:
+        userId:
+          type: string
+          description: The user identifier value. For `phone_number` type, this must be in E.164 format.
+          example: '+12055555555'
+        userIdType:
+          $ref: '#/components/schemas/OnrampUserIdType'
+        fields:
+          $ref: '#/components/schemas/OnrampLimitUpgradeIdentityFields'
+          description: Populate the properties that correspond to the `fields` array from the user's `OnrampLimitUpgradeOption`.
+      required:
+        - userId
+        - userIdType
+        - fields
+      example:
+        userId: '+12055555555'
+        userIdType: phone_number
+        fields:
+          ssnLast4: '5678'
+          dateOfBirth:
+            day: '15'
+            month: '08'
+            year: '1990'
   responses:
     UnauthorizedError:
       description: Unauthorized.

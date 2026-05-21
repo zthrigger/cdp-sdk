@@ -2776,6 +2776,130 @@ export interface SignEndUserSolMessageRule {
   criteria: SignEndUserSolMessageCriteria;
 }
 
+export type SendEndUserEvmAssetCriteriaItem =
+  | EvmNetworkCriterion
+  | EvmDataCriterion
+  | NetUSDChangeCriterion;
+
+/**
+ * A schema for specifying criteria for the sendEndUserEvmAsset operation.
+ */
+export type SendEndUserEvmAssetCriteria = SendEndUserEvmAssetCriteriaItem[];
+
+/**
+ * Whether matching the rule will cause the request to be rejected or accepted.
+ */
+export type SendEndUserEvmAssetRuleAction =
+  (typeof SendEndUserEvmAssetRuleAction)[keyof typeof SendEndUserEvmAssetRuleAction];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SendEndUserEvmAssetRuleAction = {
+  reject: "reject",
+  accept: "accept",
+} as const;
+
+/**
+ * The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
+ */
+export type SendEndUserEvmAssetRuleOperation =
+  (typeof SendEndUserEvmAssetRuleOperation)[keyof typeof SendEndUserEvmAssetRuleOperation];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SendEndUserEvmAssetRuleOperation = {
+  sendEndUserEvmAsset: "sendEndUserEvmAsset",
+} as const;
+
+export interface SendEndUserEvmAssetRule {
+  /** Whether matching the rule will cause the request to be rejected or accepted. */
+  action: SendEndUserEvmAssetRuleAction;
+  /** The operation to which the rule applies. Every element of the `criteria` array must match the specified operation. */
+  operation: SendEndUserEvmAssetRuleOperation;
+  criteria: SendEndUserEvmAssetCriteria;
+}
+
+export type SendEndUserSolAssetCriteriaItem =
+  | SplAddressCriterion
+  | SplValueCriterion
+  | SolDataCriterion
+  | SolNetworkCriterion;
+
+/**
+ * A schema for specifying criteria for the sendEndUserSolAsset operation.
+ */
+export type SendEndUserSolAssetCriteria = SendEndUserSolAssetCriteriaItem[];
+
+/**
+ * Whether matching the rule will cause the request to be rejected or accepted.
+ */
+export type SendEndUserSolAssetRuleAction =
+  (typeof SendEndUserSolAssetRuleAction)[keyof typeof SendEndUserSolAssetRuleAction];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SendEndUserSolAssetRuleAction = {
+  reject: "reject",
+  accept: "accept",
+} as const;
+
+/**
+ * The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
+ */
+export type SendEndUserSolAssetRuleOperation =
+  (typeof SendEndUserSolAssetRuleOperation)[keyof typeof SendEndUserSolAssetRuleOperation];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const SendEndUserSolAssetRuleOperation = {
+  sendEndUserSolAsset: "sendEndUserSolAsset",
+} as const;
+
+export interface SendEndUserSolAssetRule {
+  /** Whether matching the rule will cause the request to be rejected or accepted. */
+  action: SendEndUserSolAssetRuleAction;
+  /** The operation to which the rule applies. Every element of the `criteria` array must match the specified operation. */
+  operation: SendEndUserSolAssetRuleOperation;
+  criteria: SendEndUserSolAssetCriteria;
+}
+
+export type CreateEndUserEvmSwapCriteriaItem =
+  | EvmNetworkCriterion
+  | EvmDataCriterion
+  | NetUSDChangeCriterion;
+
+/**
+ * A schema for specifying criteria for the createEndUserEvmSwap operation.
+ */
+export type CreateEndUserEvmSwapCriteria = CreateEndUserEvmSwapCriteriaItem[];
+
+/**
+ * Whether matching the rule will cause the request to be rejected or accepted.
+ */
+export type CreateEndUserEvmSwapRuleAction =
+  (typeof CreateEndUserEvmSwapRuleAction)[keyof typeof CreateEndUserEvmSwapRuleAction];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CreateEndUserEvmSwapRuleAction = {
+  reject: "reject",
+  accept: "accept",
+} as const;
+
+/**
+ * The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
+ */
+export type CreateEndUserEvmSwapRuleOperation =
+  (typeof CreateEndUserEvmSwapRuleOperation)[keyof typeof CreateEndUserEvmSwapRuleOperation];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const CreateEndUserEvmSwapRuleOperation = {
+  createEndUserEvmSwap: "createEndUserEvmSwap",
+} as const;
+
+export interface CreateEndUserEvmSwapRule {
+  /** Whether matching the rule will cause the request to be rejected or accepted. */
+  action: CreateEndUserEvmSwapRuleAction;
+  /** The operation to which the rule applies. Every element of the `criteria` array must match the specified operation. */
+  operation: CreateEndUserEvmSwapRuleOperation;
+  criteria: CreateEndUserEvmSwapCriteria;
+}
+
 /**
  * A rule that limits the behavior of an account.
  */
@@ -2797,7 +2921,10 @@ export type Rule =
   | SignEndUserEvmHashRule
   | SignEndUserSolTransactionRule
   | SendEndUserSolTransactionRule
-  | SignEndUserSolMessageRule;
+  | SignEndUserSolMessageRule
+  | SendEndUserEvmAssetRule
+  | SendEndUserSolAssetRule
+  | CreateEndUserEvmSwapRule;
 
 /**
  * The scope of the policy. Only one project-level policy can exist at any time.
@@ -3890,6 +4017,11 @@ export const X402SupportedPaymentKindNetwork = {
   "eip155:137": "eip155:137",
   "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp": "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp",
   "solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1": "solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1",
+  avalanche: "avalanche",
+  arbitrum: "arbitrum",
+  "arbitrum-sepolia": "arbitrum-sepolia",
+  world: "world",
+  "world-sepolia": "world-sepolia",
 } as const;
 
 /**
@@ -3908,6 +4040,217 @@ export interface X402SupportedPaymentKind {
   network: X402SupportedPaymentKindNetwork;
   /** The optional additional scheme-specific payment info. */
   extra?: X402SupportedPaymentKindExtra;
+}
+
+/**
+ * Quality metrics for a discovered x402 resource.
+ */
+export interface X402ResourceQuality {
+  /** Total number of paid calls to a resource in the last 30 days. */
+  l30DaysTotalCalls?: number;
+  /** Number of unique payers to a resource in the last 30 days. */
+  l30DaysUniquePayers?: number;
+  /** Timestamp of the most recent paid call to a resource. */
+  lastCalledAt?: string;
+}
+
+/**
+ * Communication protocol (e.g., "http", "mcp").
+ */
+export type X402DiscoveryResourceType =
+  (typeof X402DiscoveryResourceType)[keyof typeof X402DiscoveryResourceType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const X402DiscoveryResourceType = {
+  http: "http",
+  mcp: "mcp",
+} as const;
+
+/**
+ * Map of x402 protocol extensions supported by the resource, keyed by extension name.
+ */
+export type X402DiscoveryResourceExtensions = { [key: string]: unknown };
+
+/**
+ * A single discovered x402 resource.
+ */
+export interface X402DiscoveryResource {
+  /** The URL of the resource. */
+  resource: string;
+  /** A human-readable description of the resource. */
+  description?: string;
+  /** Communication protocol (e.g., "http", "mcp"). */
+  type: X402DiscoveryResourceType;
+  x402Version: X402Version;
+  /** Timestamp of the last update. */
+  lastUpdated?: string;
+  /** Payment requirements accepted by the resource. */
+  accepts?: X402PaymentRequirements[];
+  /** Map of x402 protocol extensions supported by the resource, keyed by extension name. */
+  extensions?: X402DiscoveryResourceExtensions;
+  quality?: X402ResourceQuality;
+}
+
+/**
+ * Pagination information for the response.
+ */
+export type X402DiscoveryResourcesResponsePagination = {
+  /** The number of discovered x402 resources to return per page. */
+  limit?: number;
+  /** The offset of the first discovered x402 resource to return. */
+  offset?: number;
+  /** The total number of discovered x402 resources. */
+  total?: number;
+};
+
+/**
+ * Response containing discovered x402 resources.
+ */
+export interface X402DiscoveryResourcesResponse {
+  x402Version: X402Version;
+  /** List of discovered x402 resources. */
+  items: X402DiscoveryResource[];
+  /** Pagination information for the response. */
+  pagination: X402DiscoveryResourcesResponsePagination;
+}
+
+/**
+ * Pagination information for the response.
+ */
+export type X402DiscoveryMerchantResponsePagination = {
+  /** The number of resources returned per page. */
+  limit?: number;
+  /** The offset of the first resource returned. */
+  offset?: number;
+  /** The total number of resources associated with the merchant's payTo address. */
+  total?: number;
+};
+
+/**
+ * Response containing x402 resources associated with a merchant payment address.
+ */
+export interface X402DiscoveryMerchantResponse {
+  x402Version: X402Version;
+  payTo: BlockchainAddress;
+  /** List of discovered x402 resources associated with the merchant's payTo address. */
+  resources: X402DiscoveryResource[];
+  /** Pagination information for the response. */
+  pagination: X402DiscoveryMerchantResponsePagination;
+}
+
+/**
+ * The search method used to retrieve the results (e.g., "text" or "vector").
+ */
+export type X402SearchResourcesResponseSearchMethod =
+  (typeof X402SearchResourcesResponseSearchMethod)[keyof typeof X402SearchResourcesResponseSearchMethod];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const X402SearchResourcesResponseSearchMethod = {
+  text: "text",
+  vector: "vector",
+} as const;
+
+/**
+ * Response from a search for x402 resources.
+ */
+export interface X402SearchResourcesResponse {
+  /** List of x402 resources matching the search query and filters. */
+  resources: X402DiscoveryResource[];
+  /** Indicates whether the result set was truncated because there were more results than the requested limit. */
+  partialResults: boolean;
+  /** The search method used to retrieve the results (e.g., "text" or "vector"). */
+  searchMethod?: X402SearchResourcesResponseSearchMethod;
+  x402Version: X402Version;
+}
+
+/**
+ * JSON-RPC version, must be "2.0".
+ */
+export type X402McpRequestJsonrpc =
+  (typeof X402McpRequestJsonrpc)[keyof typeof X402McpRequestJsonrpc];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const X402McpRequestJsonrpc = {
+  "20": "2.0",
+} as const;
+
+/**
+ * Request identifier.
+ */
+export type X402McpRequestId = string | number;
+
+/**
+ * Optional parameters for the method.
+ */
+export type X402McpRequestParams = { [key: string]: unknown };
+
+/**
+ * A JSON-RPC 2.0 request for the Model Context Protocol.
+ */
+export interface X402McpRequest {
+  /** JSON-RPC version, must be "2.0". */
+  jsonrpc: X402McpRequestJsonrpc;
+  /** Request identifier. */
+  id?: X402McpRequestId;
+  /** The MCP method to invoke. */
+  method: string;
+  /** Optional parameters for the method. */
+  params?: X402McpRequestParams;
+}
+
+/**
+ * Additional error data.
+ */
+export type X402McpErrorData = { [key: string]: unknown };
+
+/**
+ * JSON-RPC 2.0 error object.
+ */
+export interface X402McpError {
+  /** Error code. */
+  code: number;
+  /** Error message. */
+  message: string;
+  /** Additional error data. */
+  data?: X402McpErrorData;
+}
+
+/**
+ * JSON-RPC version.
+ */
+export type X402McpResponseJsonrpc =
+  (typeof X402McpResponseJsonrpc)[keyof typeof X402McpResponseJsonrpc];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const X402McpResponseJsonrpc = {
+  "20": "2.0",
+} as const;
+
+/**
+ * Request identifier (matches the request ID, null for notifications).
+ * @nullable
+ */
+export type X402McpResponseId = string | number | null;
+
+/**
+ * The result of the method call (present on success).
+ */
+export type X402McpResponseResult = { [key: string]: unknown };
+
+/**
+ * A JSON-RPC 2.0 response for the Model Context Protocol.
+ */
+export interface X402McpResponse {
+  /** JSON-RPC version. */
+  jsonrpc: X402McpResponseJsonrpc;
+  /**
+   * Request identifier (matches the request ID, null for notifications).
+   * @nullable
+   */
+  id?: X402McpResponseId;
+  /** The result of the method call (present on success). */
+  result?: X402McpResponseResult;
+  error?: X402McpError;
 }
 
 /**
@@ -4112,6 +4455,54 @@ export interface OnrampUserLimit {
   limit: string;
   /** The remaining amount or count available. */
   remaining: string;
+}
+
+/**
+ * Date of birth.
+ */
+export interface DateOfBirth {
+  /**
+   * Day of birth (01-31).
+   * @minLength 2
+   * @maxLength 2
+   * @pattern ^[0-9]{2}$
+   */
+  day?: string;
+  /**
+   * Month of birth (01-12).
+   * @minLength 2
+   * @maxLength 2
+   * @pattern ^[0-9]{2}$
+   */
+  month?: string;
+  /**
+   * Year of birth (four digits).
+   * @minLength 4
+   * @maxLength 4
+   * @pattern ^[0-9]{4}$
+   */
+  year?: string;
+}
+
+/**
+ * Populate the properties that correspond to the `fields` array from the user's `OnrampLimitUpgradeOption`.
+ */
+export interface OnrampLimitUpgradeIdentityFields {
+  /** Last 4 digits of the Social Security Number (no dashes or spaces). */
+  ssnLast4?: string;
+  /** Date of birth. */
+  dateOfBirth?: DateOfBirth;
+}
+
+/**
+ * Request to request a limits upgrade for a user.
+ */
+export interface OnrampLimitUpgradeRequest {
+  /** The user identifier value. For `phone_number` type, this must be in E.164 format. */
+  userId: string;
+  userIdType: OnrampUserIdType;
+  /** Populate the properties that correspond to the `fields` array from the user's `OnrampLimitUpgradeOption`. */
+  fields: OnrampLimitUpgradeIdentityFields;
 }
 
 /**
@@ -4356,6 +4747,31 @@ export type ListEndUsers200 = ListEndUsers200AllOf & ListResponse;
 export type ValidateEndUserAccessTokenBody = {
   /** The access token in JWT format to verify. */
   accessToken: string;
+};
+
+export type LookupEndUserParams = {
+  /**
+   * The email address to search for across all email-based authentication methods.
+   */
+  email?: string;
+  /**
+   * The OAuth provider to search by. Must be provided together with oauthSubject.
+   */
+  oauthProvider?: OAuth2ProviderType;
+  /**
+   * The OAuth subject (the `sub` claim from the provider's ID token). Must be provided together with oauthProvider.
+   */
+  oauthSubject?: string;
+  /**
+   * The E.164-formatted phone number to search for. Must be URL-encoded when passed as a query parameter (e.g. `+14155552671` → `%2B14155552671`).
+   * @pattern ^\+[1-9]\d{1,14}$
+   */
+  phoneNumber?: string;
+};
+
+export type LookupEndUser200 = {
+  /** The list of end users matching the lookup. */
+  endUsers: EndUser[];
 };
 
 export type AddEndUserEvmAccountBody = { [key: string]: unknown };
@@ -4618,7 +5034,67 @@ export type GetDelegationForEndUser200 = {
   expiresAt: string;
 };
 
+export type RevokeDelegationForEndUserParams = {
+  /**
+   * The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider).
+   * @pattern ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+   */
+  projectID?: ProjectIDOptionalParameter;
+};
+
 export type RevokeDelegationForEndUserBody = {
+  /**
+   * When revoking with a wallet authentication scheme, the ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header.
+   * @pattern ^[a-zA-Z0-9-]{1,100}$
+   */
+  walletSecretId?: string;
+};
+
+export type CreateDelegationForEndUserAccountParams = {
+  /**
+   * The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider).
+   * @pattern ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+   */
+  projectID?: ProjectIDOptionalParameter;
+};
+
+export type CreateDelegationForEndUserAccountBody = {
+  /** The date until which the delegation is valid. */
+  expiresAt: string;
+  /**
+   * The ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header.
+   * @pattern ^[a-zA-Z0-9-]{1,100}$
+   */
+  walletSecretId: string;
+};
+
+export type CreateDelegationForEndUserAccount201 = {
+  /** The date until which the delegation is valid. */
+  expiresAt: string;
+};
+
+export type GetDelegationForEndUserAccountParams = {
+  /**
+   * The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider).
+   * @pattern ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+   */
+  projectID?: ProjectIDOptionalParameter;
+};
+
+export type GetDelegationForEndUserAccount200 = {
+  /** The date until which the delegation is valid. */
+  expiresAt: string;
+};
+
+export type RevokeDelegationForEndUserAccountParams = {
+  /**
+   * The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider).
+   * @pattern ^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+   */
+  projectID?: ProjectIDOptionalParameter;
+};
+
+export type RevokeDelegationForEndUserAccountBody = {
   /**
    * When revoking with a wallet authentication scheme, the ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header.
    * @pattern ^[a-zA-Z0-9-]{1,100}$
@@ -5511,6 +5987,89 @@ export type SettleX402PaymentBody = {
   x402Version: X402Version;
   paymentPayload: X402PaymentPayload;
   paymentRequirements: X402PaymentRequirements;
+};
+
+export type ListX402DiscoveryResourcesParams = {
+  /**
+ * Filter by protocol type (e.g., "http", "mcp").
+Currently, the only supported protocol type is "http".
+ */
+  type?: string;
+  /**
+   * The number of discovered x402 resources to return per page.
+   */
+  limit?: number;
+  /**
+   * The offset of the first discovered x402 resource to return.
+   */
+  offset?: number;
+};
+
+export type ListX402DiscoveryMerchantParams = {
+  /**
+ * The merchant's payment address to look up.
+This is the onchain address that payment requirements route funds to.
+ */
+  payTo: BlockchainAddress;
+  /**
+   * The number of resources to return per page.
+   */
+  limit?: number;
+  /**
+   * The offset of the first resource to return.
+   */
+  offset?: number;
+};
+
+export type SearchX402ResourcesParams = {
+  /**
+   * Full-text or semantic search query to find matching resources.
+   * @maxLength 400
+   */
+  query?: string;
+  /**
+ * Filter results by network in CAIP-2 format (e.g., `eip155:8453`) or legacy name (e.g., `base`, `base-sepolia`, `solana`).
+Legacy names are normalized to their CAIP-2 equivalents before filtering.
+ */
+  network?: string;
+  /**
+ * Filter results by asset address.
+For EVM networks, provide a 0x-prefixed EVM address. For Solana networks, provide a base58-encoded address.
+Matching is case-insensitive.
+ */
+  asset?: string;
+  /**
+   * Filter results by payment scheme (e.g., `exact`).
+   */
+  scheme?: string;
+  /**
+ * Filter results by the merchant's payment address.
+For EVM networks, provide a 0x-prefixed EVM address. For Solana networks, provide a base58-encoded address.
+ */
+  payTo?: BlockchainAddress;
+  /**
+ * Filter results to resources whose URL contains this value (case-insensitive substring match against the resource URL).
+Useful for narrowing results to a specific domain, subdomain, or path segment. Combine with `query` to perform semantic search restricted to a URL subset.
+Tip: include enough of the URL to disambiguate (e.g. `api.example.com` rather than `example`) — a short substring may also match resources whose path contains the same string.
+ * @minLength 3
+ * @maxLength 2048
+ */
+  urlSubstring?: string;
+  /**
+   * Filter results to resources with a USD price at or below this value.
+   */
+  maxUsdPrice?: string;
+  /**
+   * Filter results to resources that support the specified protocol extensions. Can be specified multiple times to filter by multiple extensions.
+   */
+  extensions?: string[];
+  /**
+ * Maximum number of resources to return. Must be a positive integer no greater than 20.
+Defaults to 20.
+ * @minimum 1
+ * @maximum 20
+ */
+  limit?: number;
 };
 
 export type CreateOnrampOrderBody = {

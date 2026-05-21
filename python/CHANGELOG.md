@@ -2,6 +2,28 @@
 
 <!-- towncrier release notes start -->
 
+## [1.45.2] - 2026-05-20
+
+### Bugfixes
+
+- Add missing `/embedded-wallet-api/` path check to wallet auth header generation, ensuring X-Wallet-Auth is sent for all embedded wallet API operations ([#fix-wallet-auth-embedded-wallet-api](https://github.com/coinbase/cdp-sdk/pull/fix-wallet-auth-embedded-wallet-api))
+
+
+## [1.45.1] - 2026-05-12
+
+### Bugfixes
+
+- Bumped API spec and re-generated clients ([#700](https://github.com/coinbase/cdp-sdk/pull/700))
+
+
+## [1.45.0] - 2026-05-11
+
+### Features
+
+- Add support for SendEndUserEvmAsset, SendEndUserSolAsset, and CreateEndUserEvmSwap policy rules and criteria ([#publicize-end-user-policy-rules](https://github.com/coinbase/cdp-sdk/pull/publicize-end-user-policy-rules))
+- Added account-scoped delegation methods to EndUserAccount: get_delegation_for_account and revoke_delegation_for_account ([#689](https://github.com/coinbase/cdp-sdk/pull/689))
+
+
 ## [1.44.0] - 2026-04-22
 
 ### Features

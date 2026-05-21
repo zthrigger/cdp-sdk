@@ -19,8 +19,9 @@ import (
 )
 
 const (
-	ApiKeyAuthScopes  = "apiKeyAuth.Scopes"
-	EndUserAuthScopes = "endUserAuth.Scopes"
+	ApiKeyAuthScopes      = "apiKeyAuth.Scopes"
+	EndUserAuthScopes     = "endUserAuth.Scopes"
+	UnauthenticatedScopes = "unauthenticated.Scopes"
 )
 
 // Defines values for AbiFunctionType.
@@ -48,6 +49,17 @@ const (
 // Defines values for CommonSwapResponseLiquidityAvailable.
 const (
 	CommonSwapResponseLiquidityAvailableTrue CommonSwapResponseLiquidityAvailable = true
+)
+
+// Defines values for CreateEndUserEvmSwapRuleAction.
+const (
+	CreateEndUserEvmSwapRuleActionAccept CreateEndUserEvmSwapRuleAction = "accept"
+	CreateEndUserEvmSwapRuleActionReject CreateEndUserEvmSwapRuleAction = "reject"
+)
+
+// Defines values for CreateEndUserEvmSwapRuleOperation.
+const (
+	CreateEndUserEvmSwap CreateEndUserEvmSwapRuleOperation = "createEndUserEvmSwap"
 )
 
 // Defines values for CreateSwapQuoteResponseLiquidityAvailable.
@@ -444,6 +456,17 @@ const (
 	ProgramId ProgramIdCriterionType = "programId"
 )
 
+// Defines values for SendEndUserEvmAssetRuleAction.
+const (
+	SendEndUserEvmAssetRuleActionAccept SendEndUserEvmAssetRuleAction = "accept"
+	SendEndUserEvmAssetRuleActionReject SendEndUserEvmAssetRuleAction = "reject"
+)
+
+// Defines values for SendEndUserEvmAssetRuleOperation.
+const (
+	SendEndUserEvmAsset SendEndUserEvmAssetRuleOperation = "sendEndUserEvmAsset"
+)
+
 // Defines values for SendEndUserEvmTransactionRuleAction.
 const (
 	SendEndUserEvmTransactionRuleActionAccept SendEndUserEvmTransactionRuleAction = "accept"
@@ -453,6 +476,17 @@ const (
 // Defines values for SendEndUserEvmTransactionRuleOperation.
 const (
 	SendEndUserEvmTransaction SendEndUserEvmTransactionRuleOperation = "sendEndUserEvmTransaction"
+)
+
+// Defines values for SendEndUserSolAssetRuleAction.
+const (
+	SendEndUserSolAssetRuleActionAccept SendEndUserSolAssetRuleAction = "accept"
+	SendEndUserSolAssetRuleActionReject SendEndUserSolAssetRuleAction = "reject"
+)
+
+// Defines values for SendEndUserSolAssetRuleOperation.
+const (
+	SendEndUserSolAsset SendEndUserSolAssetRuleOperation = "sendEndUserSolAsset"
 )
 
 // Defines values for SendEndUserSolTransactionRuleAction.
@@ -638,8 +672,8 @@ const (
 
 // Defines values for SignSolTransactionRuleAction.
 const (
-	SignSolTransactionRuleActionAccept SignSolTransactionRuleAction = "accept"
-	SignSolTransactionRuleActionReject SignSolTransactionRuleAction = "reject"
+	Accept SignSolTransactionRuleAction = "accept"
+	Reject SignSolTransactionRuleAction = "reject"
 )
 
 // Defines values for SignSolTransactionRuleOperation.
@@ -781,6 +815,28 @@ const (
 	X402VersionN2 X402Version = 2
 )
 
+// Defines values for X402DiscoveryResourceType.
+const (
+	Http X402DiscoveryResourceType = "http"
+	Mcp  X402DiscoveryResourceType = "mcp"
+)
+
+// Defines values for X402McpRequestJsonrpc.
+const (
+	X402McpRequestJsonrpcN20 X402McpRequestJsonrpc = "2.0"
+)
+
+// Defines values for X402McpResponseJsonrpc.
+const (
+	X402McpResponseJsonrpcN20 X402McpResponseJsonrpc = "2.0"
+)
+
+// Defines values for X402SearchResourcesResponseSearchMethod.
+const (
+	Text   X402SearchResourcesResponseSearchMethod = "text"
+	Vector X402SearchResourcesResponseSearchMethod = "vector"
+)
+
 // Defines values for X402SettleErrorReason.
 const (
 	X402SettleErrorReasonInsufficientFunds                                                           X402SettleErrorReason = "insufficient_funds"
@@ -835,6 +891,9 @@ const (
 
 // Defines values for X402SupportedPaymentKindNetwork.
 const (
+	X402SupportedPaymentKindNetworkArbitrum                               X402SupportedPaymentKindNetwork = "arbitrum"
+	X402SupportedPaymentKindNetworkArbitrumSepolia                        X402SupportedPaymentKindNetwork = "arbitrum-sepolia"
+	X402SupportedPaymentKindNetworkAvalanche                              X402SupportedPaymentKindNetwork = "avalanche"
 	X402SupportedPaymentKindNetworkBase                                   X402SupportedPaymentKindNetwork = "base"
 	X402SupportedPaymentKindNetworkBaseSepolia                            X402SupportedPaymentKindNetwork = "base-sepolia"
 	X402SupportedPaymentKindNetworkEip155137                              X402SupportedPaymentKindNetwork = "eip155:137"
@@ -845,6 +904,8 @@ const (
 	X402SupportedPaymentKindNetworkSolana5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp X402SupportedPaymentKindNetwork = "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp"
 	X402SupportedPaymentKindNetworkSolanaDevnet                           X402SupportedPaymentKindNetwork = "solana-devnet"
 	X402SupportedPaymentKindNetworkSolanaEtWTRABZaYq6iMfeYKouRu166VU2xqa1 X402SupportedPaymentKindNetwork = "solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1"
+	X402SupportedPaymentKindNetworkWorld                                  X402SupportedPaymentKindNetwork = "world"
+	X402SupportedPaymentKindNetworkWorldSepolia                           X402SupportedPaymentKindNetwork = "world-sepolia"
 )
 
 // Defines values for X402SupportedPaymentKindScheme.
@@ -1212,6 +1273,32 @@ type CommonSwapResponse struct {
 // CommonSwapResponseLiquidityAvailable Whether sufficient liquidity is available to settle the swap. All other fields in the response will be empty if this is false.
 type CommonSwapResponseLiquidityAvailable bool
 
+// CreateEndUserEvmSwapCriteria A schema for specifying criteria for the createEndUserEvmSwap operation.
+type CreateEndUserEvmSwapCriteria = []CreateEndUserEvmSwapCriteria_Item
+
+// CreateEndUserEvmSwapCriteria_Item defines model for CreateEndUserEvmSwapCriteria.Item.
+type CreateEndUserEvmSwapCriteria_Item struct {
+	union json.RawMessage
+}
+
+// CreateEndUserEvmSwapRule defines model for CreateEndUserEvmSwapRule.
+type CreateEndUserEvmSwapRule struct {
+	// Action Whether matching the rule will cause the request to be rejected or accepted.
+	Action CreateEndUserEvmSwapRuleAction `json:"action"`
+
+	// Criteria A schema for specifying criteria for the createEndUserEvmSwap operation.
+	Criteria CreateEndUserEvmSwapCriteria `json:"criteria"`
+
+	// Operation The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
+	Operation CreateEndUserEvmSwapRuleOperation `json:"operation"`
+}
+
+// CreateEndUserEvmSwapRuleAction Whether matching the rule will cause the request to be rejected or accepted.
+type CreateEndUserEvmSwapRuleAction string
+
+// CreateEndUserEvmSwapRuleOperation The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
+type CreateEndUserEvmSwapRuleOperation string
+
 // CreateSpendPermissionRequest Request parameters for creating a Spend Permission.
 type CreateSpendPermissionRequest struct {
 	// Allowance Maximum allowed value to spend, in atomic units for the specified token, within each period.
@@ -1338,6 +1425,18 @@ type CreateSwapQuoteResponseLiquidityAvailable bool
 // CreateSwapQuoteResponseWrapper A wrapper for the response of a swap quote operation.
 type CreateSwapQuoteResponseWrapper struct {
 	union json.RawMessage
+}
+
+// DateOfBirth Date of birth.
+type DateOfBirth struct {
+	// Day Day of birth (01-31).
+	Day *string `json:"day,omitempty"`
+
+	// Month Month of birth (01-12).
+	Month *string `json:"month,omitempty"`
+
+	// Year Year of birth (four digits).
+	Year *string `json:"year,omitempty"`
 }
 
 // Description A human-readable description.
@@ -2100,6 +2199,28 @@ type OnchainDataTableSchema struct {
 //     transactions are allowed. 15 is the default limit.
 type OnrampLimitType string
 
+// OnrampLimitUpgradeIdentityFields Populate the properties that correspond to the `fields` array from the user's `OnrampLimitUpgradeOption`.
+type OnrampLimitUpgradeIdentityFields struct {
+	// DateOfBirth Date of birth.
+	DateOfBirth *DateOfBirth `json:"dateOfBirth,omitempty"`
+
+	// SsnLast4 Last 4 digits of the Social Security Number (no dashes or spaces).
+	SsnLast4 *string `json:"ssnLast4,omitempty"`
+}
+
+// OnrampLimitUpgradeRequest Request to request a limits upgrade for a user.
+type OnrampLimitUpgradeRequest struct {
+	// Fields Populate the properties that correspond to the `fields` array from the user's `OnrampLimitUpgradeOption`.
+	Fields OnrampLimitUpgradeIdentityFields `json:"fields"`
+
+	// UserId The user identifier value. For `phone_number` type, this must be in E.164 format.
+	UserId string `json:"userId"`
+
+	// UserIdType The type of user identifier:
+	// - `phone_number`: A phone number in E.164 format associated with an onramp user.
+	UserIdType OnrampUserIdType `json:"userIdType"`
+}
+
 // OnrampOrder An Onramp order.
 type OnrampOrder struct {
 	// CreatedAt The date and time the order was created.
@@ -2333,6 +2454,32 @@ type Rule struct {
 	union json.RawMessage
 }
 
+// SendEndUserEvmAssetCriteria A schema for specifying criteria for the sendEndUserEvmAsset operation.
+type SendEndUserEvmAssetCriteria = []SendEndUserEvmAssetCriteria_Item
+
+// SendEndUserEvmAssetCriteria_Item defines model for SendEndUserEvmAssetCriteria.Item.
+type SendEndUserEvmAssetCriteria_Item struct {
+	union json.RawMessage
+}
+
+// SendEndUserEvmAssetRule defines model for SendEndUserEvmAssetRule.
+type SendEndUserEvmAssetRule struct {
+	// Action Whether matching the rule will cause the request to be rejected or accepted.
+	Action SendEndUserEvmAssetRuleAction `json:"action"`
+
+	// Criteria A schema for specifying criteria for the sendEndUserEvmAsset operation.
+	Criteria SendEndUserEvmAssetCriteria `json:"criteria"`
+
+	// Operation The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
+	Operation SendEndUserEvmAssetRuleOperation `json:"operation"`
+}
+
+// SendEndUserEvmAssetRuleAction Whether matching the rule will cause the request to be rejected or accepted.
+type SendEndUserEvmAssetRuleAction string
+
+// SendEndUserEvmAssetRuleOperation The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
+type SendEndUserEvmAssetRuleOperation string
+
 // SendEndUserEvmTransactionCriteria A schema for specifying criteria for the sendEndUserEvmTransaction operation.
 type SendEndUserEvmTransactionCriteria = []SendEndUserEvmTransactionCriteria_Item
 
@@ -2358,6 +2505,32 @@ type SendEndUserEvmTransactionRuleAction string
 
 // SendEndUserEvmTransactionRuleOperation The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
 type SendEndUserEvmTransactionRuleOperation string
+
+// SendEndUserSolAssetCriteria A schema for specifying criteria for the sendEndUserSolAsset operation.
+type SendEndUserSolAssetCriteria = []SendEndUserSolAssetCriteria_Item
+
+// SendEndUserSolAssetCriteria_Item defines model for SendEndUserSolAssetCriteria.Item.
+type SendEndUserSolAssetCriteria_Item struct {
+	union json.RawMessage
+}
+
+// SendEndUserSolAssetRule defines model for SendEndUserSolAssetRule.
+type SendEndUserSolAssetRule struct {
+	// Action Whether matching the rule will cause the request to be rejected or accepted.
+	Action SendEndUserSolAssetRuleAction `json:"action"`
+
+	// Criteria A schema for specifying criteria for the sendEndUserSolAsset operation.
+	Criteria SendEndUserSolAssetCriteria `json:"criteria"`
+
+	// Operation The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
+	Operation SendEndUserSolAssetRuleOperation `json:"operation"`
+}
+
+// SendEndUserSolAssetRuleAction Whether matching the rule will cause the request to be rejected or accepted.
+type SendEndUserSolAssetRuleAction string
+
+// SendEndUserSolAssetRuleOperation The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
+type SendEndUserSolAssetRuleOperation string
 
 // SendEndUserSolTransactionCriteria A schema for specifying criteria for the sendEndUserSolTransaction operation.
 type SendEndUserSolTransactionCriteria = []SendEndUserSolTransactionCriteria_Item
@@ -3423,6 +3596,81 @@ type Taker = string
 // ToToken The 0x-prefixed contract address of the token to receive.
 type ToToken = string
 
+// X402DiscoveryMerchantResponse Response containing x402 resources associated with a merchant payment address.
+type X402DiscoveryMerchantResponse struct {
+	// Pagination Pagination information for the response.
+	Pagination struct {
+		// Limit The number of resources returned per page.
+		Limit *int `json:"limit,omitempty"`
+
+		// Offset The offset of the first resource returned.
+		Offset *int `json:"offset,omitempty"`
+
+		// Total The total number of resources associated with the merchant's payTo address.
+		Total *int `json:"total,omitempty"`
+	} `json:"pagination"`
+
+	// PayTo A blockchain address. Format varies by network (e.g., 0x-prefixed for EVM, base58 for Solana).
+	PayTo BlockchainAddress `json:"payTo"`
+
+	// Resources List of discovered x402 resources associated with the merchant's payTo address.
+	Resources []X402DiscoveryResource `json:"resources"`
+
+	// X402Version The version of the x402 protocol.
+	X402Version X402Version `json:"x402Version"`
+}
+
+// X402DiscoveryResource A single discovered x402 resource.
+type X402DiscoveryResource struct {
+	// Accepts Payment requirements accepted by the resource.
+	Accepts *[]X402PaymentRequirements `json:"accepts,omitempty"`
+
+	// Description A human-readable description of the resource.
+	Description *string `json:"description,omitempty"`
+
+	// Extensions Map of x402 protocol extensions supported by the resource, keyed by extension name.
+	Extensions *map[string]interface{} `json:"extensions,omitempty"`
+
+	// LastUpdated Timestamp of the last update.
+	LastUpdated *time.Time `json:"lastUpdated,omitempty"`
+
+	// Quality Quality metrics for a discovered x402 resource.
+	Quality *X402ResourceQuality `json:"quality,omitempty"`
+
+	// Resource The URL of the resource.
+	Resource string `json:"resource"`
+
+	// Type Communication protocol (e.g., "http", "mcp").
+	Type X402DiscoveryResourceType `json:"type"`
+
+	// X402Version The version of the x402 protocol.
+	X402Version X402Version `json:"x402Version"`
+}
+
+// X402DiscoveryResourceType Communication protocol (e.g., "http", "mcp").
+type X402DiscoveryResourceType string
+
+// X402DiscoveryResourcesResponse Response containing discovered x402 resources.
+type X402DiscoveryResourcesResponse struct {
+	// Items List of discovered x402 resources.
+	Items []X402DiscoveryResource `json:"items"`
+
+	// Pagination Pagination information for the response.
+	Pagination struct {
+		// Limit The number of discovered x402 resources to return per page.
+		Limit *int `json:"limit,omitempty"`
+
+		// Offset The offset of the first discovered x402 resource to return.
+		Offset *int `json:"offset,omitempty"`
+
+		// Total The total number of discovered x402 resources.
+		Total *int `json:"total,omitempty"`
+	} `json:"pagination"`
+
+	// X402Version The version of the x402 protocol.
+	X402Version X402Version `json:"x402Version"`
+}
+
 // X402ExactEvmPayload The x402 protocol exact scheme payload for EVM networks. The scheme is implemented using ERC-3009. For more details, please see [EVM Exact Scheme Details](https://github.com/coinbase/x402/blob/main/specs/schemes/exact/scheme_exact_evm.md).
 type X402ExactEvmPayload struct {
 	// Authorization The authorization data for the ERC-3009 authorization message.
@@ -3498,6 +3746,76 @@ type X402ExactSolanaPayload struct {
 	Transaction string `json:"transaction"`
 }
 
+// X402McpError JSON-RPC 2.0 error object.
+type X402McpError struct {
+	// Code Error code.
+	Code int `json:"code"`
+
+	// Data Additional error data.
+	Data *map[string]interface{} `json:"data,omitempty"`
+
+	// Message Error message.
+	Message string `json:"message"`
+}
+
+// X402McpRequest A JSON-RPC 2.0 request for the Model Context Protocol.
+type X402McpRequest struct {
+	// Id Request identifier.
+	Id *X402McpRequest_Id `json:"id,omitempty"`
+
+	// Jsonrpc JSON-RPC version, must be "2.0".
+	Jsonrpc X402McpRequestJsonrpc `json:"jsonrpc"`
+
+	// Method The MCP method to invoke.
+	Method string `json:"method"`
+
+	// Params Optional parameters for the method.
+	Params *map[string]interface{} `json:"params,omitempty"`
+}
+
+// X402McpRequestId0 defines model for .
+type X402McpRequestId0 = string
+
+// X402McpRequestId1 defines model for .
+type X402McpRequestId1 = int
+
+// X402McpRequest_Id Request identifier.
+type X402McpRequest_Id struct {
+	union json.RawMessage
+}
+
+// X402McpRequestJsonrpc JSON-RPC version, must be "2.0".
+type X402McpRequestJsonrpc string
+
+// X402McpResponse A JSON-RPC 2.0 response for the Model Context Protocol.
+type X402McpResponse struct {
+	// Error JSON-RPC 2.0 error object.
+	Error *X402McpError `json:"error,omitempty"`
+
+	// Id Request identifier (matches the request ID, null for notifications).
+	Id *X402McpResponse_Id `json:"id"`
+
+	// Jsonrpc JSON-RPC version.
+	Jsonrpc X402McpResponseJsonrpc `json:"jsonrpc"`
+
+	// Result The result of the method call (present on success).
+	Result *map[string]interface{} `json:"result,omitempty"`
+}
+
+// X402McpResponseId0 defines model for .
+type X402McpResponseId0 = string
+
+// X402McpResponseId1 defines model for .
+type X402McpResponseId1 = int
+
+// X402McpResponse_Id Request identifier (matches the request ID, null for notifications).
+type X402McpResponse_Id struct {
+	union json.RawMessage
+}
+
+// X402McpResponseJsonrpc JSON-RPC version.
+type X402McpResponseJsonrpc string
+
 // X402PaymentPayload The x402 protocol payment payload that the client attaches to x402-paid API requests to the resource server in the X-PAYMENT header.
 // For EVM networks, smart account signatures can be longer than 65 bytes.
 type X402PaymentPayload struct {
@@ -3520,6 +3838,36 @@ type X402ResourceInfo struct {
 	// Url The URL of the resource.
 	Url *string `json:"url,omitempty"`
 }
+
+// X402ResourceQuality Quality metrics for a discovered x402 resource.
+type X402ResourceQuality struct {
+	// L30DaysTotalCalls Total number of paid calls to a resource in the last 30 days.
+	L30DaysTotalCalls *int `json:"l30DaysTotalCalls,omitempty"`
+
+	// L30DaysUniquePayers Number of unique payers to a resource in the last 30 days.
+	L30DaysUniquePayers *int `json:"l30DaysUniquePayers,omitempty"`
+
+	// LastCalledAt Timestamp of the most recent paid call to a resource.
+	LastCalledAt *time.Time `json:"lastCalledAt,omitempty"`
+}
+
+// X402SearchResourcesResponse Response from a search for x402 resources.
+type X402SearchResourcesResponse struct {
+	// PartialResults Indicates whether the result set was truncated because there were more results than the requested limit.
+	PartialResults bool `json:"partialResults"`
+
+	// Resources List of x402 resources matching the search query and filters.
+	Resources []X402DiscoveryResource `json:"resources"`
+
+	// SearchMethod The search method used to retrieve the results (e.g., "text" or "vector").
+	SearchMethod *X402SearchResourcesResponseSearchMethod `json:"searchMethod,omitempty"`
+
+	// X402Version The version of the x402 protocol.
+	X402Version X402Version `json:"x402Version"`
+}
+
+// X402SearchResourcesResponseSearchMethod The search method used to retrieve the results (e.g., "text" or "vector").
+type X402SearchResourcesResponseSearchMethod string
 
 // X402SettleErrorReason The reason the payment settlement errored on the x402 protocol.
 type X402SettleErrorReason string
@@ -3897,6 +4245,64 @@ type ListWebhookSubscriptionEventsParams struct {
 	EventTypeNames *string `form:"eventTypeNames,omitempty" json:"eventTypeNames,omitempty"`
 }
 
+// RevokeDelegationForEndUserAccountJSONBody defines parameters for RevokeDelegationForEndUserAccount.
+type RevokeDelegationForEndUserAccountJSONBody struct {
+	// WalletSecretId When revoking with a wallet authentication scheme, the ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header.
+	WalletSecretId *string `json:"walletSecretId,omitempty"`
+}
+
+// RevokeDelegationForEndUserAccountParams defines parameters for RevokeDelegationForEndUserAccount.
+type RevokeDelegationForEndUserAccountParams struct {
+	// ProjectID The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider).
+	ProjectID *ProjectIDOptional `form:"projectID,omitempty" json:"projectID,omitempty"`
+
+	// XWalletAuth A JWT signed using your Wallet Secret, encoded in base64. Refer to the
+	// [Generate Wallet Token](https://docs.cdp.coinbase.com/api-reference/v2/authentication#2-generate-wallet-token)
+	// section of our Authentication docs for more details on how to generate your Wallet Token.
+	XWalletAuth *XWalletAuthOptional `json:"X-Wallet-Auth,omitempty"`
+
+	// XDeveloperAuth A JWT signed using your Wallet Secret, encoded in base64. Refer to the
+	// [Generate Wallet Token](https://docs.cdp.coinbase.com/api-reference/v2/authentication#2-generate-wallet-token)
+	// section of our Authentication docs for more details on how to generate your Wallet Token.
+	XDeveloperAuth *XDeveloperAuth `json:"X-Developer-Auth,omitempty"`
+
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
+	// When included, duplicate requests with the same key will return identical responses.
+	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
+	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
+}
+
+// GetDelegationForEndUserAccountParams defines parameters for GetDelegationForEndUserAccount.
+type GetDelegationForEndUserAccountParams struct {
+	// ProjectID The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider).
+	ProjectID *ProjectIDOptional `form:"projectID,omitempty" json:"projectID,omitempty"`
+}
+
+// CreateDelegationForEndUserAccountJSONBody defines parameters for CreateDelegationForEndUserAccount.
+type CreateDelegationForEndUserAccountJSONBody struct {
+	// ExpiresAt The date until which the delegation is valid.
+	ExpiresAt time.Time `json:"expiresAt"`
+
+	// WalletSecretId The ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header.
+	WalletSecretId string `json:"walletSecretId"`
+}
+
+// CreateDelegationForEndUserAccountParams defines parameters for CreateDelegationForEndUserAccount.
+type CreateDelegationForEndUserAccountParams struct {
+	// ProjectID The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider).
+	ProjectID *ProjectIDOptional `form:"projectID,omitempty" json:"projectID,omitempty"`
+
+	// XWalletAuth A JWT signed using your Wallet Secret, encoded in base64. Refer to the
+	// [Generate Wallet Token](https://docs.cdp.coinbase.com/api-reference/v2/authentication#2-generate-wallet-token)
+	// section of our Authentication docs for more details on how to generate your Wallet Token.
+	XWalletAuth *XWalletAuth `json:"X-Wallet-Auth,omitempty"`
+
+	// XIdempotencyKey An optional string request header for making requests safely retryable.
+	// When included, duplicate requests with the same key will return identical responses.
+	// Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
+	XIdempotencyKey *IdempotencyKey `json:"X-Idempotency-Key,omitempty"`
+}
+
 // RevokeDelegationForEndUserJSONBody defines parameters for RevokeDelegationForEndUser.
 type RevokeDelegationForEndUserJSONBody struct {
 	// WalletSecretId When revoking with a wallet authentication scheme, the ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header.
@@ -3905,6 +4311,9 @@ type RevokeDelegationForEndUserJSONBody struct {
 
 // RevokeDelegationForEndUserParams defines parameters for RevokeDelegationForEndUser.
 type RevokeDelegationForEndUserParams struct {
+	// ProjectID The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider).
+	ProjectID *ProjectIDOptional `form:"projectID,omitempty" json:"projectID,omitempty"`
+
 	// XWalletAuth A JWT signed using your Wallet Secret, encoded in base64. Refer to the
 	// [Generate Wallet Token](https://docs.cdp.coinbase.com/api-reference/v2/authentication#2-generate-wallet-token)
 	// section of our Authentication docs for more details on how to generate your Wallet Token.
@@ -4431,6 +4840,21 @@ type ImportEndUserParams struct {
 
 // ImportEndUserJSONBodyKeyType defines parameters for ImportEndUser.
 type ImportEndUserJSONBodyKeyType string
+
+// LookupEndUserParams defines parameters for LookupEndUser.
+type LookupEndUserParams struct {
+	// Email The email address to search for across all email-based authentication methods.
+	Email *openapi_types.Email `form:"email,omitempty" json:"email,omitempty"`
+
+	// OauthProvider The OAuth provider to search by. Must be provided together with oauthSubject.
+	OauthProvider *OAuth2ProviderType `form:"oauthProvider,omitempty" json:"oauthProvider,omitempty"`
+
+	// OauthSubject The OAuth subject (the `sub` claim from the provider's ID token). Must be provided together with oauthProvider.
+	OauthSubject *string `form:"oauthSubject,omitempty" json:"oauthSubject,omitempty"`
+
+	// PhoneNumber The E.164-formatted phone number to search for. Must be URL-encoded when passed as a query parameter (e.g. `+14155552671` → `%2B14155552671`).
+	PhoneNumber *string `form:"phoneNumber,omitempty" json:"phoneNumber,omitempty"`
+}
 
 // AddEndUserEvmAccountJSONBody defines parameters for AddEndUserEvmAccount.
 type AddEndUserEvmAccountJSONBody = map[string]interface{}
@@ -5290,6 +5714,69 @@ type ListSolanaTokenBalancesParams struct {
 	PageToken *string `form:"pageToken,omitempty" json:"pageToken,omitempty"`
 }
 
+// ListX402DiscoveryMerchantParams defines parameters for ListX402DiscoveryMerchant.
+type ListX402DiscoveryMerchantParams struct {
+	// PayTo The merchant's payment address to look up.
+	// This is the onchain address that payment requirements route funds to.
+	PayTo BlockchainAddress `form:"payTo" json:"payTo"`
+
+	// Limit The number of resources to return per page.
+	Limit *int `form:"limit,omitempty" json:"limit,omitempty"`
+
+	// Offset The offset of the first resource to return.
+	Offset *int `form:"offset,omitempty" json:"offset,omitempty"`
+}
+
+// ListX402DiscoveryResourcesParams defines parameters for ListX402DiscoveryResources.
+type ListX402DiscoveryResourcesParams struct {
+	// Type Filter by protocol type (e.g., "http", "mcp").
+	// Currently, the only supported protocol type is "http".
+	Type *string `form:"type,omitempty" json:"type,omitempty"`
+
+	// Limit The number of discovered x402 resources to return per page.
+	Limit *int `form:"limit,omitempty" json:"limit,omitempty"`
+
+	// Offset The offset of the first discovered x402 resource to return.
+	Offset *int `form:"offset,omitempty" json:"offset,omitempty"`
+}
+
+// SearchX402ResourcesParams defines parameters for SearchX402Resources.
+type SearchX402ResourcesParams struct {
+	// Query Full-text or semantic search query to find matching resources.
+	Query *string `form:"query,omitempty" json:"query,omitempty"`
+
+	// Network Filter results by network in CAIP-2 format (e.g., `eip155:8453`) or legacy name (e.g., `base`, `base-sepolia`, `solana`).
+	// Legacy names are normalized to their CAIP-2 equivalents before filtering.
+	Network *string `form:"network,omitempty" json:"network,omitempty"`
+
+	// Asset Filter results by asset address.
+	// For EVM networks, provide a 0x-prefixed EVM address. For Solana networks, provide a base58-encoded address.
+	// Matching is case-insensitive.
+	Asset *string `form:"asset,omitempty" json:"asset,omitempty"`
+
+	// Scheme Filter results by payment scheme (e.g., `exact`).
+	Scheme *string `form:"scheme,omitempty" json:"scheme,omitempty"`
+
+	// PayTo Filter results by the merchant's payment address.
+	// For EVM networks, provide a 0x-prefixed EVM address. For Solana networks, provide a base58-encoded address.
+	PayTo *BlockchainAddress `form:"payTo,omitempty" json:"payTo,omitempty"`
+
+	// UrlSubstring Filter results to resources whose URL contains this value (case-insensitive substring match against the resource URL).
+	// Useful for narrowing results to a specific domain, subdomain, or path segment. Combine with `query` to perform semantic search restricted to a URL subset.
+	// Tip: include enough of the URL to disambiguate (e.g. `api.example.com` rather than `example`) — a short substring may also match resources whose path contains the same string.
+	UrlSubstring *string `form:"urlSubstring,omitempty" json:"urlSubstring,omitempty"`
+
+	// MaxUsdPrice Filter results to resources with a USD price at or below this value.
+	MaxUsdPrice *string `form:"maxUsdPrice,omitempty" json:"maxUsdPrice,omitempty"`
+
+	// Extensions Filter results to resources that support the specified protocol extensions. Can be specified multiple times to filter by multiple extensions.
+	Extensions *[]string `form:"extensions,omitempty" json:"extensions,omitempty"`
+
+	// Limit Maximum number of resources to return. Must be a positive integer no greater than 20.
+	// Defaults to 20.
+	Limit *int `form:"limit,omitempty" json:"limit,omitempty"`
+}
+
 // SettleX402PaymentJSONBody defines parameters for SettleX402Payment.
 type SettleX402PaymentJSONBody struct {
 	// PaymentPayload The x402 protocol payment payload that the client attaches to x402-paid API requests to the resource server in the X-PAYMENT header.
@@ -5324,6 +5811,12 @@ type CreateWebhookSubscriptionJSONRequestBody = WebhookSubscriptionRequest
 
 // UpdateWebhookSubscriptionJSONRequestBody defines body for UpdateWebhookSubscription for application/json ContentType.
 type UpdateWebhookSubscriptionJSONRequestBody = WebhookSubscriptionUpdateRequest
+
+// RevokeDelegationForEndUserAccountJSONRequestBody defines body for RevokeDelegationForEndUserAccount for application/json ContentType.
+type RevokeDelegationForEndUserAccountJSONRequestBody RevokeDelegationForEndUserAccountJSONBody
+
+// CreateDelegationForEndUserAccountJSONRequestBody defines body for CreateDelegationForEndUserAccount for application/json ContentType.
+type CreateDelegationForEndUserAccountJSONRequestBody CreateDelegationForEndUserAccountJSONBody
 
 // RevokeDelegationForEndUserJSONRequestBody defines body for RevokeDelegationForEndUser for application/json ContentType.
 type RevokeDelegationForEndUserJSONRequestBody RevokeDelegationForEndUserJSONBody
@@ -5442,6 +5935,9 @@ type CreateEvmSwapQuoteJSONRequestBody CreateEvmSwapQuoteJSONBody
 // GetOnrampUserLimitsJSONRequestBody defines body for GetOnrampUserLimits for application/json ContentType.
 type GetOnrampUserLimitsJSONRequestBody GetOnrampUserLimitsJSONBody
 
+// RequestLimitsUpgradeJSONRequestBody defines body for RequestLimitsUpgrade for application/json ContentType.
+type RequestLimitsUpgradeJSONRequestBody = OnrampLimitUpgradeRequest
+
 // CreateOnrampOrderJSONRequestBody defines body for CreateOnrampOrder for application/json ContentType.
 type CreateOnrampOrderJSONRequestBody CreateOnrampOrderJSONBody
 
@@ -5480,6 +5976,9 @@ type SignSolanaTransactionJSONRequestBody SignSolanaTransactionJSONBody
 
 // RequestSolanaFaucetJSONRequestBody defines body for RequestSolanaFaucet for application/json ContentType.
 type RequestSolanaFaucetJSONRequestBody RequestSolanaFaucetJSONBody
+
+// PostX402DiscoveryMcpJSONRequestBody defines body for PostX402DiscoveryMcp for application/json ContentType.
+type PostX402DiscoveryMcpJSONRequestBody = X402McpRequest
 
 // SettleX402PaymentJSONRequestBody defines body for SettleX402Payment for application/json ContentType.
 type SettleX402PaymentJSONRequestBody SettleX402PaymentJSONBody
@@ -5779,6 +6278,94 @@ func (t AuthenticationMethod) MarshalJSON() ([]byte, error) {
 }
 
 func (t *AuthenticationMethod) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsEvmNetworkCriterion returns the union data inside the CreateEndUserEvmSwapCriteria_Item as a EvmNetworkCriterion
+func (t CreateEndUserEvmSwapCriteria_Item) AsEvmNetworkCriterion() (EvmNetworkCriterion, error) {
+	var body EvmNetworkCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromEvmNetworkCriterion overwrites any union data inside the CreateEndUserEvmSwapCriteria_Item as the provided EvmNetworkCriterion
+func (t *CreateEndUserEvmSwapCriteria_Item) FromEvmNetworkCriterion(v EvmNetworkCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeEvmNetworkCriterion performs a merge with any union data inside the CreateEndUserEvmSwapCriteria_Item, using the provided EvmNetworkCriterion
+func (t *CreateEndUserEvmSwapCriteria_Item) MergeEvmNetworkCriterion(v EvmNetworkCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsEvmDataCriterion returns the union data inside the CreateEndUserEvmSwapCriteria_Item as a EvmDataCriterion
+func (t CreateEndUserEvmSwapCriteria_Item) AsEvmDataCriterion() (EvmDataCriterion, error) {
+	var body EvmDataCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromEvmDataCriterion overwrites any union data inside the CreateEndUserEvmSwapCriteria_Item as the provided EvmDataCriterion
+func (t *CreateEndUserEvmSwapCriteria_Item) FromEvmDataCriterion(v EvmDataCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeEvmDataCriterion performs a merge with any union data inside the CreateEndUserEvmSwapCriteria_Item, using the provided EvmDataCriterion
+func (t *CreateEndUserEvmSwapCriteria_Item) MergeEvmDataCriterion(v EvmDataCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsNetUSDChangeCriterion returns the union data inside the CreateEndUserEvmSwapCriteria_Item as a NetUSDChangeCriterion
+func (t CreateEndUserEvmSwapCriteria_Item) AsNetUSDChangeCriterion() (NetUSDChangeCriterion, error) {
+	var body NetUSDChangeCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromNetUSDChangeCriterion overwrites any union data inside the CreateEndUserEvmSwapCriteria_Item as the provided NetUSDChangeCriterion
+func (t *CreateEndUserEvmSwapCriteria_Item) FromNetUSDChangeCriterion(v NetUSDChangeCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeNetUSDChangeCriterion performs a merge with any union data inside the CreateEndUserEvmSwapCriteria_Item, using the provided NetUSDChangeCriterion
+func (t *CreateEndUserEvmSwapCriteria_Item) MergeNetUSDChangeCriterion(v NetUSDChangeCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t CreateEndUserEvmSwapCriteria_Item) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *CreateEndUserEvmSwapCriteria_Item) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -6639,12 +7226,178 @@ func (t *Rule) MergeSignEndUserSolMessageRule(v SignEndUserSolMessageRule) error
 	return err
 }
 
+// AsSendEndUserEvmAssetRule returns the union data inside the Rule as a SendEndUserEvmAssetRule
+func (t Rule) AsSendEndUserEvmAssetRule() (SendEndUserEvmAssetRule, error) {
+	var body SendEndUserEvmAssetRule
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSendEndUserEvmAssetRule overwrites any union data inside the Rule as the provided SendEndUserEvmAssetRule
+func (t *Rule) FromSendEndUserEvmAssetRule(v SendEndUserEvmAssetRule) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSendEndUserEvmAssetRule performs a merge with any union data inside the Rule, using the provided SendEndUserEvmAssetRule
+func (t *Rule) MergeSendEndUserEvmAssetRule(v SendEndUserEvmAssetRule) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsSendEndUserSolAssetRule returns the union data inside the Rule as a SendEndUserSolAssetRule
+func (t Rule) AsSendEndUserSolAssetRule() (SendEndUserSolAssetRule, error) {
+	var body SendEndUserSolAssetRule
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSendEndUserSolAssetRule overwrites any union data inside the Rule as the provided SendEndUserSolAssetRule
+func (t *Rule) FromSendEndUserSolAssetRule(v SendEndUserSolAssetRule) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSendEndUserSolAssetRule performs a merge with any union data inside the Rule, using the provided SendEndUserSolAssetRule
+func (t *Rule) MergeSendEndUserSolAssetRule(v SendEndUserSolAssetRule) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsCreateEndUserEvmSwapRule returns the union data inside the Rule as a CreateEndUserEvmSwapRule
+func (t Rule) AsCreateEndUserEvmSwapRule() (CreateEndUserEvmSwapRule, error) {
+	var body CreateEndUserEvmSwapRule
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromCreateEndUserEvmSwapRule overwrites any union data inside the Rule as the provided CreateEndUserEvmSwapRule
+func (t *Rule) FromCreateEndUserEvmSwapRule(v CreateEndUserEvmSwapRule) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeCreateEndUserEvmSwapRule performs a merge with any union data inside the Rule, using the provided CreateEndUserEvmSwapRule
+func (t *Rule) MergeCreateEndUserEvmSwapRule(v CreateEndUserEvmSwapRule) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
 func (t Rule) MarshalJSON() ([]byte, error) {
 	b, err := t.union.MarshalJSON()
 	return b, err
 }
 
 func (t *Rule) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsEvmNetworkCriterion returns the union data inside the SendEndUserEvmAssetCriteria_Item as a EvmNetworkCriterion
+func (t SendEndUserEvmAssetCriteria_Item) AsEvmNetworkCriterion() (EvmNetworkCriterion, error) {
+	var body EvmNetworkCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromEvmNetworkCriterion overwrites any union data inside the SendEndUserEvmAssetCriteria_Item as the provided EvmNetworkCriterion
+func (t *SendEndUserEvmAssetCriteria_Item) FromEvmNetworkCriterion(v EvmNetworkCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeEvmNetworkCriterion performs a merge with any union data inside the SendEndUserEvmAssetCriteria_Item, using the provided EvmNetworkCriterion
+func (t *SendEndUserEvmAssetCriteria_Item) MergeEvmNetworkCriterion(v EvmNetworkCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsEvmDataCriterion returns the union data inside the SendEndUserEvmAssetCriteria_Item as a EvmDataCriterion
+func (t SendEndUserEvmAssetCriteria_Item) AsEvmDataCriterion() (EvmDataCriterion, error) {
+	var body EvmDataCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromEvmDataCriterion overwrites any union data inside the SendEndUserEvmAssetCriteria_Item as the provided EvmDataCriterion
+func (t *SendEndUserEvmAssetCriteria_Item) FromEvmDataCriterion(v EvmDataCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeEvmDataCriterion performs a merge with any union data inside the SendEndUserEvmAssetCriteria_Item, using the provided EvmDataCriterion
+func (t *SendEndUserEvmAssetCriteria_Item) MergeEvmDataCriterion(v EvmDataCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsNetUSDChangeCriterion returns the union data inside the SendEndUserEvmAssetCriteria_Item as a NetUSDChangeCriterion
+func (t SendEndUserEvmAssetCriteria_Item) AsNetUSDChangeCriterion() (NetUSDChangeCriterion, error) {
+	var body NetUSDChangeCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromNetUSDChangeCriterion overwrites any union data inside the SendEndUserEvmAssetCriteria_Item as the provided NetUSDChangeCriterion
+func (t *SendEndUserEvmAssetCriteria_Item) FromNetUSDChangeCriterion(v NetUSDChangeCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeNetUSDChangeCriterion performs a merge with any union data inside the SendEndUserEvmAssetCriteria_Item, using the provided NetUSDChangeCriterion
+func (t *SendEndUserEvmAssetCriteria_Item) MergeNetUSDChangeCriterion(v NetUSDChangeCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t SendEndUserEvmAssetCriteria_Item) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *SendEndUserEvmAssetCriteria_Item) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -6785,6 +7538,120 @@ func (t SendEndUserEvmTransactionCriteria_Item) MarshalJSON() ([]byte, error) {
 }
 
 func (t *SendEndUserEvmTransactionCriteria_Item) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsSplAddressCriterion returns the union data inside the SendEndUserSolAssetCriteria_Item as a SplAddressCriterion
+func (t SendEndUserSolAssetCriteria_Item) AsSplAddressCriterion() (SplAddressCriterion, error) {
+	var body SplAddressCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSplAddressCriterion overwrites any union data inside the SendEndUserSolAssetCriteria_Item as the provided SplAddressCriterion
+func (t *SendEndUserSolAssetCriteria_Item) FromSplAddressCriterion(v SplAddressCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSplAddressCriterion performs a merge with any union data inside the SendEndUserSolAssetCriteria_Item, using the provided SplAddressCriterion
+func (t *SendEndUserSolAssetCriteria_Item) MergeSplAddressCriterion(v SplAddressCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsSplValueCriterion returns the union data inside the SendEndUserSolAssetCriteria_Item as a SplValueCriterion
+func (t SendEndUserSolAssetCriteria_Item) AsSplValueCriterion() (SplValueCriterion, error) {
+	var body SplValueCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSplValueCriterion overwrites any union data inside the SendEndUserSolAssetCriteria_Item as the provided SplValueCriterion
+func (t *SendEndUserSolAssetCriteria_Item) FromSplValueCriterion(v SplValueCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSplValueCriterion performs a merge with any union data inside the SendEndUserSolAssetCriteria_Item, using the provided SplValueCriterion
+func (t *SendEndUserSolAssetCriteria_Item) MergeSplValueCriterion(v SplValueCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsSolDataCriterion returns the union data inside the SendEndUserSolAssetCriteria_Item as a SolDataCriterion
+func (t SendEndUserSolAssetCriteria_Item) AsSolDataCriterion() (SolDataCriterion, error) {
+	var body SolDataCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSolDataCriterion overwrites any union data inside the SendEndUserSolAssetCriteria_Item as the provided SolDataCriterion
+func (t *SendEndUserSolAssetCriteria_Item) FromSolDataCriterion(v SolDataCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSolDataCriterion performs a merge with any union data inside the SendEndUserSolAssetCriteria_Item, using the provided SolDataCriterion
+func (t *SendEndUserSolAssetCriteria_Item) MergeSolDataCriterion(v SolDataCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsSolNetworkCriterion returns the union data inside the SendEndUserSolAssetCriteria_Item as a SolNetworkCriterion
+func (t SendEndUserSolAssetCriteria_Item) AsSolNetworkCriterion() (SolNetworkCriterion, error) {
+	var body SolNetworkCriterion
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSolNetworkCriterion overwrites any union data inside the SendEndUserSolAssetCriteria_Item as the provided SolNetworkCriterion
+func (t *SendEndUserSolAssetCriteria_Item) FromSolNetworkCriterion(v SolNetworkCriterion) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSolNetworkCriterion performs a merge with any union data inside the SendEndUserSolAssetCriteria_Item, using the provided SolNetworkCriterion
+func (t *SendEndUserSolAssetCriteria_Item) MergeSolNetworkCriterion(v SolNetworkCriterion) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t SendEndUserSolAssetCriteria_Item) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *SendEndUserSolAssetCriteria_Item) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -8571,6 +9438,130 @@ func (t *SolDataCriterion_Idls_Item) UnmarshalJSON(b []byte) error {
 	return err
 }
 
+// AsX402McpRequestId0 returns the union data inside the X402McpRequest_Id as a X402McpRequestId0
+func (t X402McpRequest_Id) AsX402McpRequestId0() (X402McpRequestId0, error) {
+	var body X402McpRequestId0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromX402McpRequestId0 overwrites any union data inside the X402McpRequest_Id as the provided X402McpRequestId0
+func (t *X402McpRequest_Id) FromX402McpRequestId0(v X402McpRequestId0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeX402McpRequestId0 performs a merge with any union data inside the X402McpRequest_Id, using the provided X402McpRequestId0
+func (t *X402McpRequest_Id) MergeX402McpRequestId0(v X402McpRequestId0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsX402McpRequestId1 returns the union data inside the X402McpRequest_Id as a X402McpRequestId1
+func (t X402McpRequest_Id) AsX402McpRequestId1() (X402McpRequestId1, error) {
+	var body X402McpRequestId1
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromX402McpRequestId1 overwrites any union data inside the X402McpRequest_Id as the provided X402McpRequestId1
+func (t *X402McpRequest_Id) FromX402McpRequestId1(v X402McpRequestId1) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeX402McpRequestId1 performs a merge with any union data inside the X402McpRequest_Id, using the provided X402McpRequestId1
+func (t *X402McpRequest_Id) MergeX402McpRequestId1(v X402McpRequestId1) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t X402McpRequest_Id) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *X402McpRequest_Id) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsX402McpResponseId0 returns the union data inside the X402McpResponse_Id as a X402McpResponseId0
+func (t X402McpResponse_Id) AsX402McpResponseId0() (X402McpResponseId0, error) {
+	var body X402McpResponseId0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromX402McpResponseId0 overwrites any union data inside the X402McpResponse_Id as the provided X402McpResponseId0
+func (t *X402McpResponse_Id) FromX402McpResponseId0(v X402McpResponseId0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeX402McpResponseId0 performs a merge with any union data inside the X402McpResponse_Id, using the provided X402McpResponseId0
+func (t *X402McpResponse_Id) MergeX402McpResponseId0(v X402McpResponseId0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsX402McpResponseId1 returns the union data inside the X402McpResponse_Id as a X402McpResponseId1
+func (t X402McpResponse_Id) AsX402McpResponseId1() (X402McpResponseId1, error) {
+	var body X402McpResponseId1
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromX402McpResponseId1 overwrites any union data inside the X402McpResponse_Id as the provided X402McpResponseId1
+func (t *X402McpResponse_Id) FromX402McpResponseId1(v X402McpResponseId1) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeX402McpResponseId1 performs a merge with any union data inside the X402McpResponse_Id, using the provided X402McpResponseId1
+func (t *X402McpResponse_Id) MergeX402McpResponseId1(v X402McpResponseId1) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JsonMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t X402McpResponse_Id) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *X402McpResponse_Id) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
 // AsX402V2PaymentPayload returns the union data inside the X402PaymentPayload as a X402V2PaymentPayload
 func (t X402PaymentPayload) AsX402V2PaymentPayload() (X402V2PaymentPayload, error) {
 	var body X402V2PaymentPayload
@@ -8983,6 +9974,19 @@ type ClientInterface interface {
 	// ListWebhookSubscriptionEvents request
 	ListWebhookSubscriptionEvents(ctx context.Context, subscriptionId openapi_types.UUID, params *ListWebhookSubscriptionEventsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// RevokeDelegationForEndUserAccountWithBody request with any body
+	RevokeDelegationForEndUserAccountWithBody(ctx context.Context, userId string, address BlockchainAddress, params *RevokeDelegationForEndUserAccountParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	RevokeDelegationForEndUserAccount(ctx context.Context, userId string, address BlockchainAddress, params *RevokeDelegationForEndUserAccountParams, body RevokeDelegationForEndUserAccountJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetDelegationForEndUserAccount request
+	GetDelegationForEndUserAccount(ctx context.Context, userId string, address BlockchainAddress, params *GetDelegationForEndUserAccountParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CreateDelegationForEndUserAccountWithBody request with any body
+	CreateDelegationForEndUserAccountWithBody(ctx context.Context, userId string, address BlockchainAddress, params *CreateDelegationForEndUserAccountParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CreateDelegationForEndUserAccount(ctx context.Context, userId string, address BlockchainAddress, params *CreateDelegationForEndUserAccountParams, body CreateDelegationForEndUserAccountJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// RevokeDelegationForEndUserWithBody request with any body
 	RevokeDelegationForEndUserWithBody(ctx context.Context, userId string, params *RevokeDelegationForEndUserParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -9063,6 +10067,9 @@ type ClientInterface interface {
 	ImportEndUserWithBody(ctx context.Context, params *ImportEndUserParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	ImportEndUser(ctx context.Context, params *ImportEndUserParams, body ImportEndUserJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// LookupEndUser request
+	LookupEndUser(ctx context.Context, params *LookupEndUserParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetEndUser request
 	GetEndUser(ctx context.Context, userId string, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -9220,6 +10227,11 @@ type ClientInterface interface {
 
 	GetOnrampUserLimits(ctx context.Context, body GetOnrampUserLimitsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// RequestLimitsUpgradeWithBody request with any body
+	RequestLimitsUpgradeWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	RequestLimitsUpgrade(ctx context.Context, body RequestLimitsUpgradeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// CreateOnrampOrderWithBody request with any body
 	CreateOnrampOrderWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -9308,6 +10320,20 @@ type ClientInterface interface {
 
 	// ListSolanaTokenBalances request
 	ListSolanaTokenBalances(ctx context.Context, network ListSolanaTokenBalancesNetwork, address string, params *ListSolanaTokenBalancesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// PostX402DiscoveryMcpWithBody request with any body
+	PostX402DiscoveryMcpWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	PostX402DiscoveryMcp(ctx context.Context, body PostX402DiscoveryMcpJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ListX402DiscoveryMerchant request
+	ListX402DiscoveryMerchant(ctx context.Context, params *ListX402DiscoveryMerchantParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ListX402DiscoveryResources request
+	ListX402DiscoveryResources(ctx context.Context, params *ListX402DiscoveryResourcesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SearchX402Resources request
+	SearchX402Resources(ctx context.Context, params *SearchX402ResourcesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// SettleX402PaymentWithBody request with any body
 	SettleX402PaymentWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -9481,6 +10507,66 @@ func (c *CDPClient) UpdateWebhookSubscription(ctx context.Context, subscriptionI
 
 func (c *CDPClient) ListWebhookSubscriptionEvents(ctx context.Context, subscriptionId openapi_types.UUID, params *ListWebhookSubscriptionEventsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewListWebhookSubscriptionEventsRequest(c.Server, subscriptionId, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *CDPClient) RevokeDelegationForEndUserAccountWithBody(ctx context.Context, userId string, address BlockchainAddress, params *RevokeDelegationForEndUserAccountParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewRevokeDelegationForEndUserAccountRequestWithBody(c.Server, userId, address, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *CDPClient) RevokeDelegationForEndUserAccount(ctx context.Context, userId string, address BlockchainAddress, params *RevokeDelegationForEndUserAccountParams, body RevokeDelegationForEndUserAccountJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewRevokeDelegationForEndUserAccountRequest(c.Server, userId, address, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *CDPClient) GetDelegationForEndUserAccount(ctx context.Context, userId string, address BlockchainAddress, params *GetDelegationForEndUserAccountParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetDelegationForEndUserAccountRequest(c.Server, userId, address, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *CDPClient) CreateDelegationForEndUserAccountWithBody(ctx context.Context, userId string, address BlockchainAddress, params *CreateDelegationForEndUserAccountParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateDelegationForEndUserAccountRequestWithBody(c.Server, userId, address, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *CDPClient) CreateDelegationForEndUserAccount(ctx context.Context, userId string, address BlockchainAddress, params *CreateDelegationForEndUserAccountParams, body CreateDelegationForEndUserAccountJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateDelegationForEndUserAccountRequest(c.Server, userId, address, params, body)
 	if err != nil {
 		return nil, err
 	}
@@ -9865,6 +10951,18 @@ func (c *CDPClient) ImportEndUserWithBody(ctx context.Context, params *ImportEnd
 
 func (c *CDPClient) ImportEndUser(ctx context.Context, params *ImportEndUserParams, body ImportEndUserJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewImportEndUserRequest(c.Server, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *CDPClient) LookupEndUser(ctx context.Context, params *LookupEndUserParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewLookupEndUserRequest(c.Server, params)
 	if err != nil {
 		return nil, err
 	}
@@ -10595,6 +11693,30 @@ func (c *CDPClient) GetOnrampUserLimits(ctx context.Context, body GetOnrampUserL
 	return c.Client.Do(req)
 }
 
+func (c *CDPClient) RequestLimitsUpgradeWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewRequestLimitsUpgradeRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *CDPClient) RequestLimitsUpgrade(ctx context.Context, body RequestLimitsUpgradeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewRequestLimitsUpgradeRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *CDPClient) CreateOnrampOrderWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewCreateOnrampOrderRequestWithBody(c.Server, contentType, body)
 	if err != nil {
@@ -10993,6 +12115,66 @@ func (c *CDPClient) RequestSolanaFaucet(ctx context.Context, body RequestSolanaF
 
 func (c *CDPClient) ListSolanaTokenBalances(ctx context.Context, network ListSolanaTokenBalancesNetwork, address string, params *ListSolanaTokenBalancesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewListSolanaTokenBalancesRequest(c.Server, network, address, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *CDPClient) PostX402DiscoveryMcpWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostX402DiscoveryMcpRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *CDPClient) PostX402DiscoveryMcp(ctx context.Context, body PostX402DiscoveryMcpJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewPostX402DiscoveryMcpRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *CDPClient) ListX402DiscoveryMerchant(ctx context.Context, params *ListX402DiscoveryMerchantParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListX402DiscoveryMerchantRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *CDPClient) ListX402DiscoveryResources(ctx context.Context, params *ListX402DiscoveryResourcesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListX402DiscoveryResourcesRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *CDPClient) SearchX402Resources(ctx context.Context, params *SearchX402ResourcesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSearchX402ResourcesRequest(c.Server, params)
 	if err != nil {
 		return nil, err
 	}
@@ -11639,6 +12821,284 @@ func NewListWebhookSubscriptionEventsRequest(server string, subscriptionId opena
 	return req, nil
 }
 
+// NewRevokeDelegationForEndUserAccountRequest calls the generic RevokeDelegationForEndUserAccount builder with application/json body
+func NewRevokeDelegationForEndUserAccountRequest(server string, userId string, address BlockchainAddress, params *RevokeDelegationForEndUserAccountParams, body RevokeDelegationForEndUserAccountJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewRevokeDelegationForEndUserAccountRequestWithBody(server, userId, address, params, "application/json", bodyReader)
+}
+
+// NewRevokeDelegationForEndUserAccountRequestWithBody generates requests for RevokeDelegationForEndUserAccount with any type of body
+func NewRevokeDelegationForEndUserAccountRequestWithBody(server string, userId string, address BlockchainAddress, params *RevokeDelegationForEndUserAccountParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "userId", runtime.ParamLocationPath, userId)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "address", runtime.ParamLocationPath, address)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/embedded-wallet-api/end-users/%s/address/%s/delegation", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.ProjectID != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "projectID", runtime.ParamLocationQuery, *params.ProjectID); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	if params != nil {
+
+		if params.XWalletAuth != nil {
+			var headerParam0 string
+
+			headerParam0, err = runtime.StyleParamWithLocation("simple", false, "X-Wallet-Auth", runtime.ParamLocationHeader, *params.XWalletAuth)
+			if err != nil {
+				return nil, err
+			}
+
+			req.Header.Set("X-Wallet-Auth", headerParam0)
+		}
+
+		if params.XDeveloperAuth != nil {
+			var headerParam1 string
+
+			headerParam1, err = runtime.StyleParamWithLocation("simple", false, "X-Developer-Auth", runtime.ParamLocationHeader, *params.XDeveloperAuth)
+			if err != nil {
+				return nil, err
+			}
+
+			req.Header.Set("X-Developer-Auth", headerParam1)
+		}
+
+		if params.XIdempotencyKey != nil {
+			var headerParam2 string
+
+			headerParam2, err = runtime.StyleParamWithLocation("simple", false, "X-Idempotency-Key", runtime.ParamLocationHeader, *params.XIdempotencyKey)
+			if err != nil {
+				return nil, err
+			}
+
+			req.Header.Set("X-Idempotency-Key", headerParam2)
+		}
+
+	}
+
+	return req, nil
+}
+
+// NewGetDelegationForEndUserAccountRequest generates requests for GetDelegationForEndUserAccount
+func NewGetDelegationForEndUserAccountRequest(server string, userId string, address BlockchainAddress, params *GetDelegationForEndUserAccountParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "userId", runtime.ParamLocationPath, userId)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "address", runtime.ParamLocationPath, address)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/embedded-wallet-api/end-users/%s/address/%s/delegation", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.ProjectID != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "projectID", runtime.ParamLocationQuery, *params.ProjectID); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCreateDelegationForEndUserAccountRequest calls the generic CreateDelegationForEndUserAccount builder with application/json body
+func NewCreateDelegationForEndUserAccountRequest(server string, userId string, address BlockchainAddress, params *CreateDelegationForEndUserAccountParams, body CreateDelegationForEndUserAccountJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCreateDelegationForEndUserAccountRequestWithBody(server, userId, address, params, "application/json", bodyReader)
+}
+
+// NewCreateDelegationForEndUserAccountRequestWithBody generates requests for CreateDelegationForEndUserAccount with any type of body
+func NewCreateDelegationForEndUserAccountRequestWithBody(server string, userId string, address BlockchainAddress, params *CreateDelegationForEndUserAccountParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "userId", runtime.ParamLocationPath, userId)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "address", runtime.ParamLocationPath, address)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/embedded-wallet-api/end-users/%s/address/%s/delegation", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.ProjectID != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "projectID", runtime.ParamLocationQuery, *params.ProjectID); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	if params != nil {
+
+		if params.XWalletAuth != nil {
+			var headerParam0 string
+
+			headerParam0, err = runtime.StyleParamWithLocation("simple", false, "X-Wallet-Auth", runtime.ParamLocationHeader, *params.XWalletAuth)
+			if err != nil {
+				return nil, err
+			}
+
+			req.Header.Set("X-Wallet-Auth", headerParam0)
+		}
+
+		if params.XIdempotencyKey != nil {
+			var headerParam1 string
+
+			headerParam1, err = runtime.StyleParamWithLocation("simple", false, "X-Idempotency-Key", runtime.ParamLocationHeader, *params.XIdempotencyKey)
+			if err != nil {
+				return nil, err
+			}
+
+			req.Header.Set("X-Idempotency-Key", headerParam1)
+		}
+
+	}
+
+	return req, nil
+}
+
 // NewRevokeDelegationForEndUserRequest calls the generic RevokeDelegationForEndUser builder with application/json body
 func NewRevokeDelegationForEndUserRequest(server string, userId string, params *RevokeDelegationForEndUserParams, body RevokeDelegationForEndUserJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
@@ -11674,6 +13134,28 @@ func NewRevokeDelegationForEndUserRequestWithBody(server string, userId string, 
 	queryURL, err := serverURL.Parse(operationPath)
 	if err != nil {
 		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.ProjectID != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "projectID", runtime.ParamLocationQuery, *params.ProjectID); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
 	}
 
 	req, err := http.NewRequest("DELETE", queryURL.String(), body)
@@ -13228,6 +14710,103 @@ func NewImportEndUserRequestWithBody(server string, params *ImportEndUserParams,
 			req.Header.Set("X-Idempotency-Key", headerParam1)
 		}
 
+	}
+
+	return req, nil
+}
+
+// NewLookupEndUserRequest generates requests for LookupEndUser
+func NewLookupEndUserRequest(server string, params *LookupEndUserParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/end-users/lookup")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Email != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "email", runtime.ParamLocationQuery, *params.Email); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.OauthProvider != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "oauthProvider", runtime.ParamLocationQuery, *params.OauthProvider); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.OauthSubject != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "oauthSubject", runtime.ParamLocationQuery, *params.OauthSubject); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.PhoneNumber != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "phoneNumber", runtime.ParamLocationQuery, *params.PhoneNumber); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
 	}
 
 	return req, nil
@@ -15454,6 +17033,46 @@ func NewGetOnrampUserLimitsRequestWithBody(server string, contentType string, bo
 	return req, nil
 }
 
+// NewRequestLimitsUpgradeRequest calls the generic RequestLimitsUpgrade builder with application/json body
+func NewRequestLimitsUpgradeRequest(server string, body RequestLimitsUpgradeJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewRequestLimitsUpgradeRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewRequestLimitsUpgradeRequestWithBody generates requests for RequestLimitsUpgrade with any type of body
+func NewRequestLimitsUpgradeRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/onramp/limits/upgrade")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewCreateOnrampOrderRequest calls the generic CreateOnrampOrder builder with application/json body
 func NewCreateOnrampOrderRequest(server string, body CreateOnrampOrderJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
@@ -16653,6 +18272,381 @@ func NewListSolanaTokenBalancesRequest(server string, network ListSolanaTokenBal
 	return req, nil
 }
 
+// NewPostX402DiscoveryMcpRequest calls the generic PostX402DiscoveryMcp builder with application/json body
+func NewPostX402DiscoveryMcpRequest(server string, body PostX402DiscoveryMcpJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewPostX402DiscoveryMcpRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewPostX402DiscoveryMcpRequestWithBody generates requests for PostX402DiscoveryMcp with any type of body
+func NewPostX402DiscoveryMcpRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/x402/discovery/mcp")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewListX402DiscoveryMerchantRequest generates requests for ListX402DiscoveryMerchant
+func NewListX402DiscoveryMerchantRequest(server string, params *ListX402DiscoveryMerchantParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/x402/discovery/merchant")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if queryFrag, err := runtime.StyleParamWithLocation("form", true, "payTo", runtime.ParamLocationQuery, params.PayTo); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+		if params.Limit != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "limit", runtime.ParamLocationQuery, *params.Limit); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Offset != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "offset", runtime.ParamLocationQuery, *params.Offset); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewListX402DiscoveryResourcesRequest generates requests for ListX402DiscoveryResources
+func NewListX402DiscoveryResourcesRequest(server string, params *ListX402DiscoveryResourcesParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/x402/discovery/resources")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Type != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "type", runtime.ParamLocationQuery, *params.Type); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Limit != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "limit", runtime.ParamLocationQuery, *params.Limit); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Offset != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "offset", runtime.ParamLocationQuery, *params.Offset); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSearchX402ResourcesRequest generates requests for SearchX402Resources
+func NewSearchX402ResourcesRequest(server string, params *SearchX402ResourcesParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v2/x402/discovery/search")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Query != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "query", runtime.ParamLocationQuery, *params.Query); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Network != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "network", runtime.ParamLocationQuery, *params.Network); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Asset != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "asset", runtime.ParamLocationQuery, *params.Asset); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Scheme != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "scheme", runtime.ParamLocationQuery, *params.Scheme); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.PayTo != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "payTo", runtime.ParamLocationQuery, *params.PayTo); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.UrlSubstring != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "urlSubstring", runtime.ParamLocationQuery, *params.UrlSubstring); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.MaxUsdPrice != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "maxUsdPrice", runtime.ParamLocationQuery, *params.MaxUsdPrice); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Extensions != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "extensions", runtime.ParamLocationQuery, *params.Extensions); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Limit != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "limit", runtime.ParamLocationQuery, *params.Limit); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewSettleX402PaymentRequest calls the generic SettleX402Payment builder with application/json body
 func NewSettleX402PaymentRequest(server string, body SettleX402PaymentJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
@@ -16842,6 +18836,19 @@ type ClientWithResponsesInterface interface {
 	// ListWebhookSubscriptionEventsWithResponse request
 	ListWebhookSubscriptionEventsWithResponse(ctx context.Context, subscriptionId openapi_types.UUID, params *ListWebhookSubscriptionEventsParams, reqEditors ...RequestEditorFn) (*ListWebhookSubscriptionEventsResponse, error)
 
+	// RevokeDelegationForEndUserAccountWithBodyWithResponse request with any body
+	RevokeDelegationForEndUserAccountWithBodyWithResponse(ctx context.Context, userId string, address BlockchainAddress, params *RevokeDelegationForEndUserAccountParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*RevokeDelegationForEndUserAccountResponse, error)
+
+	RevokeDelegationForEndUserAccountWithResponse(ctx context.Context, userId string, address BlockchainAddress, params *RevokeDelegationForEndUserAccountParams, body RevokeDelegationForEndUserAccountJSONRequestBody, reqEditors ...RequestEditorFn) (*RevokeDelegationForEndUserAccountResponse, error)
+
+	// GetDelegationForEndUserAccountWithResponse request
+	GetDelegationForEndUserAccountWithResponse(ctx context.Context, userId string, address BlockchainAddress, params *GetDelegationForEndUserAccountParams, reqEditors ...RequestEditorFn) (*GetDelegationForEndUserAccountResponse, error)
+
+	// CreateDelegationForEndUserAccountWithBodyWithResponse request with any body
+	CreateDelegationForEndUserAccountWithBodyWithResponse(ctx context.Context, userId string, address BlockchainAddress, params *CreateDelegationForEndUserAccountParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateDelegationForEndUserAccountResponse, error)
+
+	CreateDelegationForEndUserAccountWithResponse(ctx context.Context, userId string, address BlockchainAddress, params *CreateDelegationForEndUserAccountParams, body CreateDelegationForEndUserAccountJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateDelegationForEndUserAccountResponse, error)
+
 	// RevokeDelegationForEndUserWithBodyWithResponse request with any body
 	RevokeDelegationForEndUserWithBodyWithResponse(ctx context.Context, userId string, params *RevokeDelegationForEndUserParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*RevokeDelegationForEndUserResponse, error)
 
@@ -16922,6 +18929,9 @@ type ClientWithResponsesInterface interface {
 	ImportEndUserWithBodyWithResponse(ctx context.Context, params *ImportEndUserParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ImportEndUserResponse, error)
 
 	ImportEndUserWithResponse(ctx context.Context, params *ImportEndUserParams, body ImportEndUserJSONRequestBody, reqEditors ...RequestEditorFn) (*ImportEndUserResponse, error)
+
+	// LookupEndUserWithResponse request
+	LookupEndUserWithResponse(ctx context.Context, params *LookupEndUserParams, reqEditors ...RequestEditorFn) (*LookupEndUserResponse, error)
 
 	// GetEndUserWithResponse request
 	GetEndUserWithResponse(ctx context.Context, userId string, reqEditors ...RequestEditorFn) (*GetEndUserResponse, error)
@@ -17079,6 +19089,11 @@ type ClientWithResponsesInterface interface {
 
 	GetOnrampUserLimitsWithResponse(ctx context.Context, body GetOnrampUserLimitsJSONRequestBody, reqEditors ...RequestEditorFn) (*GetOnrampUserLimitsResponse, error)
 
+	// RequestLimitsUpgradeWithBodyWithResponse request with any body
+	RequestLimitsUpgradeWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*RequestLimitsUpgradeResponse, error)
+
+	RequestLimitsUpgradeWithResponse(ctx context.Context, body RequestLimitsUpgradeJSONRequestBody, reqEditors ...RequestEditorFn) (*RequestLimitsUpgradeResponse, error)
+
 	// CreateOnrampOrderWithBodyWithResponse request with any body
 	CreateOnrampOrderWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateOnrampOrderResponse, error)
 
@@ -17167,6 +19182,20 @@ type ClientWithResponsesInterface interface {
 
 	// ListSolanaTokenBalancesWithResponse request
 	ListSolanaTokenBalancesWithResponse(ctx context.Context, network ListSolanaTokenBalancesNetwork, address string, params *ListSolanaTokenBalancesParams, reqEditors ...RequestEditorFn) (*ListSolanaTokenBalancesResponse, error)
+
+	// PostX402DiscoveryMcpWithBodyWithResponse request with any body
+	PostX402DiscoveryMcpWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostX402DiscoveryMcpResponse, error)
+
+	PostX402DiscoveryMcpWithResponse(ctx context.Context, body PostX402DiscoveryMcpJSONRequestBody, reqEditors ...RequestEditorFn) (*PostX402DiscoveryMcpResponse, error)
+
+	// ListX402DiscoveryMerchantWithResponse request
+	ListX402DiscoveryMerchantWithResponse(ctx context.Context, params *ListX402DiscoveryMerchantParams, reqEditors ...RequestEditorFn) (*ListX402DiscoveryMerchantResponse, error)
+
+	// ListX402DiscoveryResourcesWithResponse request
+	ListX402DiscoveryResourcesWithResponse(ctx context.Context, params *ListX402DiscoveryResourcesParams, reqEditors ...RequestEditorFn) (*ListX402DiscoveryResourcesResponse, error)
+
+	// SearchX402ResourcesWithResponse request
+	SearchX402ResourcesWithResponse(ctx context.Context, params *SearchX402ResourcesParams, reqEditors ...RequestEditorFn) (*SearchX402ResourcesResponse, error)
 
 	// SettleX402PaymentWithBodyWithResponse request with any body
 	SettleX402PaymentWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SettleX402PaymentResponse, error)
@@ -17472,6 +19501,97 @@ func (r ListWebhookSubscriptionEventsResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r ListWebhookSubscriptionEventsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type RevokeDelegationForEndUserAccountResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON401      *UnauthorizedError
+	JSON404      *Error
+	JSON500      *InternalServerError
+	JSON502      *BadGatewayError
+	JSON503      *ServiceUnavailableError
+}
+
+// Status returns HTTPResponse.Status
+func (r RevokeDelegationForEndUserAccountResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r RevokeDelegationForEndUserAccountResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetDelegationForEndUserAccountResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		// ExpiresAt The date until which the delegation is valid.
+		ExpiresAt time.Time `json:"expiresAt"`
+	}
+	JSON401 *UnauthorizedError
+	JSON404 *Error
+	JSON500 *InternalServerError
+	JSON502 *BadGatewayError
+	JSON503 *ServiceUnavailableError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetDelegationForEndUserAccountResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetDelegationForEndUserAccountResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CreateDelegationForEndUserAccountResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *struct {
+		// ExpiresAt The date until which the delegation is valid.
+		ExpiresAt time.Time `json:"expiresAt"`
+	}
+	JSON400 *Error
+	JSON401 *UnauthorizedError
+	JSON402 *PaymentMethodRequiredError
+	JSON404 *Error
+	JSON409 *Error
+	JSON422 *IdempotencyError
+	JSON429 *Error
+	JSON500 *InternalServerError
+	JSON502 *BadGatewayError
+	JSON503 *ServiceUnavailableError
+}
+
+// Status returns HTTPResponse.Status
+func (r CreateDelegationForEndUserAccountResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CreateDelegationForEndUserAccountResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -18018,6 +20138,34 @@ func (r ImportEndUserResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r ImportEndUserResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type LookupEndUserResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		// EndUsers The list of end users matching the lookup.
+		EndUsers []EndUser `json:"endUsers"`
+	}
+	JSON400 *Error
+	JSON401 *UnauthorizedError
+	JSON500 *InternalServerError
+}
+
+// Status returns HTTPResponse.Status
+func (r LookupEndUserResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r LookupEndUserResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -19110,6 +21258,31 @@ func (r GetOnrampUserLimitsResponse) StatusCode() int {
 	return 0
 }
 
+type RequestLimitsUpgradeResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON400      *Error
+	JSON401      *UnauthorizedError
+	JSON429      *RateLimitExceeded
+	JSON500      *InternalServerError
+}
+
+// Status returns HTTPResponse.Status
+func (r RequestLimitsUpgradeResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r RequestLimitsUpgradeResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type CreateOnrampOrderResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -19753,6 +21926,109 @@ func (r ListSolanaTokenBalancesResponse) StatusCode() int {
 	return 0
 }
 
+type PostX402DiscoveryMcpResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *X402McpResponse
+	JSON400      *Error
+	JSON500      *InternalServerError
+}
+
+// Status returns HTTPResponse.Status
+func (r PostX402DiscoveryMcpResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r PostX402DiscoveryMcpResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ListX402DiscoveryMerchantResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *X402DiscoveryMerchantResponse
+	JSON400      *Error
+	JSON404      *Error
+	JSON500      *InternalServerError
+	JSON502      *BadGatewayError
+	JSON503      *ServiceUnavailableError
+}
+
+// Status returns HTTPResponse.Status
+func (r ListX402DiscoveryMerchantResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListX402DiscoveryMerchantResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ListX402DiscoveryResourcesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *X402DiscoveryResourcesResponse
+	JSON400      *Error
+	JSON500      *InternalServerError
+	JSON502      *BadGatewayError
+	JSON503      *ServiceUnavailableError
+}
+
+// Status returns HTTPResponse.Status
+func (r ListX402DiscoveryResourcesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListX402DiscoveryResourcesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SearchX402ResourcesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *X402SearchResourcesResponse
+	JSON400      *Error
+	JSON500      *InternalServerError
+	JSON502      *BadGatewayError
+	JSON503      *ServiceUnavailableError
+}
+
+// Status returns HTTPResponse.Status
+func (r SearchX402ResourcesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SearchX402ResourcesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type SettleX402PaymentResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -19952,6 +22228,49 @@ func (c *ClientWithResponses) ListWebhookSubscriptionEventsWithResponse(ctx cont
 		return nil, err
 	}
 	return ParseListWebhookSubscriptionEventsResponse(rsp)
+}
+
+// RevokeDelegationForEndUserAccountWithBodyWithResponse request with arbitrary body returning *RevokeDelegationForEndUserAccountResponse
+func (c *ClientWithResponses) RevokeDelegationForEndUserAccountWithBodyWithResponse(ctx context.Context, userId string, address BlockchainAddress, params *RevokeDelegationForEndUserAccountParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*RevokeDelegationForEndUserAccountResponse, error) {
+	rsp, err := c.RevokeDelegationForEndUserAccountWithBody(ctx, userId, address, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseRevokeDelegationForEndUserAccountResponse(rsp)
+}
+
+func (c *ClientWithResponses) RevokeDelegationForEndUserAccountWithResponse(ctx context.Context, userId string, address BlockchainAddress, params *RevokeDelegationForEndUserAccountParams, body RevokeDelegationForEndUserAccountJSONRequestBody, reqEditors ...RequestEditorFn) (*RevokeDelegationForEndUserAccountResponse, error) {
+	rsp, err := c.RevokeDelegationForEndUserAccount(ctx, userId, address, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseRevokeDelegationForEndUserAccountResponse(rsp)
+}
+
+// GetDelegationForEndUserAccountWithResponse request returning *GetDelegationForEndUserAccountResponse
+func (c *ClientWithResponses) GetDelegationForEndUserAccountWithResponse(ctx context.Context, userId string, address BlockchainAddress, params *GetDelegationForEndUserAccountParams, reqEditors ...RequestEditorFn) (*GetDelegationForEndUserAccountResponse, error) {
+	rsp, err := c.GetDelegationForEndUserAccount(ctx, userId, address, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetDelegationForEndUserAccountResponse(rsp)
+}
+
+// CreateDelegationForEndUserAccountWithBodyWithResponse request with arbitrary body returning *CreateDelegationForEndUserAccountResponse
+func (c *ClientWithResponses) CreateDelegationForEndUserAccountWithBodyWithResponse(ctx context.Context, userId string, address BlockchainAddress, params *CreateDelegationForEndUserAccountParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateDelegationForEndUserAccountResponse, error) {
+	rsp, err := c.CreateDelegationForEndUserAccountWithBody(ctx, userId, address, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateDelegationForEndUserAccountResponse(rsp)
+}
+
+func (c *ClientWithResponses) CreateDelegationForEndUserAccountWithResponse(ctx context.Context, userId string, address BlockchainAddress, params *CreateDelegationForEndUserAccountParams, body CreateDelegationForEndUserAccountJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateDelegationForEndUserAccountResponse, error) {
+	rsp, err := c.CreateDelegationForEndUserAccount(ctx, userId, address, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateDelegationForEndUserAccountResponse(rsp)
 }
 
 // RevokeDelegationForEndUserWithBodyWithResponse request with arbitrary body returning *RevokeDelegationForEndUserResponse
@@ -20225,6 +22544,15 @@ func (c *ClientWithResponses) ImportEndUserWithResponse(ctx context.Context, par
 		return nil, err
 	}
 	return ParseImportEndUserResponse(rsp)
+}
+
+// LookupEndUserWithResponse request returning *LookupEndUserResponse
+func (c *ClientWithResponses) LookupEndUserWithResponse(ctx context.Context, params *LookupEndUserParams, reqEditors ...RequestEditorFn) (*LookupEndUserResponse, error) {
+	rsp, err := c.LookupEndUser(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseLookupEndUserResponse(rsp)
 }
 
 // GetEndUserWithResponse request returning *GetEndUserResponse
@@ -20743,6 +23071,23 @@ func (c *ClientWithResponses) GetOnrampUserLimitsWithResponse(ctx context.Contex
 	return ParseGetOnrampUserLimitsResponse(rsp)
 }
 
+// RequestLimitsUpgradeWithBodyWithResponse request with arbitrary body returning *RequestLimitsUpgradeResponse
+func (c *ClientWithResponses) RequestLimitsUpgradeWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*RequestLimitsUpgradeResponse, error) {
+	rsp, err := c.RequestLimitsUpgradeWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseRequestLimitsUpgradeResponse(rsp)
+}
+
+func (c *ClientWithResponses) RequestLimitsUpgradeWithResponse(ctx context.Context, body RequestLimitsUpgradeJSONRequestBody, reqEditors ...RequestEditorFn) (*RequestLimitsUpgradeResponse, error) {
+	rsp, err := c.RequestLimitsUpgrade(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseRequestLimitsUpgradeResponse(rsp)
+}
+
 // CreateOnrampOrderWithBodyWithResponse request with arbitrary body returning *CreateOnrampOrderResponse
 func (c *ClientWithResponses) CreateOnrampOrderWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateOnrampOrderResponse, error) {
 	rsp, err := c.CreateOnrampOrderWithBody(ctx, contentType, body, reqEditors...)
@@ -21034,6 +23379,50 @@ func (c *ClientWithResponses) ListSolanaTokenBalancesWithResponse(ctx context.Co
 		return nil, err
 	}
 	return ParseListSolanaTokenBalancesResponse(rsp)
+}
+
+// PostX402DiscoveryMcpWithBodyWithResponse request with arbitrary body returning *PostX402DiscoveryMcpResponse
+func (c *ClientWithResponses) PostX402DiscoveryMcpWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*PostX402DiscoveryMcpResponse, error) {
+	rsp, err := c.PostX402DiscoveryMcpWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostX402DiscoveryMcpResponse(rsp)
+}
+
+func (c *ClientWithResponses) PostX402DiscoveryMcpWithResponse(ctx context.Context, body PostX402DiscoveryMcpJSONRequestBody, reqEditors ...RequestEditorFn) (*PostX402DiscoveryMcpResponse, error) {
+	rsp, err := c.PostX402DiscoveryMcp(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParsePostX402DiscoveryMcpResponse(rsp)
+}
+
+// ListX402DiscoveryMerchantWithResponse request returning *ListX402DiscoveryMerchantResponse
+func (c *ClientWithResponses) ListX402DiscoveryMerchantWithResponse(ctx context.Context, params *ListX402DiscoveryMerchantParams, reqEditors ...RequestEditorFn) (*ListX402DiscoveryMerchantResponse, error) {
+	rsp, err := c.ListX402DiscoveryMerchant(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListX402DiscoveryMerchantResponse(rsp)
+}
+
+// ListX402DiscoveryResourcesWithResponse request returning *ListX402DiscoveryResourcesResponse
+func (c *ClientWithResponses) ListX402DiscoveryResourcesWithResponse(ctx context.Context, params *ListX402DiscoveryResourcesParams, reqEditors ...RequestEditorFn) (*ListX402DiscoveryResourcesResponse, error) {
+	rsp, err := c.ListX402DiscoveryResources(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListX402DiscoveryResourcesResponse(rsp)
+}
+
+// SearchX402ResourcesWithResponse request returning *SearchX402ResourcesResponse
+func (c *ClientWithResponses) SearchX402ResourcesWithResponse(ctx context.Context, params *SearchX402ResourcesParams, reqEditors ...RequestEditorFn) (*SearchX402ResourcesResponse, error) {
+	rsp, err := c.SearchX402Resources(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSearchX402ResourcesResponse(rsp)
 }
 
 // SettleX402PaymentWithBodyWithResponse request with arbitrary body returning *SettleX402PaymentResponse
@@ -21701,6 +24090,223 @@ func ParseListWebhookSubscriptionEventsResponse(rsp *http.Response) (*ListWebhoo
 			return nil, err
 		}
 		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseRevokeDelegationForEndUserAccountResponse parses an HTTP response from a RevokeDelegationForEndUserAccountWithResponse call
+func ParseRevokeDelegationForEndUserAccountResponse(rsp *http.Response) (*RevokeDelegationForEndUserAccountResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &RevokeDelegationForEndUserAccountResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest UnauthorizedError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 502:
+		var dest BadGatewayError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON502 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ServiceUnavailableError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetDelegationForEndUserAccountResponse parses an HTTP response from a GetDelegationForEndUserAccountWithResponse call
+func ParseGetDelegationForEndUserAccountResponse(rsp *http.Response) (*GetDelegationForEndUserAccountResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetDelegationForEndUserAccountResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			// ExpiresAt The date until which the delegation is valid.
+			ExpiresAt time.Time `json:"expiresAt"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest UnauthorizedError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 502:
+		var dest BadGatewayError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON502 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ServiceUnavailableError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCreateDelegationForEndUserAccountResponse parses an HTTP response from a CreateDelegationForEndUserAccountWithResponse call
+func ParseCreateDelegationForEndUserAccountResponse(rsp *http.Response) (*CreateDelegationForEndUserAccountResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CreateDelegationForEndUserAccountResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest struct {
+			// ExpiresAt The date until which the delegation is valid.
+			ExpiresAt time.Time `json:"expiresAt"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest UnauthorizedError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 402:
+		var dest PaymentMethodRequiredError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON402 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
+		var dest IdempotencyError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON422 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 502:
+		var dest BadGatewayError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON502 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ServiceUnavailableError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
 
 	}
 
@@ -23095,6 +25701,56 @@ func ParseImportEndUserResponse(rsp *http.Response) (*ImportEndUserResponse, err
 			return nil, err
 		}
 		response.JSON503 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseLookupEndUserResponse parses an HTTP response from a LookupEndUserWithResponse call
+func ParseLookupEndUserResponse(rsp *http.Response) (*LookupEndUserResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &LookupEndUserResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			// EndUsers The list of end users matching the lookup.
+			EndUsers []EndUser `json:"endUsers"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest UnauthorizedError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
 
 	}
 
@@ -25711,6 +28367,53 @@ func ParseGetOnrampUserLimitsResponse(rsp *http.Response) (*GetOnrampUserLimitsR
 	return response, nil
 }
 
+// ParseRequestLimitsUpgradeResponse parses an HTTP response from a RequestLimitsUpgradeWithResponse call
+func ParseRequestLimitsUpgradeResponse(rsp *http.Response) (*RequestLimitsUpgradeResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &RequestLimitsUpgradeResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest UnauthorizedError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest RateLimitExceeded
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseCreateOnrampOrderResponse parses an HTTP response from a CreateOnrampOrderWithResponse call
 func ParseCreateOnrampOrderResponse(rsp *http.Response) (*CreateOnrampOrderResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -27179,6 +29882,215 @@ func ParseListSolanaTokenBalancesResponse(rsp *http.Response) (*ListSolanaTokenB
 			return nil, err
 		}
 		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 502:
+		var dest BadGatewayError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON502 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ServiceUnavailableError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParsePostX402DiscoveryMcpResponse parses an HTTP response from a PostX402DiscoveryMcpWithResponse call
+func ParsePostX402DiscoveryMcpResponse(rsp *http.Response) (*PostX402DiscoveryMcpResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &PostX402DiscoveryMcpResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest X402McpResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseListX402DiscoveryMerchantResponse parses an HTTP response from a ListX402DiscoveryMerchantWithResponse call
+func ParseListX402DiscoveryMerchantResponse(rsp *http.Response) (*ListX402DiscoveryMerchantResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListX402DiscoveryMerchantResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest X402DiscoveryMerchantResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 502:
+		var dest BadGatewayError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON502 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ServiceUnavailableError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseListX402DiscoveryResourcesResponse parses an HTTP response from a ListX402DiscoveryResourcesWithResponse call
+func ParseListX402DiscoveryResourcesResponse(rsp *http.Response) (*ListX402DiscoveryResourcesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListX402DiscoveryResourcesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest X402DiscoveryResourcesResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest InternalServerError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 502:
+		var dest BadGatewayError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON502 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ServiceUnavailableError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSearchX402ResourcesResponse parses an HTTP response from a SearchX402ResourcesWithResponse call
+func ParseSearchX402ResourcesResponse(rsp *http.Response) (*SearchX402ResourcesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SearchX402ResourcesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest X402SearchResourcesResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
 		var dest InternalServerError

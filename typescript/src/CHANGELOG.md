@@ -1,5 +1,31 @@
 # CDP SDK Changelog
 
+## 1.49.2
+
+### Patch Changes
+
+- [#701](https://github.com/coinbase/cdp-sdk/pull/701) [`7439b21`](https://github.com/coinbase/cdp-sdk/commit/7439b21efc6f52c5870144317fefa9498afbc231) Thanks [@sddioulde](https://github.com/sddioulde)! - Updated axios dep to 1.16.0
+
+## 1.49.1
+
+### Patch Changes
+
+- Bumped API spec and re-generated clients
+
+## 1.49.0
+
+### Minor Changes
+
+- [#689](https://github.com/coinbase/cdp-sdk/pull/689) [`cc3fca1`](https://github.com/coinbase/cdp-sdk/commit/cc3fca178aad31de7c148afe31173b5ac0fbf478) Thanks [@0xRAG](https://github.com/0xRAG)! - Added account-scoped delegation methods to EndUserAccount: getDelegationForAccount and revokeDelegationForAccount
+
+- [#687](https://github.com/coinbase/cdp-sdk/pull/687) [`d73f1f8`](https://github.com/coinbase/cdp-sdk/commit/d73f1f864689e5a8df218859c3ae43c2f5e8b0d8) Thanks [@sammccord](https://github.com/sammccord)! - Add support for SendEndUserEvmAsset, SendEndUserSolAsset, and CreateEndUserEvmSwap policy rules and criteria
+
+## 1.48.3
+
+### Patch Changes
+
+- [#691](https://github.com/coinbase/cdp-sdk/pull/691) [`dfba138`](https://github.com/coinbase/cdp-sdk/commit/dfba138cd67a157317ada8831930245a172ff719) Thanks [@sddioulde](https://github.com/sddioulde)! - Added bs58 to dependencies in typescript/src/package.json
+
 ## 1.48.2
 
 ### Patch Changes

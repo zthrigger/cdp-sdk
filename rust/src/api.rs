@@ -3374,6 +3374,446 @@ pub mod types {
                 })
         }
     }
+    ///`CreateDelegationForEndUserAccountBody`
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "type": "object",
+    ///  "required": [
+    ///    "expiresAt",
+    ///    "walletSecretId"
+    ///  ],
+    ///  "properties": {
+    ///    "expiresAt": {
+    ///      "description": "The date until which the delegation is valid.",
+    ///      "examples": [
+    ///        "2026-02-03T10:35:00Z"
+    ///      ],
+    ///      "type": "string",
+    ///      "format": "date-time"
+    ///    },
+    ///    "walletSecretId": {
+    ///      "description": "The ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header.",
+    ///      "examples": [
+    ///        "e051beeb-7163-4527-a5b6-35e301529ff2"
+    ///      ],
+    ///      "type": "string",
+    ///      "pattern": "^[a-zA-Z0-9-]{1,100}$"
+    ///    }
+    ///  }
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct CreateDelegationForEndUserAccountBody {
+        ///The date until which the delegation is valid.
+        #[serde(rename = "expiresAt")]
+        pub expires_at: ::chrono::DateTime<::chrono::offset::Utc>,
+        ///The ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header.
+        #[serde(rename = "walletSecretId")]
+        pub wallet_secret_id: CreateDelegationForEndUserAccountBodyWalletSecretId,
+    }
+    impl ::std::convert::From<&CreateDelegationForEndUserAccountBody>
+        for CreateDelegationForEndUserAccountBody
+    {
+        fn from(value: &CreateDelegationForEndUserAccountBody) -> Self {
+            value.clone()
+        }
+    }
+    impl CreateDelegationForEndUserAccountBody {
+        pub fn builder() -> builder::CreateDelegationForEndUserAccountBody {
+            Default::default()
+        }
+    }
+    ///The ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "The ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header.",
+    ///  "examples": [
+    ///    "e051beeb-7163-4527-a5b6-35e301529ff2"
+    ///  ],
+    ///  "type": "string",
+    ///  "pattern": "^[a-zA-Z0-9-]{1,100}$"
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Serialize, Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
+    #[serde(transparent)]
+    pub struct CreateDelegationForEndUserAccountBodyWalletSecretId(::std::string::String);
+    impl ::std::ops::Deref for CreateDelegationForEndUserAccountBodyWalletSecretId {
+        type Target = ::std::string::String;
+        fn deref(&self) -> &::std::string::String {
+            &self.0
+        }
+    }
+    impl ::std::convert::From<CreateDelegationForEndUserAccountBodyWalletSecretId>
+        for ::std::string::String
+    {
+        fn from(value: CreateDelegationForEndUserAccountBodyWalletSecretId) -> Self {
+            value.0
+        }
+    }
+    impl ::std::convert::From<&CreateDelegationForEndUserAccountBodyWalletSecretId>
+        for CreateDelegationForEndUserAccountBodyWalletSecretId
+    {
+        fn from(value: &CreateDelegationForEndUserAccountBodyWalletSecretId) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::str::FromStr for CreateDelegationForEndUserAccountBodyWalletSecretId {
+        type Err = self::error::ConversionError;
+        fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            static PATTERN: ::std::sync::LazyLock<::regress::Regex> =
+                ::std::sync::LazyLock::new(|| {
+                    ::regress::Regex::new("^[a-zA-Z0-9-]{1,100}$").unwrap()
+                });
+            if PATTERN.find(value).is_none() {
+                return Err("doesn't match pattern \"^[a-zA-Z0-9-]{1,100}$\"".into());
+            }
+            Ok(Self(value.to_string()))
+        }
+    }
+    impl ::std::convert::TryFrom<&str> for CreateDelegationForEndUserAccountBodyWalletSecretId {
+        type Error = self::error::ConversionError;
+        fn try_from(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<&::std::string::String>
+        for CreateDelegationForEndUserAccountBodyWalletSecretId
+    {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: &::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<::std::string::String>
+        for CreateDelegationForEndUserAccountBodyWalletSecretId
+    {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: ::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl<'de> ::serde::Deserialize<'de> for CreateDelegationForEndUserAccountBodyWalletSecretId {
+        fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+        where
+            D: ::serde::Deserializer<'de>,
+        {
+            ::std::string::String::deserialize(deserializer)?
+                .parse()
+                .map_err(|e: self::error::ConversionError| {
+                    <D::Error as ::serde::de::Error>::custom(e.to_string())
+                })
+        }
+    }
+    ///`CreateDelegationForEndUserAccountProjectId`
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "examples": [
+    ///    "8e03978e-40d5-43e8-bc93-6894a57f9324"
+    ///  ],
+    ///  "type": "string",
+    ///  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Serialize, Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
+    #[serde(transparent)]
+    pub struct CreateDelegationForEndUserAccountProjectId(::std::string::String);
+    impl ::std::ops::Deref for CreateDelegationForEndUserAccountProjectId {
+        type Target = ::std::string::String;
+        fn deref(&self) -> &::std::string::String {
+            &self.0
+        }
+    }
+    impl ::std::convert::From<CreateDelegationForEndUserAccountProjectId> for ::std::string::String {
+        fn from(value: CreateDelegationForEndUserAccountProjectId) -> Self {
+            value.0
+        }
+    }
+    impl ::std::convert::From<&CreateDelegationForEndUserAccountProjectId>
+        for CreateDelegationForEndUserAccountProjectId
+    {
+        fn from(value: &CreateDelegationForEndUserAccountProjectId) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::str::FromStr for CreateDelegationForEndUserAccountProjectId {
+        type Err = self::error::ConversionError;
+        fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            static PATTERN: ::std::sync::LazyLock<::regress::Regex> =
+                ::std::sync::LazyLock::new(|| {
+                    ::regress::Regex::new(
+                        "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+                    )
+                    .unwrap()
+                });
+            if PATTERN.find(value).is_none() {
+                return Err(
+                    "doesn't match pattern \"^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$\""
+                        .into(),
+                );
+            }
+            Ok(Self(value.to_string()))
+        }
+    }
+    impl ::std::convert::TryFrom<&str> for CreateDelegationForEndUserAccountProjectId {
+        type Error = self::error::ConversionError;
+        fn try_from(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<&::std::string::String>
+        for CreateDelegationForEndUserAccountProjectId
+    {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: &::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<::std::string::String> for CreateDelegationForEndUserAccountProjectId {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: ::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl<'de> ::serde::Deserialize<'de> for CreateDelegationForEndUserAccountProjectId {
+        fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+        where
+            D: ::serde::Deserializer<'de>,
+        {
+            ::std::string::String::deserialize(deserializer)?
+                .parse()
+                .map_err(|e: self::error::ConversionError| {
+                    <D::Error as ::serde::de::Error>::custom(e.to_string())
+                })
+        }
+    }
+    ///`CreateDelegationForEndUserAccountResponse`
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "type": "object",
+    ///  "required": [
+    ///    "expiresAt"
+    ///  ],
+    ///  "properties": {
+    ///    "expiresAt": {
+    ///      "description": "The date until which the delegation is valid.",
+    ///      "examples": [
+    ///        "2026-02-03T10:35:00Z"
+    ///      ],
+    ///      "type": "string",
+    ///      "format": "date-time"
+    ///    }
+    ///  }
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct CreateDelegationForEndUserAccountResponse {
+        ///The date until which the delegation is valid.
+        #[serde(rename = "expiresAt")]
+        pub expires_at: ::chrono::DateTime<::chrono::offset::Utc>,
+    }
+    impl ::std::convert::From<&CreateDelegationForEndUserAccountResponse>
+        for CreateDelegationForEndUserAccountResponse
+    {
+        fn from(value: &CreateDelegationForEndUserAccountResponse) -> Self {
+            value.clone()
+        }
+    }
+    impl CreateDelegationForEndUserAccountResponse {
+        pub fn builder() -> builder::CreateDelegationForEndUserAccountResponse {
+            Default::default()
+        }
+    }
+    ///`CreateDelegationForEndUserAccountUserId`
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "examples": [
+    ///    "e051beeb-7163-4527-a5b6-35e301529ff2"
+    ///  ],
+    ///  "type": "string",
+    ///  "pattern": "^[a-zA-Z0-9-]{1,100}$"
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Serialize, Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
+    #[serde(transparent)]
+    pub struct CreateDelegationForEndUserAccountUserId(::std::string::String);
+    impl ::std::ops::Deref for CreateDelegationForEndUserAccountUserId {
+        type Target = ::std::string::String;
+        fn deref(&self) -> &::std::string::String {
+            &self.0
+        }
+    }
+    impl ::std::convert::From<CreateDelegationForEndUserAccountUserId> for ::std::string::String {
+        fn from(value: CreateDelegationForEndUserAccountUserId) -> Self {
+            value.0
+        }
+    }
+    impl ::std::convert::From<&CreateDelegationForEndUserAccountUserId>
+        for CreateDelegationForEndUserAccountUserId
+    {
+        fn from(value: &CreateDelegationForEndUserAccountUserId) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::str::FromStr for CreateDelegationForEndUserAccountUserId {
+        type Err = self::error::ConversionError;
+        fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            static PATTERN: ::std::sync::LazyLock<::regress::Regex> =
+                ::std::sync::LazyLock::new(|| {
+                    ::regress::Regex::new("^[a-zA-Z0-9-]{1,100}$").unwrap()
+                });
+            if PATTERN.find(value).is_none() {
+                return Err("doesn't match pattern \"^[a-zA-Z0-9-]{1,100}$\"".into());
+            }
+            Ok(Self(value.to_string()))
+        }
+    }
+    impl ::std::convert::TryFrom<&str> for CreateDelegationForEndUserAccountUserId {
+        type Error = self::error::ConversionError;
+        fn try_from(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<&::std::string::String> for CreateDelegationForEndUserAccountUserId {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: &::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<::std::string::String> for CreateDelegationForEndUserAccountUserId {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: ::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl<'de> ::serde::Deserialize<'de> for CreateDelegationForEndUserAccountUserId {
+        fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+        where
+            D: ::serde::Deserializer<'de>,
+        {
+            ::std::string::String::deserialize(deserializer)?
+                .parse()
+                .map_err(|e: self::error::ConversionError| {
+                    <D::Error as ::serde::de::Error>::custom(e.to_string())
+                })
+        }
+    }
+    ///`CreateDelegationForEndUserAccountXIdempotencyKey`
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "type": "string",
+    ///  "maxLength": 128,
+    ///  "minLength": 1
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Serialize, Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
+    #[serde(transparent)]
+    pub struct CreateDelegationForEndUserAccountXIdempotencyKey(::std::string::String);
+    impl ::std::ops::Deref for CreateDelegationForEndUserAccountXIdempotencyKey {
+        type Target = ::std::string::String;
+        fn deref(&self) -> &::std::string::String {
+            &self.0
+        }
+    }
+    impl ::std::convert::From<CreateDelegationForEndUserAccountXIdempotencyKey>
+        for ::std::string::String
+    {
+        fn from(value: CreateDelegationForEndUserAccountXIdempotencyKey) -> Self {
+            value.0
+        }
+    }
+    impl ::std::convert::From<&CreateDelegationForEndUserAccountXIdempotencyKey>
+        for CreateDelegationForEndUserAccountXIdempotencyKey
+    {
+        fn from(value: &CreateDelegationForEndUserAccountXIdempotencyKey) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::str::FromStr for CreateDelegationForEndUserAccountXIdempotencyKey {
+        type Err = self::error::ConversionError;
+        fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            if value.chars().count() > 128usize {
+                return Err("longer than 128 characters".into());
+            }
+            if value.chars().count() < 1usize {
+                return Err("shorter than 1 characters".into());
+            }
+            Ok(Self(value.to_string()))
+        }
+    }
+    impl ::std::convert::TryFrom<&str> for CreateDelegationForEndUserAccountXIdempotencyKey {
+        type Error = self::error::ConversionError;
+        fn try_from(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<&::std::string::String>
+        for CreateDelegationForEndUserAccountXIdempotencyKey
+    {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: &::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<::std::string::String>
+        for CreateDelegationForEndUserAccountXIdempotencyKey
+    {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: ::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl<'de> ::serde::Deserialize<'de> for CreateDelegationForEndUserAccountXIdempotencyKey {
+        fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+        where
+            D: ::serde::Deserializer<'de>,
+        {
+            ::std::string::String::deserialize(deserializer)?
+                .parse()
+                .map_err(|e: self::error::ConversionError| {
+                    <D::Error as ::serde::de::Error>::custom(e.to_string())
+                })
+        }
+    }
     ///`CreateEndUserBody`
     ///
     /// <details><summary>JSON schema</summary>
@@ -3655,6 +4095,356 @@ pub mod types {
                 .map_err(|e: self::error::ConversionError| {
                     <D::Error as ::serde::de::Error>::custom(e.to_string())
                 })
+        }
+    }
+    ///A schema for specifying criteria for the createEndUserEvmSwap operation.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "A schema for specifying criteria for the createEndUserEvmSwap operation.",
+    ///  "examples": [
+    ///    [
+    ///      {
+    ///        "networks": [
+    ///          "base",
+    ///          "ethereum"
+    ///        ],
+    ///        "operator": "in",
+    ///        "type": "evmNetwork"
+    ///      },
+    ///      {
+    ///        "abi": "erc20",
+    ///        "conditions": [
+    ///          {
+    ///            "function": "transfer",
+    ///            "params": [
+    ///              {
+    ///                "name": "value",
+    ///                "operator": "<=",
+    ///                "value": "10000"
+    ///              }
+    ///            ]
+    ///          }
+    ///        ],
+    ///        "type": "evmData"
+    ///      },
+    ///      {
+    ///        "changeCents": 10000,
+    ///        "operator": "<=",
+    ///        "type": "netUSDChange"
+    ///      }
+    ///    ]
+    ///  ],
+    ///  "type": "array",
+    ///  "items": {
+    ///    "oneOf": [
+    ///      {
+    ///        "$ref": "#/components/schemas/EvmNetworkCriterion"
+    ///      },
+    ///      {
+    ///        "$ref": "#/components/schemas/EvmDataCriterion"
+    ///      },
+    ///      {
+    ///        "$ref": "#/components/schemas/NetUSDChangeCriterion"
+    ///      }
+    ///    ]
+    ///  },
+    ///  "x-audience": "public"
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    #[serde(transparent)]
+    pub struct CreateEndUserEvmSwapCriteria(pub ::std::vec::Vec<CreateEndUserEvmSwapCriteriaItem>);
+    impl ::std::ops::Deref for CreateEndUserEvmSwapCriteria {
+        type Target = ::std::vec::Vec<CreateEndUserEvmSwapCriteriaItem>;
+        fn deref(&self) -> &::std::vec::Vec<CreateEndUserEvmSwapCriteriaItem> {
+            &self.0
+        }
+    }
+    impl ::std::convert::From<CreateEndUserEvmSwapCriteria>
+        for ::std::vec::Vec<CreateEndUserEvmSwapCriteriaItem>
+    {
+        fn from(value: CreateEndUserEvmSwapCriteria) -> Self {
+            value.0
+        }
+    }
+    impl ::std::convert::From<&CreateEndUserEvmSwapCriteria> for CreateEndUserEvmSwapCriteria {
+        fn from(value: &CreateEndUserEvmSwapCriteria) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::convert::From<::std::vec::Vec<CreateEndUserEvmSwapCriteriaItem>>
+        for CreateEndUserEvmSwapCriteria
+    {
+        fn from(value: ::std::vec::Vec<CreateEndUserEvmSwapCriteriaItem>) -> Self {
+            Self(value)
+        }
+    }
+    ///`CreateEndUserEvmSwapCriteriaItem`
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "oneOf": [
+    ///    {
+    ///      "$ref": "#/components/schemas/EvmNetworkCriterion"
+    ///    },
+    ///    {
+    ///      "$ref": "#/components/schemas/EvmDataCriterion"
+    ///    },
+    ///    {
+    ///      "$ref": "#/components/schemas/NetUSDChangeCriterion"
+    ///    }
+    ///  ]
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    #[serde(untagged)]
+    pub enum CreateEndUserEvmSwapCriteriaItem {
+        EvmNetworkCriterion(EvmNetworkCriterion),
+        EvmDataCriterion(EvmDataCriterion),
+        NetUsdChangeCriterion(NetUsdChangeCriterion),
+    }
+    impl ::std::convert::From<&Self> for CreateEndUserEvmSwapCriteriaItem {
+        fn from(value: &CreateEndUserEvmSwapCriteriaItem) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::convert::From<EvmNetworkCriterion> for CreateEndUserEvmSwapCriteriaItem {
+        fn from(value: EvmNetworkCriterion) -> Self {
+            Self::EvmNetworkCriterion(value)
+        }
+    }
+    impl ::std::convert::From<EvmDataCriterion> for CreateEndUserEvmSwapCriteriaItem {
+        fn from(value: EvmDataCriterion) -> Self {
+            Self::EvmDataCriterion(value)
+        }
+    }
+    impl ::std::convert::From<NetUsdChangeCriterion> for CreateEndUserEvmSwapCriteriaItem {
+        fn from(value: NetUsdChangeCriterion) -> Self {
+            Self::NetUsdChangeCriterion(value)
+        }
+    }
+    ///`CreateEndUserEvmSwapRule`
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "title": "CreateEndUserEvmSwapRule",
+    ///  "required": [
+    ///    "action",
+    ///    "criteria",
+    ///    "operation"
+    ///  ],
+    ///  "properties": {
+    ///    "action": {
+    ///      "description": "Whether matching the rule will cause the request to be rejected or accepted.",
+    ///      "examples": [
+    ///        "accept"
+    ///      ],
+    ///      "type": "string",
+    ///      "enum": [
+    ///        "reject",
+    ///        "accept"
+    ///      ]
+    ///    },
+    ///    "criteria": {
+    ///      "$ref": "#/components/schemas/CreateEndUserEvmSwapCriteria"
+    ///    },
+    ///    "operation": {
+    ///      "description": "The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.",
+    ///      "examples": [
+    ///        "createEndUserEvmSwap"
+    ///      ],
+    ///      "type": "string",
+    ///      "enum": [
+    ///        "createEndUserEvmSwap"
+    ///      ]
+    ///    }
+    ///  },
+    ///  "x-audience": "public"
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct CreateEndUserEvmSwapRule {
+        ///Whether matching the rule will cause the request to be rejected or accepted.
+        pub action: CreateEndUserEvmSwapRuleAction,
+        pub criteria: CreateEndUserEvmSwapCriteria,
+        ///The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
+        pub operation: CreateEndUserEvmSwapRuleOperation,
+    }
+    impl ::std::convert::From<&CreateEndUserEvmSwapRule> for CreateEndUserEvmSwapRule {
+        fn from(value: &CreateEndUserEvmSwapRule) -> Self {
+            value.clone()
+        }
+    }
+    impl CreateEndUserEvmSwapRule {
+        pub fn builder() -> builder::CreateEndUserEvmSwapRule {
+            Default::default()
+        }
+    }
+    ///Whether matching the rule will cause the request to be rejected or accepted.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "Whether matching the rule will cause the request to be rejected or accepted.",
+    ///  "examples": [
+    ///    "accept"
+    ///  ],
+    ///  "type": "string",
+    ///  "enum": [
+    ///    "reject",
+    ///    "accept"
+    ///  ]
+    ///}
+    /// ```
+    /// </details>
+    #[derive(
+        ::serde::Deserialize,
+        ::serde::Serialize,
+        Clone,
+        Copy,
+        Debug,
+        Eq,
+        Hash,
+        Ord,
+        PartialEq,
+        PartialOrd,
+    )]
+    pub enum CreateEndUserEvmSwapRuleAction {
+        #[serde(rename = "reject")]
+        Reject,
+        #[serde(rename = "accept")]
+        Accept,
+    }
+    impl ::std::convert::From<&Self> for CreateEndUserEvmSwapRuleAction {
+        fn from(value: &CreateEndUserEvmSwapRuleAction) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::fmt::Display for CreateEndUserEvmSwapRuleAction {
+        fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+            match *self {
+                Self::Reject => f.write_str("reject"),
+                Self::Accept => f.write_str("accept"),
+            }
+        }
+    }
+    impl ::std::str::FromStr for CreateEndUserEvmSwapRuleAction {
+        type Err = self::error::ConversionError;
+        fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            match value {
+                "reject" => Ok(Self::Reject),
+                "accept" => Ok(Self::Accept),
+                _ => Err("invalid value".into()),
+            }
+        }
+    }
+    impl ::std::convert::TryFrom<&str> for CreateEndUserEvmSwapRuleAction {
+        type Error = self::error::ConversionError;
+        fn try_from(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<&::std::string::String> for CreateEndUserEvmSwapRuleAction {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: &::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<::std::string::String> for CreateEndUserEvmSwapRuleAction {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: ::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    ///The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.",
+    ///  "examples": [
+    ///    "createEndUserEvmSwap"
+    ///  ],
+    ///  "type": "string",
+    ///  "enum": [
+    ///    "createEndUserEvmSwap"
+    ///  ]
+    ///}
+    /// ```
+    /// </details>
+    #[derive(
+        ::serde::Deserialize,
+        ::serde::Serialize,
+        Clone,
+        Copy,
+        Debug,
+        Eq,
+        Hash,
+        Ord,
+        PartialEq,
+        PartialOrd,
+    )]
+    pub enum CreateEndUserEvmSwapRuleOperation {
+        #[serde(rename = "createEndUserEvmSwap")]
+        CreateEndUserEvmSwap,
+    }
+    impl ::std::convert::From<&Self> for CreateEndUserEvmSwapRuleOperation {
+        fn from(value: &CreateEndUserEvmSwapRuleOperation) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::fmt::Display for CreateEndUserEvmSwapRuleOperation {
+        fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+            match *self {
+                Self::CreateEndUserEvmSwap => f.write_str("createEndUserEvmSwap"),
+            }
+        }
+    }
+    impl ::std::str::FromStr for CreateEndUserEvmSwapRuleOperation {
+        type Err = self::error::ConversionError;
+        fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            match value {
+                "createEndUserEvmSwap" => Ok(Self::CreateEndUserEvmSwap),
+                _ => Err("invalid value".into()),
+            }
+        }
+    }
+    impl ::std::convert::TryFrom<&str> for CreateEndUserEvmSwapRuleOperation {
+        type Error = self::error::ConversionError;
+        fn try_from(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<&::std::string::String> for CreateEndUserEvmSwapRuleOperation {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: &::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<::std::string::String> for CreateEndUserEvmSwapRuleOperation {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: ::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
         }
     }
     ///`CreateEndUserXIdempotencyKey`
@@ -9365,6 +10155,348 @@ pub mod types {
     impl ::std::convert::From<SwapUnavailableResponse> for CreateSwapQuoteResponseWrapper {
         fn from(value: SwapUnavailableResponse) -> Self {
             Self::SwapUnavailableResponse(value)
+        }
+    }
+    ///Date of birth.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "Date of birth.",
+    ///  "examples": [
+    ///    {
+    ///      "day": "15",
+    ///      "month": "08",
+    ///      "year": "1990"
+    ///    }
+    ///  ],
+    ///  "type": "object",
+    ///  "properties": {
+    ///    "day": {
+    ///      "description": "Day of birth (01-31).",
+    ///      "examples": [
+    ///        "15"
+    ///      ],
+    ///      "type": "string",
+    ///      "maxLength": 2,
+    ///      "minLength": 2,
+    ///      "pattern": "^[0-9]{2}$"
+    ///    },
+    ///    "month": {
+    ///      "description": "Month of birth (01-12).",
+    ///      "examples": [
+    ///        "08"
+    ///      ],
+    ///      "type": "string",
+    ///      "maxLength": 2,
+    ///      "minLength": 2,
+    ///      "pattern": "^[0-9]{2}$"
+    ///    },
+    ///    "year": {
+    ///      "description": "Year of birth (four digits).",
+    ///      "examples": [
+    ///        "1990"
+    ///      ],
+    ///      "type": "string",
+    ///      "maxLength": 4,
+    ///      "minLength": 4,
+    ///      "pattern": "^[0-9]{4}$"
+    ///    }
+    ///  }
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct DateOfBirth {
+        ///Day of birth (01-31).
+        #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+        pub day: ::std::option::Option<DateOfBirthDay>,
+        ///Month of birth (01-12).
+        #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+        pub month: ::std::option::Option<DateOfBirthMonth>,
+        ///Year of birth (four digits).
+        #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+        pub year: ::std::option::Option<DateOfBirthYear>,
+    }
+    impl ::std::convert::From<&DateOfBirth> for DateOfBirth {
+        fn from(value: &DateOfBirth) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::default::Default for DateOfBirth {
+        fn default() -> Self {
+            Self {
+                day: Default::default(),
+                month: Default::default(),
+                year: Default::default(),
+            }
+        }
+    }
+    impl DateOfBirth {
+        pub fn builder() -> builder::DateOfBirth {
+            Default::default()
+        }
+    }
+    ///Day of birth (01-31).
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "Day of birth (01-31).",
+    ///  "examples": [
+    ///    "15"
+    ///  ],
+    ///  "type": "string",
+    ///  "maxLength": 2,
+    ///  "minLength": 2,
+    ///  "pattern": "^[0-9]{2}$"
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Serialize, Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
+    #[serde(transparent)]
+    pub struct DateOfBirthDay(::std::string::String);
+    impl ::std::ops::Deref for DateOfBirthDay {
+        type Target = ::std::string::String;
+        fn deref(&self) -> &::std::string::String {
+            &self.0
+        }
+    }
+    impl ::std::convert::From<DateOfBirthDay> for ::std::string::String {
+        fn from(value: DateOfBirthDay) -> Self {
+            value.0
+        }
+    }
+    impl ::std::convert::From<&DateOfBirthDay> for DateOfBirthDay {
+        fn from(value: &DateOfBirthDay) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::str::FromStr for DateOfBirthDay {
+        type Err = self::error::ConversionError;
+        fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            if value.chars().count() > 2usize {
+                return Err("longer than 2 characters".into());
+            }
+            if value.chars().count() < 2usize {
+                return Err("shorter than 2 characters".into());
+            }
+            static PATTERN: ::std::sync::LazyLock<::regress::Regex> =
+                ::std::sync::LazyLock::new(|| ::regress::Regex::new("^[0-9]{2}$").unwrap());
+            if PATTERN.find(value).is_none() {
+                return Err("doesn't match pattern \"^[0-9]{2}$\"".into());
+            }
+            Ok(Self(value.to_string()))
+        }
+    }
+    impl ::std::convert::TryFrom<&str> for DateOfBirthDay {
+        type Error = self::error::ConversionError;
+        fn try_from(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<&::std::string::String> for DateOfBirthDay {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: &::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<::std::string::String> for DateOfBirthDay {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: ::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl<'de> ::serde::Deserialize<'de> for DateOfBirthDay {
+        fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+        where
+            D: ::serde::Deserializer<'de>,
+        {
+            ::std::string::String::deserialize(deserializer)?
+                .parse()
+                .map_err(|e: self::error::ConversionError| {
+                    <D::Error as ::serde::de::Error>::custom(e.to_string())
+                })
+        }
+    }
+    ///Month of birth (01-12).
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "Month of birth (01-12).",
+    ///  "examples": [
+    ///    "08"
+    ///  ],
+    ///  "type": "string",
+    ///  "maxLength": 2,
+    ///  "minLength": 2,
+    ///  "pattern": "^[0-9]{2}$"
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Serialize, Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
+    #[serde(transparent)]
+    pub struct DateOfBirthMonth(::std::string::String);
+    impl ::std::ops::Deref for DateOfBirthMonth {
+        type Target = ::std::string::String;
+        fn deref(&self) -> &::std::string::String {
+            &self.0
+        }
+    }
+    impl ::std::convert::From<DateOfBirthMonth> for ::std::string::String {
+        fn from(value: DateOfBirthMonth) -> Self {
+            value.0
+        }
+    }
+    impl ::std::convert::From<&DateOfBirthMonth> for DateOfBirthMonth {
+        fn from(value: &DateOfBirthMonth) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::str::FromStr for DateOfBirthMonth {
+        type Err = self::error::ConversionError;
+        fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            if value.chars().count() > 2usize {
+                return Err("longer than 2 characters".into());
+            }
+            if value.chars().count() < 2usize {
+                return Err("shorter than 2 characters".into());
+            }
+            static PATTERN: ::std::sync::LazyLock<::regress::Regex> =
+                ::std::sync::LazyLock::new(|| ::regress::Regex::new("^[0-9]{2}$").unwrap());
+            if PATTERN.find(value).is_none() {
+                return Err("doesn't match pattern \"^[0-9]{2}$\"".into());
+            }
+            Ok(Self(value.to_string()))
+        }
+    }
+    impl ::std::convert::TryFrom<&str> for DateOfBirthMonth {
+        type Error = self::error::ConversionError;
+        fn try_from(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<&::std::string::String> for DateOfBirthMonth {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: &::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<::std::string::String> for DateOfBirthMonth {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: ::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl<'de> ::serde::Deserialize<'de> for DateOfBirthMonth {
+        fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+        where
+            D: ::serde::Deserializer<'de>,
+        {
+            ::std::string::String::deserialize(deserializer)?
+                .parse()
+                .map_err(|e: self::error::ConversionError| {
+                    <D::Error as ::serde::de::Error>::custom(e.to_string())
+                })
+        }
+    }
+    ///Year of birth (four digits).
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "Year of birth (four digits).",
+    ///  "examples": [
+    ///    "1990"
+    ///  ],
+    ///  "type": "string",
+    ///  "maxLength": 4,
+    ///  "minLength": 4,
+    ///  "pattern": "^[0-9]{4}$"
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Serialize, Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
+    #[serde(transparent)]
+    pub struct DateOfBirthYear(::std::string::String);
+    impl ::std::ops::Deref for DateOfBirthYear {
+        type Target = ::std::string::String;
+        fn deref(&self) -> &::std::string::String {
+            &self.0
+        }
+    }
+    impl ::std::convert::From<DateOfBirthYear> for ::std::string::String {
+        fn from(value: DateOfBirthYear) -> Self {
+            value.0
+        }
+    }
+    impl ::std::convert::From<&DateOfBirthYear> for DateOfBirthYear {
+        fn from(value: &DateOfBirthYear) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::str::FromStr for DateOfBirthYear {
+        type Err = self::error::ConversionError;
+        fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            if value.chars().count() > 4usize {
+                return Err("longer than 4 characters".into());
+            }
+            if value.chars().count() < 4usize {
+                return Err("shorter than 4 characters".into());
+            }
+            static PATTERN: ::std::sync::LazyLock<::regress::Regex> =
+                ::std::sync::LazyLock::new(|| ::regress::Regex::new("^[0-9]{4}$").unwrap());
+            if PATTERN.find(value).is_none() {
+                return Err("doesn't match pattern \"^[0-9]{4}$\"".into());
+            }
+            Ok(Self(value.to_string()))
+        }
+    }
+    impl ::std::convert::TryFrom<&str> for DateOfBirthYear {
+        type Error = self::error::ConversionError;
+        fn try_from(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<&::std::string::String> for DateOfBirthYear {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: &::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<::std::string::String> for DateOfBirthYear {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: ::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl<'de> ::serde::Deserialize<'de> for DateOfBirthYear {
+        fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+        where
+            D: ::serde::Deserializer<'de>,
+        {
+            ::std::string::String::deserialize(deserializer)?
+                .parse()
+                .map_err(|e: self::error::ConversionError| {
+                    <D::Error as ::serde::de::Error>::custom(e.to_string())
+                })
         }
     }
     ///`DeletePolicyPolicyId`
@@ -17365,6 +18497,217 @@ pub mod types {
                 })
         }
     }
+    ///`GetDelegationForEndUserAccountProjectId`
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "examples": [
+    ///    "8e03978e-40d5-43e8-bc93-6894a57f9324"
+    ///  ],
+    ///  "type": "string",
+    ///  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Serialize, Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
+    #[serde(transparent)]
+    pub struct GetDelegationForEndUserAccountProjectId(::std::string::String);
+    impl ::std::ops::Deref for GetDelegationForEndUserAccountProjectId {
+        type Target = ::std::string::String;
+        fn deref(&self) -> &::std::string::String {
+            &self.0
+        }
+    }
+    impl ::std::convert::From<GetDelegationForEndUserAccountProjectId> for ::std::string::String {
+        fn from(value: GetDelegationForEndUserAccountProjectId) -> Self {
+            value.0
+        }
+    }
+    impl ::std::convert::From<&GetDelegationForEndUserAccountProjectId>
+        for GetDelegationForEndUserAccountProjectId
+    {
+        fn from(value: &GetDelegationForEndUserAccountProjectId) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::str::FromStr for GetDelegationForEndUserAccountProjectId {
+        type Err = self::error::ConversionError;
+        fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            static PATTERN: ::std::sync::LazyLock<::regress::Regex> =
+                ::std::sync::LazyLock::new(|| {
+                    ::regress::Regex::new(
+                        "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+                    )
+                    .unwrap()
+                });
+            if PATTERN.find(value).is_none() {
+                return Err(
+                    "doesn't match pattern \"^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$\""
+                        .into(),
+                );
+            }
+            Ok(Self(value.to_string()))
+        }
+    }
+    impl ::std::convert::TryFrom<&str> for GetDelegationForEndUserAccountProjectId {
+        type Error = self::error::ConversionError;
+        fn try_from(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<&::std::string::String> for GetDelegationForEndUserAccountProjectId {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: &::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<::std::string::String> for GetDelegationForEndUserAccountProjectId {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: ::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl<'de> ::serde::Deserialize<'de> for GetDelegationForEndUserAccountProjectId {
+        fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+        where
+            D: ::serde::Deserializer<'de>,
+        {
+            ::std::string::String::deserialize(deserializer)?
+                .parse()
+                .map_err(|e: self::error::ConversionError| {
+                    <D::Error as ::serde::de::Error>::custom(e.to_string())
+                })
+        }
+    }
+    ///`GetDelegationForEndUserAccountResponse`
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "type": "object",
+    ///  "required": [
+    ///    "expiresAt"
+    ///  ],
+    ///  "properties": {
+    ///    "expiresAt": {
+    ///      "description": "The date until which the delegation is valid.",
+    ///      "examples": [
+    ///        "2026-02-03T10:35:00Z"
+    ///      ],
+    ///      "type": "string",
+    ///      "format": "date-time"
+    ///    }
+    ///  }
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct GetDelegationForEndUserAccountResponse {
+        ///The date until which the delegation is valid.
+        #[serde(rename = "expiresAt")]
+        pub expires_at: ::chrono::DateTime<::chrono::offset::Utc>,
+    }
+    impl ::std::convert::From<&GetDelegationForEndUserAccountResponse>
+        for GetDelegationForEndUserAccountResponse
+    {
+        fn from(value: &GetDelegationForEndUserAccountResponse) -> Self {
+            value.clone()
+        }
+    }
+    impl GetDelegationForEndUserAccountResponse {
+        pub fn builder() -> builder::GetDelegationForEndUserAccountResponse {
+            Default::default()
+        }
+    }
+    ///`GetDelegationForEndUserAccountUserId`
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "examples": [
+    ///    "e051beeb-7163-4527-a5b6-35e301529ff2"
+    ///  ],
+    ///  "type": "string",
+    ///  "pattern": "^[a-zA-Z0-9-]{1,100}$"
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Serialize, Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
+    #[serde(transparent)]
+    pub struct GetDelegationForEndUserAccountUserId(::std::string::String);
+    impl ::std::ops::Deref for GetDelegationForEndUserAccountUserId {
+        type Target = ::std::string::String;
+        fn deref(&self) -> &::std::string::String {
+            &self.0
+        }
+    }
+    impl ::std::convert::From<GetDelegationForEndUserAccountUserId> for ::std::string::String {
+        fn from(value: GetDelegationForEndUserAccountUserId) -> Self {
+            value.0
+        }
+    }
+    impl ::std::convert::From<&GetDelegationForEndUserAccountUserId>
+        for GetDelegationForEndUserAccountUserId
+    {
+        fn from(value: &GetDelegationForEndUserAccountUserId) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::str::FromStr for GetDelegationForEndUserAccountUserId {
+        type Err = self::error::ConversionError;
+        fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            static PATTERN: ::std::sync::LazyLock<::regress::Regex> =
+                ::std::sync::LazyLock::new(|| {
+                    ::regress::Regex::new("^[a-zA-Z0-9-]{1,100}$").unwrap()
+                });
+            if PATTERN.find(value).is_none() {
+                return Err("doesn't match pattern \"^[a-zA-Z0-9-]{1,100}$\"".into());
+            }
+            Ok(Self(value.to_string()))
+        }
+    }
+    impl ::std::convert::TryFrom<&str> for GetDelegationForEndUserAccountUserId {
+        type Error = self::error::ConversionError;
+        fn try_from(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<&::std::string::String> for GetDelegationForEndUserAccountUserId {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: &::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<::std::string::String> for GetDelegationForEndUserAccountUserId {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: ::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl<'de> ::serde::Deserialize<'de> for GetDelegationForEndUserAccountUserId {
+        fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+        where
+            D: ::serde::Deserializer<'de>,
+        {
+            ::std::string::String::deserialize(deserializer)?
+                .parse()
+                .map_err(|e: self::error::ConversionError| {
+                    <D::Error as ::serde::de::Error>::custom(e.to_string())
+                })
+        }
+    }
     ///`GetDelegationForEndUserProjectId`
     ///
     /// <details><summary>JSON schema</summary>
@@ -22780,6 +24123,121 @@ pub mod types {
             value.parse()
         }
     }
+    ///`LookupEndUserPhoneNumber`
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "type": "string",
+    ///  "pattern": "^\\+[1-9]\\d{1,14}$"
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Serialize, Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
+    #[serde(transparent)]
+    pub struct LookupEndUserPhoneNumber(::std::string::String);
+    impl ::std::ops::Deref for LookupEndUserPhoneNumber {
+        type Target = ::std::string::String;
+        fn deref(&self) -> &::std::string::String {
+            &self.0
+        }
+    }
+    impl ::std::convert::From<LookupEndUserPhoneNumber> for ::std::string::String {
+        fn from(value: LookupEndUserPhoneNumber) -> Self {
+            value.0
+        }
+    }
+    impl ::std::convert::From<&LookupEndUserPhoneNumber> for LookupEndUserPhoneNumber {
+        fn from(value: &LookupEndUserPhoneNumber) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::str::FromStr for LookupEndUserPhoneNumber {
+        type Err = self::error::ConversionError;
+        fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            static PATTERN: ::std::sync::LazyLock<::regress::Regex> =
+                ::std::sync::LazyLock::new(|| {
+                    ::regress::Regex::new("^\\+[1-9]\\d{1,14}$").unwrap()
+                });
+            if PATTERN.find(value).is_none() {
+                return Err("doesn't match pattern \"^\\+[1-9]\\d{1,14}$\"".into());
+            }
+            Ok(Self(value.to_string()))
+        }
+    }
+    impl ::std::convert::TryFrom<&str> for LookupEndUserPhoneNumber {
+        type Error = self::error::ConversionError;
+        fn try_from(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<&::std::string::String> for LookupEndUserPhoneNumber {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: &::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<::std::string::String> for LookupEndUserPhoneNumber {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: ::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl<'de> ::serde::Deserialize<'de> for LookupEndUserPhoneNumber {
+        fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+        where
+            D: ::serde::Deserializer<'de>,
+        {
+            ::std::string::String::deserialize(deserializer)?
+                .parse()
+                .map_err(|e: self::error::ConversionError| {
+                    <D::Error as ::serde::de::Error>::custom(e.to_string())
+                })
+        }
+    }
+    ///`LookupEndUserResponse`
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "type": "object",
+    ///  "required": [
+    ///    "endUsers"
+    ///  ],
+    ///  "properties": {
+    ///    "endUsers": {
+    ///      "description": "The list of end users matching the lookup.",
+    ///      "type": "array",
+    ///      "items": {
+    ///        "$ref": "#/components/schemas/EndUser"
+    ///      }
+    ///    }
+    ///  }
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct LookupEndUserResponse {
+        ///The list of end users matching the lookup.
+        #[serde(rename = "endUsers")]
+        pub end_users: ::std::vec::Vec<EndUser>,
+    }
+    impl ::std::convert::From<&LookupEndUserResponse> for LookupEndUserResponse {
+        fn from(value: &LookupEndUserResponse) -> Self {
+            value.clone()
+        }
+    }
+    impl LookupEndUserResponse {
+        pub fn builder() -> builder::LookupEndUserResponse {
+            Default::default()
+        }
+    }
     ///Optional metadata as key-value pairs. Use this to store additional structured information on a resource, such as customer IDs, order references, or any application-specific data. Up to 10 key/value pairs may be provided. Keys and values are both strings. Keys must be ≤ 40 characters; values must be ≤ 500 characters.
     ///
     /// <details><summary>JSON schema</summary>
@@ -24912,6 +26370,143 @@ pub mod types {
             value: ::std::string::String,
         ) -> ::std::result::Result<Self, self::error::ConversionError> {
             value.parse()
+        }
+    }
+    ///Populate the properties that correspond to the `fields` array from the user's `OnrampLimitUpgradeOption`.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "Populate the properties that correspond to the `fields` array from the user's `OnrampLimitUpgradeOption`.",
+    ///  "examples": [
+    ///    {
+    ///      "dateOfBirth": {
+    ///        "day": "15",
+    ///        "month": "08",
+    ///        "year": "1990"
+    ///      },
+    ///      "ssnLast4": "5678"
+    ///    }
+    ///  ],
+    ///  "type": "object",
+    ///  "properties": {
+    ///    "dateOfBirth": {
+    ///      "description": "Date of birth.",
+    ///      "allOf": [
+    ///        {
+    ///          "$ref": "#/components/schemas/DateOfBirth"
+    ///        }
+    ///      ]
+    ///    },
+    ///    "ssnLast4": {
+    ///      "description": "Last 4 digits of the Social Security Number (no dashes or spaces).",
+    ///      "examples": [
+    ///        "5678"
+    ///      ],
+    ///      "type": "string"
+    ///    }
+    ///  }
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct OnrampLimitUpgradeIdentityFields {
+        ///Date of birth.
+        #[serde(
+            rename = "dateOfBirth",
+            default,
+            skip_serializing_if = "::std::option::Option::is_none"
+        )]
+        pub date_of_birth: ::std::option::Option<DateOfBirth>,
+        ///Last 4 digits of the Social Security Number (no dashes or spaces).
+        #[serde(
+            rename = "ssnLast4",
+            default,
+            skip_serializing_if = "::std::option::Option::is_none"
+        )]
+        pub ssn_last4: ::std::option::Option<::std::string::String>,
+    }
+    impl ::std::convert::From<&OnrampLimitUpgradeIdentityFields> for OnrampLimitUpgradeIdentityFields {
+        fn from(value: &OnrampLimitUpgradeIdentityFields) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::default::Default for OnrampLimitUpgradeIdentityFields {
+        fn default() -> Self {
+            Self {
+                date_of_birth: Default::default(),
+                ssn_last4: Default::default(),
+            }
+        }
+    }
+    impl OnrampLimitUpgradeIdentityFields {
+        pub fn builder() -> builder::OnrampLimitUpgradeIdentityFields {
+            Default::default()
+        }
+    }
+    ///Request to request a limits upgrade for a user.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "Request to request a limits upgrade for a user.",
+    ///  "examples": [
+    ///    {
+    ///      "fields": {
+    ///        "dateOfBirth": {
+    ///          "day": "15",
+    ///          "month": "08",
+    ///          "year": "1990"
+    ///        },
+    ///        "ssnLast4": "5678"
+    ///      },
+    ///      "userId": "+12055555555",
+    ///      "userIdType": "phone_number"
+    ///    }
+    ///  ],
+    ///  "type": "object",
+    ///  "required": [
+    ///    "fields",
+    ///    "userId",
+    ///    "userIdType"
+    ///  ],
+    ///  "properties": {
+    ///    "fields": {
+    ///      "$ref": "#/components/schemas/OnrampLimitUpgradeIdentityFields"
+    ///    },
+    ///    "userId": {
+    ///      "description": "The user identifier value. For `phone_number` type, this must be in E.164 format.",
+    ///      "examples": [
+    ///        "+12055555555"
+    ///      ],
+    ///      "type": "string"
+    ///    },
+    ///    "userIdType": {
+    ///      "$ref": "#/components/schemas/OnrampUserIdType"
+    ///    }
+    ///  }
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct OnrampLimitUpgradeRequest {
+        pub fields: OnrampLimitUpgradeIdentityFields,
+        ///The user identifier value. For `phone_number` type, this must be in E.164 format.
+        #[serde(rename = "userId")]
+        pub user_id: ::std::string::String,
+        #[serde(rename = "userIdType")]
+        pub user_id_type: OnrampUserIdType,
+    }
+    impl ::std::convert::From<&OnrampLimitUpgradeRequest> for OnrampLimitUpgradeRequest {
+        fn from(value: &OnrampLimitUpgradeRequest) -> Self {
+            value.clone()
+        }
+    }
+    impl OnrampLimitUpgradeRequest {
+        pub fn builder() -> builder::OnrampLimitUpgradeRequest {
+            Default::default()
         }
     }
     ///An Onramp order.
@@ -28210,6 +29805,402 @@ pub mod types {
             Default::default()
         }
     }
+    ///`RevokeDelegationForEndUserAccountBody`
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "type": "object",
+    ///  "properties": {
+    ///    "walletSecretId": {
+    ///      "description": "When revoking with a wallet authentication scheme, the ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header.",
+    ///      "examples": [
+    ///        "e051beeb-7163-4527-a5b6-35e301529ff2"
+    ///      ],
+    ///      "type": "string",
+    ///      "pattern": "^[a-zA-Z0-9-]{1,100}$"
+    ///    }
+    ///  }
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct RevokeDelegationForEndUserAccountBody {
+        ///When revoking with a wallet authentication scheme, the ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header.
+        #[serde(
+            rename = "walletSecretId",
+            default,
+            skip_serializing_if = "::std::option::Option::is_none"
+        )]
+        pub wallet_secret_id:
+            ::std::option::Option<RevokeDelegationForEndUserAccountBodyWalletSecretId>,
+    }
+    impl ::std::convert::From<&RevokeDelegationForEndUserAccountBody>
+        for RevokeDelegationForEndUserAccountBody
+    {
+        fn from(value: &RevokeDelegationForEndUserAccountBody) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::default::Default for RevokeDelegationForEndUserAccountBody {
+        fn default() -> Self {
+            Self {
+                wallet_secret_id: Default::default(),
+            }
+        }
+    }
+    impl RevokeDelegationForEndUserAccountBody {
+        pub fn builder() -> builder::RevokeDelegationForEndUserAccountBody {
+            Default::default()
+        }
+    }
+    ///When revoking with a wallet authentication scheme, the ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "When revoking with a wallet authentication scheme, the ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header.",
+    ///  "examples": [
+    ///    "e051beeb-7163-4527-a5b6-35e301529ff2"
+    ///  ],
+    ///  "type": "string",
+    ///  "pattern": "^[a-zA-Z0-9-]{1,100}$"
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Serialize, Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
+    #[serde(transparent)]
+    pub struct RevokeDelegationForEndUserAccountBodyWalletSecretId(::std::string::String);
+    impl ::std::ops::Deref for RevokeDelegationForEndUserAccountBodyWalletSecretId {
+        type Target = ::std::string::String;
+        fn deref(&self) -> &::std::string::String {
+            &self.0
+        }
+    }
+    impl ::std::convert::From<RevokeDelegationForEndUserAccountBodyWalletSecretId>
+        for ::std::string::String
+    {
+        fn from(value: RevokeDelegationForEndUserAccountBodyWalletSecretId) -> Self {
+            value.0
+        }
+    }
+    impl ::std::convert::From<&RevokeDelegationForEndUserAccountBodyWalletSecretId>
+        for RevokeDelegationForEndUserAccountBodyWalletSecretId
+    {
+        fn from(value: &RevokeDelegationForEndUserAccountBodyWalletSecretId) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::str::FromStr for RevokeDelegationForEndUserAccountBodyWalletSecretId {
+        type Err = self::error::ConversionError;
+        fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            static PATTERN: ::std::sync::LazyLock<::regress::Regex> =
+                ::std::sync::LazyLock::new(|| {
+                    ::regress::Regex::new("^[a-zA-Z0-9-]{1,100}$").unwrap()
+                });
+            if PATTERN.find(value).is_none() {
+                return Err("doesn't match pattern \"^[a-zA-Z0-9-]{1,100}$\"".into());
+            }
+            Ok(Self(value.to_string()))
+        }
+    }
+    impl ::std::convert::TryFrom<&str> for RevokeDelegationForEndUserAccountBodyWalletSecretId {
+        type Error = self::error::ConversionError;
+        fn try_from(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<&::std::string::String>
+        for RevokeDelegationForEndUserAccountBodyWalletSecretId
+    {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: &::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<::std::string::String>
+        for RevokeDelegationForEndUserAccountBodyWalletSecretId
+    {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: ::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl<'de> ::serde::Deserialize<'de> for RevokeDelegationForEndUserAccountBodyWalletSecretId {
+        fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+        where
+            D: ::serde::Deserializer<'de>,
+        {
+            ::std::string::String::deserialize(deserializer)?
+                .parse()
+                .map_err(|e: self::error::ConversionError| {
+                    <D::Error as ::serde::de::Error>::custom(e.to_string())
+                })
+        }
+    }
+    ///`RevokeDelegationForEndUserAccountProjectId`
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "examples": [
+    ///    "8e03978e-40d5-43e8-bc93-6894a57f9324"
+    ///  ],
+    ///  "type": "string",
+    ///  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Serialize, Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
+    #[serde(transparent)]
+    pub struct RevokeDelegationForEndUserAccountProjectId(::std::string::String);
+    impl ::std::ops::Deref for RevokeDelegationForEndUserAccountProjectId {
+        type Target = ::std::string::String;
+        fn deref(&self) -> &::std::string::String {
+            &self.0
+        }
+    }
+    impl ::std::convert::From<RevokeDelegationForEndUserAccountProjectId> for ::std::string::String {
+        fn from(value: RevokeDelegationForEndUserAccountProjectId) -> Self {
+            value.0
+        }
+    }
+    impl ::std::convert::From<&RevokeDelegationForEndUserAccountProjectId>
+        for RevokeDelegationForEndUserAccountProjectId
+    {
+        fn from(value: &RevokeDelegationForEndUserAccountProjectId) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::str::FromStr for RevokeDelegationForEndUserAccountProjectId {
+        type Err = self::error::ConversionError;
+        fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            static PATTERN: ::std::sync::LazyLock<::regress::Regex> =
+                ::std::sync::LazyLock::new(|| {
+                    ::regress::Regex::new(
+                        "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+                    )
+                    .unwrap()
+                });
+            if PATTERN.find(value).is_none() {
+                return Err(
+                    "doesn't match pattern \"^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$\""
+                        .into(),
+                );
+            }
+            Ok(Self(value.to_string()))
+        }
+    }
+    impl ::std::convert::TryFrom<&str> for RevokeDelegationForEndUserAccountProjectId {
+        type Error = self::error::ConversionError;
+        fn try_from(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<&::std::string::String>
+        for RevokeDelegationForEndUserAccountProjectId
+    {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: &::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<::std::string::String> for RevokeDelegationForEndUserAccountProjectId {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: ::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl<'de> ::serde::Deserialize<'de> for RevokeDelegationForEndUserAccountProjectId {
+        fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+        where
+            D: ::serde::Deserializer<'de>,
+        {
+            ::std::string::String::deserialize(deserializer)?
+                .parse()
+                .map_err(|e: self::error::ConversionError| {
+                    <D::Error as ::serde::de::Error>::custom(e.to_string())
+                })
+        }
+    }
+    ///`RevokeDelegationForEndUserAccountUserId`
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "examples": [
+    ///    "e051beeb-7163-4527-a5b6-35e301529ff2"
+    ///  ],
+    ///  "type": "string",
+    ///  "pattern": "^[a-zA-Z0-9-]{1,100}$"
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Serialize, Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
+    #[serde(transparent)]
+    pub struct RevokeDelegationForEndUserAccountUserId(::std::string::String);
+    impl ::std::ops::Deref for RevokeDelegationForEndUserAccountUserId {
+        type Target = ::std::string::String;
+        fn deref(&self) -> &::std::string::String {
+            &self.0
+        }
+    }
+    impl ::std::convert::From<RevokeDelegationForEndUserAccountUserId> for ::std::string::String {
+        fn from(value: RevokeDelegationForEndUserAccountUserId) -> Self {
+            value.0
+        }
+    }
+    impl ::std::convert::From<&RevokeDelegationForEndUserAccountUserId>
+        for RevokeDelegationForEndUserAccountUserId
+    {
+        fn from(value: &RevokeDelegationForEndUserAccountUserId) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::str::FromStr for RevokeDelegationForEndUserAccountUserId {
+        type Err = self::error::ConversionError;
+        fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            static PATTERN: ::std::sync::LazyLock<::regress::Regex> =
+                ::std::sync::LazyLock::new(|| {
+                    ::regress::Regex::new("^[a-zA-Z0-9-]{1,100}$").unwrap()
+                });
+            if PATTERN.find(value).is_none() {
+                return Err("doesn't match pattern \"^[a-zA-Z0-9-]{1,100}$\"".into());
+            }
+            Ok(Self(value.to_string()))
+        }
+    }
+    impl ::std::convert::TryFrom<&str> for RevokeDelegationForEndUserAccountUserId {
+        type Error = self::error::ConversionError;
+        fn try_from(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<&::std::string::String> for RevokeDelegationForEndUserAccountUserId {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: &::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<::std::string::String> for RevokeDelegationForEndUserAccountUserId {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: ::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl<'de> ::serde::Deserialize<'de> for RevokeDelegationForEndUserAccountUserId {
+        fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+        where
+            D: ::serde::Deserializer<'de>,
+        {
+            ::std::string::String::deserialize(deserializer)?
+                .parse()
+                .map_err(|e: self::error::ConversionError| {
+                    <D::Error as ::serde::de::Error>::custom(e.to_string())
+                })
+        }
+    }
+    ///`RevokeDelegationForEndUserAccountXIdempotencyKey`
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "type": "string",
+    ///  "maxLength": 128,
+    ///  "minLength": 1
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Serialize, Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
+    #[serde(transparent)]
+    pub struct RevokeDelegationForEndUserAccountXIdempotencyKey(::std::string::String);
+    impl ::std::ops::Deref for RevokeDelegationForEndUserAccountXIdempotencyKey {
+        type Target = ::std::string::String;
+        fn deref(&self) -> &::std::string::String {
+            &self.0
+        }
+    }
+    impl ::std::convert::From<RevokeDelegationForEndUserAccountXIdempotencyKey>
+        for ::std::string::String
+    {
+        fn from(value: RevokeDelegationForEndUserAccountXIdempotencyKey) -> Self {
+            value.0
+        }
+    }
+    impl ::std::convert::From<&RevokeDelegationForEndUserAccountXIdempotencyKey>
+        for RevokeDelegationForEndUserAccountXIdempotencyKey
+    {
+        fn from(value: &RevokeDelegationForEndUserAccountXIdempotencyKey) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::str::FromStr for RevokeDelegationForEndUserAccountXIdempotencyKey {
+        type Err = self::error::ConversionError;
+        fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            if value.chars().count() > 128usize {
+                return Err("longer than 128 characters".into());
+            }
+            if value.chars().count() < 1usize {
+                return Err("shorter than 1 characters".into());
+            }
+            Ok(Self(value.to_string()))
+        }
+    }
+    impl ::std::convert::TryFrom<&str> for RevokeDelegationForEndUserAccountXIdempotencyKey {
+        type Error = self::error::ConversionError;
+        fn try_from(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<&::std::string::String>
+        for RevokeDelegationForEndUserAccountXIdempotencyKey
+    {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: &::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<::std::string::String>
+        for RevokeDelegationForEndUserAccountXIdempotencyKey
+    {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: ::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl<'de> ::serde::Deserialize<'de> for RevokeDelegationForEndUserAccountXIdempotencyKey {
+        fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+        where
+            D: ::serde::Deserializer<'de>,
+        {
+            ::std::string::String::deserialize(deserializer)?
+                .parse()
+                .map_err(|e: self::error::ConversionError| {
+                    <D::Error as ::serde::de::Error>::custom(e.to_string())
+                })
+        }
+    }
     ///`RevokeDelegationForEndUserBody`
     ///
     /// <details><summary>JSON schema</summary>
@@ -28333,6 +30324,94 @@ pub mod types {
         }
     }
     impl<'de> ::serde::Deserialize<'de> for RevokeDelegationForEndUserBodyWalletSecretId {
+        fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+        where
+            D: ::serde::Deserializer<'de>,
+        {
+            ::std::string::String::deserialize(deserializer)?
+                .parse()
+                .map_err(|e: self::error::ConversionError| {
+                    <D::Error as ::serde::de::Error>::custom(e.to_string())
+                })
+        }
+    }
+    ///`RevokeDelegationForEndUserProjectId`
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "examples": [
+    ///    "8e03978e-40d5-43e8-bc93-6894a57f9324"
+    ///  ],
+    ///  "type": "string",
+    ///  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Serialize, Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
+    #[serde(transparent)]
+    pub struct RevokeDelegationForEndUserProjectId(::std::string::String);
+    impl ::std::ops::Deref for RevokeDelegationForEndUserProjectId {
+        type Target = ::std::string::String;
+        fn deref(&self) -> &::std::string::String {
+            &self.0
+        }
+    }
+    impl ::std::convert::From<RevokeDelegationForEndUserProjectId> for ::std::string::String {
+        fn from(value: RevokeDelegationForEndUserProjectId) -> Self {
+            value.0
+        }
+    }
+    impl ::std::convert::From<&RevokeDelegationForEndUserProjectId>
+        for RevokeDelegationForEndUserProjectId
+    {
+        fn from(value: &RevokeDelegationForEndUserProjectId) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::str::FromStr for RevokeDelegationForEndUserProjectId {
+        type Err = self::error::ConversionError;
+        fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            static PATTERN: ::std::sync::LazyLock<::regress::Regex> =
+                ::std::sync::LazyLock::new(|| {
+                    ::regress::Regex::new(
+                        "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+                    )
+                    .unwrap()
+                });
+            if PATTERN.find(value).is_none() {
+                return Err(
+                    "doesn't match pattern \"^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$\""
+                        .into(),
+                );
+            }
+            Ok(Self(value.to_string()))
+        }
+    }
+    impl ::std::convert::TryFrom<&str> for RevokeDelegationForEndUserProjectId {
+        type Error = self::error::ConversionError;
+        fn try_from(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<&::std::string::String> for RevokeDelegationForEndUserProjectId {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: &::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<::std::string::String> for RevokeDelegationForEndUserProjectId {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: ::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl<'de> ::serde::Deserialize<'de> for RevokeDelegationForEndUserProjectId {
         fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
         where
             D: ::serde::Deserializer<'de>,
@@ -28803,6 +30882,15 @@ pub mod types {
     ///    },
     ///    {
     ///      "$ref": "#/components/schemas/SignEndUserSolMessageRule"
+    ///    },
+    ///    {
+    ///      "$ref": "#/components/schemas/SendEndUserEvmAssetRule"
+    ///    },
+    ///    {
+    ///      "$ref": "#/components/schemas/SendEndUserSolAssetRule"
+    ///    },
+    ///    {
+    ///      "$ref": "#/components/schemas/CreateEndUserEvmSwapRule"
     ///    }
     ///  ]
     ///}
@@ -28829,6 +30917,9 @@ pub mod types {
         SignEndUserSolTransactionRule(SignEndUserSolTransactionRule),
         SendEndUserSolTransactionRule(SendEndUserSolTransactionRule),
         SignEndUserSolMessageRule(SignEndUserSolMessageRule),
+        SendEndUserEvmAssetRule(SendEndUserEvmAssetRule),
+        SendEndUserSolAssetRule(SendEndUserSolAssetRule),
+        CreateEndUserEvmSwapRule(CreateEndUserEvmSwapRule),
     }
     impl ::std::convert::From<&Self> for Rule {
         fn from(value: &Rule) -> Self {
@@ -28923,6 +31014,539 @@ pub mod types {
     impl ::std::convert::From<SignEndUserSolMessageRule> for Rule {
         fn from(value: SignEndUserSolMessageRule) -> Self {
             Self::SignEndUserSolMessageRule(value)
+        }
+    }
+    impl ::std::convert::From<SendEndUserEvmAssetRule> for Rule {
+        fn from(value: SendEndUserEvmAssetRule) -> Self {
+            Self::SendEndUserEvmAssetRule(value)
+        }
+    }
+    impl ::std::convert::From<SendEndUserSolAssetRule> for Rule {
+        fn from(value: SendEndUserSolAssetRule) -> Self {
+            Self::SendEndUserSolAssetRule(value)
+        }
+    }
+    impl ::std::convert::From<CreateEndUserEvmSwapRule> for Rule {
+        fn from(value: CreateEndUserEvmSwapRule) -> Self {
+            Self::CreateEndUserEvmSwapRule(value)
+        }
+    }
+    ///`SearchX402ResourcesQuery`
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "examples": [
+    ///    "weather forecast"
+    ///  ],
+    ///  "type": "string",
+    ///  "maxLength": 400
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Serialize, Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
+    #[serde(transparent)]
+    pub struct SearchX402ResourcesQuery(::std::string::String);
+    impl ::std::ops::Deref for SearchX402ResourcesQuery {
+        type Target = ::std::string::String;
+        fn deref(&self) -> &::std::string::String {
+            &self.0
+        }
+    }
+    impl ::std::convert::From<SearchX402ResourcesQuery> for ::std::string::String {
+        fn from(value: SearchX402ResourcesQuery) -> Self {
+            value.0
+        }
+    }
+    impl ::std::convert::From<&SearchX402ResourcesQuery> for SearchX402ResourcesQuery {
+        fn from(value: &SearchX402ResourcesQuery) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::str::FromStr for SearchX402ResourcesQuery {
+        type Err = self::error::ConversionError;
+        fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            if value.chars().count() > 400usize {
+                return Err("longer than 400 characters".into());
+            }
+            Ok(Self(value.to_string()))
+        }
+    }
+    impl ::std::convert::TryFrom<&str> for SearchX402ResourcesQuery {
+        type Error = self::error::ConversionError;
+        fn try_from(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<&::std::string::String> for SearchX402ResourcesQuery {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: &::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<::std::string::String> for SearchX402ResourcesQuery {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: ::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl<'de> ::serde::Deserialize<'de> for SearchX402ResourcesQuery {
+        fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+        where
+            D: ::serde::Deserializer<'de>,
+        {
+            ::std::string::String::deserialize(deserializer)?
+                .parse()
+                .map_err(|e: self::error::ConversionError| {
+                    <D::Error as ::serde::de::Error>::custom(e.to_string())
+                })
+        }
+    }
+    ///`SearchX402ResourcesUrlSubstring`
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "examples": [
+    ///    "api.example.com"
+    ///  ],
+    ///  "type": "string",
+    ///  "maxLength": 2048,
+    ///  "minLength": 3
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Serialize, Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
+    #[serde(transparent)]
+    pub struct SearchX402ResourcesUrlSubstring(::std::string::String);
+    impl ::std::ops::Deref for SearchX402ResourcesUrlSubstring {
+        type Target = ::std::string::String;
+        fn deref(&self) -> &::std::string::String {
+            &self.0
+        }
+    }
+    impl ::std::convert::From<SearchX402ResourcesUrlSubstring> for ::std::string::String {
+        fn from(value: SearchX402ResourcesUrlSubstring) -> Self {
+            value.0
+        }
+    }
+    impl ::std::convert::From<&SearchX402ResourcesUrlSubstring> for SearchX402ResourcesUrlSubstring {
+        fn from(value: &SearchX402ResourcesUrlSubstring) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::str::FromStr for SearchX402ResourcesUrlSubstring {
+        type Err = self::error::ConversionError;
+        fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            if value.chars().count() > 2048usize {
+                return Err("longer than 2048 characters".into());
+            }
+            if value.chars().count() < 3usize {
+                return Err("shorter than 3 characters".into());
+            }
+            Ok(Self(value.to_string()))
+        }
+    }
+    impl ::std::convert::TryFrom<&str> for SearchX402ResourcesUrlSubstring {
+        type Error = self::error::ConversionError;
+        fn try_from(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<&::std::string::String> for SearchX402ResourcesUrlSubstring {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: &::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<::std::string::String> for SearchX402ResourcesUrlSubstring {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: ::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl<'de> ::serde::Deserialize<'de> for SearchX402ResourcesUrlSubstring {
+        fn deserialize<D>(deserializer: D) -> ::std::result::Result<Self, D::Error>
+        where
+            D: ::serde::Deserializer<'de>,
+        {
+            ::std::string::String::deserialize(deserializer)?
+                .parse()
+                .map_err(|e: self::error::ConversionError| {
+                    <D::Error as ::serde::de::Error>::custom(e.to_string())
+                })
+        }
+    }
+    ///A schema for specifying criteria for the sendEndUserEvmAsset operation.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "A schema for specifying criteria for the sendEndUserEvmAsset operation.",
+    ///  "examples": [
+    ///    [
+    ///      {
+    ///        "ethValue": "1000000",
+    ///        "operator": ">=",
+    ///        "type": "ethValue"
+    ///      },
+    ///      {
+    ///        "addresses": [
+    ///          "0x742d35Cc6634C0532925a3b844Bc454e4438f44e"
+    ///        ],
+    ///        "operator": "in",
+    ///        "type": "evmAddress"
+    ///      },
+    ///      {
+    ///        "networks": [
+    ///          "base",
+    ///          "ethereum"
+    ///        ],
+    ///        "operator": "in",
+    ///        "type": "evmNetwork"
+    ///      },
+    ///      {
+    ///        "abi": "erc20",
+    ///        "conditions": [
+    ///          {
+    ///            "function": "transfer",
+    ///            "params": [
+    ///              {
+    ///                "name": "value",
+    ///                "operator": "<=",
+    ///                "value": "10000"
+    ///              }
+    ///            ]
+    ///          }
+    ///        ],
+    ///        "type": "evmData"
+    ///      },
+    ///      {
+    ///        "changeCents": 10000,
+    ///        "operator": "<=",
+    ///        "type": "netUSDChange"
+    ///      }
+    ///    ]
+    ///  ],
+    ///  "type": "array",
+    ///  "items": {
+    ///    "oneOf": [
+    ///      {
+    ///        "$ref": "#/components/schemas/EvmNetworkCriterion"
+    ///      },
+    ///      {
+    ///        "$ref": "#/components/schemas/EvmDataCriterion"
+    ///      },
+    ///      {
+    ///        "$ref": "#/components/schemas/NetUSDChangeCriterion"
+    ///      }
+    ///    ]
+    ///  },
+    ///  "x-audience": "public"
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    #[serde(transparent)]
+    pub struct SendEndUserEvmAssetCriteria(pub ::std::vec::Vec<SendEndUserEvmAssetCriteriaItem>);
+    impl ::std::ops::Deref for SendEndUserEvmAssetCriteria {
+        type Target = ::std::vec::Vec<SendEndUserEvmAssetCriteriaItem>;
+        fn deref(&self) -> &::std::vec::Vec<SendEndUserEvmAssetCriteriaItem> {
+            &self.0
+        }
+    }
+    impl ::std::convert::From<SendEndUserEvmAssetCriteria>
+        for ::std::vec::Vec<SendEndUserEvmAssetCriteriaItem>
+    {
+        fn from(value: SendEndUserEvmAssetCriteria) -> Self {
+            value.0
+        }
+    }
+    impl ::std::convert::From<&SendEndUserEvmAssetCriteria> for SendEndUserEvmAssetCriteria {
+        fn from(value: &SendEndUserEvmAssetCriteria) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::convert::From<::std::vec::Vec<SendEndUserEvmAssetCriteriaItem>>
+        for SendEndUserEvmAssetCriteria
+    {
+        fn from(value: ::std::vec::Vec<SendEndUserEvmAssetCriteriaItem>) -> Self {
+            Self(value)
+        }
+    }
+    ///`SendEndUserEvmAssetCriteriaItem`
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "oneOf": [
+    ///    {
+    ///      "$ref": "#/components/schemas/EvmNetworkCriterion"
+    ///    },
+    ///    {
+    ///      "$ref": "#/components/schemas/EvmDataCriterion"
+    ///    },
+    ///    {
+    ///      "$ref": "#/components/schemas/NetUSDChangeCriterion"
+    ///    }
+    ///  ]
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    #[serde(untagged)]
+    pub enum SendEndUserEvmAssetCriteriaItem {
+        EvmNetworkCriterion(EvmNetworkCriterion),
+        EvmDataCriterion(EvmDataCriterion),
+        NetUsdChangeCriterion(NetUsdChangeCriterion),
+    }
+    impl ::std::convert::From<&Self> for SendEndUserEvmAssetCriteriaItem {
+        fn from(value: &SendEndUserEvmAssetCriteriaItem) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::convert::From<EvmNetworkCriterion> for SendEndUserEvmAssetCriteriaItem {
+        fn from(value: EvmNetworkCriterion) -> Self {
+            Self::EvmNetworkCriterion(value)
+        }
+    }
+    impl ::std::convert::From<EvmDataCriterion> for SendEndUserEvmAssetCriteriaItem {
+        fn from(value: EvmDataCriterion) -> Self {
+            Self::EvmDataCriterion(value)
+        }
+    }
+    impl ::std::convert::From<NetUsdChangeCriterion> for SendEndUserEvmAssetCriteriaItem {
+        fn from(value: NetUsdChangeCriterion) -> Self {
+            Self::NetUsdChangeCriterion(value)
+        }
+    }
+    ///`SendEndUserEvmAssetRule`
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "title": "SendEndUserEvmAssetRule",
+    ///  "required": [
+    ///    "action",
+    ///    "criteria",
+    ///    "operation"
+    ///  ],
+    ///  "properties": {
+    ///    "action": {
+    ///      "description": "Whether matching the rule will cause the request to be rejected or accepted.",
+    ///      "examples": [
+    ///        "accept"
+    ///      ],
+    ///      "type": "string",
+    ///      "enum": [
+    ///        "reject",
+    ///        "accept"
+    ///      ]
+    ///    },
+    ///    "criteria": {
+    ///      "$ref": "#/components/schemas/SendEndUserEvmAssetCriteria"
+    ///    },
+    ///    "operation": {
+    ///      "description": "The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.",
+    ///      "examples": [
+    ///        "sendEndUserEvmAsset"
+    ///      ],
+    ///      "type": "string",
+    ///      "enum": [
+    ///        "sendEndUserEvmAsset"
+    ///      ]
+    ///    }
+    ///  },
+    ///  "x-audience": "public"
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct SendEndUserEvmAssetRule {
+        ///Whether matching the rule will cause the request to be rejected or accepted.
+        pub action: SendEndUserEvmAssetRuleAction,
+        pub criteria: SendEndUserEvmAssetCriteria,
+        ///The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
+        pub operation: SendEndUserEvmAssetRuleOperation,
+    }
+    impl ::std::convert::From<&SendEndUserEvmAssetRule> for SendEndUserEvmAssetRule {
+        fn from(value: &SendEndUserEvmAssetRule) -> Self {
+            value.clone()
+        }
+    }
+    impl SendEndUserEvmAssetRule {
+        pub fn builder() -> builder::SendEndUserEvmAssetRule {
+            Default::default()
+        }
+    }
+    ///Whether matching the rule will cause the request to be rejected or accepted.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "Whether matching the rule will cause the request to be rejected or accepted.",
+    ///  "examples": [
+    ///    "accept"
+    ///  ],
+    ///  "type": "string",
+    ///  "enum": [
+    ///    "reject",
+    ///    "accept"
+    ///  ]
+    ///}
+    /// ```
+    /// </details>
+    #[derive(
+        ::serde::Deserialize,
+        ::serde::Serialize,
+        Clone,
+        Copy,
+        Debug,
+        Eq,
+        Hash,
+        Ord,
+        PartialEq,
+        PartialOrd,
+    )]
+    pub enum SendEndUserEvmAssetRuleAction {
+        #[serde(rename = "reject")]
+        Reject,
+        #[serde(rename = "accept")]
+        Accept,
+    }
+    impl ::std::convert::From<&Self> for SendEndUserEvmAssetRuleAction {
+        fn from(value: &SendEndUserEvmAssetRuleAction) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::fmt::Display for SendEndUserEvmAssetRuleAction {
+        fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+            match *self {
+                Self::Reject => f.write_str("reject"),
+                Self::Accept => f.write_str("accept"),
+            }
+        }
+    }
+    impl ::std::str::FromStr for SendEndUserEvmAssetRuleAction {
+        type Err = self::error::ConversionError;
+        fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            match value {
+                "reject" => Ok(Self::Reject),
+                "accept" => Ok(Self::Accept),
+                _ => Err("invalid value".into()),
+            }
+        }
+    }
+    impl ::std::convert::TryFrom<&str> for SendEndUserEvmAssetRuleAction {
+        type Error = self::error::ConversionError;
+        fn try_from(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<&::std::string::String> for SendEndUserEvmAssetRuleAction {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: &::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<::std::string::String> for SendEndUserEvmAssetRuleAction {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: ::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    ///The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.",
+    ///  "examples": [
+    ///    "sendEndUserEvmAsset"
+    ///  ],
+    ///  "type": "string",
+    ///  "enum": [
+    ///    "sendEndUserEvmAsset"
+    ///  ]
+    ///}
+    /// ```
+    /// </details>
+    #[derive(
+        ::serde::Deserialize,
+        ::serde::Serialize,
+        Clone,
+        Copy,
+        Debug,
+        Eq,
+        Hash,
+        Ord,
+        PartialEq,
+        PartialOrd,
+    )]
+    pub enum SendEndUserEvmAssetRuleOperation {
+        #[serde(rename = "sendEndUserEvmAsset")]
+        SendEndUserEvmAsset,
+    }
+    impl ::std::convert::From<&Self> for SendEndUserEvmAssetRuleOperation {
+        fn from(value: &SendEndUserEvmAssetRuleOperation) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::fmt::Display for SendEndUserEvmAssetRuleOperation {
+        fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+            match *self {
+                Self::SendEndUserEvmAsset => f.write_str("sendEndUserEvmAsset"),
+            }
+        }
+    }
+    impl ::std::str::FromStr for SendEndUserEvmAssetRuleOperation {
+        type Err = self::error::ConversionError;
+        fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            match value {
+                "sendEndUserEvmAsset" => Ok(Self::SendEndUserEvmAsset),
+                _ => Err("invalid value".into()),
+            }
+        }
+    }
+    impl ::std::convert::TryFrom<&str> for SendEndUserEvmAssetRuleOperation {
+        type Error = self::error::ConversionError;
+        fn try_from(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<&::std::string::String> for SendEndUserEvmAssetRuleOperation {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: &::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<::std::string::String> for SendEndUserEvmAssetRuleOperation {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: ::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
         }
     }
     ///A schema for specifying criteria for the sendEndUserEvmTransaction operation.
@@ -29308,6 +31932,377 @@ pub mod types {
         }
     }
     impl ::std::convert::TryFrom<::std::string::String> for SendEndUserEvmTransactionRuleOperation {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: ::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    ///A schema for specifying criteria for the sendEndUserSolAsset operation.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "A schema for specifying criteria for the sendEndUserSolAsset operation.",
+    ///  "examples": [
+    ///    [
+    ///      {
+    ///        "addresses": [
+    ///          "HpabPRRCFbBKSuJr5PdkVvQc85FyxyTWkFM2obBRSvHT"
+    ///        ],
+    ///        "operator": "in",
+    ///        "type": "splAddress"
+    ///      },
+    ///      {
+    ///        "operator": "<=",
+    ///        "splValue": "1000000000000000000",
+    ///        "type": "splValue"
+    ///      },
+    ///      {
+    ///        "conditions": [
+    ///          {
+    ///            "instruction": "transfer_checked",
+    ///            "params": [
+    ///              {
+    ///                "name": "lamports",
+    ///                "operator": "<=",
+    ///                "value": "1000000"
+    ///              }
+    ///            ]
+    ///          }
+    ///        ],
+    ///        "idls": [
+    ///          "SystemProgram"
+    ///        ],
+    ///        "type": "solData"
+    ///      },
+    ///      {
+    ///        "networks": [
+    ///          "solana-devnet",
+    ///          "solana"
+    ///        ],
+    ///        "operator": "in",
+    ///        "type": "solNetwork"
+    ///      }
+    ///    ]
+    ///  ],
+    ///  "type": "array",
+    ///  "items": {
+    ///    "oneOf": [
+    ///      {
+    ///        "$ref": "#/components/schemas/SplAddressCriterion"
+    ///      },
+    ///      {
+    ///        "$ref": "#/components/schemas/SplValueCriterion"
+    ///      },
+    ///      {
+    ///        "$ref": "#/components/schemas/SolDataCriterion"
+    ///      },
+    ///      {
+    ///        "$ref": "#/components/schemas/SolNetworkCriterion"
+    ///      }
+    ///    ]
+    ///  },
+    ///  "x-audience": "public"
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    #[serde(transparent)]
+    pub struct SendEndUserSolAssetCriteria(pub ::std::vec::Vec<SendEndUserSolAssetCriteriaItem>);
+    impl ::std::ops::Deref for SendEndUserSolAssetCriteria {
+        type Target = ::std::vec::Vec<SendEndUserSolAssetCriteriaItem>;
+        fn deref(&self) -> &::std::vec::Vec<SendEndUserSolAssetCriteriaItem> {
+            &self.0
+        }
+    }
+    impl ::std::convert::From<SendEndUserSolAssetCriteria>
+        for ::std::vec::Vec<SendEndUserSolAssetCriteriaItem>
+    {
+        fn from(value: SendEndUserSolAssetCriteria) -> Self {
+            value.0
+        }
+    }
+    impl ::std::convert::From<&SendEndUserSolAssetCriteria> for SendEndUserSolAssetCriteria {
+        fn from(value: &SendEndUserSolAssetCriteria) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::convert::From<::std::vec::Vec<SendEndUserSolAssetCriteriaItem>>
+        for SendEndUserSolAssetCriteria
+    {
+        fn from(value: ::std::vec::Vec<SendEndUserSolAssetCriteriaItem>) -> Self {
+            Self(value)
+        }
+    }
+    ///`SendEndUserSolAssetCriteriaItem`
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "oneOf": [
+    ///    {
+    ///      "$ref": "#/components/schemas/SplAddressCriterion"
+    ///    },
+    ///    {
+    ///      "$ref": "#/components/schemas/SplValueCriterion"
+    ///    },
+    ///    {
+    ///      "$ref": "#/components/schemas/SolDataCriterion"
+    ///    },
+    ///    {
+    ///      "$ref": "#/components/schemas/SolNetworkCriterion"
+    ///    }
+    ///  ]
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    #[serde(untagged)]
+    pub enum SendEndUserSolAssetCriteriaItem {
+        SplAddressCriterion(SplAddressCriterion),
+        SplValueCriterion(SplValueCriterion),
+        SolDataCriterion(SolDataCriterion),
+        SolNetworkCriterion(SolNetworkCriterion),
+    }
+    impl ::std::convert::From<&Self> for SendEndUserSolAssetCriteriaItem {
+        fn from(value: &SendEndUserSolAssetCriteriaItem) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::convert::From<SplAddressCriterion> for SendEndUserSolAssetCriteriaItem {
+        fn from(value: SplAddressCriterion) -> Self {
+            Self::SplAddressCriterion(value)
+        }
+    }
+    impl ::std::convert::From<SplValueCriterion> for SendEndUserSolAssetCriteriaItem {
+        fn from(value: SplValueCriterion) -> Self {
+            Self::SplValueCriterion(value)
+        }
+    }
+    impl ::std::convert::From<SolDataCriterion> for SendEndUserSolAssetCriteriaItem {
+        fn from(value: SolDataCriterion) -> Self {
+            Self::SolDataCriterion(value)
+        }
+    }
+    impl ::std::convert::From<SolNetworkCriterion> for SendEndUserSolAssetCriteriaItem {
+        fn from(value: SolNetworkCriterion) -> Self {
+            Self::SolNetworkCriterion(value)
+        }
+    }
+    ///`SendEndUserSolAssetRule`
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "title": "SendEndUserSolAssetRule",
+    ///  "required": [
+    ///    "action",
+    ///    "criteria",
+    ///    "operation"
+    ///  ],
+    ///  "properties": {
+    ///    "action": {
+    ///      "description": "Whether matching the rule will cause the request to be rejected or accepted.",
+    ///      "examples": [
+    ///        "accept"
+    ///      ],
+    ///      "type": "string",
+    ///      "enum": [
+    ///        "reject",
+    ///        "accept"
+    ///      ]
+    ///    },
+    ///    "criteria": {
+    ///      "$ref": "#/components/schemas/SendEndUserSolAssetCriteria"
+    ///    },
+    ///    "operation": {
+    ///      "description": "The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.",
+    ///      "examples": [
+    ///        "sendEndUserSolAsset"
+    ///      ],
+    ///      "type": "string",
+    ///      "enum": [
+    ///        "sendEndUserSolAsset"
+    ///      ]
+    ///    }
+    ///  },
+    ///  "x-audience": "public"
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct SendEndUserSolAssetRule {
+        ///Whether matching the rule will cause the request to be rejected or accepted.
+        pub action: SendEndUserSolAssetRuleAction,
+        pub criteria: SendEndUserSolAssetCriteria,
+        ///The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
+        pub operation: SendEndUserSolAssetRuleOperation,
+    }
+    impl ::std::convert::From<&SendEndUserSolAssetRule> for SendEndUserSolAssetRule {
+        fn from(value: &SendEndUserSolAssetRule) -> Self {
+            value.clone()
+        }
+    }
+    impl SendEndUserSolAssetRule {
+        pub fn builder() -> builder::SendEndUserSolAssetRule {
+            Default::default()
+        }
+    }
+    ///Whether matching the rule will cause the request to be rejected or accepted.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "Whether matching the rule will cause the request to be rejected or accepted.",
+    ///  "examples": [
+    ///    "accept"
+    ///  ],
+    ///  "type": "string",
+    ///  "enum": [
+    ///    "reject",
+    ///    "accept"
+    ///  ]
+    ///}
+    /// ```
+    /// </details>
+    #[derive(
+        ::serde::Deserialize,
+        ::serde::Serialize,
+        Clone,
+        Copy,
+        Debug,
+        Eq,
+        Hash,
+        Ord,
+        PartialEq,
+        PartialOrd,
+    )]
+    pub enum SendEndUserSolAssetRuleAction {
+        #[serde(rename = "reject")]
+        Reject,
+        #[serde(rename = "accept")]
+        Accept,
+    }
+    impl ::std::convert::From<&Self> for SendEndUserSolAssetRuleAction {
+        fn from(value: &SendEndUserSolAssetRuleAction) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::fmt::Display for SendEndUserSolAssetRuleAction {
+        fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+            match *self {
+                Self::Reject => f.write_str("reject"),
+                Self::Accept => f.write_str("accept"),
+            }
+        }
+    }
+    impl ::std::str::FromStr for SendEndUserSolAssetRuleAction {
+        type Err = self::error::ConversionError;
+        fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            match value {
+                "reject" => Ok(Self::Reject),
+                "accept" => Ok(Self::Accept),
+                _ => Err("invalid value".into()),
+            }
+        }
+    }
+    impl ::std::convert::TryFrom<&str> for SendEndUserSolAssetRuleAction {
+        type Error = self::error::ConversionError;
+        fn try_from(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<&::std::string::String> for SendEndUserSolAssetRuleAction {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: &::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<::std::string::String> for SendEndUserSolAssetRuleAction {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: ::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    ///The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "The operation to which the rule applies. Every element of the `criteria` array must match the specified operation.",
+    ///  "examples": [
+    ///    "sendEndUserSolAsset"
+    ///  ],
+    ///  "type": "string",
+    ///  "enum": [
+    ///    "sendEndUserSolAsset"
+    ///  ]
+    ///}
+    /// ```
+    /// </details>
+    #[derive(
+        ::serde::Deserialize,
+        ::serde::Serialize,
+        Clone,
+        Copy,
+        Debug,
+        Eq,
+        Hash,
+        Ord,
+        PartialEq,
+        PartialOrd,
+    )]
+    pub enum SendEndUserSolAssetRuleOperation {
+        #[serde(rename = "sendEndUserSolAsset")]
+        SendEndUserSolAsset,
+    }
+    impl ::std::convert::From<&Self> for SendEndUserSolAssetRuleOperation {
+        fn from(value: &SendEndUserSolAssetRuleOperation) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::fmt::Display for SendEndUserSolAssetRuleOperation {
+        fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+            match *self {
+                Self::SendEndUserSolAsset => f.write_str("sendEndUserSolAsset"),
+            }
+        }
+    }
+    impl ::std::str::FromStr for SendEndUserSolAssetRuleOperation {
+        type Err = self::error::ConversionError;
+        fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            match value {
+                "sendEndUserSolAsset" => Ok(Self::SendEndUserSolAsset),
+                _ => Err("invalid value".into()),
+            }
+        }
+    }
+    impl ::std::convert::TryFrom<&str> for SendEndUserSolAssetRuleOperation {
+        type Error = self::error::ConversionError;
+        fn try_from(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<&::std::string::String> for SendEndUserSolAssetRuleOperation {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: &::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<::std::string::String> for SendEndUserSolAssetRuleOperation {
         type Error = self::error::ConversionError;
         fn try_from(
             value: ::std::string::String,
@@ -52010,6 +55005,573 @@ pub mod types {
             Default::default()
         }
     }
+    ///Response containing x402 resources associated with a merchant payment address.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "Response containing x402 resources associated with a merchant payment address.",
+    ///  "type": "object",
+    ///  "required": [
+    ///    "pagination",
+    ///    "payTo",
+    ///    "resources",
+    ///    "x402Version"
+    ///  ],
+    ///  "properties": {
+    ///    "pagination": {
+    ///      "description": "Pagination information for the response.",
+    ///      "examples": [
+    ///        {
+    ///          "limit": 20,
+    ///          "offset": 0,
+    ///          "total": 10
+    ///        }
+    ///      ],
+    ///      "type": "object",
+    ///      "properties": {
+    ///        "limit": {
+    ///          "description": "The number of resources returned per page.",
+    ///          "examples": [
+    ///            20
+    ///          ],
+    ///          "type": "integer"
+    ///        },
+    ///        "offset": {
+    ///          "description": "The offset of the first resource returned.",
+    ///          "examples": [
+    ///            0
+    ///          ],
+    ///          "type": "integer"
+    ///        },
+    ///        "total": {
+    ///          "description": "The total number of resources associated with the merchant's payTo address.",
+    ///          "examples": [
+    ///            10
+    ///          ],
+    ///          "type": "integer"
+    ///        }
+    ///      }
+    ///    },
+    ///    "payTo": {
+    ///      "$ref": "#/components/schemas/BlockchainAddress"
+    ///    },
+    ///    "resources": {
+    ///      "description": "List of discovered x402 resources associated with the merchant's payTo address.",
+    ///      "examples": [
+    ///        [
+    ///          {
+    ///            "accepts": [
+    ///              {
+    ///                "amount": "1000000",
+    ///                "asset": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+    ///                "maxTimeoutSeconds": 60,
+    ///                "network": "eip155:8453",
+    ///                "payTo": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+    ///                "scheme": "exact"
+    ///              }
+    ///            ],
+    ///            "description": "Premium API access for data analysis.",
+    ///            "extensions": {
+    ///              "bazaar": {
+    ///                "info": {
+    ///                  "input": {
+    ///                    "method": "POST",
+    ///                    "type": "http"
+    ///                  }
+    ///                },
+    ///                "schema": {}
+    ///              }
+    ///            },
+    ///            "lastUpdated": "2024-01-15T10:30:00Z",
+    ///            "quality": {
+    ///              "l30DaysTotalCalls": 42,
+    ///              "l30DaysUniquePayers": 15,
+    ///              "lastCalledAt": "2024-01-15T10:30:00Z"
+    ///            },
+    ///            "resource": "https://api.example.com/premium/data",
+    ///            "type": "http",
+    ///            "x402Version": 2
+    ///          }
+    ///        ]
+    ///      ],
+    ///      "type": "array",
+    ///      "items": {
+    ///        "$ref": "#/components/schemas/x402DiscoveryResource"
+    ///      }
+    ///    },
+    ///    "x402Version": {
+    ///      "$ref": "#/components/schemas/X402Version"
+    ///    }
+    ///  }
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct X402DiscoveryMerchantResponse {
+        pub pagination: X402DiscoveryMerchantResponsePagination,
+        #[serde(rename = "payTo")]
+        pub pay_to: BlockchainAddress,
+        ///List of discovered x402 resources associated with the merchant's payTo address.
+        pub resources: ::std::vec::Vec<X402DiscoveryResource>,
+        #[serde(rename = "x402Version")]
+        pub x402_version: X402Version,
+    }
+    impl ::std::convert::From<&X402DiscoveryMerchantResponse> for X402DiscoveryMerchantResponse {
+        fn from(value: &X402DiscoveryMerchantResponse) -> Self {
+            value.clone()
+        }
+    }
+    impl X402DiscoveryMerchantResponse {
+        pub fn builder() -> builder::X402DiscoveryMerchantResponse {
+            Default::default()
+        }
+    }
+    ///Pagination information for the response.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "Pagination information for the response.",
+    ///  "examples": [
+    ///    {
+    ///      "limit": 20,
+    ///      "offset": 0,
+    ///      "total": 10
+    ///    }
+    ///  ],
+    ///  "type": "object",
+    ///  "properties": {
+    ///    "limit": {
+    ///      "description": "The number of resources returned per page.",
+    ///      "examples": [
+    ///        20
+    ///      ],
+    ///      "type": "integer"
+    ///    },
+    ///    "offset": {
+    ///      "description": "The offset of the first resource returned.",
+    ///      "examples": [
+    ///        0
+    ///      ],
+    ///      "type": "integer"
+    ///    },
+    ///    "total": {
+    ///      "description": "The total number of resources associated with the merchant's payTo address.",
+    ///      "examples": [
+    ///        10
+    ///      ],
+    ///      "type": "integer"
+    ///    }
+    ///  }
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct X402DiscoveryMerchantResponsePagination {
+        ///The number of resources returned per page.
+        #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+        pub limit: ::std::option::Option<i64>,
+        ///The offset of the first resource returned.
+        #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+        pub offset: ::std::option::Option<i64>,
+        ///The total number of resources associated with the merchant's payTo address.
+        #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+        pub total: ::std::option::Option<i64>,
+    }
+    impl ::std::convert::From<&X402DiscoveryMerchantResponsePagination>
+        for X402DiscoveryMerchantResponsePagination
+    {
+        fn from(value: &X402DiscoveryMerchantResponsePagination) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::default::Default for X402DiscoveryMerchantResponsePagination {
+        fn default() -> Self {
+            Self {
+                limit: Default::default(),
+                offset: Default::default(),
+                total: Default::default(),
+            }
+        }
+    }
+    impl X402DiscoveryMerchantResponsePagination {
+        pub fn builder() -> builder::X402DiscoveryMerchantResponsePagination {
+            Default::default()
+        }
+    }
+    ///A single discovered x402 resource.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "A single discovered x402 resource.",
+    ///  "type": "object",
+    ///  "required": [
+    ///    "resource",
+    ///    "type",
+    ///    "x402Version"
+    ///  ],
+    ///  "properties": {
+    ///    "accepts": {
+    ///      "description": "Payment requirements accepted by the resource.",
+    ///      "examples": [
+    ///        [
+    ///          {
+    ///            "amount": "1000000",
+    ///            "asset": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+    ///            "maxTimeoutSeconds": 60,
+    ///            "network": "eip155:8453",
+    ///            "payTo": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+    ///            "scheme": "exact"
+    ///          }
+    ///        ]
+    ///      ],
+    ///      "type": "array",
+    ///      "items": {
+    ///        "$ref": "#/components/schemas/x402PaymentRequirements"
+    ///      }
+    ///    },
+    ///    "description": {
+    ///      "description": "A human-readable description of the resource.",
+    ///      "examples": [
+    ///        "Real-time weather forecast data"
+    ///      ],
+    ///      "type": "string"
+    ///    },
+    ///    "extensions": {
+    ///      "description": "Map of x402 protocol extensions supported by the resource, keyed by extension name.",
+    ///      "examples": [
+    ///        {
+    ///          "bazaar": {
+    ///            "info": {
+    ///              "input": {
+    ///                "method": "GET",
+    ///                "type": "http"
+    ///              }
+    ///            },
+    ///            "schema": {}
+    ///          }
+    ///        }
+    ///      ],
+    ///      "type": "object",
+    ///      "additionalProperties": true
+    ///    },
+    ///    "lastUpdated": {
+    ///      "description": "Timestamp of the last update.",
+    ///      "examples": [
+    ///        "2024-01-15T10:30:00Z"
+    ///      ],
+    ///      "type": "string",
+    ///      "format": "date-time"
+    ///    },
+    ///    "quality": {
+    ///      "$ref": "#/components/schemas/x402ResourceQuality"
+    ///    },
+    ///    "resource": {
+    ///      "description": "The URL of the resource.",
+    ///      "examples": [
+    ///        "https://api.example.com/weather/forecast"
+    ///      ],
+    ///      "type": "string"
+    ///    },
+    ///    "type": {
+    ///      "description": "Communication protocol (e.g., \"http\", \"mcp\").",
+    ///      "examples": [
+    ///        "http"
+    ///      ],
+    ///      "type": "string",
+    ///      "enum": [
+    ///        "http",
+    ///        "mcp"
+    ///      ]
+    ///    },
+    ///    "x402Version": {
+    ///      "$ref": "#/components/schemas/X402Version"
+    ///    }
+    ///  }
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct X402DiscoveryResource {
+        ///Payment requirements accepted by the resource.
+        #[serde(default, skip_serializing_if = "::std::vec::Vec::is_empty")]
+        pub accepts: ::std::vec::Vec<X402PaymentRequirements>,
+        ///A human-readable description of the resource.
+        #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+        pub description: ::std::option::Option<::std::string::String>,
+        ///Map of x402 protocol extensions supported by the resource, keyed by extension name.
+        #[serde(default, skip_serializing_if = "::serde_json::Map::is_empty")]
+        pub extensions: ::serde_json::Map<::std::string::String, ::serde_json::Value>,
+        ///Timestamp of the last update.
+        #[serde(
+            rename = "lastUpdated",
+            default,
+            skip_serializing_if = "::std::option::Option::is_none"
+        )]
+        pub last_updated: ::std::option::Option<::chrono::DateTime<::chrono::offset::Utc>>,
+        #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+        pub quality: ::std::option::Option<X402ResourceQuality>,
+        ///The URL of the resource.
+        pub resource: ::std::string::String,
+        ///Communication protocol (e.g., "http", "mcp").
+        #[serde(rename = "type")]
+        pub type_: X402DiscoveryResourceType,
+        #[serde(rename = "x402Version")]
+        pub x402_version: X402Version,
+    }
+    impl ::std::convert::From<&X402DiscoveryResource> for X402DiscoveryResource {
+        fn from(value: &X402DiscoveryResource) -> Self {
+            value.clone()
+        }
+    }
+    impl X402DiscoveryResource {
+        pub fn builder() -> builder::X402DiscoveryResource {
+            Default::default()
+        }
+    }
+    ///Communication protocol (e.g., "http", "mcp").
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "Communication protocol (e.g., \"http\", \"mcp\").",
+    ///  "examples": [
+    ///    "http"
+    ///  ],
+    ///  "type": "string",
+    ///  "enum": [
+    ///    "http",
+    ///    "mcp"
+    ///  ]
+    ///}
+    /// ```
+    /// </details>
+    #[derive(
+        ::serde::Deserialize,
+        ::serde::Serialize,
+        Clone,
+        Copy,
+        Debug,
+        Eq,
+        Hash,
+        Ord,
+        PartialEq,
+        PartialOrd,
+    )]
+    pub enum X402DiscoveryResourceType {
+        #[serde(rename = "http")]
+        Http,
+        #[serde(rename = "mcp")]
+        Mcp,
+    }
+    impl ::std::convert::From<&Self> for X402DiscoveryResourceType {
+        fn from(value: &X402DiscoveryResourceType) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::fmt::Display for X402DiscoveryResourceType {
+        fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+            match *self {
+                Self::Http => f.write_str("http"),
+                Self::Mcp => f.write_str("mcp"),
+            }
+        }
+    }
+    impl ::std::str::FromStr for X402DiscoveryResourceType {
+        type Err = self::error::ConversionError;
+        fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            match value {
+                "http" => Ok(Self::Http),
+                "mcp" => Ok(Self::Mcp),
+                _ => Err("invalid value".into()),
+            }
+        }
+    }
+    impl ::std::convert::TryFrom<&str> for X402DiscoveryResourceType {
+        type Error = self::error::ConversionError;
+        fn try_from(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<&::std::string::String> for X402DiscoveryResourceType {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: &::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<::std::string::String> for X402DiscoveryResourceType {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: ::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    ///Response containing discovered x402 resources.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "Response containing discovered x402 resources.",
+    ///  "type": "object",
+    ///  "required": [
+    ///    "items",
+    ///    "pagination",
+    ///    "x402Version"
+    ///  ],
+    ///  "properties": {
+    ///    "items": {
+    ///      "description": "List of discovered x402 resources.",
+    ///      "examples": [
+    ///        []
+    ///      ],
+    ///      "type": "array",
+    ///      "items": {
+    ///        "$ref": "#/components/schemas/x402DiscoveryResource"
+    ///      }
+    ///    },
+    ///    "pagination": {
+    ///      "description": "Pagination information for the response.",
+    ///      "examples": [
+    ///        {
+    ///          "limit": 100,
+    ///          "offset": 0,
+    ///          "total": 1000
+    ///        }
+    ///      ],
+    ///      "type": "object",
+    ///      "properties": {
+    ///        "limit": {
+    ///          "description": "The number of discovered x402 resources to return per page.",
+    ///          "examples": [
+    ///            100
+    ///          ],
+    ///          "type": "integer"
+    ///        },
+    ///        "offset": {
+    ///          "description": "The offset of the first discovered x402 resource to return.",
+    ///          "examples": [
+    ///            0
+    ///          ],
+    ///          "type": "integer"
+    ///        },
+    ///        "total": {
+    ///          "description": "The total number of discovered x402 resources.",
+    ///          "examples": [
+    ///            1000
+    ///          ],
+    ///          "type": "integer"
+    ///        }
+    ///      }
+    ///    },
+    ///    "x402Version": {
+    ///      "$ref": "#/components/schemas/X402Version"
+    ///    }
+    ///  }
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct X402DiscoveryResourcesResponse {
+        ///List of discovered x402 resources.
+        pub items: ::std::vec::Vec<X402DiscoveryResource>,
+        pub pagination: X402DiscoveryResourcesResponsePagination,
+        #[serde(rename = "x402Version")]
+        pub x402_version: X402Version,
+    }
+    impl ::std::convert::From<&X402DiscoveryResourcesResponse> for X402DiscoveryResourcesResponse {
+        fn from(value: &X402DiscoveryResourcesResponse) -> Self {
+            value.clone()
+        }
+    }
+    impl X402DiscoveryResourcesResponse {
+        pub fn builder() -> builder::X402DiscoveryResourcesResponse {
+            Default::default()
+        }
+    }
+    ///Pagination information for the response.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "Pagination information for the response.",
+    ///  "examples": [
+    ///    {
+    ///      "limit": 100,
+    ///      "offset": 0,
+    ///      "total": 1000
+    ///    }
+    ///  ],
+    ///  "type": "object",
+    ///  "properties": {
+    ///    "limit": {
+    ///      "description": "The number of discovered x402 resources to return per page.",
+    ///      "examples": [
+    ///        100
+    ///      ],
+    ///      "type": "integer"
+    ///    },
+    ///    "offset": {
+    ///      "description": "The offset of the first discovered x402 resource to return.",
+    ///      "examples": [
+    ///        0
+    ///      ],
+    ///      "type": "integer"
+    ///    },
+    ///    "total": {
+    ///      "description": "The total number of discovered x402 resources.",
+    ///      "examples": [
+    ///        1000
+    ///      ],
+    ///      "type": "integer"
+    ///    }
+    ///  }
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct X402DiscoveryResourcesResponsePagination {
+        ///The number of discovered x402 resources to return per page.
+        #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+        pub limit: ::std::option::Option<i64>,
+        ///The offset of the first discovered x402 resource to return.
+        #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+        pub offset: ::std::option::Option<i64>,
+        ///The total number of discovered x402 resources.
+        #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+        pub total: ::std::option::Option<i64>,
+    }
+    impl ::std::convert::From<&X402DiscoveryResourcesResponsePagination>
+        for X402DiscoveryResourcesResponsePagination
+    {
+        fn from(value: &X402DiscoveryResourcesResponsePagination) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::default::Default for X402DiscoveryResourcesResponsePagination {
+        fn default() -> Self {
+            Self {
+                limit: Default::default(),
+                offset: Default::default(),
+                total: Default::default(),
+            }
+        }
+    }
+    impl X402DiscoveryResourcesResponsePagination {
+        pub fn builder() -> builder::X402DiscoveryResourcesResponsePagination {
+            Default::default()
+        }
+    }
     ///The x402 protocol exact scheme payload for EVM networks. The scheme is implemented using ERC-3009. For more details, please see [EVM Exact Scheme Details](https://github.com/coinbase/x402/blob/main/specs/schemes/exact/scheme_exact_evm.md).
     ///
     /// <details><summary>JSON schema</summary>
@@ -53678,6 +57240,472 @@ pub mod types {
             Default::default()
         }
     }
+    ///JSON-RPC 2.0 error object.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "JSON-RPC 2.0 error object.",
+    ///  "examples": [
+    ///    {
+    ///      "code": -32600,
+    ///      "data": {},
+    ///      "message": "Invalid Request"
+    ///    }
+    ///  ],
+    ///  "type": "object",
+    ///  "required": [
+    ///    "code",
+    ///    "message"
+    ///  ],
+    ///  "properties": {
+    ///    "code": {
+    ///      "description": "Error code.",
+    ///      "examples": [
+    ///        -32600
+    ///      ],
+    ///      "type": "integer"
+    ///    },
+    ///    "data": {
+    ///      "description": "Additional error data.",
+    ///      "examples": [
+    ///        {}
+    ///      ],
+    ///      "type": "object",
+    ///      "additionalProperties": true
+    ///    },
+    ///    "message": {
+    ///      "description": "Error message.",
+    ///      "examples": [
+    ///        "Invalid Request"
+    ///      ],
+    ///      "type": "string"
+    ///    }
+    ///  }
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct X402McpError {
+        ///Error code.
+        pub code: i64,
+        ///Additional error data.
+        #[serde(default, skip_serializing_if = "::serde_json::Map::is_empty")]
+        pub data: ::serde_json::Map<::std::string::String, ::serde_json::Value>,
+        ///Error message.
+        pub message: ::std::string::String,
+    }
+    impl ::std::convert::From<&X402McpError> for X402McpError {
+        fn from(value: &X402McpError) -> Self {
+            value.clone()
+        }
+    }
+    impl X402McpError {
+        pub fn builder() -> builder::X402McpError {
+            Default::default()
+        }
+    }
+    ///A JSON-RPC 2.0 request for the Model Context Protocol.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "A JSON-RPC 2.0 request for the Model Context Protocol.",
+    ///  "type": "object",
+    ///  "required": [
+    ///    "jsonrpc",
+    ///    "method"
+    ///  ],
+    ///  "properties": {
+    ///    "id": {
+    ///      "description": "Request identifier.",
+    ///      "examples": [
+    ///        1
+    ///      ],
+    ///      "oneOf": [
+    ///        {
+    ///          "type": "string"
+    ///        },
+    ///        {
+    ///          "type": "integer"
+    ///        }
+    ///      ]
+    ///    },
+    ///    "jsonrpc": {
+    ///      "description": "JSON-RPC version, must be \"2.0\".",
+    ///      "examples": [
+    ///        "2.0"
+    ///      ],
+    ///      "type": "string",
+    ///      "enum": [
+    ///        "2.0"
+    ///      ]
+    ///    },
+    ///    "method": {
+    ///      "description": "The MCP method to invoke.",
+    ///      "examples": [
+    ///        "tools/list"
+    ///      ],
+    ///      "type": "string"
+    ///    },
+    ///    "params": {
+    ///      "description": "Optional parameters for the method.",
+    ///      "examples": [
+    ///        {}
+    ///      ],
+    ///      "type": "object",
+    ///      "additionalProperties": true
+    ///    }
+    ///  }
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct X402McpRequest {
+        ///Request identifier.
+        #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+        pub id: ::std::option::Option<X402McpRequestId>,
+        ///JSON-RPC version, must be "2.0".
+        pub jsonrpc: X402McpRequestJsonrpc,
+        ///The MCP method to invoke.
+        pub method: ::std::string::String,
+        ///Optional parameters for the method.
+        #[serde(default, skip_serializing_if = "::serde_json::Map::is_empty")]
+        pub params: ::serde_json::Map<::std::string::String, ::serde_json::Value>,
+    }
+    impl ::std::convert::From<&X402McpRequest> for X402McpRequest {
+        fn from(value: &X402McpRequest) -> Self {
+            value.clone()
+        }
+    }
+    impl X402McpRequest {
+        pub fn builder() -> builder::X402McpRequest {
+            Default::default()
+        }
+    }
+    ///Request identifier.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "Request identifier.",
+    ///  "examples": [
+    ///    1
+    ///  ],
+    ///  "oneOf": [
+    ///    {
+    ///      "type": "string"
+    ///    },
+    ///    {
+    ///      "type": "integer"
+    ///    }
+    ///  ]
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    #[serde(untagged)]
+    pub enum X402McpRequestId {
+        Variant0(::std::string::String),
+        Variant1(i64),
+    }
+    impl ::std::convert::From<&Self> for X402McpRequestId {
+        fn from(value: &X402McpRequestId) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::fmt::Display for X402McpRequestId {
+        fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+            match self {
+                Self::Variant0(x) => x.fmt(f),
+                Self::Variant1(x) => x.fmt(f),
+            }
+        }
+    }
+    impl ::std::convert::From<i64> for X402McpRequestId {
+        fn from(value: i64) -> Self {
+            Self::Variant1(value)
+        }
+    }
+    ///JSON-RPC version, must be "2.0".
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "JSON-RPC version, must be \"2.0\".",
+    ///  "examples": [
+    ///    "2.0"
+    ///  ],
+    ///  "type": "string",
+    ///  "enum": [
+    ///    "2.0"
+    ///  ]
+    ///}
+    /// ```
+    /// </details>
+    #[derive(
+        ::serde::Deserialize,
+        ::serde::Serialize,
+        Clone,
+        Copy,
+        Debug,
+        Eq,
+        Hash,
+        Ord,
+        PartialEq,
+        PartialOrd,
+    )]
+    pub enum X402McpRequestJsonrpc {
+        #[serde(rename = "2.0")]
+        X20,
+    }
+    impl ::std::convert::From<&Self> for X402McpRequestJsonrpc {
+        fn from(value: &X402McpRequestJsonrpc) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::fmt::Display for X402McpRequestJsonrpc {
+        fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+            match *self {
+                Self::X20 => f.write_str("2.0"),
+            }
+        }
+    }
+    impl ::std::str::FromStr for X402McpRequestJsonrpc {
+        type Err = self::error::ConversionError;
+        fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            match value {
+                "2.0" => Ok(Self::X20),
+                _ => Err("invalid value".into()),
+            }
+        }
+    }
+    impl ::std::convert::TryFrom<&str> for X402McpRequestJsonrpc {
+        type Error = self::error::ConversionError;
+        fn try_from(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<&::std::string::String> for X402McpRequestJsonrpc {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: &::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<::std::string::String> for X402McpRequestJsonrpc {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: ::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    ///A JSON-RPC 2.0 response for the Model Context Protocol.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "A JSON-RPC 2.0 response for the Model Context Protocol.",
+    ///  "type": "object",
+    ///  "required": [
+    ///    "jsonrpc"
+    ///  ],
+    ///  "properties": {
+    ///    "error": {
+    ///      "$ref": "#/components/schemas/x402McpError"
+    ///    },
+    ///    "id": {
+    ///      "description": "Request identifier (matches the request ID, null for notifications).",
+    ///      "examples": [
+    ///        1
+    ///      ],
+    ///      "oneOf": [
+    ///        {
+    ///          "type": "null"
+    ///        },
+    ///        {
+    ///          "oneOf": [
+    ///            {
+    ///              "type": "string"
+    ///            },
+    ///            {
+    ///              "type": "integer"
+    ///            }
+    ///          ]
+    ///        }
+    ///      ]
+    ///    },
+    ///    "jsonrpc": {
+    ///      "description": "JSON-RPC version.",
+    ///      "examples": [
+    ///        "2.0"
+    ///      ],
+    ///      "type": "string",
+    ///      "enum": [
+    ///        "2.0"
+    ///      ]
+    ///    },
+    ///    "result": {
+    ///      "description": "The result of the method call (present on success).",
+    ///      "examples": [
+    ///        {
+    ///          "tools": []
+    ///        }
+    ///      ],
+    ///      "type": "object",
+    ///      "additionalProperties": true
+    ///    }
+    ///  }
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct X402McpResponse {
+        #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+        pub error: ::std::option::Option<X402McpError>,
+        ///Request identifier (matches the request ID, null for notifications).
+        #[serde(default, skip_serializing_if = "::std::option::Option::is_none")]
+        pub id: ::std::option::Option<X402McpResponseId>,
+        ///JSON-RPC version.
+        pub jsonrpc: X402McpResponseJsonrpc,
+        ///The result of the method call (present on success).
+        #[serde(default, skip_serializing_if = "::serde_json::Map::is_empty")]
+        pub result: ::serde_json::Map<::std::string::String, ::serde_json::Value>,
+    }
+    impl ::std::convert::From<&X402McpResponse> for X402McpResponse {
+        fn from(value: &X402McpResponse) -> Self {
+            value.clone()
+        }
+    }
+    impl X402McpResponse {
+        pub fn builder() -> builder::X402McpResponse {
+            Default::default()
+        }
+    }
+    ///`X402McpResponseId`
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "oneOf": [
+    ///    {
+    ///      "type": "string"
+    ///    },
+    ///    {
+    ///      "type": "integer"
+    ///    }
+    ///  ]
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    #[serde(untagged)]
+    pub enum X402McpResponseId {
+        Variant0(::std::string::String),
+        Variant1(i64),
+    }
+    impl ::std::convert::From<&Self> for X402McpResponseId {
+        fn from(value: &X402McpResponseId) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::fmt::Display for X402McpResponseId {
+        fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+            match self {
+                Self::Variant0(x) => x.fmt(f),
+                Self::Variant1(x) => x.fmt(f),
+            }
+        }
+    }
+    impl ::std::convert::From<i64> for X402McpResponseId {
+        fn from(value: i64) -> Self {
+            Self::Variant1(value)
+        }
+    }
+    ///JSON-RPC version.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "JSON-RPC version.",
+    ///  "examples": [
+    ///    "2.0"
+    ///  ],
+    ///  "type": "string",
+    ///  "enum": [
+    ///    "2.0"
+    ///  ]
+    ///}
+    /// ```
+    /// </details>
+    #[derive(
+        ::serde::Deserialize,
+        ::serde::Serialize,
+        Clone,
+        Copy,
+        Debug,
+        Eq,
+        Hash,
+        Ord,
+        PartialEq,
+        PartialOrd,
+    )]
+    pub enum X402McpResponseJsonrpc {
+        #[serde(rename = "2.0")]
+        X20,
+    }
+    impl ::std::convert::From<&Self> for X402McpResponseJsonrpc {
+        fn from(value: &X402McpResponseJsonrpc) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::fmt::Display for X402McpResponseJsonrpc {
+        fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+            match *self {
+                Self::X20 => f.write_str("2.0"),
+            }
+        }
+    }
+    impl ::std::str::FromStr for X402McpResponseJsonrpc {
+        type Err = self::error::ConversionError;
+        fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            match value {
+                "2.0" => Ok(Self::X20),
+                _ => Err("invalid value".into()),
+            }
+        }
+    }
+    impl ::std::convert::TryFrom<&str> for X402McpResponseJsonrpc {
+        type Error = self::error::ConversionError;
+        fn try_from(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<&::std::string::String> for X402McpResponseJsonrpc {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: &::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<::std::string::String> for X402McpResponseJsonrpc {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: ::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
     /**The x402 protocol payment payload that the client attaches to x402-paid API requests to the resource server in the X-PAYMENT header.
     For EVM networks, smart account signatures can be longer than 65 bytes.*/
     ///
@@ -53834,6 +57862,248 @@ pub mod types {
     impl X402ResourceInfo {
         pub fn builder() -> builder::X402ResourceInfo {
             Default::default()
+        }
+    }
+    ///Quality metrics for a discovered x402 resource.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "Quality metrics for a discovered x402 resource.",
+    ///  "examples": [
+    ///    {
+    ///      "l30DaysTotalCalls": 42,
+    ///      "l30DaysUniquePayers": 15,
+    ///      "lastCalledAt": "2024-01-15T10:30:00Z"
+    ///    }
+    ///  ],
+    ///  "type": "object",
+    ///  "properties": {
+    ///    "l30DaysTotalCalls": {
+    ///      "description": "Total number of paid calls to a resource in the last 30 days.",
+    ///      "examples": [
+    ///        42
+    ///      ],
+    ///      "type": "integer"
+    ///    },
+    ///    "l30DaysUniquePayers": {
+    ///      "description": "Number of unique payers to a resource in the last 30 days.",
+    ///      "examples": [
+    ///        15
+    ///      ],
+    ///      "type": "integer"
+    ///    },
+    ///    "lastCalledAt": {
+    ///      "description": "Timestamp of the most recent paid call to a resource.",
+    ///      "examples": [
+    ///        "2024-01-15T10:30:00Z"
+    ///      ],
+    ///      "type": "string",
+    ///      "format": "date-time"
+    ///    }
+    ///  }
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct X402ResourceQuality {
+        ///Total number of paid calls to a resource in the last 30 days.
+        #[serde(
+            rename = "l30DaysTotalCalls",
+            default,
+            skip_serializing_if = "::std::option::Option::is_none"
+        )]
+        pub l30_days_total_calls: ::std::option::Option<i64>,
+        ///Number of unique payers to a resource in the last 30 days.
+        #[serde(
+            rename = "l30DaysUniquePayers",
+            default,
+            skip_serializing_if = "::std::option::Option::is_none"
+        )]
+        pub l30_days_unique_payers: ::std::option::Option<i64>,
+        ///Timestamp of the most recent paid call to a resource.
+        #[serde(
+            rename = "lastCalledAt",
+            default,
+            skip_serializing_if = "::std::option::Option::is_none"
+        )]
+        pub last_called_at: ::std::option::Option<::chrono::DateTime<::chrono::offset::Utc>>,
+    }
+    impl ::std::convert::From<&X402ResourceQuality> for X402ResourceQuality {
+        fn from(value: &X402ResourceQuality) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::default::Default for X402ResourceQuality {
+        fn default() -> Self {
+            Self {
+                l30_days_total_calls: Default::default(),
+                l30_days_unique_payers: Default::default(),
+                last_called_at: Default::default(),
+            }
+        }
+    }
+    impl X402ResourceQuality {
+        pub fn builder() -> builder::X402ResourceQuality {
+            Default::default()
+        }
+    }
+    ///Response from a search for x402 resources.
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "Response from a search for x402 resources.",
+    ///  "type": "object",
+    ///  "required": [
+    ///    "partialResults",
+    ///    "resources",
+    ///    "x402Version"
+    ///  ],
+    ///  "properties": {
+    ///    "partialResults": {
+    ///      "description": "Indicates whether the result set was truncated because there were more results than the requested limit.",
+    ///      "examples": [
+    ///        false
+    ///      ],
+    ///      "type": "boolean"
+    ///    },
+    ///    "resources": {
+    ///      "description": "List of x402 resources matching the search query and filters.",
+    ///      "examples": [
+    ///        []
+    ///      ],
+    ///      "type": "array",
+    ///      "items": {
+    ///        "$ref": "#/components/schemas/x402DiscoveryResource"
+    ///      }
+    ///    },
+    ///    "searchMethod": {
+    ///      "description": "The search method used to retrieve the results (e.g., \"text\" or \"vector\").",
+    ///      "examples": [
+    ///        "text"
+    ///      ],
+    ///      "type": "string",
+    ///      "enum": [
+    ///        "text",
+    ///        "vector"
+    ///      ]
+    ///    },
+    ///    "x402Version": {
+    ///      "$ref": "#/components/schemas/X402Version"
+    ///    }
+    ///  }
+    ///}
+    /// ```
+    /// </details>
+    #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
+    pub struct X402SearchResourcesResponse {
+        ///Indicates whether the result set was truncated because there were more results than the requested limit.
+        #[serde(rename = "partialResults")]
+        pub partial_results: bool,
+        ///List of x402 resources matching the search query and filters.
+        pub resources: ::std::vec::Vec<X402DiscoveryResource>,
+        ///The search method used to retrieve the results (e.g., "text" or "vector").
+        #[serde(
+            rename = "searchMethod",
+            default,
+            skip_serializing_if = "::std::option::Option::is_none"
+        )]
+        pub search_method: ::std::option::Option<X402SearchResourcesResponseSearchMethod>,
+        #[serde(rename = "x402Version")]
+        pub x402_version: X402Version,
+    }
+    impl ::std::convert::From<&X402SearchResourcesResponse> for X402SearchResourcesResponse {
+        fn from(value: &X402SearchResourcesResponse) -> Self {
+            value.clone()
+        }
+    }
+    impl X402SearchResourcesResponse {
+        pub fn builder() -> builder::X402SearchResourcesResponse {
+            Default::default()
+        }
+    }
+    ///The search method used to retrieve the results (e.g., "text" or "vector").
+    ///
+    /// <details><summary>JSON schema</summary>
+    ///
+    /// ```json
+    ///{
+    ///  "description": "The search method used to retrieve the results (e.g., \"text\" or \"vector\").",
+    ///  "examples": [
+    ///    "text"
+    ///  ],
+    ///  "type": "string",
+    ///  "enum": [
+    ///    "text",
+    ///    "vector"
+    ///  ]
+    ///}
+    /// ```
+    /// </details>
+    #[derive(
+        ::serde::Deserialize,
+        ::serde::Serialize,
+        Clone,
+        Copy,
+        Debug,
+        Eq,
+        Hash,
+        Ord,
+        PartialEq,
+        PartialOrd,
+    )]
+    pub enum X402SearchResourcesResponseSearchMethod {
+        #[serde(rename = "text")]
+        Text,
+        #[serde(rename = "vector")]
+        Vector,
+    }
+    impl ::std::convert::From<&Self> for X402SearchResourcesResponseSearchMethod {
+        fn from(value: &X402SearchResourcesResponseSearchMethod) -> Self {
+            value.clone()
+        }
+    }
+    impl ::std::fmt::Display for X402SearchResourcesResponseSearchMethod {
+        fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+            match *self {
+                Self::Text => f.write_str("text"),
+                Self::Vector => f.write_str("vector"),
+            }
+        }
+    }
+    impl ::std::str::FromStr for X402SearchResourcesResponseSearchMethod {
+        type Err = self::error::ConversionError;
+        fn from_str(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            match value {
+                "text" => Ok(Self::Text),
+                "vector" => Ok(Self::Vector),
+                _ => Err("invalid value".into()),
+            }
+        }
+    }
+    impl ::std::convert::TryFrom<&str> for X402SearchResourcesResponseSearchMethod {
+        type Error = self::error::ConversionError;
+        fn try_from(value: &str) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<&::std::string::String> for X402SearchResourcesResponseSearchMethod {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: &::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
+        }
+    }
+    impl ::std::convert::TryFrom<::std::string::String> for X402SearchResourcesResponseSearchMethod {
+        type Error = self::error::ConversionError;
+        fn try_from(
+            value: ::std::string::String,
+        ) -> ::std::result::Result<Self, self::error::ConversionError> {
+            value.parse()
         }
     }
     ///The reason the payment settlement errored on the x402 protocol.
@@ -54698,7 +58968,12 @@ pub mod types {
     ///        "eip155:84532",
     ///        "eip155:137",
     ///        "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp",
-    ///        "solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1"
+    ///        "solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1",
+    ///        "avalanche",
+    ///        "arbitrum",
+    ///        "arbitrum-sepolia",
+    ///        "world",
+    ///        "world-sepolia"
     ///      ]
     ///    },
     ///    "scheme": {
@@ -54762,7 +59037,12 @@ pub mod types {
     ///    "eip155:84532",
     ///    "eip155:137",
     ///    "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp",
-    ///    "solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1"
+    ///    "solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1",
+    ///    "avalanche",
+    ///    "arbitrum",
+    ///    "arbitrum-sepolia",
+    ///    "world",
+    ///    "world-sepolia"
     ///  ]
     ///}
     /// ```
@@ -54800,6 +59080,16 @@ pub mod types {
         Solana5eykt4UsFv8P8nJdTrEpY1vzqKqZKvdp,
         #[serde(rename = "solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1")]
         SolanaEtWtrabZaYq6iMfeYKouRu166Vu2xqa1,
+        #[serde(rename = "avalanche")]
+        Avalanche,
+        #[serde(rename = "arbitrum")]
+        Arbitrum,
+        #[serde(rename = "arbitrum-sepolia")]
+        ArbitrumSepolia,
+        #[serde(rename = "world")]
+        World,
+        #[serde(rename = "world-sepolia")]
+        WorldSepolia,
     }
     impl ::std::convert::From<&Self> for X402SupportedPaymentKindNetwork {
         fn from(value: &X402SupportedPaymentKindNetwork) -> Self {
@@ -54823,6 +59113,11 @@ pub mod types {
                 Self::SolanaEtWtrabZaYq6iMfeYKouRu166Vu2xqa1 => {
                     f.write_str("solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1")
                 }
+                Self::Avalanche => f.write_str("avalanche"),
+                Self::Arbitrum => f.write_str("arbitrum"),
+                Self::ArbitrumSepolia => f.write_str("arbitrum-sepolia"),
+                Self::World => f.write_str("world"),
+                Self::WorldSepolia => f.write_str("world-sepolia"),
             }
         }
     }
@@ -54844,6 +59139,11 @@ pub mod types {
                 "solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1" => {
                     Ok(Self::SolanaEtWtrabZaYq6iMfeYKouRu166Vu2xqa1)
                 }
+                "avalanche" => Ok(Self::Avalanche),
+                "arbitrum" => Ok(Self::Arbitrum),
+                "arbitrum-sepolia" => Ok(Self::ArbitrumSepolia),
+                "world" => Ok(Self::World),
+                "world-sepolia" => Ok(Self::WorldSepolia),
                 _ => Err("invalid value".into()),
             }
         }
@@ -55295,7 +59595,13 @@ pub mod types {
     ///      "examples": [
     ///        {
     ///          "bazaar": {
-    ///            "discoveryEnabled": true
+    ///            "info": {
+    ///              "input": {
+    ///                "method": "GET",
+    ///                "type": "http"
+    ///              }
+    ///            },
+    ///            "schema": {}
     ///          }
     ///        }
     ///      ],
@@ -58126,6 +62432,122 @@ pub mod types {
             }
         }
         #[derive(Clone, Debug)]
+        pub struct CreateDelegationForEndUserAccountBody {
+            expires_at: ::std::result::Result<
+                ::chrono::DateTime<::chrono::offset::Utc>,
+                ::std::string::String,
+            >,
+            wallet_secret_id: ::std::result::Result<
+                super::CreateDelegationForEndUserAccountBodyWalletSecretId,
+                ::std::string::String,
+            >,
+        }
+        impl ::std::default::Default for CreateDelegationForEndUserAccountBody {
+            fn default() -> Self {
+                Self {
+                    expires_at: Err("no value supplied for expires_at".to_string()),
+                    wallet_secret_id: Err("no value supplied for wallet_secret_id".to_string()),
+                }
+            }
+        }
+        impl CreateDelegationForEndUserAccountBody {
+            pub fn expires_at<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::chrono::DateTime<::chrono::offset::Utc>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.expires_at = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for expires_at: {}", e));
+                self
+            }
+            pub fn wallet_secret_id<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<
+                    super::CreateDelegationForEndUserAccountBodyWalletSecretId,
+                >,
+                T::Error: ::std::fmt::Display,
+            {
+                self.wallet_secret_id = value.try_into().map_err(|e| {
+                    format!(
+                        "error converting supplied value for wallet_secret_id: {}",
+                        e
+                    )
+                });
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<CreateDelegationForEndUserAccountBody>
+            for super::CreateDelegationForEndUserAccountBody
+        {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: CreateDelegationForEndUserAccountBody,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    expires_at: value.expires_at?,
+                    wallet_secret_id: value.wallet_secret_id?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::CreateDelegationForEndUserAccountBody>
+            for CreateDelegationForEndUserAccountBody
+        {
+            fn from(value: super::CreateDelegationForEndUserAccountBody) -> Self {
+                Self {
+                    expires_at: Ok(value.expires_at),
+                    wallet_secret_id: Ok(value.wallet_secret_id),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
+        pub struct CreateDelegationForEndUserAccountResponse {
+            expires_at: ::std::result::Result<
+                ::chrono::DateTime<::chrono::offset::Utc>,
+                ::std::string::String,
+            >,
+        }
+        impl ::std::default::Default for CreateDelegationForEndUserAccountResponse {
+            fn default() -> Self {
+                Self {
+                    expires_at: Err("no value supplied for expires_at".to_string()),
+                }
+            }
+        }
+        impl CreateDelegationForEndUserAccountResponse {
+            pub fn expires_at<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::chrono::DateTime<::chrono::offset::Utc>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.expires_at = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for expires_at: {}", e));
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<CreateDelegationForEndUserAccountResponse>
+            for super::CreateDelegationForEndUserAccountResponse
+        {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: CreateDelegationForEndUserAccountResponse,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    expires_at: value.expires_at?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::CreateDelegationForEndUserAccountResponse>
+            for CreateDelegationForEndUserAccountResponse
+        {
+            fn from(value: super::CreateDelegationForEndUserAccountResponse) -> Self {
+                Self {
+                    expires_at: Ok(value.expires_at),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
         pub struct CreateEndUserBody {
             authentication_methods:
                 ::std::result::Result<super::AuthenticationMethods, ::std::string::String>,
@@ -58331,6 +62753,79 @@ pub mod types {
             fn from(value: super::CreateEndUserBodySolanaAccount) -> Self {
                 Self {
                     create_smart_account: Ok(value.create_smart_account),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
+        pub struct CreateEndUserEvmSwapRule {
+            action:
+                ::std::result::Result<super::CreateEndUserEvmSwapRuleAction, ::std::string::String>,
+            criteria:
+                ::std::result::Result<super::CreateEndUserEvmSwapCriteria, ::std::string::String>,
+            operation: ::std::result::Result<
+                super::CreateEndUserEvmSwapRuleOperation,
+                ::std::string::String,
+            >,
+        }
+        impl ::std::default::Default for CreateEndUserEvmSwapRule {
+            fn default() -> Self {
+                Self {
+                    action: Err("no value supplied for action".to_string()),
+                    criteria: Err("no value supplied for criteria".to_string()),
+                    operation: Err("no value supplied for operation".to_string()),
+                }
+            }
+        }
+        impl CreateEndUserEvmSwapRule {
+            pub fn action<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<super::CreateEndUserEvmSwapRuleAction>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.action = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for action: {}", e));
+                self
+            }
+            pub fn criteria<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<super::CreateEndUserEvmSwapCriteria>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.criteria = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for criteria: {}", e));
+                self
+            }
+            pub fn operation<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<super::CreateEndUserEvmSwapRuleOperation>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.operation = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for operation: {}", e));
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<CreateEndUserEvmSwapRule> for super::CreateEndUserEvmSwapRule {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: CreateEndUserEvmSwapRule,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    action: value.action?,
+                    criteria: value.criteria?,
+                    operation: value.operation?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::CreateEndUserEvmSwapRule> for CreateEndUserEvmSwapRule {
+            fn from(value: super::CreateEndUserEvmSwapRule) -> Self {
+                Self {
+                    action: Ok(value.action),
+                    criteria: Ok(value.criteria),
+                    operation: Ok(value.operation),
                 }
             }
         }
@@ -60542,6 +65037,83 @@ pub mod types {
                     gas_price: Ok(value.gas_price),
                     to: Ok(value.to),
                     value: Ok(value.value),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
+        pub struct DateOfBirth {
+            day: ::std::result::Result<
+                ::std::option::Option<super::DateOfBirthDay>,
+                ::std::string::String,
+            >,
+            month: ::std::result::Result<
+                ::std::option::Option<super::DateOfBirthMonth>,
+                ::std::string::String,
+            >,
+            year: ::std::result::Result<
+                ::std::option::Option<super::DateOfBirthYear>,
+                ::std::string::String,
+            >,
+        }
+        impl ::std::default::Default for DateOfBirth {
+            fn default() -> Self {
+                Self {
+                    day: Ok(Default::default()),
+                    month: Ok(Default::default()),
+                    year: Ok(Default::default()),
+                }
+            }
+        }
+        impl DateOfBirth {
+            pub fn day<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<super::DateOfBirthDay>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.day = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for day: {}", e));
+                self
+            }
+            pub fn month<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<super::DateOfBirthMonth>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.month = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for month: {}", e));
+                self
+            }
+            pub fn year<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<super::DateOfBirthYear>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.year = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for year: {}", e));
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<DateOfBirth> for super::DateOfBirth {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: DateOfBirth,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    day: value.day?,
+                    month: value.month?,
+                    year: value.year?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::DateOfBirth> for DateOfBirth {
+            fn from(value: super::DateOfBirth) -> Self {
+                Self {
+                    day: Ok(value.day),
+                    month: Ok(value.month),
+                    year: Ok(value.year),
                 }
             }
         }
@@ -63062,6 +67634,53 @@ pub mod types {
             }
         }
         #[derive(Clone, Debug)]
+        pub struct GetDelegationForEndUserAccountResponse {
+            expires_at: ::std::result::Result<
+                ::chrono::DateTime<::chrono::offset::Utc>,
+                ::std::string::String,
+            >,
+        }
+        impl ::std::default::Default for GetDelegationForEndUserAccountResponse {
+            fn default() -> Self {
+                Self {
+                    expires_at: Err("no value supplied for expires_at".to_string()),
+                }
+            }
+        }
+        impl GetDelegationForEndUserAccountResponse {
+            pub fn expires_at<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::chrono::DateTime<::chrono::offset::Utc>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.expires_at = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for expires_at: {}", e));
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<GetDelegationForEndUserAccountResponse>
+            for super::GetDelegationForEndUserAccountResponse
+        {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: GetDelegationForEndUserAccountResponse,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    expires_at: value.expires_at?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::GetDelegationForEndUserAccountResponse>
+            for GetDelegationForEndUserAccountResponse
+        {
+            fn from(value: super::GetDelegationForEndUserAccountResponse) -> Self {
+                Self {
+                    expires_at: Ok(value.expires_at),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
         pub struct GetDelegationForEndUserResponse {
             expires_at: ::std::result::Result<
                 ::chrono::DateTime<::chrono::offset::Utc>,
@@ -64963,6 +69582,47 @@ pub mod types {
             }
         }
         #[derive(Clone, Debug)]
+        pub struct LookupEndUserResponse {
+            end_users:
+                ::std::result::Result<::std::vec::Vec<super::EndUser>, ::std::string::String>,
+        }
+        impl ::std::default::Default for LookupEndUserResponse {
+            fn default() -> Self {
+                Self {
+                    end_users: Err("no value supplied for end_users".to_string()),
+                }
+            }
+        }
+        impl LookupEndUserResponse {
+            pub fn end_users<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::vec::Vec<super::EndUser>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.end_users = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for end_users: {}", e));
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<LookupEndUserResponse> for super::LookupEndUserResponse {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: LookupEndUserResponse,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    end_users: value.end_users?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::LookupEndUserResponse> for LookupEndUserResponse {
+            fn from(value: super::LookupEndUserResponse) -> Self {
+                Self {
+                    end_users: Ok(value.end_users),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
         pub struct MfaMethods {
             enrollment_prompted_at: ::std::result::Result<
                 ::std::option::Option<::chrono::DateTime<::chrono::offset::Utc>>,
@@ -65943,6 +70603,141 @@ pub mod types {
                     columns: Ok(value.columns),
                     database: Ok(value.database),
                     table: Ok(value.table),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
+        pub struct OnrampLimitUpgradeIdentityFields {
+            date_of_birth: ::std::result::Result<
+                ::std::option::Option<super::DateOfBirth>,
+                ::std::string::String,
+            >,
+            ssn_last4: ::std::result::Result<
+                ::std::option::Option<::std::string::String>,
+                ::std::string::String,
+            >,
+        }
+        impl ::std::default::Default for OnrampLimitUpgradeIdentityFields {
+            fn default() -> Self {
+                Self {
+                    date_of_birth: Ok(Default::default()),
+                    ssn_last4: Ok(Default::default()),
+                }
+            }
+        }
+        impl OnrampLimitUpgradeIdentityFields {
+            pub fn date_of_birth<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<super::DateOfBirth>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.date_of_birth = value.try_into().map_err(|e| {
+                    format!("error converting supplied value for date_of_birth: {}", e)
+                });
+                self
+            }
+            pub fn ssn_last4<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<::std::string::String>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.ssn_last4 = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for ssn_last4: {}", e));
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<OnrampLimitUpgradeIdentityFields>
+            for super::OnrampLimitUpgradeIdentityFields
+        {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: OnrampLimitUpgradeIdentityFields,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    date_of_birth: value.date_of_birth?,
+                    ssn_last4: value.ssn_last4?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::OnrampLimitUpgradeIdentityFields>
+            for OnrampLimitUpgradeIdentityFields
+        {
+            fn from(value: super::OnrampLimitUpgradeIdentityFields) -> Self {
+                Self {
+                    date_of_birth: Ok(value.date_of_birth),
+                    ssn_last4: Ok(value.ssn_last4),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
+        pub struct OnrampLimitUpgradeRequest {
+            fields: ::std::result::Result<
+                super::OnrampLimitUpgradeIdentityFields,
+                ::std::string::String,
+            >,
+            user_id: ::std::result::Result<::std::string::String, ::std::string::String>,
+            user_id_type: ::std::result::Result<super::OnrampUserIdType, ::std::string::String>,
+        }
+        impl ::std::default::Default for OnrampLimitUpgradeRequest {
+            fn default() -> Self {
+                Self {
+                    fields: Err("no value supplied for fields".to_string()),
+                    user_id: Err("no value supplied for user_id".to_string()),
+                    user_id_type: Err("no value supplied for user_id_type".to_string()),
+                }
+            }
+        }
+        impl OnrampLimitUpgradeRequest {
+            pub fn fields<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<super::OnrampLimitUpgradeIdentityFields>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.fields = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for fields: {}", e));
+                self
+            }
+            pub fn user_id<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::string::String>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.user_id = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for user_id: {}", e));
+                self
+            }
+            pub fn user_id_type<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<super::OnrampUserIdType>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.user_id_type = value.try_into().map_err(|e| {
+                    format!("error converting supplied value for user_id_type: {}", e)
+                });
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<OnrampLimitUpgradeRequest> for super::OnrampLimitUpgradeRequest {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: OnrampLimitUpgradeRequest,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    fields: value.fields?,
+                    user_id: value.user_id?,
+                    user_id_type: value.user_id_type?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::OnrampLimitUpgradeRequest> for OnrampLimitUpgradeRequest {
+            fn from(value: super::OnrampLimitUpgradeRequest) -> Self {
+                Self {
+                    fields: Ok(value.fields),
+                    user_id: Ok(value.user_id),
+                    user_id_type: Ok(value.user_id_type),
                 }
             }
         }
@@ -67316,6 +72111,60 @@ pub mod types {
             }
         }
         #[derive(Clone, Debug)]
+        pub struct RevokeDelegationForEndUserAccountBody {
+            wallet_secret_id: ::std::result::Result<
+                ::std::option::Option<super::RevokeDelegationForEndUserAccountBodyWalletSecretId>,
+                ::std::string::String,
+            >,
+        }
+        impl ::std::default::Default for RevokeDelegationForEndUserAccountBody {
+            fn default() -> Self {
+                Self {
+                    wallet_secret_id: Ok(Default::default()),
+                }
+            }
+        }
+        impl RevokeDelegationForEndUserAccountBody {
+            pub fn wallet_secret_id<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<
+                    ::std::option::Option<
+                        super::RevokeDelegationForEndUserAccountBodyWalletSecretId,
+                    >,
+                >,
+                T::Error: ::std::fmt::Display,
+            {
+                self.wallet_secret_id = value.try_into().map_err(|e| {
+                    format!(
+                        "error converting supplied value for wallet_secret_id: {}",
+                        e
+                    )
+                });
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<RevokeDelegationForEndUserAccountBody>
+            for super::RevokeDelegationForEndUserAccountBody
+        {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: RevokeDelegationForEndUserAccountBody,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    wallet_secret_id: value.wallet_secret_id?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::RevokeDelegationForEndUserAccountBody>
+            for RevokeDelegationForEndUserAccountBody
+        {
+            fn from(value: super::RevokeDelegationForEndUserAccountBody) -> Self {
+                Self {
+                    wallet_secret_id: Ok(value.wallet_secret_id),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
         pub struct RevokeDelegationForEndUserBody {
             wallet_secret_id: ::std::result::Result<
                 ::std::option::Option<super::RevokeDelegationForEndUserBodyWalletSecretId>,
@@ -67437,6 +72286,79 @@ pub mod types {
             }
         }
         #[derive(Clone, Debug)]
+        pub struct SendEndUserEvmAssetRule {
+            action:
+                ::std::result::Result<super::SendEndUserEvmAssetRuleAction, ::std::string::String>,
+            criteria:
+                ::std::result::Result<super::SendEndUserEvmAssetCriteria, ::std::string::String>,
+            operation: ::std::result::Result<
+                super::SendEndUserEvmAssetRuleOperation,
+                ::std::string::String,
+            >,
+        }
+        impl ::std::default::Default for SendEndUserEvmAssetRule {
+            fn default() -> Self {
+                Self {
+                    action: Err("no value supplied for action".to_string()),
+                    criteria: Err("no value supplied for criteria".to_string()),
+                    operation: Err("no value supplied for operation".to_string()),
+                }
+            }
+        }
+        impl SendEndUserEvmAssetRule {
+            pub fn action<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<super::SendEndUserEvmAssetRuleAction>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.action = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for action: {}", e));
+                self
+            }
+            pub fn criteria<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<super::SendEndUserEvmAssetCriteria>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.criteria = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for criteria: {}", e));
+                self
+            }
+            pub fn operation<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<super::SendEndUserEvmAssetRuleOperation>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.operation = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for operation: {}", e));
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<SendEndUserEvmAssetRule> for super::SendEndUserEvmAssetRule {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: SendEndUserEvmAssetRule,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    action: value.action?,
+                    criteria: value.criteria?,
+                    operation: value.operation?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::SendEndUserEvmAssetRule> for SendEndUserEvmAssetRule {
+            fn from(value: super::SendEndUserEvmAssetRule) -> Self {
+                Self {
+                    action: Ok(value.action),
+                    criteria: Ok(value.criteria),
+                    operation: Ok(value.operation),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
         pub struct SendEndUserEvmTransactionRule {
             action: ::std::result::Result<
                 super::SendEndUserEvmTransactionRuleAction,
@@ -67508,6 +72430,79 @@ pub mod types {
         }
         impl ::std::convert::From<super::SendEndUserEvmTransactionRule> for SendEndUserEvmTransactionRule {
             fn from(value: super::SendEndUserEvmTransactionRule) -> Self {
+                Self {
+                    action: Ok(value.action),
+                    criteria: Ok(value.criteria),
+                    operation: Ok(value.operation),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
+        pub struct SendEndUserSolAssetRule {
+            action:
+                ::std::result::Result<super::SendEndUserSolAssetRuleAction, ::std::string::String>,
+            criteria:
+                ::std::result::Result<super::SendEndUserSolAssetCriteria, ::std::string::String>,
+            operation: ::std::result::Result<
+                super::SendEndUserSolAssetRuleOperation,
+                ::std::string::String,
+            >,
+        }
+        impl ::std::default::Default for SendEndUserSolAssetRule {
+            fn default() -> Self {
+                Self {
+                    action: Err("no value supplied for action".to_string()),
+                    criteria: Err("no value supplied for criteria".to_string()),
+                    operation: Err("no value supplied for operation".to_string()),
+                }
+            }
+        }
+        impl SendEndUserSolAssetRule {
+            pub fn action<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<super::SendEndUserSolAssetRuleAction>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.action = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for action: {}", e));
+                self
+            }
+            pub fn criteria<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<super::SendEndUserSolAssetCriteria>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.criteria = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for criteria: {}", e));
+                self
+            }
+            pub fn operation<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<super::SendEndUserSolAssetRuleOperation>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.operation = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for operation: {}", e));
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<SendEndUserSolAssetRule> for super::SendEndUserSolAssetRule {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: SendEndUserSolAssetRule,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    action: value.action?,
+                    criteria: value.criteria?,
+                    operation: value.operation?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::SendEndUserSolAssetRule> for SendEndUserSolAssetRule {
+            fn from(value: super::SendEndUserSolAssetRule) -> Self {
                 Self {
                     action: Ok(value.action),
                     criteria: Ok(value.criteria),
@@ -74782,6 +79777,475 @@ pub mod types {
             }
         }
         #[derive(Clone, Debug)]
+        pub struct X402DiscoveryMerchantResponse {
+            pagination: ::std::result::Result<
+                super::X402DiscoveryMerchantResponsePagination,
+                ::std::string::String,
+            >,
+            pay_to: ::std::result::Result<super::BlockchainAddress, ::std::string::String>,
+            resources: ::std::result::Result<
+                ::std::vec::Vec<super::X402DiscoveryResource>,
+                ::std::string::String,
+            >,
+            x402_version: ::std::result::Result<super::X402Version, ::std::string::String>,
+        }
+        impl ::std::default::Default for X402DiscoveryMerchantResponse {
+            fn default() -> Self {
+                Self {
+                    pagination: Err("no value supplied for pagination".to_string()),
+                    pay_to: Err("no value supplied for pay_to".to_string()),
+                    resources: Err("no value supplied for resources".to_string()),
+                    x402_version: Err("no value supplied for x402_version".to_string()),
+                }
+            }
+        }
+        impl X402DiscoveryMerchantResponse {
+            pub fn pagination<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<super::X402DiscoveryMerchantResponsePagination>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.pagination = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for pagination: {}", e));
+                self
+            }
+            pub fn pay_to<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<super::BlockchainAddress>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.pay_to = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for pay_to: {}", e));
+                self
+            }
+            pub fn resources<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::vec::Vec<super::X402DiscoveryResource>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.resources = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for resources: {}", e));
+                self
+            }
+            pub fn x402_version<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<super::X402Version>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.x402_version = value.try_into().map_err(|e| {
+                    format!("error converting supplied value for x402_version: {}", e)
+                });
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<X402DiscoveryMerchantResponse>
+            for super::X402DiscoveryMerchantResponse
+        {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: X402DiscoveryMerchantResponse,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    pagination: value.pagination?,
+                    pay_to: value.pay_to?,
+                    resources: value.resources?,
+                    x402_version: value.x402_version?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::X402DiscoveryMerchantResponse> for X402DiscoveryMerchantResponse {
+            fn from(value: super::X402DiscoveryMerchantResponse) -> Self {
+                Self {
+                    pagination: Ok(value.pagination),
+                    pay_to: Ok(value.pay_to),
+                    resources: Ok(value.resources),
+                    x402_version: Ok(value.x402_version),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
+        pub struct X402DiscoveryMerchantResponsePagination {
+            limit: ::std::result::Result<::std::option::Option<i64>, ::std::string::String>,
+            offset: ::std::result::Result<::std::option::Option<i64>, ::std::string::String>,
+            total: ::std::result::Result<::std::option::Option<i64>, ::std::string::String>,
+        }
+        impl ::std::default::Default for X402DiscoveryMerchantResponsePagination {
+            fn default() -> Self {
+                Self {
+                    limit: Ok(Default::default()),
+                    offset: Ok(Default::default()),
+                    total: Ok(Default::default()),
+                }
+            }
+        }
+        impl X402DiscoveryMerchantResponsePagination {
+            pub fn limit<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<i64>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.limit = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for limit: {}", e));
+                self
+            }
+            pub fn offset<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<i64>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.offset = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for offset: {}", e));
+                self
+            }
+            pub fn total<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<i64>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.total = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for total: {}", e));
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<X402DiscoveryMerchantResponsePagination>
+            for super::X402DiscoveryMerchantResponsePagination
+        {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: X402DiscoveryMerchantResponsePagination,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    limit: value.limit?,
+                    offset: value.offset?,
+                    total: value.total?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::X402DiscoveryMerchantResponsePagination>
+            for X402DiscoveryMerchantResponsePagination
+        {
+            fn from(value: super::X402DiscoveryMerchantResponsePagination) -> Self {
+                Self {
+                    limit: Ok(value.limit),
+                    offset: Ok(value.offset),
+                    total: Ok(value.total),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
+        pub struct X402DiscoveryResource {
+            accepts: ::std::result::Result<
+                ::std::vec::Vec<super::X402PaymentRequirements>,
+                ::std::string::String,
+            >,
+            description: ::std::result::Result<
+                ::std::option::Option<::std::string::String>,
+                ::std::string::String,
+            >,
+            extensions: ::std::result::Result<
+                ::serde_json::Map<::std::string::String, ::serde_json::Value>,
+                ::std::string::String,
+            >,
+            last_updated: ::std::result::Result<
+                ::std::option::Option<::chrono::DateTime<::chrono::offset::Utc>>,
+                ::std::string::String,
+            >,
+            quality: ::std::result::Result<
+                ::std::option::Option<super::X402ResourceQuality>,
+                ::std::string::String,
+            >,
+            resource: ::std::result::Result<::std::string::String, ::std::string::String>,
+            type_: ::std::result::Result<super::X402DiscoveryResourceType, ::std::string::String>,
+            x402_version: ::std::result::Result<super::X402Version, ::std::string::String>,
+        }
+        impl ::std::default::Default for X402DiscoveryResource {
+            fn default() -> Self {
+                Self {
+                    accepts: Ok(Default::default()),
+                    description: Ok(Default::default()),
+                    extensions: Ok(Default::default()),
+                    last_updated: Ok(Default::default()),
+                    quality: Ok(Default::default()),
+                    resource: Err("no value supplied for resource".to_string()),
+                    type_: Err("no value supplied for type_".to_string()),
+                    x402_version: Err("no value supplied for x402_version".to_string()),
+                }
+            }
+        }
+        impl X402DiscoveryResource {
+            pub fn accepts<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::vec::Vec<super::X402PaymentRequirements>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.accepts = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for accepts: {}", e));
+                self
+            }
+            pub fn description<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<::std::string::String>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.description = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for description: {}", e));
+                self
+            }
+            pub fn extensions<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<
+                    ::serde_json::Map<::std::string::String, ::serde_json::Value>,
+                >,
+                T::Error: ::std::fmt::Display,
+            {
+                self.extensions = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for extensions: {}", e));
+                self
+            }
+            pub fn last_updated<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<
+                    ::std::option::Option<::chrono::DateTime<::chrono::offset::Utc>>,
+                >,
+                T::Error: ::std::fmt::Display,
+            {
+                self.last_updated = value.try_into().map_err(|e| {
+                    format!("error converting supplied value for last_updated: {}", e)
+                });
+                self
+            }
+            pub fn quality<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<super::X402ResourceQuality>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.quality = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for quality: {}", e));
+                self
+            }
+            pub fn resource<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::string::String>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.resource = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for resource: {}", e));
+                self
+            }
+            pub fn type_<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<super::X402DiscoveryResourceType>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.type_ = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for type_: {}", e));
+                self
+            }
+            pub fn x402_version<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<super::X402Version>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.x402_version = value.try_into().map_err(|e| {
+                    format!("error converting supplied value for x402_version: {}", e)
+                });
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<X402DiscoveryResource> for super::X402DiscoveryResource {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: X402DiscoveryResource,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    accepts: value.accepts?,
+                    description: value.description?,
+                    extensions: value.extensions?,
+                    last_updated: value.last_updated?,
+                    quality: value.quality?,
+                    resource: value.resource?,
+                    type_: value.type_?,
+                    x402_version: value.x402_version?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::X402DiscoveryResource> for X402DiscoveryResource {
+            fn from(value: super::X402DiscoveryResource) -> Self {
+                Self {
+                    accepts: Ok(value.accepts),
+                    description: Ok(value.description),
+                    extensions: Ok(value.extensions),
+                    last_updated: Ok(value.last_updated),
+                    quality: Ok(value.quality),
+                    resource: Ok(value.resource),
+                    type_: Ok(value.type_),
+                    x402_version: Ok(value.x402_version),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
+        pub struct X402DiscoveryResourcesResponse {
+            items: ::std::result::Result<
+                ::std::vec::Vec<super::X402DiscoveryResource>,
+                ::std::string::String,
+            >,
+            pagination: ::std::result::Result<
+                super::X402DiscoveryResourcesResponsePagination,
+                ::std::string::String,
+            >,
+            x402_version: ::std::result::Result<super::X402Version, ::std::string::String>,
+        }
+        impl ::std::default::Default for X402DiscoveryResourcesResponse {
+            fn default() -> Self {
+                Self {
+                    items: Err("no value supplied for items".to_string()),
+                    pagination: Err("no value supplied for pagination".to_string()),
+                    x402_version: Err("no value supplied for x402_version".to_string()),
+                }
+            }
+        }
+        impl X402DiscoveryResourcesResponse {
+            pub fn items<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::vec::Vec<super::X402DiscoveryResource>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.items = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for items: {}", e));
+                self
+            }
+            pub fn pagination<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<super::X402DiscoveryResourcesResponsePagination>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.pagination = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for pagination: {}", e));
+                self
+            }
+            pub fn x402_version<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<super::X402Version>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.x402_version = value.try_into().map_err(|e| {
+                    format!("error converting supplied value for x402_version: {}", e)
+                });
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<X402DiscoveryResourcesResponse>
+            for super::X402DiscoveryResourcesResponse
+        {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: X402DiscoveryResourcesResponse,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    items: value.items?,
+                    pagination: value.pagination?,
+                    x402_version: value.x402_version?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::X402DiscoveryResourcesResponse>
+            for X402DiscoveryResourcesResponse
+        {
+            fn from(value: super::X402DiscoveryResourcesResponse) -> Self {
+                Self {
+                    items: Ok(value.items),
+                    pagination: Ok(value.pagination),
+                    x402_version: Ok(value.x402_version),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
+        pub struct X402DiscoveryResourcesResponsePagination {
+            limit: ::std::result::Result<::std::option::Option<i64>, ::std::string::String>,
+            offset: ::std::result::Result<::std::option::Option<i64>, ::std::string::String>,
+            total: ::std::result::Result<::std::option::Option<i64>, ::std::string::String>,
+        }
+        impl ::std::default::Default for X402DiscoveryResourcesResponsePagination {
+            fn default() -> Self {
+                Self {
+                    limit: Ok(Default::default()),
+                    offset: Ok(Default::default()),
+                    total: Ok(Default::default()),
+                }
+            }
+        }
+        impl X402DiscoveryResourcesResponsePagination {
+            pub fn limit<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<i64>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.limit = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for limit: {}", e));
+                self
+            }
+            pub fn offset<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<i64>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.offset = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for offset: {}", e));
+                self
+            }
+            pub fn total<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<i64>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.total = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for total: {}", e));
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<X402DiscoveryResourcesResponsePagination>
+            for super::X402DiscoveryResourcesResponsePagination
+        {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: X402DiscoveryResourcesResponsePagination,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    limit: value.limit?,
+                    offset: value.offset?,
+                    total: value.total?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::X402DiscoveryResourcesResponsePagination>
+            for X402DiscoveryResourcesResponsePagination
+        {
+            fn from(value: super::X402DiscoveryResourcesResponsePagination) -> Self {
+                Self {
+                    limit: Ok(value.limit),
+                    offset: Ok(value.offset),
+                    total: Ok(value.total),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
         pub struct X402ExactEvmPayload {
             authorization: ::std::result::Result<
                 super::X402ExactEvmPayloadAuthorization,
@@ -75356,6 +80820,262 @@ pub mod types {
             }
         }
         #[derive(Clone, Debug)]
+        pub struct X402McpError {
+            code: ::std::result::Result<i64, ::std::string::String>,
+            data: ::std::result::Result<
+                ::serde_json::Map<::std::string::String, ::serde_json::Value>,
+                ::std::string::String,
+            >,
+            message: ::std::result::Result<::std::string::String, ::std::string::String>,
+        }
+        impl ::std::default::Default for X402McpError {
+            fn default() -> Self {
+                Self {
+                    code: Err("no value supplied for code".to_string()),
+                    data: Ok(Default::default()),
+                    message: Err("no value supplied for message".to_string()),
+                }
+            }
+        }
+        impl X402McpError {
+            pub fn code<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<i64>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.code = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for code: {}", e));
+                self
+            }
+            pub fn data<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<
+                    ::serde_json::Map<::std::string::String, ::serde_json::Value>,
+                >,
+                T::Error: ::std::fmt::Display,
+            {
+                self.data = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for data: {}", e));
+                self
+            }
+            pub fn message<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::string::String>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.message = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for message: {}", e));
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<X402McpError> for super::X402McpError {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: X402McpError,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    code: value.code?,
+                    data: value.data?,
+                    message: value.message?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::X402McpError> for X402McpError {
+            fn from(value: super::X402McpError) -> Self {
+                Self {
+                    code: Ok(value.code),
+                    data: Ok(value.data),
+                    message: Ok(value.message),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
+        pub struct X402McpRequest {
+            id: ::std::result::Result<
+                ::std::option::Option<super::X402McpRequestId>,
+                ::std::string::String,
+            >,
+            jsonrpc: ::std::result::Result<super::X402McpRequestJsonrpc, ::std::string::String>,
+            method: ::std::result::Result<::std::string::String, ::std::string::String>,
+            params: ::std::result::Result<
+                ::serde_json::Map<::std::string::String, ::serde_json::Value>,
+                ::std::string::String,
+            >,
+        }
+        impl ::std::default::Default for X402McpRequest {
+            fn default() -> Self {
+                Self {
+                    id: Ok(Default::default()),
+                    jsonrpc: Err("no value supplied for jsonrpc".to_string()),
+                    method: Err("no value supplied for method".to_string()),
+                    params: Ok(Default::default()),
+                }
+            }
+        }
+        impl X402McpRequest {
+            pub fn id<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<super::X402McpRequestId>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.id = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for id: {}", e));
+                self
+            }
+            pub fn jsonrpc<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<super::X402McpRequestJsonrpc>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.jsonrpc = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for jsonrpc: {}", e));
+                self
+            }
+            pub fn method<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::string::String>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.method = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for method: {}", e));
+                self
+            }
+            pub fn params<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<
+                    ::serde_json::Map<::std::string::String, ::serde_json::Value>,
+                >,
+                T::Error: ::std::fmt::Display,
+            {
+                self.params = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for params: {}", e));
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<X402McpRequest> for super::X402McpRequest {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: X402McpRequest,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    id: value.id?,
+                    jsonrpc: value.jsonrpc?,
+                    method: value.method?,
+                    params: value.params?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::X402McpRequest> for X402McpRequest {
+            fn from(value: super::X402McpRequest) -> Self {
+                Self {
+                    id: Ok(value.id),
+                    jsonrpc: Ok(value.jsonrpc),
+                    method: Ok(value.method),
+                    params: Ok(value.params),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
+        pub struct X402McpResponse {
+            error: ::std::result::Result<
+                ::std::option::Option<super::X402McpError>,
+                ::std::string::String,
+            >,
+            id: ::std::result::Result<
+                ::std::option::Option<super::X402McpResponseId>,
+                ::std::string::String,
+            >,
+            jsonrpc: ::std::result::Result<super::X402McpResponseJsonrpc, ::std::string::String>,
+            result: ::std::result::Result<
+                ::serde_json::Map<::std::string::String, ::serde_json::Value>,
+                ::std::string::String,
+            >,
+        }
+        impl ::std::default::Default for X402McpResponse {
+            fn default() -> Self {
+                Self {
+                    error: Ok(Default::default()),
+                    id: Ok(Default::default()),
+                    jsonrpc: Err("no value supplied for jsonrpc".to_string()),
+                    result: Ok(Default::default()),
+                }
+            }
+        }
+        impl X402McpResponse {
+            pub fn error<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<super::X402McpError>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.error = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for error: {}", e));
+                self
+            }
+            pub fn id<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<super::X402McpResponseId>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.id = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for id: {}", e));
+                self
+            }
+            pub fn jsonrpc<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<super::X402McpResponseJsonrpc>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.jsonrpc = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for jsonrpc: {}", e));
+                self
+            }
+            pub fn result<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<
+                    ::serde_json::Map<::std::string::String, ::serde_json::Value>,
+                >,
+                T::Error: ::std::fmt::Display,
+            {
+                self.result = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for result: {}", e));
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<X402McpResponse> for super::X402McpResponse {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: X402McpResponse,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    error: value.error?,
+                    id: value.id?,
+                    jsonrpc: value.jsonrpc?,
+                    result: value.result?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::X402McpResponse> for X402McpResponse {
+            fn from(value: super::X402McpResponse) -> Self {
+                Self {
+                    error: Ok(value.error),
+                    id: Ok(value.id),
+                    jsonrpc: Ok(value.jsonrpc),
+                    result: Ok(value.result),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
         pub struct X402ResourceInfo {
             description: ::std::result::Result<
                 ::std::option::Option<super::Description>,
@@ -75429,6 +81149,177 @@ pub mod types {
                     description: Ok(value.description),
                     mime_type: Ok(value.mime_type),
                     url: Ok(value.url),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
+        pub struct X402ResourceQuality {
+            l30_days_total_calls:
+                ::std::result::Result<::std::option::Option<i64>, ::std::string::String>,
+            l30_days_unique_payers:
+                ::std::result::Result<::std::option::Option<i64>, ::std::string::String>,
+            last_called_at: ::std::result::Result<
+                ::std::option::Option<::chrono::DateTime<::chrono::offset::Utc>>,
+                ::std::string::String,
+            >,
+        }
+        impl ::std::default::Default for X402ResourceQuality {
+            fn default() -> Self {
+                Self {
+                    l30_days_total_calls: Ok(Default::default()),
+                    l30_days_unique_payers: Ok(Default::default()),
+                    last_called_at: Ok(Default::default()),
+                }
+            }
+        }
+        impl X402ResourceQuality {
+            pub fn l30_days_total_calls<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<i64>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.l30_days_total_calls = value.try_into().map_err(|e| {
+                    format!(
+                        "error converting supplied value for l30_days_total_calls: {}",
+                        e
+                    )
+                });
+                self
+            }
+            pub fn l30_days_unique_payers<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::option::Option<i64>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.l30_days_unique_payers = value.try_into().map_err(|e| {
+                    format!(
+                        "error converting supplied value for l30_days_unique_payers: {}",
+                        e
+                    )
+                });
+                self
+            }
+            pub fn last_called_at<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<
+                    ::std::option::Option<::chrono::DateTime<::chrono::offset::Utc>>,
+                >,
+                T::Error: ::std::fmt::Display,
+            {
+                self.last_called_at = value.try_into().map_err(|e| {
+                    format!("error converting supplied value for last_called_at: {}", e)
+                });
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<X402ResourceQuality> for super::X402ResourceQuality {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: X402ResourceQuality,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    l30_days_total_calls: value.l30_days_total_calls?,
+                    l30_days_unique_payers: value.l30_days_unique_payers?,
+                    last_called_at: value.last_called_at?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::X402ResourceQuality> for X402ResourceQuality {
+            fn from(value: super::X402ResourceQuality) -> Self {
+                Self {
+                    l30_days_total_calls: Ok(value.l30_days_total_calls),
+                    l30_days_unique_payers: Ok(value.l30_days_unique_payers),
+                    last_called_at: Ok(value.last_called_at),
+                }
+            }
+        }
+        #[derive(Clone, Debug)]
+        pub struct X402SearchResourcesResponse {
+            partial_results: ::std::result::Result<bool, ::std::string::String>,
+            resources: ::std::result::Result<
+                ::std::vec::Vec<super::X402DiscoveryResource>,
+                ::std::string::String,
+            >,
+            search_method: ::std::result::Result<
+                ::std::option::Option<super::X402SearchResourcesResponseSearchMethod>,
+                ::std::string::String,
+            >,
+            x402_version: ::std::result::Result<super::X402Version, ::std::string::String>,
+        }
+        impl ::std::default::Default for X402SearchResourcesResponse {
+            fn default() -> Self {
+                Self {
+                    partial_results: Err("no value supplied for partial_results".to_string()),
+                    resources: Err("no value supplied for resources".to_string()),
+                    search_method: Ok(Default::default()),
+                    x402_version: Err("no value supplied for x402_version".to_string()),
+                }
+            }
+        }
+        impl X402SearchResourcesResponse {
+            pub fn partial_results<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<bool>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.partial_results = value.try_into().map_err(|e| {
+                    format!("error converting supplied value for partial_results: {}", e)
+                });
+                self
+            }
+            pub fn resources<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<::std::vec::Vec<super::X402DiscoveryResource>>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.resources = value
+                    .try_into()
+                    .map_err(|e| format!("error converting supplied value for resources: {}", e));
+                self
+            }
+            pub fn search_method<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<
+                    ::std::option::Option<super::X402SearchResourcesResponseSearchMethod>,
+                >,
+                T::Error: ::std::fmt::Display,
+            {
+                self.search_method = value.try_into().map_err(|e| {
+                    format!("error converting supplied value for search_method: {}", e)
+                });
+                self
+            }
+            pub fn x402_version<T>(mut self, value: T) -> Self
+            where
+                T: ::std::convert::TryInto<super::X402Version>,
+                T::Error: ::std::fmt::Display,
+            {
+                self.x402_version = value.try_into().map_err(|e| {
+                    format!("error converting supplied value for x402_version: {}", e)
+                });
+                self
+            }
+        }
+        impl ::std::convert::TryFrom<X402SearchResourcesResponse> for super::X402SearchResourcesResponse {
+            type Error = super::error::ConversionError;
+            fn try_from(
+                value: X402SearchResourcesResponse,
+            ) -> ::std::result::Result<Self, super::error::ConversionError> {
+                Ok(Self {
+                    partial_results: value.partial_results?,
+                    resources: value.resources?,
+                    search_method: value.search_method?,
+                    x402_version: value.x402_version?,
+                })
+            }
+        }
+        impl ::std::convert::From<super::X402SearchResourcesResponse> for X402SearchResourcesResponse {
+            fn from(value: super::X402SearchResourcesResponse) -> Self {
+                Self {
+                    partial_results: Ok(value.partial_results),
+                    resources: Ok(value.resources),
+                    search_method: Ok(value.search_method),
+                    x402_version: Ok(value.x402_version),
                 }
             }
         }
@@ -76731,6 +82622,108 @@ impl Client {
     pub fn list_webhook_subscription_events(&self) -> builder::ListWebhookSubscriptionEvents<'_> {
         builder::ListWebhookSubscriptionEvents::new(self)
     }
+    /**Get account-scoped delegation for an end user account
+
+    Returns the active account-scoped delegation for the specified end user account, if one exists. Useful for showing delegation status in a UI.
+    When the address corresponds to an EVM Smart Account, this returns the delegation for the Smart Account's owner EOA.
+
+    Sends a `GET` request to `/v2/embedded-wallet-api/end-users/{userId}/address/{address}/delegation`
+
+    Arguments:
+    - `user_id`: The ID of the end user.
+    - `address`: The blockchain address of the end user account to query. For EVM addresses, matching is case-insensitive.
+    - `project_id`: The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider).
+    ```ignore
+    let response = client.get_delegation_for_end_user_account()
+        .user_id(user_id)
+        .address(address)
+        .project_id(project_id)
+        .send()
+        .await;
+    ```*/
+    pub fn get_delegation_for_end_user_account(
+        &self,
+    ) -> builder::GetDelegationForEndUserAccount<'_> {
+        builder::GetDelegationForEndUserAccount::new(self)
+    }
+    /**Create account-scoped delegation for an end user account
+
+    Creates an account-scoped delegation that allows a developer to sign on behalf of an end user for a single blockchain account (identified by its address) for the specified duration. The end user must be authenticated to authorize this delegation.
+    Multiple account-scoped delegations may exist concurrently for a single end user (one per canonical account address). Account-scoped and user-scoped delegations cannot coexist for the same user.
+    When the address corresponds to an EVM Smart Account, the delegation is scoped to the Smart Account's owner EOA rather than the Smart Account address itself. This means `/address/{smartAccountAddress}/delegation` and `/address/{ownerEoaAddress}/delegation` resolve to the same delegation, and the 409 `account_scoped_delegation_active` error may be returned when creating via either address if one already exists for the canonical owner.
+
+    Sends a `POST` request to `/v2/embedded-wallet-api/end-users/{userId}/address/{address}/delegation`
+
+    Arguments:
+    - `user_id`: The ID of the end user.
+    - `address`: The blockchain address of the end user account to scope this delegation to. Format varies by network (e.g., 0x-prefixed for EVM, base58 for Solana). For EVM addresses, matching is case-insensitive.
+    - `project_id`: The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider).
+    - `x_idempotency_key`: An optional string request header for making requests safely retryable.
+    When included, duplicate requests with the same key will return identical responses.
+    Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
+
+    - `x_wallet_auth`: A JWT signed using your Wallet Secret, encoded in base64. Refer to the
+    [Generate Wallet Token](https://docs.cdp.coinbase.com/api-reference/v2/authentication#2-generate-wallet-token)
+    section of our Authentication docs for more details on how to generate your Wallet Token.
+
+    - `body`
+    ```ignore
+    let response = client.create_delegation_for_end_user_account()
+        .user_id(user_id)
+        .address(address)
+        .project_id(project_id)
+        .x_idempotency_key(x_idempotency_key)
+        .x_wallet_auth(x_wallet_auth)
+        .body(body)
+        .send()
+        .await;
+    ```*/
+    pub fn create_delegation_for_end_user_account(
+        &self,
+    ) -> builder::CreateDelegationForEndUserAccount<'_> {
+        builder::CreateDelegationForEndUserAccount::new(self)
+    }
+    /**Revoke account-scoped delegation for an end user account
+
+    Revokes the active account-scoped delegation for the specified end user account. Other account-scoped delegations for the same user are unaffected. This operation can be performed by the end user themselves or by a developer using their API key.
+    When the address corresponds to an EVM Smart Account, this revokes the delegation for the Smart Account's owner EOA.
+
+    Sends a `DELETE` request to `/v2/embedded-wallet-api/end-users/{userId}/address/{address}/delegation`
+
+    Arguments:
+    - `user_id`: The ID of the end user.
+    - `address`: The blockchain address of the end user account whose delegation should be revoked. For EVM addresses, matching is case-insensitive.
+    - `project_id`: The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider).
+    - `x_developer_auth`: A JWT signed using your Wallet Secret, encoded in base64. Refer to the
+    [Generate Wallet Token](https://docs.cdp.coinbase.com/api-reference/v2/authentication#2-generate-wallet-token)
+    section of our Authentication docs for more details on how to generate your Wallet Token.
+
+    - `x_idempotency_key`: An optional string request header for making requests safely retryable.
+    When included, duplicate requests with the same key will return identical responses.
+    Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
+
+    - `x_wallet_auth`: A JWT signed using your Wallet Secret, encoded in base64. Refer to the
+    [Generate Wallet Token](https://docs.cdp.coinbase.com/api-reference/v2/authentication#2-generate-wallet-token)
+    section of our Authentication docs for more details on how to generate your Wallet Token.
+
+    - `body`
+    ```ignore
+    let response = client.revoke_delegation_for_end_user_account()
+        .user_id(user_id)
+        .address(address)
+        .project_id(project_id)
+        .x_developer_auth(x_developer_auth)
+        .x_idempotency_key(x_idempotency_key)
+        .x_wallet_auth(x_wallet_auth)
+        .body(body)
+        .send()
+        .await;
+    ```*/
+    pub fn revoke_delegation_for_end_user_account(
+        &self,
+    ) -> builder::RevokeDelegationForEndUserAccount<'_> {
+        builder::RevokeDelegationForEndUserAccount::new(self)
+    }
     /**Get delegation for end user
 
     Returns the active delegation for the specified end user, if one exists. This operation can be performed by the end user themselves or by a developer using their API key.
@@ -76758,6 +82751,7 @@ impl Client {
 
     Arguments:
     - `user_id`: The ID of the end user.
+    - `project_id`: The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider).
     - `x_developer_auth`: A JWT signed using your Wallet Secret, encoded in base64. Refer to the
     [Generate Wallet Token](https://docs.cdp.coinbase.com/api-reference/v2/authentication#2-generate-wallet-token)
     section of our Authentication docs for more details on how to generate your Wallet Token.
@@ -76774,6 +82768,7 @@ impl Client {
     ```ignore
     let response = client.revoke_delegation_for_end_user()
         .user_id(user_id)
+        .project_id(project_id)
         .x_developer_auth(x_developer_auth)
         .x_idempotency_key(x_idempotency_key)
         .x_wallet_auth(x_wallet_auth)
@@ -77369,6 +83364,43 @@ impl Client {
     pub fn import_end_user(&self) -> builder::ImportEndUser<'_> {
         builder::ImportEndUser::new(self)
     }
+    /**Look up end users by identity
+
+    Looks up end users. Exactly one lookup type must be provided per request:
+
+    - **email**: searches across all email-based authentication methods
+      (email, Google, Apple, GitHub). May return multiple end users if the
+      same email address appears across different auth methods.
+
+    - **oauthProvider + oauthSubject**: looks up a user by their OAuth
+      provider and subject (the `sub` claim from the provider's ID token).
+      Both params must be provided together.
+
+    - **phoneNumber**: looks up a user by their SMS-verified phone number.
+
+    Returns all matching end users. If no end users match, an empty array is returned.
+
+    This API is intended to be used by the developer's own backend, and is authenticated using the developer's CDP API key.
+
+    Sends a `GET` request to `/v2/end-users/lookup`
+
+    Arguments:
+    - `email`: The email address to search for across all email-based authentication methods.
+    - `oauth_provider`: The OAuth provider to search by. Must be provided together with oauthSubject.
+    - `oauth_subject`: The OAuth subject (the `sub` claim from the provider's ID token). Must be provided together with oauthProvider.
+    - `phone_number`: The E.164-formatted phone number to search for. Must be URL-encoded when passed as a query parameter (e.g. `+14155552671` → `%2B14155552671`).
+    ```ignore
+    let response = client.lookup_end_user()
+        .email(email)
+        .oauth_provider(oauth_provider)
+        .oauth_subject(oauth_subject)
+        .phone_number(phone_number)
+        .send()
+        .await;
+    ```*/
+    pub fn lookup_end_user(&self) -> builder::LookupEndUser<'_> {
+        builder::LookupEndUser::new(self)
+    }
     /**Get an end user
 
     Gets an end user by ID.
@@ -77450,7 +83482,7 @@ impl Client {
     }
     /**Add a Solana account to an end user
 
-    Adds a new Solana account to an existing end user. End users can have  up to 10 Solana accounts.
+    Adds a new Solana account to an existing end user. End users can have up to 10 Solana accounts.
     This API is intended to be used by the developer's own backend, and is authenticated using the developer's CDP API key.
 
     Sends a `POST` request to `/v2/end-users/{userId}/solana`
@@ -78277,6 +84309,30 @@ impl Client {
     pub fn get_onramp_user_limits(&self) -> builder::GetOnrampUserLimits<'_> {
         builder::GetOnrampUserLimits::new(self)
     }
+    /**Request limit upgrade
+
+    Requests a limit upgrade for an onramp user by submitting identity information. Only phone number is currently supported as a userId.
+
+    The verification process is asynchronous. After calling this endpoint, use the [Get Onramp User Limits](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/onramp/get-onramp-user-limits) endpoint to check the status in the `limitUpgradeOptions` array.
+
+    **Prerequisites:**
+    - The phone number must have been previously verified by your app via OTP. - Upgrades may not be available until a certain number of successful transactions by the user.
+
+    **Supported fields:**
+    - `ssnLast4`: Last 4 digits of the Social Security Number (no dashes or spaces).
+    - `dateOfBirth`: Date of birth (day, month, year as zero-padded strings).
+
+    Sends a `POST` request to `/v2/onramp/limits/upgrade`
+
+    ```ignore
+    let response = client.request_limits_upgrade()
+        .body(body)
+        .send()
+        .await;
+    ```*/
+    pub fn request_limits_upgrade(&self) -> builder::RequestLimitsUpgrade<'_> {
+        builder::RequestLimitsUpgrade::new(self)
+    }
     /**Create an onramp order
 
     Create a new Onramp order or get a quote for an Onramp order. Either `paymentAmount` or `purchaseAmount` must be provided.
@@ -78812,6 +84868,112 @@ impl Client {
     ```*/
     pub fn list_solana_token_balances(&self) -> builder::ListSolanaTokenBalances<'_> {
         builder::ListSolanaTokenBalances::new(self)
+    }
+    /**Handle MCP JSON-RPC request
+
+    Handles JSON-RPC requests for the Model Context Protocol (MCP). Supports MCP methods for discovering x402 payment resources and tools.
+
+    Sends a `POST` request to `/v2/x402/discovery/mcp`
+
+    ```ignore
+    let response = client.post_x402_discovery_mcp()
+        .body(body)
+        .send()
+        .await;
+    ```*/
+    pub fn post_x402_discovery_mcp(&self) -> builder::PostX402DiscoveryMcp<'_> {
+        builder::PostX402DiscoveryMcp::new(self)
+    }
+    /**List merchant discovery info
+
+    Gets x402 merchant discovery information for a given merchant payment address.
+    This endpoint returns all active x402 resources associated with the specified `payTo` address, allowing clients to discover what payment-gated resources a merchant exposes and their corresponding payment requirements.
+    The response is paginated, and by default, returns 20 items per page.
+
+    Sends a `GET` request to `/v2/x402/discovery/merchant`
+
+    Arguments:
+    - `limit`: The number of resources to return per page.
+    - `offset`: The offset of the first resource to return.
+    - `pay_to`: The merchant's payment address to look up.
+    This is the onchain address that payment requirements route funds to.
+    ```ignore
+    let response = client.list_x402_discovery_merchant()
+        .limit(limit)
+        .offset(offset)
+        .pay_to(pay_to)
+        .send()
+        .await;
+    ```*/
+    pub fn list_x402_discovery_merchant(&self) -> builder::ListX402DiscoveryMerchant<'_> {
+        builder::ListX402DiscoveryMerchant::new(self)
+    }
+    /**List discovered x402 resources
+
+    Lists all active discovered x402 resources.
+    This endpoint returns resources that have been discovered and cached by the x402 facilitator, including their payment requirements and metadata.
+    The response is paginated, and by default, returns 100 items per page.
+
+    Sends a `GET` request to `/v2/x402/discovery/resources`
+
+    Arguments:
+    - `limit`: The number of discovered x402 resources to return per page.
+    - `offset`: The offset of the first discovered x402 resource to return.
+    - `type_`: Filter by protocol type (e.g., "http", "mcp").
+    Currently, the only supported protocol type is "http".
+    ```ignore
+    let response = client.list_x402_discovery_resources()
+        .limit(limit)
+        .offset(offset)
+        .type_(type_)
+        .send()
+        .await;
+    ```*/
+    pub fn list_x402_discovery_resources(&self) -> builder::ListX402DiscoveryResources<'_> {
+        builder::ListX402DiscoveryResources::new(self)
+    }
+    /**Search x402 resources
+
+    Searches for active x402 resources using a text query and optional filters.
+    Supports both text-based and vector-based search depending on availability. Results are sorted by relevance and quality score.
+    Legacy network names (e.g., `base`, `base-sepolia`, `solana`) are automatically normalized to their CAIP-2 equivalents.
+    The response is limited to 20 items per request. If more results exist, `partialResults` will be `true`.
+
+    Sends a `GET` request to `/v2/x402/discovery/search`
+
+    Arguments:
+    - `asset`: Filter results by asset address.
+    For EVM networks, provide a 0x-prefixed EVM address. For Solana networks, provide a base58-encoded address.
+    Matching is case-insensitive.
+    - `extensions`: Filter results to resources that support the specified protocol extensions. Can be specified multiple times to filter by multiple extensions.
+    - `limit`: Maximum number of resources to return. Must be a positive integer no greater than 20.
+    Defaults to 20.
+    - `max_usd_price`: Filter results to resources with a USD price at or below this value.
+    - `network`: Filter results by network in CAIP-2 format (e.g., `eip155:8453`) or legacy name (e.g., `base`, `base-sepolia`, `solana`).
+    Legacy names are normalized to their CAIP-2 equivalents before filtering.
+    - `pay_to`: Filter results by the merchant's payment address.
+    For EVM networks, provide a 0x-prefixed EVM address. For Solana networks, provide a base58-encoded address.
+    - `query`: Full-text or semantic search query to find matching resources.
+    - `scheme`: Filter results by payment scheme (e.g., `exact`).
+    - `url_substring`: Filter results to resources whose URL contains this value (case-insensitive substring match against the resource URL).
+    Useful for narrowing results to a specific domain, subdomain, or path segment. Combine with `query` to perform semantic search restricted to a URL subset.
+    Tip: include enough of the URL to disambiguate (e.g. `api.example.com` rather than `example`) — a short substring may also match resources whose path contains the same string.
+    ```ignore
+    let response = client.search_x402_resources()
+        .asset(asset)
+        .extensions(extensions)
+        .limit(limit)
+        .max_usd_price(max_usd_price)
+        .network(network)
+        .pay_to(pay_to)
+        .query(query)
+        .scheme(scheme)
+        .url_substring(url_substring)
+        .send()
+        .await;
+    ```*/
+    pub fn search_x402_resources(&self) -> builder::SearchX402Resources<'_> {
+        builder::SearchX402Resources::new(self)
     }
     /**Settle a payment
 
@@ -79943,6 +86105,521 @@ pub mod builder {
             }
         }
     }
+    /**Builder for [`Client::get_delegation_for_end_user_account`]
+
+    [`Client::get_delegation_for_end_user_account`]: super::Client::get_delegation_for_end_user_account*/
+    #[derive(Debug, Clone)]
+    pub struct GetDelegationForEndUserAccount<'a> {
+        client: &'a super::Client,
+        user_id: Result<types::GetDelegationForEndUserAccountUserId, String>,
+        address: Result<types::BlockchainAddress, String>,
+        project_id: Result<Option<types::GetDelegationForEndUserAccountProjectId>, String>,
+    }
+    impl<'a> GetDelegationForEndUserAccount<'a> {
+        pub fn new(client: &'a super::Client) -> Self {
+            Self {
+                client: client,
+                user_id: Err("user_id was not initialized".to_string()),
+                address: Err("address was not initialized".to_string()),
+                project_id: Ok(None),
+            }
+        }
+        pub fn user_id<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<types::GetDelegationForEndUserAccountUserId>,
+        {
+            self.user_id = value.try_into().map_err(|_| {
+                "conversion to `GetDelegationForEndUserAccountUserId` for user_id failed"
+                    .to_string()
+            });
+            self
+        }
+        pub fn address<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<types::BlockchainAddress>,
+        {
+            self.address = value
+                .try_into()
+                .map_err(|_| "conversion to `BlockchainAddress` for address failed".to_string());
+            self
+        }
+        pub fn project_id<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<types::GetDelegationForEndUserAccountProjectId>,
+        {
+            self.project_id = value.try_into().map(Some).map_err(|_| {
+                "conversion to `GetDelegationForEndUserAccountProjectId` for project_id failed"
+                    .to_string()
+            });
+            self
+        }
+        ///Sends a `GET` request to `/v2/embedded-wallet-api/end-users/{userId}/address/{address}/delegation`
+        pub async fn send(
+            self,
+        ) -> Result<ResponseValue<types::GetDelegationForEndUserAccountResponse>, Error<types::Error>>
+        {
+            let Self {
+                client,
+                user_id,
+                address,
+                project_id,
+            } = self;
+            let user_id = user_id.map_err(Error::InvalidRequest)?;
+            let address = address.map_err(Error::InvalidRequest)?;
+            let project_id = project_id.map_err(Error::InvalidRequest)?;
+            let url = format!(
+                "{}/v2/embedded-wallet-api/end-users/{}/address/{}/delegation",
+                client.baseurl,
+                encode_path(&user_id.to_string()),
+                encode_path(&address.to_string()),
+            );
+            let mut header_map = ::reqwest::header::HeaderMap::with_capacity(1usize);
+            header_map.append(
+                ::reqwest::header::HeaderName::from_static("api-version"),
+                ::reqwest::header::HeaderValue::from_static(super::Client::api_version()),
+            );
+            #[allow(unused_mut)]
+            let mut request = client
+                .client
+                .get(url)
+                .header(
+                    ::reqwest::header::ACCEPT,
+                    ::reqwest::header::HeaderValue::from_static("application/json"),
+                )
+                .query(&progenitor_middleware_client::QueryParam::new(
+                    "projectID",
+                    &project_id,
+                ))
+                .headers(header_map)
+                .build()?;
+            let info = OperationInfo {
+                operation_id: "get_delegation_for_end_user_account",
+            };
+            client.pre(&mut request, &info).await?;
+            let result = client.exec(request, &info).await;
+            client.post(&result, &info).await?;
+            let response = result?;
+            match response.status().as_u16() {
+                200u16 => ResponseValue::from_response::<types::Error>(response).await,
+                401u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                404u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                500u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                502u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                503u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                _ => Err(Error::UnexpectedResponse(response)),
+            }
+        }
+    }
+    /**Builder for [`Client::create_delegation_for_end_user_account`]
+
+    [`Client::create_delegation_for_end_user_account`]: super::Client::create_delegation_for_end_user_account*/
+    #[derive(Debug, Clone)]
+    pub struct CreateDelegationForEndUserAccount<'a> {
+        client: &'a super::Client,
+        user_id: Result<types::CreateDelegationForEndUserAccountUserId, String>,
+        address: Result<types::BlockchainAddress, String>,
+        project_id: Result<Option<types::CreateDelegationForEndUserAccountProjectId>, String>,
+        x_idempotency_key:
+            Result<Option<types::CreateDelegationForEndUserAccountXIdempotencyKey>, String>,
+        x_wallet_auth: Result<::std::string::String, String>,
+        body: Result<types::builder::CreateDelegationForEndUserAccountBody, String>,
+    }
+    impl<'a> CreateDelegationForEndUserAccount<'a> {
+        pub fn new(client: &'a super::Client) -> Self {
+            Self {
+                client: client,
+                user_id: Err("user_id was not initialized".to_string()),
+                address: Err("address was not initialized".to_string()),
+                project_id: Ok(None),
+                x_idempotency_key: Ok(None),
+                x_wallet_auth: Err("x_wallet_auth was not initialized".to_string()),
+                body: Ok(::std::default::Default::default()),
+            }
+        }
+        pub fn user_id<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<types::CreateDelegationForEndUserAccountUserId>,
+        {
+            self.user_id = value.try_into().map_err(|_| {
+                "conversion to `CreateDelegationForEndUserAccountUserId` for user_id failed"
+                    .to_string()
+            });
+            self
+        }
+        pub fn address<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<types::BlockchainAddress>,
+        {
+            self.address = value
+                .try_into()
+                .map_err(|_| "conversion to `BlockchainAddress` for address failed".to_string());
+            self
+        }
+        pub fn project_id<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<types::CreateDelegationForEndUserAccountProjectId>,
+        {
+            self.project_id = value.try_into().map(Some).map_err(|_| {
+                "conversion to `CreateDelegationForEndUserAccountProjectId` for project_id failed"
+                    .to_string()
+            });
+            self
+        }
+        pub fn x_idempotency_key<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<types::CreateDelegationForEndUserAccountXIdempotencyKey>,
+        {
+            self.x_idempotency_key = value
+                .try_into()
+                .map(Some)
+                .map_err(|_| {
+                    "conversion to `CreateDelegationForEndUserAccountXIdempotencyKey` for x_idempotency_key failed"
+                        .to_string()
+                });
+            self
+        }
+        pub fn x_wallet_auth<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<::std::string::String>,
+        {
+            self.x_wallet_auth = value.try_into().map_err(|_| {
+                "conversion to `:: std :: string :: String` for x_wallet_auth failed".to_string()
+            });
+            self
+        }
+        pub fn body<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<types::CreateDelegationForEndUserAccountBody>,
+            <V as std::convert::TryInto<types::CreateDelegationForEndUserAccountBody>>::Error:
+                std::fmt::Display,
+        {
+            self.body = value.try_into().map(From::from).map_err(|s| {
+                format!(
+                    "conversion to `CreateDelegationForEndUserAccountBody` for body failed: {}",
+                    s
+                )
+            });
+            self
+        }
+        pub fn body_map<F>(mut self, f: F) -> Self
+        where
+            F: std::ops::FnOnce(
+                types::builder::CreateDelegationForEndUserAccountBody,
+            )
+                -> types::builder::CreateDelegationForEndUserAccountBody,
+        {
+            self.body = self.body.map(f);
+            self
+        }
+        ///Sends a `POST` request to `/v2/embedded-wallet-api/end-users/{userId}/address/{address}/delegation`
+        pub async fn send(
+            self,
+        ) -> Result<
+            ResponseValue<types::CreateDelegationForEndUserAccountResponse>,
+            Error<types::Error>,
+        > {
+            let Self {
+                client,
+                user_id,
+                address,
+                project_id,
+                x_idempotency_key,
+                x_wallet_auth,
+                body,
+            } = self;
+            let user_id = user_id.map_err(Error::InvalidRequest)?;
+            let address = address.map_err(Error::InvalidRequest)?;
+            let project_id = project_id.map_err(Error::InvalidRequest)?;
+            let x_idempotency_key = x_idempotency_key.map_err(Error::InvalidRequest)?;
+            let x_wallet_auth = x_wallet_auth.map_err(Error::InvalidRequest)?;
+            let body = body
+                .and_then(|v| {
+                    types::CreateDelegationForEndUserAccountBody::try_from(v)
+                        .map_err(|e| e.to_string())
+                })
+                .map_err(Error::InvalidRequest)?;
+            let url = format!(
+                "{}/v2/embedded-wallet-api/end-users/{}/address/{}/delegation",
+                client.baseurl,
+                encode_path(&user_id.to_string()),
+                encode_path(&address.to_string()),
+            );
+            let mut header_map = ::reqwest::header::HeaderMap::with_capacity(3usize);
+            header_map.append(
+                ::reqwest::header::HeaderName::from_static("api-version"),
+                ::reqwest::header::HeaderValue::from_static(super::Client::api_version()),
+            );
+            if let Some(value) = x_idempotency_key {
+                header_map.append("X-Idempotency-Key", value.to_string().try_into()?);
+            }
+            header_map.append("X-Wallet-Auth", x_wallet_auth.to_string().try_into()?);
+            #[allow(unused_mut)]
+            let mut request = client
+                .client
+                .post(url)
+                .header(
+                    ::reqwest::header::ACCEPT,
+                    ::reqwest::header::HeaderValue::from_static("application/json"),
+                )
+                .json(&body)
+                .query(&progenitor_middleware_client::QueryParam::new(
+                    "projectID",
+                    &project_id,
+                ))
+                .headers(header_map)
+                .build()?;
+            let info = OperationInfo {
+                operation_id: "create_delegation_for_end_user_account",
+            };
+            client.pre(&mut request, &info).await?;
+            let result = client.exec(request, &info).await;
+            client.post(&result, &info).await?;
+            let response = result?;
+            match response.status().as_u16() {
+                201u16 => ResponseValue::from_response::<types::Error>(response).await,
+                400u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                401u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                402u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                404u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                409u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                422u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                429u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                500u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                502u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                503u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                _ => Err(Error::UnexpectedResponse(response)),
+            }
+        }
+    }
+    /**Builder for [`Client::revoke_delegation_for_end_user_account`]
+
+    [`Client::revoke_delegation_for_end_user_account`]: super::Client::revoke_delegation_for_end_user_account*/
+    #[derive(Debug, Clone)]
+    pub struct RevokeDelegationForEndUserAccount<'a> {
+        client: &'a super::Client,
+        user_id: Result<types::RevokeDelegationForEndUserAccountUserId, String>,
+        address: Result<types::BlockchainAddress, String>,
+        project_id: Result<Option<types::RevokeDelegationForEndUserAccountProjectId>, String>,
+        x_developer_auth: Result<Option<::std::string::String>, String>,
+        x_idempotency_key:
+            Result<Option<types::RevokeDelegationForEndUserAccountXIdempotencyKey>, String>,
+        x_wallet_auth: Result<Option<::std::string::String>, String>,
+        body: Result<types::builder::RevokeDelegationForEndUserAccountBody, String>,
+    }
+    impl<'a> RevokeDelegationForEndUserAccount<'a> {
+        pub fn new(client: &'a super::Client) -> Self {
+            Self {
+                client: client,
+                user_id: Err("user_id was not initialized".to_string()),
+                address: Err("address was not initialized".to_string()),
+                project_id: Ok(None),
+                x_developer_auth: Ok(None),
+                x_idempotency_key: Ok(None),
+                x_wallet_auth: Ok(None),
+                body: Ok(::std::default::Default::default()),
+            }
+        }
+        pub fn user_id<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<types::RevokeDelegationForEndUserAccountUserId>,
+        {
+            self.user_id = value.try_into().map_err(|_| {
+                "conversion to `RevokeDelegationForEndUserAccountUserId` for user_id failed"
+                    .to_string()
+            });
+            self
+        }
+        pub fn address<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<types::BlockchainAddress>,
+        {
+            self.address = value
+                .try_into()
+                .map_err(|_| "conversion to `BlockchainAddress` for address failed".to_string());
+            self
+        }
+        pub fn project_id<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<types::RevokeDelegationForEndUserAccountProjectId>,
+        {
+            self.project_id = value.try_into().map(Some).map_err(|_| {
+                "conversion to `RevokeDelegationForEndUserAccountProjectId` for project_id failed"
+                    .to_string()
+            });
+            self
+        }
+        pub fn x_developer_auth<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<::std::string::String>,
+        {
+            self.x_developer_auth = value.try_into().map(Some).map_err(|_| {
+                "conversion to `:: std :: string :: String` for x_developer_auth failed".to_string()
+            });
+            self
+        }
+        pub fn x_idempotency_key<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<types::RevokeDelegationForEndUserAccountXIdempotencyKey>,
+        {
+            self.x_idempotency_key = value
+                .try_into()
+                .map(Some)
+                .map_err(|_| {
+                    "conversion to `RevokeDelegationForEndUserAccountXIdempotencyKey` for x_idempotency_key failed"
+                        .to_string()
+                });
+            self
+        }
+        pub fn x_wallet_auth<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<::std::string::String>,
+        {
+            self.x_wallet_auth = value.try_into().map(Some).map_err(|_| {
+                "conversion to `:: std :: string :: String` for x_wallet_auth failed".to_string()
+            });
+            self
+        }
+        pub fn body<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<types::RevokeDelegationForEndUserAccountBody>,
+            <V as std::convert::TryInto<types::RevokeDelegationForEndUserAccountBody>>::Error:
+                std::fmt::Display,
+        {
+            self.body = value.try_into().map(From::from).map_err(|s| {
+                format!(
+                    "conversion to `RevokeDelegationForEndUserAccountBody` for body failed: {}",
+                    s
+                )
+            });
+            self
+        }
+        pub fn body_map<F>(mut self, f: F) -> Self
+        where
+            F: std::ops::FnOnce(
+                types::builder::RevokeDelegationForEndUserAccountBody,
+            )
+                -> types::builder::RevokeDelegationForEndUserAccountBody,
+        {
+            self.body = self.body.map(f);
+            self
+        }
+        ///Sends a `DELETE` request to `/v2/embedded-wallet-api/end-users/{userId}/address/{address}/delegation`
+        pub async fn send(self) -> Result<ResponseValue<()>, Error<types::Error>> {
+            let Self {
+                client,
+                user_id,
+                address,
+                project_id,
+                x_developer_auth,
+                x_idempotency_key,
+                x_wallet_auth,
+                body,
+            } = self;
+            let user_id = user_id.map_err(Error::InvalidRequest)?;
+            let address = address.map_err(Error::InvalidRequest)?;
+            let project_id = project_id.map_err(Error::InvalidRequest)?;
+            let x_developer_auth = x_developer_auth.map_err(Error::InvalidRequest)?;
+            let x_idempotency_key = x_idempotency_key.map_err(Error::InvalidRequest)?;
+            let x_wallet_auth = x_wallet_auth.map_err(Error::InvalidRequest)?;
+            let body = body
+                .and_then(|v| {
+                    types::RevokeDelegationForEndUserAccountBody::try_from(v)
+                        .map_err(|e| e.to_string())
+                })
+                .map_err(Error::InvalidRequest)?;
+            let url = format!(
+                "{}/v2/embedded-wallet-api/end-users/{}/address/{}/delegation",
+                client.baseurl,
+                encode_path(&user_id.to_string()),
+                encode_path(&address.to_string()),
+            );
+            let mut header_map = ::reqwest::header::HeaderMap::with_capacity(4usize);
+            header_map.append(
+                ::reqwest::header::HeaderName::from_static("api-version"),
+                ::reqwest::header::HeaderValue::from_static(super::Client::api_version()),
+            );
+            if let Some(value) = x_developer_auth {
+                header_map.append("X-Developer-Auth", value.to_string().try_into()?);
+            }
+            if let Some(value) = x_idempotency_key {
+                header_map.append("X-Idempotency-Key", value.to_string().try_into()?);
+            }
+            if let Some(value) = x_wallet_auth {
+                header_map.append("X-Wallet-Auth", value.to_string().try_into()?);
+            }
+            #[allow(unused_mut)]
+            let mut request = client
+                .client
+                .delete(url)
+                .header(
+                    ::reqwest::header::ACCEPT,
+                    ::reqwest::header::HeaderValue::from_static("application/json"),
+                )
+                .json(&body)
+                .query(&progenitor_middleware_client::QueryParam::new(
+                    "projectID",
+                    &project_id,
+                ))
+                .headers(header_map)
+                .build()?;
+            let info = OperationInfo {
+                operation_id: "revoke_delegation_for_end_user_account",
+            };
+            client.pre(&mut request, &info).await?;
+            let result = client.exec(request, &info).await;
+            client.post(&result, &info).await?;
+            let response = result?;
+            match response.status().as_u16() {
+                204u16 => Ok(ResponseValue::empty(response)),
+                401u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                404u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                500u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                502u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                503u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                _ => Err(Error::UnexpectedResponse(response)),
+            }
+        }
+    }
     /**Builder for [`Client::get_delegation_for_end_user`]
 
     [`Client::get_delegation_for_end_user`]: super::Client::get_delegation_for_end_user*/
@@ -80049,6 +86726,7 @@ pub mod builder {
     pub struct RevokeDelegationForEndUser<'a> {
         client: &'a super::Client,
         user_id: Result<types::RevokeDelegationForEndUserUserId, String>,
+        project_id: Result<Option<types::RevokeDelegationForEndUserProjectId>, String>,
         x_developer_auth: Result<Option<::std::string::String>, String>,
         x_idempotency_key: Result<Option<types::RevokeDelegationForEndUserXIdempotencyKey>, String>,
         x_wallet_auth: Result<Option<::std::string::String>, String>,
@@ -80059,6 +86737,7 @@ pub mod builder {
             Self {
                 client: client,
                 user_id: Err("user_id was not initialized".to_string()),
+                project_id: Ok(None),
                 x_developer_auth: Ok(None),
                 x_idempotency_key: Ok(None),
                 x_wallet_auth: Ok(None),
@@ -80071,6 +86750,16 @@ pub mod builder {
         {
             self.user_id = value.try_into().map_err(|_| {
                 "conversion to `RevokeDelegationForEndUserUserId` for user_id failed".to_string()
+            });
+            self
+        }
+        pub fn project_id<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<types::RevokeDelegationForEndUserProjectId>,
+        {
+            self.project_id = value.try_into().map(Some).map_err(|_| {
+                "conversion to `RevokeDelegationForEndUserProjectId` for project_id failed"
+                    .to_string()
             });
             self
         }
@@ -80133,12 +86822,14 @@ pub mod builder {
             let Self {
                 client,
                 user_id,
+                project_id,
                 x_developer_auth,
                 x_idempotency_key,
                 x_wallet_auth,
                 body,
             } = self;
             let user_id = user_id.map_err(Error::InvalidRequest)?;
+            let project_id = project_id.map_err(Error::InvalidRequest)?;
             let x_developer_auth = x_developer_auth.map_err(Error::InvalidRequest)?;
             let x_idempotency_key = x_idempotency_key.map_err(Error::InvalidRequest)?;
             let x_wallet_auth = x_wallet_auth.map_err(Error::InvalidRequest)?;
@@ -80175,6 +86866,10 @@ pub mod builder {
                     ::reqwest::header::HeaderValue::from_static("application/json"),
                 )
                 .json(&body)
+                .query(&progenitor_middleware_client::QueryParam::new(
+                    "projectID",
+                    &project_id,
+                ))
                 .headers(header_map)
                 .build()?;
             let info = OperationInfo {
@@ -82971,6 +89666,131 @@ pub mod builder {
                     ResponseValue::from_response(response).await?,
                 )),
                 503u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                _ => Err(Error::UnexpectedResponse(response)),
+            }
+        }
+    }
+    /**Builder for [`Client::lookup_end_user`]
+
+    [`Client::lookup_end_user`]: super::Client::lookup_end_user*/
+    #[derive(Debug, Clone)]
+    pub struct LookupEndUser<'a> {
+        client: &'a super::Client,
+        email: Result<Option<::std::string::String>, String>,
+        oauth_provider: Result<Option<types::OAuth2ProviderType>, String>,
+        oauth_subject: Result<Option<::std::string::String>, String>,
+        phone_number: Result<Option<types::LookupEndUserPhoneNumber>, String>,
+    }
+    impl<'a> LookupEndUser<'a> {
+        pub fn new(client: &'a super::Client) -> Self {
+            Self {
+                client: client,
+                email: Ok(None),
+                oauth_provider: Ok(None),
+                oauth_subject: Ok(None),
+                phone_number: Ok(None),
+            }
+        }
+        pub fn email<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<::std::string::String>,
+        {
+            self.email = value.try_into().map(Some).map_err(|_| {
+                "conversion to `:: std :: string :: String` for email failed".to_string()
+            });
+            self
+        }
+        pub fn oauth_provider<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<types::OAuth2ProviderType>,
+        {
+            self.oauth_provider = value.try_into().map(Some).map_err(|_| {
+                "conversion to `OAuth2ProviderType` for oauth_provider failed".to_string()
+            });
+            self
+        }
+        pub fn oauth_subject<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<::std::string::String>,
+        {
+            self.oauth_subject = value.try_into().map(Some).map_err(|_| {
+                "conversion to `:: std :: string :: String` for oauth_subject failed".to_string()
+            });
+            self
+        }
+        pub fn phone_number<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<types::LookupEndUserPhoneNumber>,
+        {
+            self.phone_number = value.try_into().map(Some).map_err(|_| {
+                "conversion to `LookupEndUserPhoneNumber` for phone_number failed".to_string()
+            });
+            self
+        }
+        ///Sends a `GET` request to `/v2/end-users/lookup`
+        pub async fn send(
+            self,
+        ) -> Result<ResponseValue<types::LookupEndUserResponse>, Error<types::Error>> {
+            let Self {
+                client,
+                email,
+                oauth_provider,
+                oauth_subject,
+                phone_number,
+            } = self;
+            let email = email.map_err(Error::InvalidRequest)?;
+            let oauth_provider = oauth_provider.map_err(Error::InvalidRequest)?;
+            let oauth_subject = oauth_subject.map_err(Error::InvalidRequest)?;
+            let phone_number = phone_number.map_err(Error::InvalidRequest)?;
+            let url = format!("{}/v2/end-users/lookup", client.baseurl,);
+            let mut header_map = ::reqwest::header::HeaderMap::with_capacity(1usize);
+            header_map.append(
+                ::reqwest::header::HeaderName::from_static("api-version"),
+                ::reqwest::header::HeaderValue::from_static(super::Client::api_version()),
+            );
+            #[allow(unused_mut)]
+            let mut request = client
+                .client
+                .get(url)
+                .header(
+                    ::reqwest::header::ACCEPT,
+                    ::reqwest::header::HeaderValue::from_static("application/json"),
+                )
+                .query(&progenitor_middleware_client::QueryParam::new(
+                    "email", &email,
+                ))
+                .query(&progenitor_middleware_client::QueryParam::new(
+                    "oauthProvider",
+                    &oauth_provider,
+                ))
+                .query(&progenitor_middleware_client::QueryParam::new(
+                    "oauthSubject",
+                    &oauth_subject,
+                ))
+                .query(&progenitor_middleware_client::QueryParam::new(
+                    "phoneNumber",
+                    &phone_number,
+                ))
+                .headers(header_map)
+                .build()?;
+            let info = OperationInfo {
+                operation_id: "lookup_end_user",
+            };
+            client.pre(&mut request, &info).await?;
+            let result = client.exec(request, &info).await;
+            client.post(&result, &info).await?;
+            let response = result?;
+            match response.status().as_u16() {
+                200u16 => ResponseValue::from_response::<types::Error>(response).await,
+                400u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                401u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                500u16 => Err(Error::ErrorResponse(
                     ResponseValue::from_response(response).await?,
                 )),
                 _ => Err(Error::UnexpectedResponse(response)),
@@ -87434,6 +94254,94 @@ pub mod builder {
             }
         }
     }
+    /**Builder for [`Client::request_limits_upgrade`]
+
+    [`Client::request_limits_upgrade`]: super::Client::request_limits_upgrade*/
+    #[derive(Debug, Clone)]
+    pub struct RequestLimitsUpgrade<'a> {
+        client: &'a super::Client,
+        body: Result<types::builder::OnrampLimitUpgradeRequest, String>,
+    }
+    impl<'a> RequestLimitsUpgrade<'a> {
+        pub fn new(client: &'a super::Client) -> Self {
+            Self {
+                client: client,
+                body: Ok(::std::default::Default::default()),
+            }
+        }
+        pub fn body<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<types::OnrampLimitUpgradeRequest>,
+            <V as std::convert::TryInto<types::OnrampLimitUpgradeRequest>>::Error:
+                std::fmt::Display,
+        {
+            self.body = value.try_into().map(From::from).map_err(|s| {
+                format!(
+                    "conversion to `OnrampLimitUpgradeRequest` for body failed: {}",
+                    s
+                )
+            });
+            self
+        }
+        pub fn body_map<F>(mut self, f: F) -> Self
+        where
+            F: std::ops::FnOnce(
+                types::builder::OnrampLimitUpgradeRequest,
+            ) -> types::builder::OnrampLimitUpgradeRequest,
+        {
+            self.body = self.body.map(f);
+            self
+        }
+        ///Sends a `POST` request to `/v2/onramp/limits/upgrade`
+        pub async fn send(self) -> Result<ResponseValue<()>, Error<types::Error>> {
+            let Self { client, body } = self;
+            let body = body
+                .and_then(|v| {
+                    types::OnrampLimitUpgradeRequest::try_from(v).map_err(|e| e.to_string())
+                })
+                .map_err(Error::InvalidRequest)?;
+            let url = format!("{}/v2/onramp/limits/upgrade", client.baseurl,);
+            let mut header_map = ::reqwest::header::HeaderMap::with_capacity(1usize);
+            header_map.append(
+                ::reqwest::header::HeaderName::from_static("api-version"),
+                ::reqwest::header::HeaderValue::from_static(super::Client::api_version()),
+            );
+            #[allow(unused_mut)]
+            let mut request = client
+                .client
+                .post(url)
+                .header(
+                    ::reqwest::header::ACCEPT,
+                    ::reqwest::header::HeaderValue::from_static("application/json"),
+                )
+                .json(&body)
+                .headers(header_map)
+                .build()?;
+            let info = OperationInfo {
+                operation_id: "request_limits_upgrade",
+            };
+            client.pre(&mut request, &info).await?;
+            let result = client.exec(request, &info).await;
+            client.post(&result, &info).await?;
+            let response = result?;
+            match response.status().as_u16() {
+                202u16 => Ok(ResponseValue::empty(response)),
+                400u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                401u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                429u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                500u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                _ => Err(Error::UnexpectedResponse(response)),
+            }
+        }
+    }
     /**Builder for [`Client::create_onramp_order`]
 
     [`Client::create_onramp_order`]: super::Client::create_onramp_order*/
@@ -89832,6 +96740,525 @@ pub mod builder {
                     ResponseValue::from_response(response).await?,
                 )),
                 404u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                500u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                502u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                503u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                _ => Err(Error::UnexpectedResponse(response)),
+            }
+        }
+    }
+    /**Builder for [`Client::post_x402_discovery_mcp`]
+
+    [`Client::post_x402_discovery_mcp`]: super::Client::post_x402_discovery_mcp*/
+    #[derive(Debug, Clone)]
+    pub struct PostX402DiscoveryMcp<'a> {
+        client: &'a super::Client,
+        body: Result<types::builder::X402McpRequest, String>,
+    }
+    impl<'a> PostX402DiscoveryMcp<'a> {
+        pub fn new(client: &'a super::Client) -> Self {
+            Self {
+                client: client,
+                body: Ok(::std::default::Default::default()),
+            }
+        }
+        pub fn body<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<types::X402McpRequest>,
+            <V as std::convert::TryInto<types::X402McpRequest>>::Error: std::fmt::Display,
+        {
+            self.body = value
+                .try_into()
+                .map(From::from)
+                .map_err(|s| format!("conversion to `X402McpRequest` for body failed: {}", s));
+            self
+        }
+        pub fn body_map<F>(mut self, f: F) -> Self
+        where
+            F: std::ops::FnOnce(types::builder::X402McpRequest) -> types::builder::X402McpRequest,
+        {
+            self.body = self.body.map(f);
+            self
+        }
+        ///Sends a `POST` request to `/v2/x402/discovery/mcp`
+        pub async fn send(
+            self,
+        ) -> Result<ResponseValue<types::X402McpResponse>, Error<types::Error>> {
+            let Self { client, body } = self;
+            let body = body
+                .and_then(|v| types::X402McpRequest::try_from(v).map_err(|e| e.to_string()))
+                .map_err(Error::InvalidRequest)?;
+            let url = format!("{}/v2/x402/discovery/mcp", client.baseurl,);
+            let mut header_map = ::reqwest::header::HeaderMap::with_capacity(1usize);
+            header_map.append(
+                ::reqwest::header::HeaderName::from_static("api-version"),
+                ::reqwest::header::HeaderValue::from_static(super::Client::api_version()),
+            );
+            #[allow(unused_mut)]
+            let mut request = client
+                .client
+                .post(url)
+                .header(
+                    ::reqwest::header::ACCEPT,
+                    ::reqwest::header::HeaderValue::from_static("application/json"),
+                )
+                .json(&body)
+                .headers(header_map)
+                .build()?;
+            let info = OperationInfo {
+                operation_id: "post_x402_discovery_mcp",
+            };
+            client.pre(&mut request, &info).await?;
+            let result = client.exec(request, &info).await;
+            client.post(&result, &info).await?;
+            let response = result?;
+            match response.status().as_u16() {
+                200u16 => ResponseValue::from_response::<types::Error>(response).await,
+                400u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                500u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                _ => Err(Error::UnexpectedResponse(response)),
+            }
+        }
+    }
+    /**Builder for [`Client::list_x402_discovery_merchant`]
+
+    [`Client::list_x402_discovery_merchant`]: super::Client::list_x402_discovery_merchant*/
+    #[derive(Debug, Clone)]
+    pub struct ListX402DiscoveryMerchant<'a> {
+        client: &'a super::Client,
+        limit: Result<Option<i64>, String>,
+        offset: Result<Option<i64>, String>,
+        pay_to: Result<types::BlockchainAddress, String>,
+    }
+    impl<'a> ListX402DiscoveryMerchant<'a> {
+        pub fn new(client: &'a super::Client) -> Self {
+            Self {
+                client: client,
+                limit: Ok(None),
+                offset: Ok(None),
+                pay_to: Err("pay_to was not initialized".to_string()),
+            }
+        }
+        pub fn limit<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<i64>,
+        {
+            self.limit = value
+                .try_into()
+                .map(Some)
+                .map_err(|_| "conversion to `i64` for limit failed".to_string());
+            self
+        }
+        pub fn offset<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<i64>,
+        {
+            self.offset = value
+                .try_into()
+                .map(Some)
+                .map_err(|_| "conversion to `i64` for offset failed".to_string());
+            self
+        }
+        pub fn pay_to<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<types::BlockchainAddress>,
+        {
+            self.pay_to = value
+                .try_into()
+                .map_err(|_| "conversion to `BlockchainAddress` for pay_to failed".to_string());
+            self
+        }
+        ///Sends a `GET` request to `/v2/x402/discovery/merchant`
+        pub async fn send(
+            self,
+        ) -> Result<ResponseValue<types::X402DiscoveryMerchantResponse>, Error<types::Error>>
+        {
+            let Self {
+                client,
+                limit,
+                offset,
+                pay_to,
+            } = self;
+            let limit = limit.map_err(Error::InvalidRequest)?;
+            let offset = offset.map_err(Error::InvalidRequest)?;
+            let pay_to = pay_to.map_err(Error::InvalidRequest)?;
+            let url = format!("{}/v2/x402/discovery/merchant", client.baseurl,);
+            let mut header_map = ::reqwest::header::HeaderMap::with_capacity(1usize);
+            header_map.append(
+                ::reqwest::header::HeaderName::from_static("api-version"),
+                ::reqwest::header::HeaderValue::from_static(super::Client::api_version()),
+            );
+            #[allow(unused_mut)]
+            let mut request = client
+                .client
+                .get(url)
+                .header(
+                    ::reqwest::header::ACCEPT,
+                    ::reqwest::header::HeaderValue::from_static("application/json"),
+                )
+                .query(&progenitor_middleware_client::QueryParam::new(
+                    "limit", &limit,
+                ))
+                .query(&progenitor_middleware_client::QueryParam::new(
+                    "offset", &offset,
+                ))
+                .query(&progenitor_middleware_client::QueryParam::new(
+                    "payTo", &pay_to,
+                ))
+                .headers(header_map)
+                .build()?;
+            let info = OperationInfo {
+                operation_id: "list_x402_discovery_merchant",
+            };
+            client.pre(&mut request, &info).await?;
+            let result = client.exec(request, &info).await;
+            client.post(&result, &info).await?;
+            let response = result?;
+            match response.status().as_u16() {
+                200u16 => ResponseValue::from_response::<types::Error>(response).await,
+                400u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                404u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                500u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                502u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                503u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                _ => Err(Error::UnexpectedResponse(response)),
+            }
+        }
+    }
+    /**Builder for [`Client::list_x402_discovery_resources`]
+
+    [`Client::list_x402_discovery_resources`]: super::Client::list_x402_discovery_resources*/
+    #[derive(Debug, Clone)]
+    pub struct ListX402DiscoveryResources<'a> {
+        client: &'a super::Client,
+        limit: Result<Option<i64>, String>,
+        offset: Result<Option<i64>, String>,
+        type_: Result<Option<::std::string::String>, String>,
+    }
+    impl<'a> ListX402DiscoveryResources<'a> {
+        pub fn new(client: &'a super::Client) -> Self {
+            Self {
+                client: client,
+                limit: Ok(None),
+                offset: Ok(None),
+                type_: Ok(None),
+            }
+        }
+        pub fn limit<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<i64>,
+        {
+            self.limit = value
+                .try_into()
+                .map(Some)
+                .map_err(|_| "conversion to `i64` for limit failed".to_string());
+            self
+        }
+        pub fn offset<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<i64>,
+        {
+            self.offset = value
+                .try_into()
+                .map(Some)
+                .map_err(|_| "conversion to `i64` for offset failed".to_string());
+            self
+        }
+        pub fn type_<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<::std::string::String>,
+        {
+            self.type_ = value.try_into().map(Some).map_err(|_| {
+                "conversion to `:: std :: string :: String` for type_ failed".to_string()
+            });
+            self
+        }
+        ///Sends a `GET` request to `/v2/x402/discovery/resources`
+        pub async fn send(
+            self,
+        ) -> Result<ResponseValue<types::X402DiscoveryResourcesResponse>, Error<types::Error>>
+        {
+            let Self {
+                client,
+                limit,
+                offset,
+                type_,
+            } = self;
+            let limit = limit.map_err(Error::InvalidRequest)?;
+            let offset = offset.map_err(Error::InvalidRequest)?;
+            let type_ = type_.map_err(Error::InvalidRequest)?;
+            let url = format!("{}/v2/x402/discovery/resources", client.baseurl,);
+            let mut header_map = ::reqwest::header::HeaderMap::with_capacity(1usize);
+            header_map.append(
+                ::reqwest::header::HeaderName::from_static("api-version"),
+                ::reqwest::header::HeaderValue::from_static(super::Client::api_version()),
+            );
+            #[allow(unused_mut)]
+            let mut request = client
+                .client
+                .get(url)
+                .header(
+                    ::reqwest::header::ACCEPT,
+                    ::reqwest::header::HeaderValue::from_static("application/json"),
+                )
+                .query(&progenitor_middleware_client::QueryParam::new(
+                    "limit", &limit,
+                ))
+                .query(&progenitor_middleware_client::QueryParam::new(
+                    "offset", &offset,
+                ))
+                .query(&progenitor_middleware_client::QueryParam::new(
+                    "type", &type_,
+                ))
+                .headers(header_map)
+                .build()?;
+            let info = OperationInfo {
+                operation_id: "list_x402_discovery_resources",
+            };
+            client.pre(&mut request, &info).await?;
+            let result = client.exec(request, &info).await;
+            client.post(&result, &info).await?;
+            let response = result?;
+            match response.status().as_u16() {
+                200u16 => ResponseValue::from_response::<types::Error>(response).await,
+                400u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                500u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                502u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                503u16 => Err(Error::ErrorResponse(
+                    ResponseValue::from_response(response).await?,
+                )),
+                _ => Err(Error::UnexpectedResponse(response)),
+            }
+        }
+    }
+    /**Builder for [`Client::search_x402_resources`]
+
+    [`Client::search_x402_resources`]: super::Client::search_x402_resources*/
+    #[derive(Debug, Clone)]
+    pub struct SearchX402Resources<'a> {
+        client: &'a super::Client,
+        asset: Result<Option<::std::string::String>, String>,
+        extensions: Result<Option<::std::vec::Vec<::std::string::String>>, String>,
+        limit: Result<Option<::std::num::NonZeroU64>, String>,
+        max_usd_price: Result<Option<::std::string::String>, String>,
+        network: Result<Option<::std::string::String>, String>,
+        pay_to: Result<Option<types::BlockchainAddress>, String>,
+        query: Result<Option<types::SearchX402ResourcesQuery>, String>,
+        scheme: Result<Option<::std::string::String>, String>,
+        url_substring: Result<Option<types::SearchX402ResourcesUrlSubstring>, String>,
+    }
+    impl<'a> SearchX402Resources<'a> {
+        pub fn new(client: &'a super::Client) -> Self {
+            Self {
+                client: client,
+                asset: Ok(None),
+                extensions: Ok(None),
+                limit: Ok(None),
+                max_usd_price: Ok(None),
+                network: Ok(None),
+                pay_to: Ok(None),
+                query: Ok(None),
+                scheme: Ok(None),
+                url_substring: Ok(None),
+            }
+        }
+        pub fn asset<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<::std::string::String>,
+        {
+            self.asset = value.try_into().map(Some).map_err(|_| {
+                "conversion to `:: std :: string :: String` for asset failed".to_string()
+            });
+            self
+        }
+        pub fn extensions<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<::std::vec::Vec<::std::string::String>>,
+        {
+            self.extensions = value
+                .try_into()
+                .map(Some)
+                .map_err(|_| {
+                    "conversion to `:: std :: vec :: Vec < :: std :: string :: String >` for extensions failed"
+                        .to_string()
+                });
+            self
+        }
+        pub fn limit<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<::std::num::NonZeroU64>,
+        {
+            self.limit = value.try_into().map(Some).map_err(|_| {
+                "conversion to `:: std :: num :: NonZeroU64` for limit failed".to_string()
+            });
+            self
+        }
+        pub fn max_usd_price<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<::std::string::String>,
+        {
+            self.max_usd_price = value.try_into().map(Some).map_err(|_| {
+                "conversion to `:: std :: string :: String` for max_usd_price failed".to_string()
+            });
+            self
+        }
+        pub fn network<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<::std::string::String>,
+        {
+            self.network = value.try_into().map(Some).map_err(|_| {
+                "conversion to `:: std :: string :: String` for network failed".to_string()
+            });
+            self
+        }
+        pub fn pay_to<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<types::BlockchainAddress>,
+        {
+            self.pay_to = value
+                .try_into()
+                .map(Some)
+                .map_err(|_| "conversion to `BlockchainAddress` for pay_to failed".to_string());
+            self
+        }
+        pub fn query<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<types::SearchX402ResourcesQuery>,
+        {
+            self.query = value.try_into().map(Some).map_err(|_| {
+                "conversion to `SearchX402ResourcesQuery` for query failed".to_string()
+            });
+            self
+        }
+        pub fn scheme<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<::std::string::String>,
+        {
+            self.scheme = value.try_into().map(Some).map_err(|_| {
+                "conversion to `:: std :: string :: String` for scheme failed".to_string()
+            });
+            self
+        }
+        pub fn url_substring<V>(mut self, value: V) -> Self
+        where
+            V: std::convert::TryInto<types::SearchX402ResourcesUrlSubstring>,
+        {
+            self.url_substring = value.try_into().map(Some).map_err(|_| {
+                "conversion to `SearchX402ResourcesUrlSubstring` for url_substring failed"
+                    .to_string()
+            });
+            self
+        }
+        ///Sends a `GET` request to `/v2/x402/discovery/search`
+        pub async fn send(
+            self,
+        ) -> Result<ResponseValue<types::X402SearchResourcesResponse>, Error<types::Error>>
+        {
+            let Self {
+                client,
+                asset,
+                extensions,
+                limit,
+                max_usd_price,
+                network,
+                pay_to,
+                query,
+                scheme,
+                url_substring,
+            } = self;
+            let asset = asset.map_err(Error::InvalidRequest)?;
+            let extensions = extensions.map_err(Error::InvalidRequest)?;
+            let limit = limit.map_err(Error::InvalidRequest)?;
+            let max_usd_price = max_usd_price.map_err(Error::InvalidRequest)?;
+            let network = network.map_err(Error::InvalidRequest)?;
+            let pay_to = pay_to.map_err(Error::InvalidRequest)?;
+            let query = query.map_err(Error::InvalidRequest)?;
+            let scheme = scheme.map_err(Error::InvalidRequest)?;
+            let url_substring = url_substring.map_err(Error::InvalidRequest)?;
+            let url = format!("{}/v2/x402/discovery/search", client.baseurl,);
+            let mut header_map = ::reqwest::header::HeaderMap::with_capacity(1usize);
+            header_map.append(
+                ::reqwest::header::HeaderName::from_static("api-version"),
+                ::reqwest::header::HeaderValue::from_static(super::Client::api_version()),
+            );
+            #[allow(unused_mut)]
+            let mut request = client
+                .client
+                .get(url)
+                .header(
+                    ::reqwest::header::ACCEPT,
+                    ::reqwest::header::HeaderValue::from_static("application/json"),
+                )
+                .query(&progenitor_middleware_client::QueryParam::new(
+                    "asset", &asset,
+                ))
+                .query(&progenitor_middleware_client::QueryParam::new(
+                    "extensions",
+                    &extensions,
+                ))
+                .query(&progenitor_middleware_client::QueryParam::new(
+                    "limit", &limit,
+                ))
+                .query(&progenitor_middleware_client::QueryParam::new(
+                    "maxUsdPrice",
+                    &max_usd_price,
+                ))
+                .query(&progenitor_middleware_client::QueryParam::new(
+                    "network", &network,
+                ))
+                .query(&progenitor_middleware_client::QueryParam::new(
+                    "payTo", &pay_to,
+                ))
+                .query(&progenitor_middleware_client::QueryParam::new(
+                    "query", &query,
+                ))
+                .query(&progenitor_middleware_client::QueryParam::new(
+                    "scheme", &scheme,
+                ))
+                .query(&progenitor_middleware_client::QueryParam::new(
+                    "urlSubstring",
+                    &url_substring,
+                ))
+                .headers(header_map)
+                .build()?;
+            let info = OperationInfo {
+                operation_id: "search_x402_resources",
+            };
+            client.pre(&mut request, &info).await?;
+            let result = client.exec(request, &info).await;
+            client.post(&result, &info).await?;
+            let response = result?;
+            match response.status().as_u16() {
+                200u16 => ResponseValue::from_response::<types::Error>(response).await,
+                400u16 => Err(Error::ErrorResponse(
                     ResponseValue::from_response(response).await?,
                 )),
                 500u16 => Err(Error::ErrorResponse(
